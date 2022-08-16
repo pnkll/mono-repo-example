@@ -10,6 +10,7 @@
         color: $color-error-red;
         padding: 5px;
         font-size: 14px;
+        margin: 0;
     }
     &__field {
         border-radius: 0 4px 4px 0;
@@ -18,7 +19,10 @@
         font-size: 16px;
         width: 100px;
         padding-top: 3px;
-
+        height: 26px;
+        &.error{
+            border: 1px solid $color-error-red;
+        }
         &:focus-visible {
             outline: none;
         }

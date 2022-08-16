@@ -10,6 +10,11 @@
     &__form{
         max-width: 300px;
         margin: 0 auto;
+        &__elem{
+            &:not(:first-child){
+                margin: 10px 0;
+            }
+        }
     }
     &__table{
         margin: 0 auto;

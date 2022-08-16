@@ -1,0 +1,39 @@
+@import '../../assets/vars';
+.textarea{
+    &__container{
+        position: relative;
+        z-index: 0;
+        margin-bottom: auto;
+        width: 100%;
+    }
+    &__label{
+        padding: 5px;
+        display: block;
+    }
+    &__input{
+        display: block;
+        padding: 0 2px;
+        width: 100%;
+        color: gray;
+        border: 0;
+        border-bottom: 2px;
+        border:1px solid black;
+        appearance: none;
+        border-radius: 4px;
+        resize: none;
+        font-family: 'Roboto';
+        &:focus{
+            outline: none;
+            box-shadow: var(--tw-ring-inset) 0 0 0 calc(0px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+            border: 1px solid #6495ed;
+        }
+        &.error{
+            outline-color: red;
+        }
+    }
+    &__error{
+        color: $color-error-red;
+        padding: 5px;
+        font-size: 14px;
+    }
+}

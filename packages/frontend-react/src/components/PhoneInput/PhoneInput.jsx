@@ -4,7 +4,7 @@ import MaskInput from "../MaskInput/MaskInput.jsx";
 import { GlobeAltIcon } from "@heroicons/react/solid";
 import './PhoneInput.scss'
 
-export default React.memo(function PhoneInput({ formik, label, name, id, defaultMask, defaultCode }) {
+export default React.memo(function PhoneInput({ formik, label, name, id, defaultMask, defaultCode,required,error }) {
 
     const [mask, setMask] = useState(defaultMask ? defaultMask : '999 999 9999')
     const [code, setCode] = useState(defaultCode)
@@ -44,7 +44,7 @@ export default React.memo(function PhoneInput({ formik, label, name, id, default
         control: () => ({
             borderRadius: '4px 0 0 4px',
             display: 'flex',
-            border: '1px solid black',
+            border: formik.touched[name] && formik.errors[name]?'1px solid red':'1px solid black',
             borderRight: '0px',
             height: '30px',
             cursor: 'pointer'
@@ -69,10 +69,10 @@ export default React.memo(function PhoneInput({ formik, label, name, id, default
     return (
         <>
             <div className="phone-input">
-                <label className="phone-input__label">{label}</label>
+                <label className="phone-input__label">{label} {required && '*'}</label>
                 <div className="" style={{ display: "flex" }}><Select defaultValue={codeList.find(el => el.value === defaultCode)} options={codeList} handleChange={handleChange} customStyles={selectStyles} indicator={<GlobeAltIcon width={15} />} />
                     <MaskInput formik={formik} id={id} name={name} mask={mask} handleChange={setNumber} value={number} className='phone-input__field'/></div>
-                {formik.touched[name] && formik.errors[name] && <div className="phone-input__error">{formik.errors[name]}</div>}
+                {formik.touched[name] && formik.errors[name] && <p className="phone-input__error">{formik.errors[name]}</p>}
             </div>
         </>
     )

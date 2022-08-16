@@ -1,0 +1,25 @@
+@import '../../assets/vars';
+
+.mask-input{
+    &__container{
+        display: flex;
+        flex-direction: column;
+    }
+    &__label{
+        padding: 5px;
+    }
+    &__input{
+        padding: 5px;
+        border-radius: 4px;
+        border: 1px solid;
+        height: 18px;
+        &.error{
+            border: 1px solid red;
+        }
+    }
+    &__error{
+        color: $color-error-red;
+        padding: 5px;
+        font-size: 14px;
+    }
+}

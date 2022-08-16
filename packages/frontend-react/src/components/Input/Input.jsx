@@ -1,14 +1,15 @@
 import React from "react"
 import './Input.scss'
 
-export default React.memo(function Input({formik,label,placeholder,id,name,type,autoComplete,className}){
+export default React.memo(function Input({formik,label,placeholder,id,name,type,autoComplete,className,required}){
     const classNamePreffix = className || 'input-field'
     console.log(formik)
     return(
         <>
         <div className={`${classNamePreffix}__container`}>
-            <label className={`${classNamePreffix}__label`}>{label}</label>
+            <label className={`${classNamePreffix}__label`}>{label} {required && '*'}</label>
             <input
+                required={required}
                 id={id}
                 name={name}
                 placeholder={placeholder}

@@ -75,14 +75,13 @@ export default React.memo(function Form() {
         <>
             <div className="demo-page__container">
                     <form className="demo-page__form" onSubmit={(e) => { e.preventDefault(); formik.handleSubmit(e) }} style={{ width: "500px" }}>
-                        <div className="demo-page__form__elem"><Input formik={formik} id={'email'} name={'email'} type={'text'} placeholder={'Email'} label='email' /></div>
-                        <div className="demo-page__form__elem"><Input formik={formik} id='password' name='password' type='password' placeholder='Password' label='password' /></div>
-                        <div className="demo-page__form__elem"><PhoneInput formik={formik} id='phone' name='phone' defaultCode={7} label='Phone' /></div>
+                        <div className="demo-page__form__elem"><Input formik={formik} id={'email'} name={'email'} type={'text'} placeholder={'Email'} label='email' required={true}/></div>
+                        <div className="demo-page__form__elem"><Input formik={formik} id='password' name='password' type='password' placeholder='Password' label='password' required={true}/></div>
+                        <div className="demo-page__form__elem"><PhoneInput formik={formik} id='phone' name='phone' defaultCode={7} label='Phone' required={true}/></div>
                         <div className="demo-page__form__elem"><DatePicker formik={formik} id='date' name='date' placeholder='Выберите дату' showTimeSelect={true} timeIntervals={30} /></div>
-                        <div className="demo-page__form__elem"> <TextArea formik={formik} id='info' name='info' placeholder=' ' isRequired={false} rows={5} /></div>
-                        <div className="demo-page__form__elem"> <Button text='Sign in' type='submit'/></div>
+                        <div className="demo-page__form__elem"><TextArea formik={formik} id='info' name='info' placeholder=' ' isRequired={true} rows={5} label='Расскажите о себе'/></div>
                         <div className="demo-page__form__elem"><Select className='demo-page__form__elem__select' options={[{label: 'jkfhdsakj', value:''},{label: 'jkfhdsakj', value:''}]}/></div>
-                        <div><Button text='Home' href={'/'} /></div>
+                        <div className="demo-page__form__elem"> <Button text='Sign in' type='submit' disabled={true}/></div>
                     </form>
                 <div className="demo-page__table">
                     {!data ? <Button text='fetch users' disabled={disabled} onClick={() => getPosts()} />

@@ -4,7 +4,7 @@ import ReactDatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
 import './DatePicker.scss'
 
-export default React.memo(function DatePicker({ formik, id, name, placeholder, showTimeSelect, timeIntervals, className, label }) {
+export default React.memo(function DatePicker({ formik, id, name, placeholder, showTimeSelect, timeIntervals, className, label,required }) {
 
     const [date, setDate] = useState()
 
@@ -24,6 +24,7 @@ export default React.memo(function DatePicker({ formik, id, name, placeholder, s
             <div className="date-picker__container">
                 {label&&<label className="date-picker__label">{label}</label>}
                 <ReactDatePicker className={className || "date-picker__input"}
+                    required={required}
                     selected={formik.values[name]}
                     startDate={date}
                     onChange={setDate}

@@ -2,8 +2,9 @@ import React from "react"
 import { useEffect, useState } from "react"
 import ReactDatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
+import './DatePicker.scss'
 
-export default React.memo(function DatePicker({ formik, id, name, placeholder, showTimeSelect, styles, timeIntervals }) {
+export default React.memo(function DatePicker({ formik, id, name, placeholder, showTimeSelect, timeIntervals, className, label }) {
 
     const [date, setDate] = useState()
 
@@ -20,8 +21,9 @@ export default React.memo(function DatePicker({ formik, id, name, placeholder, s
 
     return (
         <>
-            <div className={styles}>
-                <ReactDatePicker className="w-[100%] text-center"
+            <div className="date-picker__container">
+                {label&&<label className="date-picker__label">{label}</label>}
+                <ReactDatePicker className={className || "date-picker__input"}
                     selected={formik.values[name]}
                     startDate={date}
                     onChange={setDate}
@@ -32,6 +34,7 @@ export default React.memo(function DatePicker({ formik, id, name, placeholder, s
                     placeholderText={placeholder}
                     id={id}
                     name={name} />
+                {formik.touched[name] && formik.errors[name] && <span className="date-picker__error">{formik.errors[name]}</span>}
             </div>
         </>
     )

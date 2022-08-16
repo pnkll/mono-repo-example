@@ -1,0 +1,26 @@
+@import '../../assets/vars';
+
+.button{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 100px;
+    justify-content: center;
+    text-decoration: none;
+    color: black;
+    font-family: 'Roboto';
+    font-weight: 700;
+    font-size: 14px;
+    &.submit{
+        background: #B3DCFD;
+        border: 0;
+        border-radius: 5px;
+        height: 30px;
+        width: 90px;
+        &.disabled{
+            color: black;
+            opacity: 0.8;
+        }
+    }
+}

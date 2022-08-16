@@ -1,0 +1,18 @@
+@import '../assets/vars';
+
+.demo-page{
+    &__container{
+        max-width: 1170px;
+        margin: 0 auto;
+        padding: 20px;
+        display: flex;
+    }
+    &__form{
+        max-width: 300px;
+        margin: 0 auto;
+    }
+    &__table{
+        margin: 0 auto;
+        width: 700px;
+    }
+}

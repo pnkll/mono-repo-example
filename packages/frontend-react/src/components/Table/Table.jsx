@@ -1,32 +1,35 @@
 import { useTable } from "react-table"
-import TablePagination from "./TablePagination/TablePagination"
+import Paginate from "../Paginate/Paginate.jsx"
+import './Table.scss'
 
-export default function Table({ columns, data, setCurrentPage, currentPage, pageSize, totalItems}) {
+export default function Table({ columns, data, currentPage, setCurrentPage, totalItemsCount, itemsCount, className}) {
 
-    const { prepareRow, rows, headerGroups, getTableProps, getTableBodyProps, } = useTable({ columns, data })
+    const { prepareRow, rows, headerGroups, getTableProps, getTableBodyProps, } = useTable({ columns, data})
 
-    console.log(headerGroups)
+    const classNamePreffix = className||'table'
 
     return (
         <>
-            <table>
-                <thead {...getTableProps()}>
-                    {headerGroups.map((headerGroup) => <tr {...headerGroup.getHeaderGroupProps}>
-                        {headerGroup.headers.map((header) => <th {...header.getHeaderProps}>{header.Header}</th>)}
+            <table className={`${classNamePreffix}__container`}>
+                <thead {...getTableProps()} className={`${className?className:'table'}__header`}>
+                    {headerGroups.map((headerGroup,index) => <tr key={index} {...headerGroup.getHeaderGroupProps} className={`${classNamePreffix}__header__row`}>
+                        {headerGroup.headers.map((header,index) => <th key={index} {...header.getHeaderProps} className={`${classNamePreffix}__header__elem`}>{header.Header}</th>)}
                     </tr>)}
                 </thead>
-                <tbody {...getTableBodyProps} className="border border-indigo-500 rounded-lg">
-                    {rows.map((row) => {
+                <tbody {...getTableBodyProps} className={`${classNamePreffix}__body`}>
+                    {rows.map((row,index) => {
                         prepareRow(row)
-                        return <tr {...row.getRowProps()}>
-                            {row.cells.map((cell, index) => <td {...cell.getCellProps}>
-                                <div className="flex justify-center p-[5px]">{cell.render('Cell')}</div>
+                        return <tr key={index} {...row.getRowProps()} className={`${classNamePreffix}__body__row`}>
+                            {row.cells.map((cell, index) => <td key={index} {...cell.getCellProps} className={`${classNamePreffix}__body__elem__wrapper`}>
+                                <div className={`${classNamePreffix}__body__elem`}>{cell.render('Cell')}</div>
                             </td>)}
                         </tr>
                     })}
                 </tbody>
             </table>
-            <TablePagination setCurrentPage={setCurrentPage} currentPage={currentPage} pageSize={pageSize} totalCount={totalItems}/>
-        </>
+            <div style={{display: 'flex', justifyContent: 'center', margin: '10px auto'}}>
+                <Paginate setPage={setCurrentPage} page={currentPage} itemsCount={itemsCount} totalItemsCount={totalItemsCount}/>
+            </div>
+            </>
     )
 }

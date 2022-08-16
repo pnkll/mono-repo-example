@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './_vars.scss';
+
+#root, button{
+    font-family: 'Roboto';
+}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Select from "react-select";
+import Select from "../Select/Select.jsx";
 import MaskInput from "../MaskInput/MaskInput.jsx";
 
 export default React.memo(function PhoneInput({formik,label,name,id, defaultMask, defaultCode }) {
@@ -37,7 +37,7 @@ export default React.memo(function PhoneInput({formik,label,name,id, defaultMask
         <>
             <div className="flex flex-col">
                 <label>{label}</label>
-                <div className="" style={{display: "flex"}}><Select classNamePrefix={'phone_input'} defaultValue={codeList.find(el => el.value === defaultCode)} options={codeList} onChange={handleChange} />
+                <div className="" style={{display: "flex"}}><Select defaultValue={codeList.find(el => el.value === defaultCode)} options={codeList} handleChange={handleChange} />
                 <MaskInput formik={formik} id={id} name={name} mask={mask} handleChange={setNumber} value={number} /></div>
                 {formik.touched[name]&&formik.errors[name]&&<div style={{color: "red"}}>{formik.errors[name]}</div>}
             </div>

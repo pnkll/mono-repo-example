@@ -1,0 +1,46 @@
+@import '../../assets/vars';
+
+.paginate{
+    display: flex;
+    list-style: none;
+    width: fit-content;
+    background: $color-blue;
+    margin: 0;
+    padding: 10px;
+    border-radius: 5px;
+    gap: 10px;
+    align-items: center;
+    font-weight: 700;
+    .elem{
+        border: 2px solid;
+        padding: 4px 8px;
+        border-radius: 3px;
+        cursor: pointer;
+        a{
+
+        }
+    }
+    .active{
+        cursor: pointer;
+        background: black;
+        color: $color-blue;
+        border-color: black;
+    }
+    .next{
+        cursor: pointer;
+        a{
+            display: flex;
+        }
+    }
+    .previos{
+        cursor: pointer;
+        a{
+            display: flex;
+        }
+    }
+    .break{
+        a{
+            display: flex;
+        }
+    }
+}

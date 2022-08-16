@@ -53,7 +53,7 @@ export default React.memo(function Form() {
     const [disabled, setDisabled] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsCount, setItemsCount] = useState(5)
-    const [totalItemsCount, setTotalItemsCount] = useState(100)
+    const [totalItemsCount, setTotalItemsCount] = useState(1000)
     const getPosts = async () => {
         setDisabled(true)
         const response = await axios.get(`https://jsonplaceholder.typicode.com/posts?_page=${currentPage}&_limit=${itemsCount}`)

@@ -1,1 +1,26 @@
 @import '../../assets/vars';
+
+.phone-input {
+    &__label{
+        padding: 5px;
+        font-size: 16px;
+        display: block;
+    }
+    &__error{
+        color: $color-error-red;
+        padding: 5px;
+        font-size: 14px;
+    }
+    &__field {
+        border-radius: 0 4px 4px 0;
+        border-left: 0px;
+        border: 1px solid black;
+        font-size: 16px;
+        width: 100px;
+        padding-top: 3px;
+
+        &:focus-visible {
+            outline: none;
+        }
+    }
+}

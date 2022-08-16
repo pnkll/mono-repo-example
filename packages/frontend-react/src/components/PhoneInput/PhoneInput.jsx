@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
 import Select from "../Select/Select.jsx";
 import MaskInput from "../MaskInput/MaskInput.jsx";
+import { GlobeAltIcon } from "@heroicons/react/solid";
+import './PhoneInput.scss'
 
-export default React.memo(function PhoneInput({formik,label,name,id, defaultMask, defaultCode }) {
+export default React.memo(function PhoneInput({ formik, label, name, id, defaultMask, defaultCode }) {
 
-    const [mask, setMask] = useState(defaultMask?defaultMask:'999 999 9999')
+    const [mask, setMask] = useState(defaultMask ? defaultMask : '999 999 9999')
     const [code, setCode] = useState(defaultCode)
     const [number, setNumber] = useState('')
 
     useEffect(() => {
-        formik.handleChange({target: {
-            type: "change",
-            id: id,
-            name: name,
-            value: code + ' ' + number
-          }})
+        formik.handleChange({
+            target: {
+                type: "change",
+                id: id,
+                name: name,
+                value: code + ' ' + number
+            }
+        })
     }, [code, number])
 
     function calcMask(code) {
@@ -33,13 +37,42 @@ export default React.memo(function PhoneInput({formik,label,name,id, defaultMask
         setCode(label)
     }
 
+    const selectStyles = {
+        option: (provided, state) => ({
+
+        }),
+        control: () => ({
+            borderRadius: '4px 0 0 4px',
+            display: 'flex',
+            border: '1px solid black',
+            borderRight: '0px',
+            height: '30px',
+            cursor: 'pointer'
+        }),
+        menu: (styles) => ({
+            ...styles,
+
+        }),
+        menuList: (styles) => ({
+            ...styles,
+        }),
+        indicatorSeparator: (styles) => ({
+            ...styles,
+            width: '0px'
+        }),
+        indicatorsContainer: (styles) => ({
+            ...styles,
+            paddingRight: '8px'
+        })
+    }
+
     return (
         <>
-            <div className="flex flex-col">
-                <label>{label}</label>
-                <div className="" style={{display: "flex"}}><Select defaultValue={codeList.find(el => el.value === defaultCode)} options={codeList} handleChange={handleChange} />
-                <MaskInput formik={formik} id={id} name={name} mask={mask} handleChange={setNumber} value={number} /></div>
-                {formik.touched[name]&&formik.errors[name]&&<div style={{color: "red"}}>{formik.errors[name]}</div>}
+            <div className="phone-input">
+                <label className="phone-input__label">{label}</label>
+                <div className="" style={{ display: "flex" }}><Select defaultValue={codeList.find(el => el.value === defaultCode)} options={codeList} handleChange={handleChange} customStyles={selectStyles} indicator={<GlobeAltIcon width={15} />} />
+                    <MaskInput formik={formik} id={id} name={name} mask={mask} handleChange={setNumber} value={number} className='phone-input__field'/></div>
+                {formik.touched[name] && formik.errors[name] && <div className="phone-input__error">{formik.errors[name]}</div>}
             </div>
         </>
     )
@@ -51,4 +84,39 @@ export const codeList = [
     { en: "Algeria", ru: "Алжир", label: '+1', value: 1 },
     { en: "American Samoru: a", ru: "Американское Самоа", label: '+684', value: 684 },
     { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
+
 ]

@@ -1,9 +1,11 @@
 import React from "react"
 
-export default React.memo(function Main(){
-    return(
+export default React.memo(function Main() {
+    return (
         <>
-        <div onClick={()=>console.log('hello')}>root</div>
+            <div className="flex flex-row">
+                Hello
+            </div>
         </>
     )
 })

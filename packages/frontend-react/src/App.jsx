@@ -1,10 +1,10 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
-import { publicRoutes, privateRoutes } from '../router/index.jsx'
-import React from 'react'
+import React from "react"
+import { Routes, Route } from "react-router-dom"
+import { publicRoutes, privateRoutes } from './router/index.jsx'
 
-export default React.memo(function Router(){
+export default React.memo(function Main() {
 
-    const isAuth = true
+    const isAuth = false
 
     return (
         <>

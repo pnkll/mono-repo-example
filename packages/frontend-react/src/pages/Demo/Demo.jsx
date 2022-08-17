@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import Input from "../components/Input/Input.jsx";
-import PhoneInput from "../components/PhoneInput/PhoneInput.jsx";
-import DatePicker from "../components/DatePicker/DatePicker.jsx";
-import TextArea from "../components/TextArea/TextArea.jsx";
-import Button from "../components/Button/Button.jsx";
-import Table from "../components/Table/Table.jsx"
+import Input from "../../components/Input/Input.jsx";
+import PhoneInput from "../../components/PhoneInput/PhoneInput.jsx";
+import DatePicker from "../../components/DatePicker/DatePicker.jsx";
+import TextArea from "../../components/TextArea/TextArea.jsx";
+import Button from "../../components/Button/Button.jsx";
+import Table from "../../components/Table/Table.jsx"
 import * as axios from "axios"
 import './Demo.scss'
-import Select from "../components/Select/Select.jsx";
+import Select from "../../components/Select/Select.jsx";
 import * as yup from 'yup'
-import { emailValidator, passwordValidator, phoneValidator, stringValidator } from "../utils/yupValidation.js";
+import { emailValidator, passwordValidator, phoneValidator, stringValidator } from "../../utils/yupValidation.js";
 
 export default React.memo(function Form() {
 

@@ -11,7 +11,7 @@ export default React.memo(function Button({ type, btn, size, style, width, text,
                 style={{ width: w, height: h }}
             >
                 {icon}
-                <span>{text}</span>
+                {text && <span>{text}</span>}
             </Link>
         )
     }
@@ -23,7 +23,8 @@ export default React.memo(function Button({ type, btn, size, style, width, text,
                 onClick={handleClick}
                 disabled={disabled || false}>
                 {disabled && <SvgLoading />}
-                <span>{text}</span>
+                {icon}
+                {text && <span>{text}</span>}
             </button>
         )
     }

@@ -1,7 +1,10 @@
-import Demo from "../pages/Demo.jsx"
+import Demo from "../pages/Demo/Demo.jsx"
 import { Navigate } from "react-router-dom"
+import Main from "../pages/Main/Main.jsx"
 
 export const publicRoutes = [
+    {path: '', component: <Navigate to='main'/>},
+    { path: 'main', component: <Main/>},
     { path: 'demo', component: <Demo /> },
 ]
 

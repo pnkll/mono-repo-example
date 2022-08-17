@@ -1,0 +1,28 @@
+@import '../../../assets/vars';
+
+.pro-sidebar-header{
+    &__wrapper{
+        padding-top: 10px;
+        padding-bottom: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+
+    }
+    &__image{
+        width: 100px;
+        border-radius: 50px;
+        transition: width 1s;
+        &.collapsed{
+            width: 50px;
+        }
+    }
+    &__title{
+        transition: height 1s;
+        &.collapsed{
+            height: 0;
+            overflow: hidden;
+        }
+    }
+}

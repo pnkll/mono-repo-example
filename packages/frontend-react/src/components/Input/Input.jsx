@@ -3,7 +3,6 @@ import './Input.scss'
 
 export default React.memo(function Input({formik,label,placeholder,id,name,type,autoComplete,className,required}){
     const classNamePreffix = className || 'input-field'
-    console.log(formik)
     return(
         <>
         <div className={`${classNamePreffix}__container`}>

@@ -71,7 +71,7 @@ export default React.memo(function PhoneInput({ formik, label, name, id, default
             <div className="phone-input">
                 <label className="phone-input__label">{label} {required && '*'}</label>
                 <div className="" style={{ display: "flex" }}><Select defaultValue={codeList.find(el => el.value === defaultCode)} options={codeList} handleChange={handleChange} customStyles={selectStyles} indicator={<GlobeAltIcon width={15} />} />
-                    <MaskInput formik={formik} id={id} name={name} mask={mask} handleChange={setNumber} value={number} className='phone-input__field'/></div>
+                    <MaskInput formik={formik} id={id} name={name} mask={mask} handleChange={setNumber} value={number} className='phone-input__field' placeholder=''/></div>
                 {formik.touched[name] && formik.errors[name] && <p className="phone-input__error">{formik.errors[name]}</p>}
             </div>
         </>

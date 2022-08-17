@@ -1,0 +1,15 @@
+@import '../../assets/vars';
+
+.sidebar-header-layout{
+    &__container{
+        display: flex;
+    }
+    &__wrapper{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    &__content{
+        padding: 10px;
+    }
+}

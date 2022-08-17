@@ -28,3 +28,10 @@
         }
     }
 }
+
+.error-phone{
+    &__control{
+        border: 1px solid $color-error-red !important;
+        border-right: 0 !important;
+    }
+}

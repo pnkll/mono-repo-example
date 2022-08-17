@@ -10,7 +10,7 @@ export default React.memo(function Sidebar({collapsed}) {
     
     return (
         <>
-            <ProSidebar style={{height: '100vh'}} collapsed={collapsed}>
+            <ProSidebar style={{height: '100vh',position: 'sticky', top: 0, zIndex:100}} collapsed={collapsed}>
                 <SidebarHeader>
                     <Header collapsed={collapsed}/>
                 </SidebarHeader>
@@ -19,7 +19,7 @@ export default React.memo(function Sidebar({collapsed}) {
                         <MenuItem icon={<CubeIcon/>}>Dashboard</MenuItem>
                         <SubMenu title="Pages" icon={<CollectionIcon/>}>
                             <MenuItem><Link to='../demo'>Demo</Link></MenuItem>
-                            <MenuItem><Link to=''>Main</Link></MenuItem>
+                            <MenuItem><Link to='../main'>Main</Link></MenuItem>
                         </SubMenu>
                         <SubMenu title="Contracts" icon={<BriefcaseIcon/>}>
                             <MenuItem><Link to='../demo'>Demo</Link></MenuItem>

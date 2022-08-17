@@ -1,0 +1,11 @@
+@import '../../assets/vars';
+
+.header-layout{
+    &__container{
+        display: flex;
+        flex-direction: column;
+    }
+    &__content{
+        padding: 10px;
+    }
+}

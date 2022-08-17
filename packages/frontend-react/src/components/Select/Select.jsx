@@ -2,7 +2,7 @@ import { ChevronDownIcon } from "@heroicons/react/solid"
 import React, { useState } from "react"
 import ReactSelect, { components } from "react-select"
 
-export default React.memo(function Select({ options, indicator, handleChange, defaultValue, customStyles,}) {
+export default React.memo(function Select({ options, indicator, handleChange, defaultValue, customStyles,classNamePrefix}) {
 
     const defaultStyles = customStyles || {
         option: (provided, state) => ({
@@ -47,6 +47,7 @@ export default React.memo(function Select({ options, indicator, handleChange, de
     return (
         <>
             <ReactSelect
+                classNamePrefix={classNamePrefix}
                 styles={styles}
                 options={options}
                 components={{ DropdownIndicator: () => indicator?indicator:<ChevronDownIcon width={25} /> }}

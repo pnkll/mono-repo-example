@@ -1,3 +1,4 @@
+import { BeakerIcon } from "@heroicons/react/solid"
 import React from "react"
 import './Input.scss'
 

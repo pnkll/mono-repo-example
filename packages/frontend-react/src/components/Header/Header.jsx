@@ -8,10 +8,11 @@ export default React.memo(function Header({collapsed,setCollapsed}){
     return(
         <>
         <div className="header__container">
-            <div className="header__left-side" onClick={()=>setCollapsed(!collapsed)}>
-                {collapsed?<ChevronDoubleRightIcon width={30}/>:collapsed!==null&&<ChevronDoubleLeftIcon width={30}/>}
+            <div className="header__left" onClick={()=>setCollapsed(!collapsed)}>
+                {collapsed?<ChevronDoubleRightIcon width={30}/>:collapsed!==undefined&&<ChevronDoubleLeftIcon width={30}/>}
             </div>
-            <div className="header__right-side">
+            <div className="header__middle">Search</div>
+            <div className="header__right">
                 <Link to='inbox'><MailIcon width={20}/></Link>
                 <Link to=''><BellIcon width={20}/></Link>
                 <Button text='Logout'/>

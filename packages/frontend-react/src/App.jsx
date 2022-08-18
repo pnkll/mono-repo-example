@@ -1,11 +1,24 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Routes, Route } from "react-router-dom"
 import { publicRoutes, privateRoutes } from './router/index.jsx'
+import { initializeApp } from "./store/slices/appSlice.js"
+import { useDispatch,useSelector } from "react-redux"
 
 export default React.memo(function Main() {
 
-    const isAuth = false
+    const dispatch = useDispatch()
 
+    const init = useSelector((state)=>state.app.init)
+
+    const isAuth = false
+    useEffect(()=>{
+        dispatch(initializeApp())
+    },[])
+
+    if (!init){
+        return <></>
+    }
+    
     return (
         <>
             {isAuth ?

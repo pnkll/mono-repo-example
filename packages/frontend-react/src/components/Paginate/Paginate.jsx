@@ -9,7 +9,7 @@ export default React.memo(function Paginate({ setPage, page, itemsCount, totalIt
             pageCount={Math.ceil(totalItemsCount / itemsCount)}
             pageRangeDisplayed={10}
             marginPagesDisplayed={1}
-            onPageChange={({ selected }) => setPage(selected + 1)}
+            onPageChange={({ selected }) => setPage(selected+1)}
             previousLabel={previousLabel || <ArrowCircleLeftIcon width={20}/>}
             nextLabel={nextLabel || <ArrowCircleRightIcon width={20}/>}
             breakLabel={breakLabel || <DotsHorizontalIcon width={20}/>}
@@ -17,6 +17,7 @@ export default React.memo(function Paginate({ setPage, page, itemsCount, totalIt
             pageClassName={pageClassName || 'elem'}
             activeClassName={activeClassName || 'active'}
             previousClassName={previousClassName || 'previos'}
-            nextClassName={nextClassName || 'next'}/>
+            nextClassName={nextClassName || 'next'}
+            forcePage={page-1}/>
     )
 })

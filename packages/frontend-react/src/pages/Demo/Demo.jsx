@@ -41,23 +41,29 @@ export default React.memo(function Form() {
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsCount, setItemsCount] = useState(5)
     const [totalItemsCount, setTotalItemsCount] = useState(1000)
+    const [filters,setFilters]=useState()
 
-    const getPosts = async () => {
+    const getPosts = async (filters) => {
         setDisabled(true)
-        const response = await axios.get(`https://jsonplaceholder.typicode.com/posts?_page=${currentPage}&_limit=${itemsCount}`)
+        const response = await axios.get(`https://jsonplaceholder.typicode.com/posts?_page=${currentPage}&_limit=${itemsCount}${filters?`&${filters.id}=${filters.value}`:''}`)
         setData(response.data)
         setDisabled(false)
     }
     const columns = [
-        { Header: 'ID', accessor: 'id' },
-        { Header: 'UserId', accessor: 'userId' },
+        { Header: 'ID',   accessor: 'id' },
+        { Header: 'UserId', type: 'filter',accessor: 'userId' },
         { Header: 'Title', accessor: 'title' },
         { Header: 'Body', accessor: 'body' }
     ]
 
     useEffect(() => {
-        getPosts()
+        getPosts(filters)
     }, [currentPage])
+    useEffect(()=>{
+        setCurrentPage(1)
+        filters?.value!==''?getPosts(filters):getPosts()
+    },[filters])
+
 
     return (
         <>
@@ -74,21 +80,9 @@ export default React.memo(function Form() {
                     </form>
                     <div className="demo-page__table">
                         {!data ? <Button text='fetch users' disabled={disabled} onClick={() => getPosts()} />
-                            : <Table data={data} columns={columns} currentPage={currentPage} setCurrentPage={setCurrentPage} itemsCount={itemsCount} totalItemsCount={totalItemsCount} />}
+                            : <Table setFilters={setFilters} filters={filters}data={data} columns={columns} currentPage={currentPage} setCurrentPage={setCurrentPage} itemsCount={itemsCount} totalItemsCount={totalItemsCount} />}
                     </div>
                 </div>
-                <div className="demo-page__table">
-                        {!data ? <Button text='fetch users' disabled={disabled} onClick={() => getPosts()} />
-                            : <Table data={data} columns={columns} currentPage={currentPage} setCurrentPage={setCurrentPage} itemsCount={itemsCount} totalItemsCount={totalItemsCount} />}
-                    </div>
-                    <div className="demo-page__table">
-                        {!data ? <Button text='fetch users' disabled={disabled} onClick={() => getPosts()} />
-                            : <Table data={data} columns={columns} currentPage={currentPage} setCurrentPage={setCurrentPage} itemsCount={itemsCount} totalItemsCount={totalItemsCount} />}
-                    </div>
-                    <div className="demo-page__table">
-                        {!data ? <Button text='fetch users' disabled={disabled} onClick={() => getPosts()} />
-                            : <Table data={data} columns={columns} currentPage={currentPage} setCurrentPage={setCurrentPage} itemsCount={itemsCount} totalItemsCount={totalItemsCount} />}
-                    </div>
 
             </SidebarHeaderLayout>
         </>

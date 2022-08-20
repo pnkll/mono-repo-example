@@ -20,6 +20,7 @@ export default React.memo(function Sidebar({collapsed}) {
                         <SubMenu title="Pages" icon={<CollectionIcon/>}>
                             <MenuItem><Link to='../demo'>Demo</Link></MenuItem>
                             <MenuItem><Link to='../main'>Main</Link></MenuItem>
+                            <MenuItem><Link to='../constructor'>Constructor</Link></MenuItem>
                         </SubMenu>
                         <SubMenu title="Contracts" icon={<BriefcaseIcon/>}>
                             <MenuItem><Link to='../demo'>Demo</Link></MenuItem>

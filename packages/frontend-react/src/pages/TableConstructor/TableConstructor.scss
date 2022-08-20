@@ -1,0 +1,11 @@
+@import '../../assets/vars';
+
+.props {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &.closed {
+        display: none;
+    }
+}

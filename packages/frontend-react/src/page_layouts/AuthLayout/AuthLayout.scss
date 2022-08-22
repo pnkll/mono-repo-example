@@ -26,10 +26,12 @@
 
     &__message {
         &__container {
-            display: grid;
+            
             width: 400px;
         }
-
+        &__wrapper{
+            display: grid;
+        }
         &__elem {
             justify-self: flex-start;
             background: rgb(10, 143, 196);

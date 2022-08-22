@@ -5,6 +5,7 @@ import './SignUp.scss'
 import * as Yup from 'yup'
 import { isNil } from 'lodash';
 import AuthForm from '../../components/AuthForm/AuthForm.jsx';
+import MessageElem from '../../components/MessageElem/MessageElem.jsx';
 
 export default React.memo(function SignUp() {
     const getTime = () => {
@@ -53,10 +54,10 @@ export default React.memo(function SignUp() {
         }
     })
     const [forms, setForm] = useState([
-        { id: 'org', status: 'active', component: <AuthForm formik={formik} id='org' name='org' /> },
-        { id: 'email', status: 'hiden', component: <AuthForm formik={formik1} id='email' name='email' /> },
-        { id: 'password', status: 'hiden', component: <AuthForm formik={formik2} id='password' name='password' /> },
-        { id: 'passwordRepeat', status: 'hiden', component: <AuthForm formik={formik3} id='passworRepeat' name='passwordRepeat' /> },
+        { id: 'org', status: 'active', component: <AuthForm key={0} formik={formik} id='org' name='org' /> },
+        { id: 'email', status: 'hiden', component: <AuthForm key={1} formik={formik1} id='email' name='email' /> },
+        { id: 'password', status: 'hiden', component: <AuthForm key={2} formik={formik2} id='password' name='password' /> },
+        { id: 'passwordRepeat', status: 'hiden', component: <AuthForm key={3} formik={formik3} id='passworRepeat' name='passwordRepeat' /> },
     ])
     const sendMessage = (currentField, nextField, values) => {
         setMessages(messages.map((el, index) => el.id === currentField ? { ...el, answer: values[currentField] } : el.id === nextField ? { ...el, visible: true, time: getTime() } : el))
@@ -68,16 +69,10 @@ export default React.memo(function SignUp() {
         <>
             <AuthLayout>
                 <div className="auth__message__container">
-                    {messages.map((message, index) => <>
-                        {!isNil(message.question) && message.visible && <div className='auth__message__elem'>
-                            <p className='auth__message__elem__text'>{message.question}</p>
-                            <p className='auth__message__elem__time'>{message.time}</p>
-                        </div>}
-                        {!isNil(message.answer) && <div className='auth__message__elem me'>
-                            <p className='auth__message__elem__text'>{message.answer}</p>
-                            <p className='auth__message__elem__time'>{message.time}</p>
-                        </div>}
-                    </>)}
+                    {messages.map((message, index) => <div key={index} className='auth__message__wrapper'>
+                        {!isNil(message.question) && message.visible && <MessageElem message={message} type='question'/>}
+                        {!isNil(message.answer) && <MessageElem message={message} type='answer'/>}
+                    </div>)}
                 </div>
                 {forms.map((form, index) => form.status === 'active' && form.component)}
             </AuthLayout>

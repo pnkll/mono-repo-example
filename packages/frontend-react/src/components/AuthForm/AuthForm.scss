@@ -13,6 +13,9 @@
             height: 40px;
             border-radius: 10px;
             width: 100%;
+            &:focus-visible{
+                outline: none;
+            }
         }
     }
     &__button{

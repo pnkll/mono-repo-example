@@ -1,0 +1,59 @@
+@import '../../assets/vars';
+
+.auth {
+    &__content{
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    &__container {
+        display: flex;
+        height: 100vh;
+    }
+
+    &__left-side {
+        background: beige;
+        width: 50vw;
+    }
+
+    &__right-side {
+        background: $color-blue;
+        width: 50vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__message {
+        &__container {
+            display: grid;
+            width: 400px;
+        }
+
+        &__elem {
+            justify-self: flex-start;
+            background: rgb(10, 143, 196);
+            border-radius: 8px;
+            padding: 8px;
+            color: white;
+            margin: 5px 0;
+            display: grid;
+            &.me {
+                justify-self: flex-end;
+                background: beige;
+                border-radius: 8px;
+                padding: 8px;
+                color: black;
+            }
+            &__text{
+                justify-self: flex-start;
+                margin: 0;
+            }
+            &__time{
+                justify-self: flex-end;
+                margin: 0;
+                font-size: 11px;
+            }
+        }
+    }
+}

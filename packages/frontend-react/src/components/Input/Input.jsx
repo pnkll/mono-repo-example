@@ -1,4 +1,5 @@
 import { BeakerIcon } from "@heroicons/react/solid"
+import { isNil } from "lodash"
 import React from "react"
 import './Input.scss'
 
@@ -7,7 +8,7 @@ export default React.memo(function Input({formik,label,placeholder,id,name,type,
     return(
         <>
         <div className={`${classNamePreffix}__container`}>
-            <label className={`${classNamePreffix}__label`}>{label} {required && '*'}</label>
+            {!isNil(label)&&<label className={`${classNamePreffix}__label`}>{label} {required && '*'}</label>}
             <input
                 required={required}
                 id={id}

@@ -1,11 +1,11 @@
 import { useFormik } from 'formik';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AuthLayout from '../../page_layouts/AuthLayout/AuthLayout.jsx';
 import './SignUp.scss'
-import * as Yup from 'yup'
 import { isNil } from 'lodash';
-import AuthForm from '../../components/AuthForm/AuthForm.jsx';
+import AuthField from '../../components/AuthField/AuthField.jsx';
 import MessageElem from '../../components/MessageElem/MessageElem.jsx';
+import { useNavigate } from 'react-router-dom';
 
 export default React.memo(function SignUp() {
     const getTime = () => {
@@ -13,57 +13,81 @@ export default React.memo(function SignUp() {
         return date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
     }
     const [messages, setMessages] = useState([
-        { id: 'org', question: 'Пожалуйста выберите организацию', answer: null, visible: true, time: getTime() },
+        { id: 'type', question: 'Здравствуйте, вы хотите присоединиться к существующей организации или добавить новую?', answer: null, visible: true, time: getTime()},
+        { id: 'org', question: 'Введите ИНН организации и выберите из списка', answer: null, visible: false, time: '' },
         { id: 'email', question: 'Введите e-mail', answer: null, visible: false, time: '' },
         { id: 'password', question: 'Введите ваш пароль', answer: null, visible: false, time: '' },
         { id: 'passwordRepeat', question: 'Подтвердите пароль', answer: null, visible: false, time: '' },
+        { id: 'signin', question: 'Вы успешно зарегистрировались, отправьте "Войти" для того чтобы авторизоваться', answer: null, visible: false, time: '' },
     ])
-    const formik = useFormik({
-        initialValues: {
-            org: ''
-        },
-        onSubmit: values => {
-            sendMessage('org', 'email', values)
-            changeForm('org', 'email')
-        }
-    })
-    const formik1 = useFormik({
-        initialValues: {
-            email: ''
-        },
-        onSubmit: values => {
-            sendMessage('email', 'password', values)
-            changeForm('email', 'password')
-        }
-    })
-    const formik2 = useFormik({
-        initialValues: {
-            password: ''
-        },
-        onSubmit: values => {
-            sendMessage('password', 'passwordRepeat', values)
-            changeForm('password', 'passwordRepeat')
-        }
-    })
-    const formik3 = useFormik({
-        initialValues: {
-            passwordRepeat: ''
-        },
-        onSubmit: values => {
-            sendMessage('passwordRepeat', '', values)
-        }
-    })
-    const [forms, setForm] = useState([
-        { id: 'org', status: 'active', component: <AuthForm key={0} formik={formik} id='org' name='org' /> },
-        { id: 'email', status: 'hiden', component: <AuthForm key={1} formik={formik1} id='email' name='email' /> },
-        { id: 'password', status: 'hiden', component: <AuthForm key={2} formik={formik2} id='password' name='password' /> },
-        { id: 'passwordRepeat', status: 'hiden', component: <AuthForm key={3} formik={formik3} id='passworRepeat' name='passwordRepeat' /> },
+    const [formiks,setFormiks]=useState([
+        { id: 'type', option: useFormik({
+            initialValues: {
+                type: ''
+            },
+            onSubmit: values=>{
+                sendMessage('type', 'org', values)
+                changeField('type', 'org')
+            }
+        })},
+        { id: 'org', option: useFormik({
+            initialValues: {
+                org: ''
+            },
+            onSubmit: values => {
+                sendMessage('org', 'email', values)
+                changeField('org', 'email')
+            }
+        })},
+        { id: 'email', option: useFormik({
+            initialValues: {
+                email: ''
+            },
+            onSubmit: values => {
+                sendMessage('email', 'password', values)
+                changeField('email', 'password')
+            }
+        })},
+        { id: 'password', option: useFormik({
+            initialValues: {
+                password: ''
+            },
+            onSubmit: values => {
+                sendMessage('password', 'passwordRepeat', {...values, password: values.password.replace(/[\s\S]/g, "*")})
+                changeField('password', 'passwordRepeat')
+            }
+        })},
+        {id: 'passwordRepeat', option: useFormik({
+            initialValues: {
+                passwordRepeat: ''
+            },
+            onSubmit: values => {
+                sendMessage('passwordRepeat', 'signin', {...values, passwordRepeat: values.passwordRepeat.replace(/[\s\S]/g, "*")})
+                changeField('passwordRepeat', 'signin')
+            }
+        })},
+        { id: 'signin', option: useFormik({
+            initialValues: {
+                signin: ''
+            },
+            onSubmit: values => {
+                console.log('Вошел')
+            }
+        })},
+    ])
+    const [fields, setFields] = useState([
+        { id: 'type', status: 'active', component: <AuthField key={0} formik={formiks.find(formik=>formik.id==='type').option} id='type' name='type' /> },
+        { id: 'org', status: 'hiden', component: <AuthField key={1} formik={formiks.find(formik=>formik.id==='org').option} id='org' name='org' /> },
+        { id: 'email', status: 'hiden', component: <AuthField key={2} formik={formiks.find(formik=>formik.id==='email').option} id='email' name='email' /> },
+        { id: 'password', status: 'hiden', component: <AuthField key={3} formik={formiks.find(formik=>formik.id==='password').option} id='password' name='password' /> },
+        { id: 'passwordRepeat', status: 'hiden', component: <AuthField key={4} formik={formiks.find(formik=>formik.id==='passwordRepeat').option} id='passworRepeat' name='passwordRepeat' /> },
+        { id: 'signin', status: 'hiden', component: <AuthField key={5} formik={formiks.find(formik=>formik.id==='signin').option} id='signin' name='signin' /> },
     ])
     const sendMessage = (currentField, nextField, values) => {
-        setMessages(messages.map((el, index) => el.id === currentField ? { ...el, answer: values[currentField] } : el.id === nextField ? { ...el, visible: true, time: getTime() } : el))
+        setMessages(messages.map((el, index) => el.id === currentField ? { ...el, answer: values[currentField].label?values[currentField].label:values[currentField] } : el.id === nextField ? { ...el, visible: true, time: getTime() } : el))
     }
-    const changeForm = (currentForm, nextForm) => {
-        setForm(forms.map((form, index) => form.id === currentForm ? { ...form, status: 'hiden' } : form.id === nextForm ? { ...form, status: 'active' } : form))
+    const changeField = (currentField, nextField) => {
+        setFields(fields.map((field, index) => field.id === currentField ? { ...field, status: 'hiden' } : field.id === nextField ? { ...field, status: 'active' } : field))
     }
     return (
         <>
@@ -74,7 +98,7 @@ export default React.memo(function SignUp() {
                         {!isNil(message.answer) && <MessageElem message={message} type='answer'/>}
                     </div>)}
                 </div>
-                {forms.map((form, index) => form.status === 'active' && form.component)}
+                {fields.map((field, index) => field.status === 'active' && field.component)}
             </AuthLayout>
         </>
     )

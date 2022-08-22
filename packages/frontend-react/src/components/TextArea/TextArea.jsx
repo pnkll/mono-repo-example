@@ -1,3 +1,4 @@
+import { isNil } from "lodash";
 import React from "react";
 import './TextArea.scss'
 
@@ -29,7 +30,7 @@ export default React.memo(function TextArea({formik,id,name,label,required,rows,
                     name={name}
                     placeholder={placeholder}
                     onChange={formik.handleChange} />
-                <p className="textarea__error">{formik.submitCount > 0 && formik.errors[name] && formik.errors[name]}</p>
+                {!isNil(formik.errors[name])&&<p className="textarea__error">{formik.submitCount > 0 && formik.errors[name] && formik.errors[name]}</p>}
             
         </div>
     )

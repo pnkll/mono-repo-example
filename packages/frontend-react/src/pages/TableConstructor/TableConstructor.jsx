@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import HeaderLayout from '../../page_layouts/HeaderLayout/HeaderLayout.jsx'
 import './TableConstructor.scss'
 import ReactSelect from "react-select";
@@ -13,7 +13,6 @@ export default React.memo(function TableConstructor() {
         setHeaders([...headers,{ title: '', code: '', type: 'string', required: false, unique: false, toIndex: false, visible: false, focused: true }])
     }
     const handleRemove =(idx)=>{
-        console.log(visible)
         setHeaders(headers.filter((el,index)=>index!==idx))
     }
     const handleChange = (index,field,value)=>{

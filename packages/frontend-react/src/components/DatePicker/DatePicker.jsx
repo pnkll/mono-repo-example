@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import ReactDatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
 import './DatePicker.scss'
+import ru from 'date-fns/locale/ru'
 
 export default React.memo(function DatePicker({ formik, id, name, placeholder, showTimeSelect, timeIntervals, className, label,required }) {
 
@@ -34,7 +35,10 @@ export default React.memo(function DatePicker({ formik, id, name, placeholder, s
                     dateFormat="yyyy/MM/dd HH:mm"
                     placeholderText={placeholder}
                     id={id}
-                    name={name} />
+                    name={name} 
+                    minDate={new Date()}
+                    locale={ru}
+                    timeCaption='Время'/>
                 {formik.touched[name] && formik.errors[name] && <span className="date-picker__error">{formik.errors[name]}</span>}
             </div>
         </>

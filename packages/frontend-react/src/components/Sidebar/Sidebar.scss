@@ -6,7 +6,7 @@ $sidebar-width: 270px !default;
 $sidebar-collapsed-width: 80px !default;
 $highlight-color: #ffffff !default;
 $submenu-bg-color: #badaf810 !default;
-$submenu-bg-color-collapsed: #b9d5f5ce !default;
+$submenu-bg-color-collapsed: #81b2e9ce !default;
 $icon-bg-color: #a5cdee00 !default;
 $icon-size: 35px !default;
 $submenu-indent: 24px !default;
@@ -22,6 +22,7 @@ $breakpoint-xxl: 1600px !default;
 .pro-sidebar{
     &-inner{
         border-radius: 5px !important;
+        border: 2px solid #197DD2; 
     }
     //min-height: calc(100vh - 10px) !important;
 }

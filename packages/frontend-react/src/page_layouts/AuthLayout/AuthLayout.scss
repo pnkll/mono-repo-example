@@ -1,45 +1,51 @@
 @import '../../assets/vars';
 
 .auth {
-    &__content{
+    &__content {
         display: flex;
         flex-direction: column;
         gap: 15px;
     }
+
     &__container {
         display: flex;
         height: 100vh;
     }
 
     &__left-side {
-        background: beige;
+        background: white;
         width: 50vw;
     }
 
     &__right-side {
-        background: $color-blue;
-        width: 50vw;
+        background: #197DD2;
+        width: calc(50vw - 10px);
         display: flex;
         justify-content: center;
         align-items: center;
+        margin: 10px;
+        border-radius: 5px;
     }
 
     &__message {
         &__container {
-            
+
             width: 400px;
         }
-        &__wrapper{
+
+        &__wrapper {
             display: grid;
         }
+
         &__elem {
             justify-self: flex-start;
-            background: rgb(10, 143, 196);
+            background: #1e5887;
             border-radius: 8px;
             padding: 8px;
             color: white;
             margin: 5px 0;
             display: grid;
+
             &.me {
                 justify-self: flex-end;
                 background: beige;
@@ -47,11 +53,13 @@
                 padding: 8px;
                 color: black;
             }
-            &__text{
+
+            &__text {
                 justify-self: flex-start;
                 margin: 0;
             }
-            &__time{
+
+            &__time {
                 justify-self: flex-end;
                 margin: 0;
                 font-size: 11px;

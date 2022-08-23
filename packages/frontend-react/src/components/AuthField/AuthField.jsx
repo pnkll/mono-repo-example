@@ -1,4 +1,4 @@
-import { ChatIcon } from '@heroicons/react/solid';
+import { ChatIcon } from '@heroicons/react/outline';
 import React from 'react';
 import Input from '../Input/Input.jsx';
 import InputDadata from '../InputDadata/InputDadata.jsx';

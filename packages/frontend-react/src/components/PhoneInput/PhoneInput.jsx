@@ -9,6 +9,7 @@ export default React.memo(function PhoneInput({ formik, label, name, id, default
     const [mask, setMask] = useState(defaultMask ? defaultMask : '999 999 9999')
     const [code, setCode] = useState(defaultCode)
     const [number, setNumber] = useState('')
+    const [inputWidth, setInputWidth]=useState(98)
 
     useEffect(() => {
         formik.handleChange({
@@ -19,6 +20,7 @@ export default React.memo(function PhoneInput({ formik, label, name, id, default
                 value: code + ' ' + number
             }
         })
+        String(code).length===3?setInputWidth(89):String(code).length>3?setInputWidth(80):setInputWidth(98)
     }, [code, number])
 
     function calcMask(code) {
@@ -44,7 +46,7 @@ export default React.memo(function PhoneInput({ formik, label, name, id, default
         control: (formik) => ({
             borderRadius: '4px 0 0 4px',
             display: 'flex',
-            border: '1px solid black',
+            border: '1px solid #B8BBC6',
             borderRight: '0px',
             height: '30px',
             cursor: 'pointer'
@@ -67,13 +69,13 @@ export default React.memo(function PhoneInput({ formik, label, name, id, default
     }
 
     const [hel, setHel] = useState(false)
-
+    console.log(code)
     return (
         <>
             <div className="phone-input">
                 <label onClick={() => setHel(!hel)} className="phone-input__label">{label} {required && '*'}</label>
                 <div className="" style={{ display: "flex" }}><Select classNamePrefix={formik.errors[name] && formik.touched[name] ? 'error-phone' : 'phone'} defaultValue={codeList.find(el => el.value === defaultCode)} options={codeList} handleChange={handleChange} customStyles={selectStyles} indicator={<GlobeAltIcon width={15} />} />
-                    <MaskInput formik={formik} id={id} name={name} mask={mask} handleChange={setNumber} value={number} className='phone-input__field' placeholder='' /></div>
+                    <MaskInput formik={formik} id={id} name={name} mask={mask} handleChange={setNumber} value={number} className='phone-input__field' placeholder='' styles={{width: inputWidth+'px'}}/></div>
                 {formik.touched[name] && formik.errors[name] && <p className="phone-input__error">{formik.errors[name]}</p>}
             </div>
         </>

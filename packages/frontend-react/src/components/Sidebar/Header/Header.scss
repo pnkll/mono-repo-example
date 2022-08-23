@@ -8,14 +8,22 @@
         flex-direction: column;
         align-items: center;
         gap: 10px;
-
+        background-color: #197DD2;
+        transition: background-color 1s ease;
+        &.collapsed{
+            background-color: white;
+        }
     }
     &__image{
         width: 100px;
         border-radius: 50px;
-        transition: width 1s;
+        transition: width 1s, border-color 1s;
+        //transition: border-color 1s;
+        border: 3px solid;
+        border-color: $color-white;
         &.collapsed{
             width: 50px;
+            border-color: #197DD2;
         }
     }
     &__title{

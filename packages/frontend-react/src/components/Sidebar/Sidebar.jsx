@@ -4,13 +4,13 @@ import './Sidebar.scss';
 import { Link } from "react-router-dom";
 import Footer from "./Footer/Footer.jsx";
 import Header from "./Header/Header.jsx";
-import { BriefcaseIcon, ClipboardCheckIcon, CollectionIcon, CubeIcon } from "@heroicons/react/solid";
+import { BriefcaseIcon, ClipboardCheckIcon, CollectionIcon, CubeIcon } from "@heroicons/react/outline";
 
 export default React.memo(function Sidebar({collapsed}) {
     
     return (
         <>
-            <ProSidebar style={{ height: 'calc(100vh - 10px)', margin: '10px 0 0 10px',position: 'sticky', top: 0, zIndex:100}} collapsed={collapsed}>
+            <ProSidebar style={{ height: 'calc(100vh - 20px)', margin: '10px 0 0 10px',position: 'sticky', top: 0, zIndex:100}} collapsed={collapsed}>
                 <SidebarHeader>
                     <Header collapsed={collapsed}/>
                 </SidebarHeader>

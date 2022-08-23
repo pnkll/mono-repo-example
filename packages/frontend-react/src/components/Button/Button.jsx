@@ -1,12 +1,13 @@
 import React, { useState } from "react"
 import './Button.scss'
 import { Link } from "react-router-dom"
+import { isNil } from "lodash"
 
-export default React.memo(function Button({ type, btn, size, style, width, text, icon, handleClick, href, disabled, w, h }) {
+export default React.memo(function Button({ type, btn, size, style, width, text, icon, handleClick, href, disabled, w, h, color }) {
     if (href) {
         return (
             <Link to={href}
-                className={`button submit ${disabled ? 'disabled' : ''}`}
+                className={`button ${disabled ? 'disabled' : ''}`}
                 disabled={disabled || false}
                 style={{ width: w, height: h }}
             >
@@ -14,15 +15,14 @@ export default React.memo(function Button({ type, btn, size, style, width, text,
                 {text && <span>{text}</span>}
             </Link>
         )
-    }
+    }  
     else {
         return (
             <button type={type || 'button'}
-                className={`button submit ${disabled ? 'disabled' : ''}`}
+                className={`button${!isNil(color)?' '+color:''} ${disabled ? 'disabled' : ''}`}
                 style={{ width: w, height: h }}
                 onClick={handleClick}
                 disabled={disabled || false}>
-                {disabled && <SvgLoading />}
                 {icon}
                 {text && <span>{text}</span>}
             </button>

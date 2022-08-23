@@ -5,6 +5,7 @@ import ReactSelect from "react-select";
 import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/solid";
 import { isNil } from "lodash";
 import useDrag from "../../hooks/useDrag.js";
+import Button from "../../components/Button/Button.jsx";
 
 export default React.memo(function TableConstructor() {
     const [headers, setHeaders] = useState([
@@ -25,6 +26,7 @@ export default React.memo(function TableConstructor() {
         { label: 'date', value: 'date' },
     ]
     const {sortItems,dragStartHandler,dragEndHandler,dragOverHandler,dropHandler}=useDrag(setHeaders,headers)
+    console.log(headers)
     return (
         <>
             <HeaderLayout>
@@ -51,12 +53,13 @@ export default React.memo(function TableConstructor() {
                                     </ul>
                                 </li>
                                 <li style={{ display: 'flex', justifyContent: 'center' }}>
-                                    <button onClick={() => handleRemove(index)} >Удалить поле</button>
+                                    <Button color='red' handleClick={()=>handleRemove(index)} text='Удалить поле'/>
                                 </li>
                             </ul>
                         )}
                     </div>
-                    <button style={{ height: '30px' }} onClick={handleAppend}>Добавить поле</button>
+                    <Button text='Добавить поле' color='green' handleClick={handleAppend}/>
+                    <Button text='Создать таблицу' handleClick={()=>console.log(headers)}/>
                 </div>
             </HeaderLayout>
         </>

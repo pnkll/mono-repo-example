@@ -67,9 +67,7 @@ export default React.memo(function PhoneInput({ formik, label, name, id, default
             paddingRight: '8px'
         })
     }
-
     const [hel, setHel] = useState(false)
-    console.log(code)
     return (
         <>
             <div className="phone-input">

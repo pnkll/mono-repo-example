@@ -11,7 +11,7 @@ export default React.memo(function Header({collapsed,setCollapsed}){
         <>
         <div className="header__container">
             <div className="header__left">
-                {collapsed?<MenuIcon style={{cursor: 'pointer'}} onClick={()=>setCollapsed(!collapsed)} width={30}/>:collapsed!==undefined?<MenuAlt1Icon style={{cursor: 'pointer'}} onClick={()=>setCollapsed(!collapsed)} width={30}/>:<Link to={'../main'}><HomeIcon width={30}/></Link>}
+                {collapsed?<MenuIcon style={{cursor: 'pointer'}} onClick={()=>setCollapsed(!collapsed)} width={30}/>:collapsed!==undefined?<MenuAlt1Icon style={{cursor: 'pointer'}} onClick={()=>setCollapsed(!collapsed)} width={30}/>:''}
             </div>
             <div className="header__middle">
                 <BreadCrumbs/>

@@ -13,6 +13,7 @@ export default React.memo(function Input({formik,label,placeholder,id,name,type,
                 required={required}
                 id={id}
                 name={name}
+                value={formik.values[id]}
                 placeholder={placeholder}
                 onChange={formik.handleChange}
                 type={type}

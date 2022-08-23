@@ -12,7 +12,7 @@ import Select from "../../components/Select/Select.jsx";
 import * as yup from 'yup'
 import { emailValidator, passwordValidator, phoneValidator, stringValidator } from "../../utils/yupValidation.js";
 import SidebarHeaderLayout from "../../page_layouts/SidebarHeaderLayout/SidebarHeaderLayout.jsx";
-import { BeakerIcon } from "@heroicons/react/solid";
+import ToggleInput from "../../components/ToggleInput/ToggleInput.jsx";
 
 export default React.memo(function Form() {
 
@@ -20,14 +20,14 @@ export default React.memo(function Form() {
         email: emailValidator(true),
         password: passwordValidator(true),
         phone: phoneValidator(),
-        info: stringValidator(true, 'Info')
+        info: stringValidator(true, 'Info'),
     })
 
     const formik = useFormik({
         initialValues: {
             email: '',
             password: '',
-            rememberMe: false,
+            remember: false,
             phone: '',
         },
         validationSchema,
@@ -76,7 +76,8 @@ export default React.memo(function Form() {
                         <div className="demo-page__form__elem"><DatePicker formik={formik} id='date' name='date' placeholder='Выберите дату' showTimeSelect={true} timeIntervals={30} /></div>
                         <div className="demo-page__form__elem"><TextArea formik={formik} id='info' name='info' placeholder=' ' isRequired={true} rows={5} label='Расскажите о себе' /></div>
                         <div className="demo-page__form__elem"><Select className='demo-page__form__elem__select' options={[{ label: 'jkfhdsak32j', value: '1' }, { label: 'jkfhdsakj', value: '2' }]} /></div>
-                        <div className="demo-page__form__elem"> <Button text='Sign in' type='submit' /></div>
+                        <div className="demo-page__form__elem"><Button text='Sign in' type='submit' /></div>
+                        <ToggleInput formik={formik} label='запомнить меня' id='remember' name='remember'/>
                     </form>
                     <div className="demo-page__table">
                         {!data ? <Button text='fetch users' disabled={disabled} onClick={() => getPosts()} />

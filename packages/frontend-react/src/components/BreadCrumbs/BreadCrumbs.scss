@@ -1,0 +1,16 @@
+@import '../../assets/vars';
+
+.breadcrumbs{
+    &__container{
+        display: flex;
+        align-items: center;
+    }
+    &__elem{
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+        &.current{
+            color: #197DD2
+        }
+    }
+}

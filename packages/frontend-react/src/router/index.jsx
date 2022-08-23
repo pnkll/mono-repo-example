@@ -6,12 +6,12 @@ import Tasks from "../pages/Tasks/Tasks.jsx"
 import SignUp from "../pages/SignUp/SignUp.jsx"
 
 export const publicRoutes = [
-    { path: '', component: <Navigate to='main' /> },
-    { path: 'main', component: <Main /> },
-    { path: 'demo', component: <Demo /> },
-    { path: 'constructor', component: <TableConstructor /> },
-    { path: 'tasks', component: <Tasks /> },
-    { path: 'signup', component: <SignUp /> }
+    { path: '', breadcrumb: '', component: <Navigate to='main' /> },
+    { path: 'main', breadcrumb: 'Main', component: <Main /> },
+    { path: 'demo', breadcrumb: 'Demo', component: <Demo /> },
+    { path: 'constructor', breadcrumb: 'Constructor', component: <TableConstructor /> },
+    { path: 'tasks', breadcrumb: 'Tasks', component: <Tasks /> },
+    { path: 'signup', breadcrumb: 'SignUp', component: <SignUp /> },
 ]
 
 export const privateRoutes = [

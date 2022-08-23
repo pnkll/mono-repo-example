@@ -20,6 +20,7 @@
     "lodash": "^4.17.21",
     "react-dadata": "^2.23.0",
     "react-spring": "^9.5.2",
+    "use-react-router-breadcrumbs": "^3.2.1",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0"
   },

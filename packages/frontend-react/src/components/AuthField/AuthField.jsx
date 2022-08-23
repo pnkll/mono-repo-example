@@ -4,12 +4,12 @@ import Input from '../Input/Input.jsx';
 import InputDadata from '../InputDadata/InputDadata.jsx';
 import './AuthField.scss'
 
-export default React.memo(function AuthField({ formik, id, name }) {
+export default React.memo(function AuthField({ formik, id, name, type='text' }) {
     return (
         <>
             <form className='auth-field' onSubmit={(e) => { e.preventDefault(); formik.handleSubmit(e) }}>
                 {id === 'org' ? <InputDadata formik={formik} id={id} name={name} classNamePrefix='auth-field' />
-                    : <Input type='text' placeholder='Введите сообщение' formik={formik} id={id} name={name} className='auth-field-input' />}
+                    : <Input type={type} placeholder='Введите сообщение' formik={formik} id={id} name={name} className='auth-field-input' />}
                 <button type='submit' className='auth-field__button'><ChatIcon width={30} /></button>
             </form>
             {id === 'type' ? <div className="auth-field__buttons">

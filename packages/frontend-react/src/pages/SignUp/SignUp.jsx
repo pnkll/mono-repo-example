@@ -79,8 +79,8 @@ export default React.memo(function SignUp() {
         { id: 'type', status: 'active', component: <AuthField key={0} formik={formiks.find(formik=>formik.id==='type').option} id='type' name='type' /> },
         { id: 'org', status: 'hiden', component: <AuthField key={1} formik={formiks.find(formik=>formik.id==='org').option} id='org' name='org' /> },
         { id: 'email', status: 'hiden', component: <AuthField key={2} formik={formiks.find(formik=>formik.id==='email').option} id='email' name='email' /> },
-        { id: 'password', status: 'hiden', component: <AuthField key={3} formik={formiks.find(formik=>formik.id==='password').option} id='password' name='password' /> },
-        { id: 'passwordRepeat', status: 'hiden', component: <AuthField key={4} formik={formiks.find(formik=>formik.id==='passwordRepeat').option} id='passworRepeat' name='passwordRepeat' /> },
+        { id: 'password', status: 'hiden', component: <AuthField key={3} type='password' formik={formiks.find(formik=>formik.id==='password').option} id='password' name='password' /> },
+        { id: 'passwordRepeat', status: 'hiden', component: <AuthField key={4} type='password' formik={formiks.find(formik=>formik.id==='passwordRepeat').option} id='passworRepeat' name='passwordRepeat' /> },
         { id: 'signin', status: 'hiden', component: <AuthField key={5} formik={formiks.find(formik=>formik.id==='signin').option} id='signin' name='signin' /> },
     ])
     const sendMessage = (currentField, nextField, values) => {

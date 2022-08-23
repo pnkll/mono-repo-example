@@ -10,14 +10,14 @@ export default React.memo(function Sidebar({collapsed}) {
     
     return (
         <>
-            <ProSidebar style={{height: '100vh',position: 'sticky', top: 0, zIndex:100}} collapsed={collapsed}>
+            <ProSidebar style={{ height: 'calc(100vh - 10px)', margin: '10px 0 0 10px',position: 'sticky', top: 0, zIndex:100}} collapsed={collapsed}>
                 <SidebarHeader>
                     <Header collapsed={collapsed}/>
                 </SidebarHeader>
                 <SidebarContent>
                     <Menu iconShape="square">
                         <MenuItem icon={<CubeIcon/>}>Dashboard</MenuItem>
-                        <SubMenu title="Pages" icon={<CollectionIcon/>}>
+                        <SubMenu  title="Pages" icon={<CollectionIcon/>}>
                             <MenuItem><Link to='../demo'>Demo</Link></MenuItem>
                             <MenuItem><Link to='../main'>Main</Link></MenuItem>
                             <MenuItem><Link to='../constructor'>Constructor</Link></MenuItem>

@@ -3,13 +3,18 @@
 .header{
     &__container{
         height: 81px;
-        background: #a5cdee;
+        background: $color-white; 
+        border: 2px solid #818589;;
+        //#197DD2;
         display: flex;
         align-items: center;
         padding: 0 20px;
         position: sticky;
         top: 0;
         z-index: 100;
+        //color: $color-white;
+        margin: 10px;
+    border-radius: 5px;
     }
     &__left{
         display: flex;

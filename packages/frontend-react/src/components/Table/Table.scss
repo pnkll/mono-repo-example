@@ -7,35 +7,64 @@ th {
 }
 
 .table {
-
-    &__container {
-        background: $color-blue;
+    &__container{
+        box-shadow: 4px 4px 12px 3px rgb(0 0 0 / 20%);
+        margin-right: 8px;
+    }
+    &__wrapper {
+        //background: $color-blue;
         font-family: 'Roboto';
+        border-collapse: collapse;
     }
 
     &__header {
-        &__row {}
+        &__row {
+            border-bottom: 1px solid #8080803d;
+
+        }
 
         &__elem {
             padding: 5px;
             background: #fff;
+            font-family: 'Roboto';
+            font-weight: 500;
+            color: #2e2828;
         }
     }
 
     &__body {
+        &__row {
+            border-bottom: 1px solid #8080803d;
+            &:nth-child(2n){
+                td{
+                    background: #e4f1f5;;
+                }
+            }
+        }
+
         &__elem {
             display: flex;
             justify-content: center;
             align-items: center;
+            font-family: 'Roboto';
+            font-weight: 400;
+            font-size: 15px;
+            color: #3c3232;
 
             &__wrapper {
                 padding: 5px;
                 background: #fff;
             }
         }
-        &__empty{
+
+        &__empty {
             display: flex;
             justify-content: center;
         }
     }
 }
+
+// tr:nth-child(2n){
+//             background-color: red;
+//         }
+    

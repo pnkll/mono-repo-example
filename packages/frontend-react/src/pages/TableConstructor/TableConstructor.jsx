@@ -4,6 +4,7 @@ import './TableConstructor.scss'
 import ReactSelect from "react-select";
 import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/solid";
 import { isNil } from "lodash";
+import useDrag from "../../hooks/useDrag.js";
 
 export default React.memo(function TableConstructor() {
     const [headers, setHeaders] = useState([
@@ -23,35 +24,13 @@ export default React.memo(function TableConstructor() {
         { label: 'number', value: 'number' },
         { label: 'date', value: 'date' },
     ]
-    const sortHeaders = (a,b)=>{
-        if(a.order>b.order){
-            return 1
-        } else{
-            return -1
-        }
-    }
-    const [currentOrder,setCurrentOrder]=useState(null)
-    const dragStartHandler=(e,header)=>{
-        setCurrentOrder(header.order)
-    }
-    const dragEndHandler=(e)=>{
-        e.target.style.background = 'white'
-    }
-    const dragOverHandler=(e)=>{
-        e.preventDefault()
-        e.target.style.background = 'beige'
-    }
-    const dropHandler=(e,header)=>{
-        e.preventDefault()
-        !isNil(currentOrder)&&setHeaders(headers.map(item=>item.order===header.order?{...item,order: currentOrder}:item.order===currentOrder?{...item, order: header.order}:item))
-    
-    }
+    const {sortItems,dragStartHandler,dragEndHandler,dragOverHandler,dropHandler}=useDrag(setHeaders,headers)
     return (
         <>
             <HeaderLayout>
                 <div style={{ display: 'flex', gap: '20px' }}>
                     <div style={{ display: 'flex', gap: '10px', overflowX: 'scroll', overflowY: 'visible', }}>
-                        {headers && headers.sort(sortHeaders).map((header, index) =>
+                        {headers && headers.sort(sortItems).map((header, index) =>
                             <ul
                                 draggable={true}
                                 onDragStart={(e) => dragStartHandler(e,header)}

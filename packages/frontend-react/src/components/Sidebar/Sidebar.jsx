@@ -22,6 +22,8 @@ export default React.memo(function Sidebar({collapsed}) {
                             <MenuItem><Link to='../main'>Main</Link></MenuItem>
                             <MenuItem><Link to='../constructor'>Constructor</Link></MenuItem>
                             <MenuItem><Link to='../tasks'>Tasks</Link></MenuItem>
+                            <MenuItem><Link to='../signin'>Sign in demo</Link></MenuItem>
+                            <MenuItem><Link to='../signup'>Sign up demo</Link></MenuItem>
                         </SubMenu>
                         <SubMenu title="Contracts" icon={<BriefcaseIcon/>}>
                             <MenuItem><Link to='../demo'>Demo</Link></MenuItem>

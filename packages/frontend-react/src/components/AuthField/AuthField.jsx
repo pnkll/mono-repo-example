@@ -7,22 +7,12 @@ import './AuthField.scss'
 import * as Yup from 'yup'
 import { useNavigate } from 'react-router-dom';
 
-export default React.memo(function AuthField({ id, name, type = 'text', messages, setMessages, sendMessages, currentForm, setData, data, formiks, setCurrentForm }) {
+export default React.memo(function AuthField({ id, name, type = 'text', messages, setMessages, sendMessages, currentForm, setData, data, formiks, setCurrentForm,nextField }) {
     const navigate = useNavigate()
-    const nextField = () => {
-        switch (id) {
-            case 'type': return 'org'
-            case 'org': return 'email'
-            case 'email': return 'password'
-            case 'password': return 'passwordRepeat'
-            case 'passwordRepeat': return 'signin'
-
-        }
-    }
     const handleSubmit = (values) => {
-        sendMessages(name, nextField(), values, messages, setMessages)
+        sendMessages(name, nextField(id), values, messages, setMessages)
         if(id!=='signin'){setData([...data, values])
-        setCurrentForm(formiks.find(formik => formik.id === nextField()))}
+        setCurrentForm(formiks.find(formik => formik.id === nextField(id)))}
         else{
             console.log(data)
             navigate('../')

@@ -1,23 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import AuthLayout from '../../page_layouts/AuthLayout/AuthLayout.jsx';
-import './SignUp.scss'
 import { isNil } from 'lodash';
+import React, { useState } from 'react';
 import AuthField from '../../components/AuthField/AuthField.jsx';
-import * as Yup from 'yup'
 import AuthMessages from '../../components/AuthMessages/AuthMessages.jsx';
+import AuthLayout from '../../page_layouts/AuthLayout/AuthLayout.jsx';
+import * as Yup from 'yup'
 
-export default React.memo(function SignUp() {
+export default React.memo(function SignIn() {
     const getTime = () => {
         const date = new Date()
         return date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
     }
     const [messages, setMessages] = useState([
-        { id: 'type', question: 'Здравствуйте, вы хотите присоединиться к существующей организации или добавить новую?', answer: null, visible: true, time: getTime() },
-        { id: 'org', question: 'Введите ИНН организации и выберите из списка', answer: null, visible: false, time: '' },
-        { id: 'email', question: 'Введите e-mail', answer: null, visible: false, time: '' },
+        { id: 'email', question: 'Введите e-mail', answer: null, visible: true, time: getTime() },
         { id: 'password', question: 'Введите ваш пароль', answer: null, visible: false, time: '' },
-        { id: 'passwordRepeat', question: 'Подтвердите пароль', answer: null, visible: false, time: '' },
-        { id: 'signin', question: 'Вы успешно зарегистрировались, отправьте "Войти" для того чтобы авторизоваться', answer: null, visible: false, time: '' },
+        { id: 'signin', question: 'Успешная авторизация', answer: null, visible: false, time: '' },
     ])
     const sendMessage = (currentField, nextField, values, messages, setMessages) => {
         setMessages(messages.map((el, index) => el.id === currentField ?
@@ -29,21 +25,6 @@ export default React.memo(function SignUp() {
     }
     const [data, setData] = useState([])
     const [formiks, setFormiks] = useState([
-        {
-            id: 'type', initialValues: { type: '' },
-            validationSchema: Yup.object({
-                type: Yup.string().required('Пожалуйста выберите').test('', 'Некорректное значение', (value) => value === 'Добавить' || value === 'Присоединиться')
-            })
-        },
-        {
-            id: 'org',
-            initialValues: {
-                org: ''
-            },
-            validationSchema: Yup.object({
-                org: Yup.object().test('', 'Проверьте правильный ли ИНН и выберите организацию из списка', val => typeof (val?.value) === 'string')
-            })
-        },
         {
             id: 'email',
             initialValues: {
@@ -63,13 +44,6 @@ export default React.memo(function SignUp() {
             })
         },
         {
-            id: 'passwordRepeat',
-            initialValues: {
-                passwordRepeat: ''
-            },
-            //У этого поля валидация внутри компонента
-        },
-        {
             id: 'signin',
             initialValues: {
                 signin: ''
@@ -79,19 +53,16 @@ export default React.memo(function SignUp() {
             })
         },
     ])
-    const [currentForm, setCurrentForm] = useState(formiks.find(formik => formik.id === 'type'))
+    const [currentForm, setCurrentForm] = useState(formiks.find(formik => formik.id === 'email'))
     const nextField = (id) => {
         switch (id) {
-            case 'type': return 'org'
-            case 'org': return 'email'
             case 'email': return 'password'
-            case 'password': return 'passwordRepeat'
-            case 'passwordRepeat': return 'signin'
+            case 'password': return 'signin'
         }
     }
     return (
         <>
-            {!isNil(messages) && <AuthLayout>
+            {!isNil(messages)&&<AuthLayout>
                 <AuthMessages messages={messages} />
                 {
                     !isNil(currentForm) && <AuthField key={currentForm.id} id={currentForm.id} name={currentForm.id} messages={messages} setMessages={setMessages}

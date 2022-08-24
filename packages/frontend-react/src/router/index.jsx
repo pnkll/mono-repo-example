@@ -4,6 +4,7 @@ import Main from "../pages/Main/Main.jsx"
 import TableConstructor from "../pages/TableConstructor/TableConstructor.jsx"
 import Tasks from "../pages/Tasks/Tasks.jsx"
 import SignUp from "../pages/SignUp/SignUp.jsx"
+import SignIn from "../pages/SignIn/SignIn.jsx"
 
 export const publicRoutes = [
     { path: '', breadcrumb: '', component: <Navigate to='main' /> },
@@ -12,6 +13,7 @@ export const publicRoutes = [
     { path: 'constructor', breadcrumb: 'Constructor', component: <TableConstructor /> },
     { path: 'tasks', breadcrumb: 'Tasks', component: <Tasks /> },
     { path: 'signup', breadcrumb: 'SignUp', component: <SignUp /> },
+    { path: 'signin', breadcrumb: 'SignIn', component: <SignIn /> },
 ]
 
 export const privateRoutes = [

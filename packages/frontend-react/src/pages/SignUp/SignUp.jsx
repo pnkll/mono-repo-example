@@ -1,4 +1,3 @@
-import { Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import AuthLayout from '../../page_layouts/AuthLayout/AuthLayout.jsx';
 import './SignUp.scss'
@@ -20,31 +19,20 @@ export default React.memo(function SignUp() {
         { id: 'passwordRepeat', question: 'Подтвердите пароль', answer: null, visible: false, time: '' },
         { id: 'signin', question: 'Вы успешно зарегистрировались, отправьте "Войти" для того чтобы авторизоваться', answer: null, visible: false, time: '' },
     ])
-    const [fields, setFields] = useState([
-        { id: 'type', status: 'active', },
-        { id: 'org', status: 'hiden', },
-        { id: 'email', status: 'hiden', },
-        { id: 'password', status: 'hiden', },
-        { id: 'passwordRepeat', status: 'hiden', },
-        { id: 'signin', status: 'hiden', },
-    ])
-    const sendMessage = (currentField, nextField, values,messages,setMessages) => {
-        setMessages(messages.map((el, index) => el.id === currentField ? { ...el, answer: values[currentField].label ? values[currentField].label : values[currentField] } : el.id === nextField ? { ...el, visible: true, time: getTime() } : el))
+    const sendMessage = (currentField, nextField, values, messages, setMessages) => {
+        setMessages(messages.map((el, index) => el.id === currentField ?
+            {
+                ...el, answer: values[currentField].label ? values[currentField].label : currentField === 'password' ?
+                    values[currentField].replace(/[\s\S]/g, "*") : currentField === 'passwordRepeat' ? values[currentField].replace(/[\s\S]/g, "*") : values[currentField]
+            }
+            : el.id === nextField ? { ...el, visible: true, time: getTime() } : el))
     }
-    const changeField = (currentField, nextField,fields,setFields) => {
-        setFields(fields.map((field, index) => field.id === currentField ? { ...field, status: 'hiden' } : field.id === nextField ? { ...field, status: 'active' } : field))
-    }
+    const [data, setData] = useState([])
     const [formiks, setFormiks] = useState([
         {
             id: 'type', initialValues: { type: '' },
-            onSubmit: values => {
-                //sendMessage('type', 'org', values)
-                //changeField('type', 'org')
-                console.log('hh')
-                setCurrentForm(formiks.find(formik => formik.id === 'org'))
-            },
             validationSchema: Yup.object({
-                type: Yup.string().min(3, 'Must be 3 characters or less').required('req')
+                type: Yup.string().required('Пожалуйста выберите').test('', 'Некорректное значение', (value) => value === 'Добавить' || value === 'Присоединиться')
             })
         },
         {
@@ -52,13 +40,8 @@ export default React.memo(function SignUp() {
             initialValues: {
                 org: ''
             },
-            onSubmit: values => {
-                //sendMessage('org', 'email', values)
-                //changeField('org', 'email')
-                setCurrentForm(formiks.find(formik => formik.id === 'email'))
-            },
             validationSchema: Yup.object({
-
+                org: Yup.object().test('', 'Проверьте правильный ли ИНН и выберите организацию из списка', val => typeof(val?.value)==='string')
             })
         },
         {
@@ -66,13 +49,8 @@ export default React.memo(function SignUp() {
             initialValues: {
                 email: ''
             },
-            onSubmit: values => {
-                //sendMessage('email', 'password', values)
-                //changeField('email', 'password')
-                setCurrentForm(formiks.find(formik => formik.id === 'password'))
-            },
             validationSchema: Yup.object({
-
+                email: Yup.string().required('Пожалуйста введите ваш e-mail').email('Некорректный email')
             })
         },
         {
@@ -80,13 +58,8 @@ export default React.memo(function SignUp() {
             initialValues: {
                 password: ''
             },
-            onSubmit: values => {
-                //sendMessage('password', 'passwordRepeat', { ...values, password: values.password.replace(/[\s\S]/g, "*") })
-                //changeField('password', 'passwordRepeat')
-                setCurrentForm(formiks.find(formik => formik.id === 'passwordRepeat'))
-            },
             validationSchema: Yup.object({
-
+                password: Yup.string().required('Пожалуйста введите пароль').matches(/^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/, "Неправильный пароль")
             })
         },
         {
@@ -94,23 +67,12 @@ export default React.memo(function SignUp() {
             initialValues: {
                 passwordRepeat: ''
             },
-            onSubmit: values => {
-                //sendMessage('passwordRepeat', 'signin', { ...values, passwordRepeat: values.passwordRepeat.replace(/[\s\S]/g, "*") })
-                //changeField('passwordRepeat', 'signin')
-                setCurrentForm(formiks.find(formik => formik.id === 'signin'))
-            },
-            validationSchema: Yup.object({
-
-            })
+            //У этого поля валидация внутри компонента
         },
         {
             id: 'signin',
             initialValues: {
                 signin: ''
-            },
-            onSubmit: values => {
-                console.log(values)
-                console.log('Вошел')
             },
             validationSchema: Yup.object({
 
@@ -118,21 +80,21 @@ export default React.memo(function SignUp() {
         },
     ])
     const [currentForm, setCurrentForm] = useState(formiks.find(formik => formik.id === 'type'))
-    
     return (
         <>
-            {!isNil(messages)&&!isNil(fields)&&<AuthLayout>
+            {!isNil(messages) && <AuthLayout>
                 <div className="auth__message__container">
                     {messages.map((message, index) => <div key={index} className='auth__message__wrapper'>
                         {!isNil(message.question) && message.visible && <MessageElem message={message} type='question' />}
                         {!isNil(message.answer) && <MessageElem message={message} type='answer' />}
                     </div>)}
                 </div>
-                <Formik initialValues={currentForm.initialValues} onSubmit={currentForm.onSubmit} isValidating={true} validationSchema={currentForm.validationSchema}>{formik => (
-                    fields.map((field, index) => field.status !== 'hiden' && <AuthField key={index} id={field.id} name={field.id} messages={messages} setMessages={setMessages} 
-                    fields={fields} setFields={setFields} changeField={changeField} sendMessages={sendMessage}/>)
-                )}
-                </Formik>
+                {
+                    !isNil(currentForm) && <AuthField key={currentForm.id} id={currentForm.id} name={currentForm.id} messages={messages} setMessages={setMessages}
+                        sendMessages={sendMessage} setData={setData} data={data}
+                        currentForm={currentForm} setCurrentForm={setCurrentForm} formiks={formiks}
+                        type={currentForm.id === 'password' ? 'password' : currentForm.id === 'passwordRepeat' ? 'password' : 'text'} />
+                }
             </AuthLayout>}
         </>
     )

@@ -3,6 +3,7 @@ import 'react-dadata/dist/react-dadata.css';
 import ReactSelect from 'react-select'
 import * as axios from 'axios'
 import { isNil } from 'lodash';
+import './InputDadata.scss'
 
 export default React.memo(function InputDadata({formik,id,name,classNamePrefix,customStyles}) {
     const defaultStyles = customStyles || {
@@ -16,6 +17,7 @@ export default React.memo(function InputDadata({formik,id,name,classNamePrefix,c
             height: '40px',
             borderRadius: '10px',
             outline: 'none',
+            paddingLeft: '15px',
             '&:hover': {
                 outline: 'none'
             }
@@ -51,7 +53,10 @@ export default React.memo(function InputDadata({formik,id,name,classNamePrefix,c
     }, [value])
     return (
         <>
-            <ReactSelect noOptionsMessage={()=>'Введите ИНН'} placeholder={'Введите сообщение'} components={{DropdownIndicator:()=><></>}} styles={defaultStyles} classNamePrefix={classNamePrefix} options={options} isSearchable={true} onInputChange={setValue} value={options?options.find(option=>option.value===formik.values[id]):''} onChange={(e)=>formik.setFieldValue(id,e)} id={id} name={name}/>
+        <div className="dadata-input__container">
+            <ReactSelect noOptionsMessage={()=>'Введите ИНН'} placeholder={'Введите сообщение'} components={{DropdownIndicator:()=><></>}} styles={defaultStyles} classNamePrefix={classNamePrefix} options={options} isSearchable={true} onInputChange={setValue} value={options?options.find(option=>option.value===formik.values[id].value):''} onChange={(e)=>formik.setFieldValue(id,e)} id={id} name={name}/>
+            {formik.touched[id]&&formik.errors[id]&&<p className='dadata-input__error'>{formik.errors[id]}</p>}
+            </div>
         </>
     )
 })

@@ -3,11 +3,11 @@ import './Button.scss'
 import { Link } from "react-router-dom"
 import { isNil } from "lodash"
 
-export default React.memo(function Button({ type, btn, size, style, width, text, icon, handleClick, href, disabled, w, h, color }) {
+export default React.memo(function Button({ type, btn, size, style, width, text, icon, handleClick, href, disabled, w, h, color, classNamePrefix='button' }) {
     if (href) {
         return (
             <Link to={href}
-                className={`button ${disabled ? 'disabled' : ''}`}
+                className={`${classNamePrefix} ${disabled ? 'disabled' : ''}`}
                 disabled={disabled || false}
                 style={{ width: w, height: h }}
             >
@@ -19,7 +19,7 @@ export default React.memo(function Button({ type, btn, size, style, width, text,
     else {
         return (
             <button type={type || 'button'}
-                className={`button${!isNil(color)?' '+color:''} ${disabled ? 'disabled' : ''}`}
+                className={`${classNamePrefix}${!isNil(color)?' '+color:''} ${disabled ? 'disabled' : ''}`}
                 style={{ width: w, height: h }}
                 onClick={handleClick}
                 disabled={disabled || false}>

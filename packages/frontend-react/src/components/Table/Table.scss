@@ -7,10 +7,96 @@ th {
 }
 
 .table {
-    &__container{
+    &__container {
         box-shadow: 4px 4px 12px 3px rgb(0 0 0 / 20%);
         border-radius: 5px;
+        position: relative;
+        margin-top: 20px;
     }
+
+    &__bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &__counts {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            &__info {
+                margin: 0 10px 0 0;
+                font-size: 13px;
+            }
+        }
+    }
+
+    &__filters {
+        &.button {
+            border: 2px solid $color-white;
+            width: 72px;
+            height: 30px;
+        }
+
+        &__container {
+            position: absolute;
+            background: $color-but-blue;
+            margin: 0 10px;
+            top: -20px;
+            width: -webkit-fill-available;
+            height: 50px;
+            border-radius: 5px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        &__control {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        &__group {
+            display: flex;
+            height: 100%;
+
+            &__elem {
+                padding: 0 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                background: none;
+                border: 0;
+                font-family: 'Roboto';
+                color: white;
+                font-size: 14px;
+                font-weight: 500;
+                cursor: pointer;
+
+                &:hover {}
+
+                &.active {
+                    background: rgb(32 115 171);
+
+                    &::after {
+                        content: "";
+                        background: rgb(6 85 131 / 39%);
+                        width: 10px;
+                        height: 10px;
+                        position: absolute;
+                        top: 44px;
+                        left: 0px;
+                        width: -webkit-fill-available;
+                    }
+                }
+            }
+        }
+    }
+
     &__wrapper {
         //background: $color-blue;
         font-family: 'Roboto';
@@ -29,15 +115,19 @@ th {
             font-family: 'Roboto';
             font-weight: 500;
             color: #2e2828;
+            color: $color-but-blue;
+            text-align: left;
         }
     }
 
     &__body {
         &__row {
             border-bottom: 1px solid #8080803d;
-            &:nth-child(2n){
-                td{
-                    background: #e4f1f5;;
+
+            &:nth-child(2n) {
+                td {
+                    background: #e4f1f5;
+                    ;
                 }
             }
         }
@@ -67,4 +157,3 @@ th {
 // tr:nth-child(2n){
 //             background-color: red;
 //         }
-    

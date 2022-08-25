@@ -41,11 +41,11 @@ export default React.memo(function Form() {
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsCount, setItemsCount] = useState(5)
     const [totalItemsCount, setTotalItemsCount] = useState(1000)
-    const [filters,setFilters]=useState()
+    const [search,setSearch]=useState()
 
     const getPosts = async (filters) => {
         setDisabled(true)
-        const response = await axios.get(`https://jsonplaceholder.typicode.com/posts?_page=${currentPage}&_limit=${itemsCount}${filters?`&${filters.id}=${filters.value}`:''}`)
+        const response = await axios.get(`https://jsonplaceholder.typicode.com/posts?_page=${currentPage}&_limit=${itemsCount}${search?`&${search.id}=${search.value}`:''}`)
         setData(response.data)
         setDisabled(false)
     }
@@ -57,14 +57,17 @@ export default React.memo(function Form() {
     ]
 
     useEffect(() => {
-        getPosts(filters)
+        getPosts(search)
     }, [currentPage])
     useEffect(()=>{
         setCurrentPage(1)
-        filters?.value!==''?getPosts(filters):getPosts()
-    },[filters])
-
-
+        search?.value!==''?getPosts(search):getPosts()
+    },[search,itemsCount])
+    const [filters,setFilters]=useState([
+        {title: 'ID 1', status: true,},
+        {title: 'ID 3', status: false,},
+        {title: 'ID 2', status: false,}
+    ])
     return (
         <>
             <SidebarHeaderLayout>
@@ -81,7 +84,12 @@ export default React.memo(function Form() {
                     </form>
                     <div className="demo-page__table">
                         {!data ? <Button text='fetch users' disabled={disabled} onClick={() => getPosts()} />
-                            : <Table setFilters={setFilters} filters={filters}data={data} columns={columns} currentPage={currentPage} setCurrentPage={setCurrentPage} itemsCount={itemsCount} totalItemsCount={totalItemsCount} />}
+                            : <Table setFilters={setFilters} filters={filters} 
+                            setSearch={setSearch} search={search}
+                            data={data} columns={columns} 
+                            currentPage={currentPage} setCurrentPage={setCurrentPage} 
+                            itemsCount={itemsCount} setItemsCount={setItemsCount}
+                            totalItemsCount={totalItemsCount} />}
                     </div>
                 </div>
 

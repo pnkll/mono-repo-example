@@ -3,7 +3,7 @@ import { isNil } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import ReactSelect from 'react-select'
 
-export default React.memo(function SelectNumber({ styles, values, defaultValue,handleChange }) {
+export default React.memo(function SelectNumber({ styles, values, defaultValue,handleChange,menuPlacement='top' }) {
     const customStyles = styles ? styles : {
         control: (styles) => ({
             ...styles,
@@ -22,7 +22,8 @@ export default React.memo(function SelectNumber({ styles, values, defaultValue,h
             padding: '5px 0',
             display: 'flex',
             justifyContent: 'center',
-            fontSize: '13px'
+            fontSize: '13px',
+            
         }),
         indicatorSeparator: () => ({
             display: 'none'
@@ -34,16 +35,19 @@ export default React.memo(function SelectNumber({ styles, values, defaultValue,h
         menu: (styles) => ({
             ...styles,
             marginTop: 0,
-            background: 'none',
-            border: 0,
+            border: '1px solid #2684ff',
             boxShadow: '0 0 0 0',
-            left: '-7px'
+            left: '-7px',
         }),
         menuList: (styles) => ({
             ...styles,
             margin: 0,
             border: 0,
         }),
+        input: (styles) =>({
+            ...styles,
+            caretColor: 'white'
+        })
     }
     const [options, setOptions] = useState([])
     useEffect(() => {
@@ -54,8 +58,9 @@ export default React.memo(function SelectNumber({ styles, values, defaultValue,h
             {options.length > 0 &&
                 <ReactSelect styles={customStyles}
                     options={options}
+                    menuPlacement={menuPlacement}
                     defaultValue={!isNil(defaultValue) ? options.find(option => option.value === defaultValue)?options.find(option => option.value === defaultValue):options[0]:options[0]}
-                    components={{ DropdownIndicator: () => <ChevronDownIcon width={15} /> }} 
+                    components={{ DropdownIndicator: () => <ChevronDownIcon width={15} style={{rotate: menuPlacement==='top'?'180deg':'0deg'}} /> }} 
                     onChange={(e)=>handleChange(e.value)}/>
             }
         </>

@@ -39,7 +39,7 @@ export default React.memo(function Form() {
     const [data, setData] = useState(null)
     const [disabled, setDisabled] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
-    const [itemsCount, setItemsCount] = useState(5)
+    const [itemsCount, setItemsCount] = useState(15)
     const [totalItemsCount, setTotalItemsCount] = useState(1000)
     const [search,setSearch]=useState()
 

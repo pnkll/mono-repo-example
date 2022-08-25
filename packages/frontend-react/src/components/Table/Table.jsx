@@ -29,7 +29,7 @@ export default React.memo(function Table({setFilters,filters,setSearch,search,co
         <>
             <div className={`${classNamePrefix}__container`}>
                 <Filters classNamePrefix={classNamePrefix} filters={filters} setFilters={setFilters} />
-                <div className="" style={{ borderRadius: '10px', paddingTop: '30px' }}>
+                <div className="" style={{ borderRadius: '10px', paddingTop: '30px', maxHeight: 'calc(100vh - 187px)', overflow: 'auto' }}>
                     <table className={`${classNamePrefix}__wrapper`}>
                         <thead {...getTableProps()} className={`${classNamePrefix}__header`}>
                             {headerGroups.map((headerGroup, index) => <tr key={index} {...headerGroup.getHeaderGroupProps} className={`${classNamePrefix}__header__row`}>

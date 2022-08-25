@@ -1,8 +1,9 @@
 import { ChevronDownIcon } from "@heroicons/react/solid"
+import { Formik } from "formik"
 import React, { useState } from "react"
 import ReactSelect, { components, NonceProvider } from "react-select"
 
-export default React.memo(function Select({ options, indicator, handleChange, defaultValue, customStyles, classNamePrefix }) {
+export default React.memo(function Select({ options, indicator, formik, defaultValue, customStyles, classNamePrefix,id,name }) {
 
     const defaultStyles = customStyles || {
         option: (provided, state) => ({
@@ -64,11 +65,13 @@ export default React.memo(function Select({ options, indicator, handleChange, de
     return (
         <>
             <ReactSelect
+                id={id}
+                name={name}
                 classNamePrefix={classNamePrefix}
                 styles={styles}
                 options={options}
                 components={{ DropdownIndicator: () => indicator ? indicator : <ArrowsForSelectIcon style={{ paddingRight: '11px' }} /> }}
-                onChange={handleChange}
+                onChange={(e)=>formik.setFieldValue(id,e.value)}
                 defaultValue={defaultValue} />
         </>
     )

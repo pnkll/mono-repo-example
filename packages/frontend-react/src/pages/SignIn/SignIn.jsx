@@ -11,7 +11,7 @@ export default React.memo(function SignIn() {
         return date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
     }
     const [messages, setMessages] = useState([
-        { id: 'email', question: 'Введите e-mail', answer: null, visible: true, time: getTime() },
+        { id: 'email', question: 'Рады приветствовать вас снова, пожалуйста введите ваш e-mail', answer: null, visible: true, time: getTime() },
         { id: 'password', question: 'Введите ваш пароль', answer: null, visible: false, time: '' },
         { id: 'signin', question: 'Успешная авторизация', answer: null, visible: false, time: '' },
     ])

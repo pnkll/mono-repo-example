@@ -9,3 +9,26 @@
         display: none;
     }
 }
+
+.table-constructor{
+    &__wrapper{
+        &::-webkit-scrollbar{
+            display: none;
+        }
+        border: 7px;
+        width: -webkit-fill-available;
+    }
+    &__elem{
+        background: $color-but-blue;
+        
+        &:first-child{
+            border-radius: 7px 0 0 7px;
+        }
+        &:last-child{
+            border-radius: 0 7px 7px 0;
+            &.single{
+                border-radius: 7px 7px 7px 7px;
+            }
+        }
+    }
+}

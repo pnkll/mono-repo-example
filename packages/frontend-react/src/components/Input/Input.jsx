@@ -15,7 +15,7 @@ export default React.memo(function Input({formik,label,placeholder,id,name,type,
                 name={name}
                 value={formik.values[id]}
                 placeholder={placeholder}
-                onChange={formik.handleChange}
+                onChange={(e)=>formik.setFieldValue(id,e.target.value)}
                 type={type}
                 onClick={()=>formik.setFieldError(id,'')}
                 autoComplete={autoComplete || 'off'}

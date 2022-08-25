@@ -7,11 +7,11 @@ export default (function useDrag(setItems,items,endCallback,overCallback) {
         setCurrentOrder(header.order)
     }
     const dragEndHandler = (e) => {
-        !isNil(endCallback)?endCallback():e.target.style.background = 'white'
+        //!isNil(endCallback)?endCallback():e.target.style.background = 'white'
     }
     const dragOverHandler = (e) => {
         e.preventDefault()
-        !isNil(overCallback)?overCallback():e.target.style.background = 'beige'
+        //!isNil(overCallback)?overCallback():e.target.style.background = 'beige'
     }
     const dropHandler = (e, header) => {
         e.preventDefault()

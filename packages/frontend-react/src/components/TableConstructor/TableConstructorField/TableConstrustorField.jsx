@@ -40,7 +40,7 @@ export default React.memo(function TableConstructorField({ field, fields, setFie
                                 <Input placeholder={'Code'} handleChange={(e) => handleChange('code', e.target.value, index)} id='code' name='code' value={field.code} />
                                 {!isNil(errors) && errors.code?.type !== 'required' && <p style={{ margin: 0, fontSize: '12px', color: 'red' }}>{errors.code?.errors[0]}</p>}
                             </div>
-                            <Select id='type' name='type' options={options} defaultValue={options.find(option => option.value === 'string')} isSearchable={false} menuPlacement={'bottom'} handleChange={(e) => handleChange('type', e, index)} />
+                            <Select id='type' name='type' options={options} value={options.find(option => option.value === field.type)} defaultValue={options.find(option => option.value === field.type)} isSearchable={false} menuPlacement={'bottom'} handleChange={(e) => handleChange('type', e, index)} />
                             <ToggleInput id='required' name='required' handleChange={(e) => handleChange('required', e.target.checked, index)} checked={field.required} label={'is required?'} />
                             <ToggleInput id='unique' name='unique' handleChange={(e) => handleChange('unique', e.target.checked, index)} checked={field.unique} label={'is unique?'} />
                             <ToggleInput id='toIndex' name='toIndex' handleChange={(e) => handleChange('toIndex', e.target.checked, index)} checked={field.toIndex} label={'is to index?'} />

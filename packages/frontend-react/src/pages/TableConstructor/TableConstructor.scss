@@ -17,7 +17,8 @@
         }
 
         border: 7px;
-        width: -webkit-fill-available;
+        //width: -webkit-fill-available;
+        width: fit-content;
     }
 
     &__elem {

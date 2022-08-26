@@ -1,7 +1,7 @@
 import { useTable } from "react-table"
 import Paginate from "../Paginate/Paginate.jsx"
 import './Table.scss'
-import React from "react"
+import React, { useState } from "react"
 import HeaderInput from "./HeaderInput/HeaderInput.jsx"
 import Filters from "./Filters/Filters.jsx"
 import SelectNumber from "../SelectNumber/SelectNumber.jsx"
@@ -25,11 +25,13 @@ export default React.memo(function Table({setFilters,filters,setSearch,search,co
         return header.render('Header')
     }
 
+    const [open, setOpen] = useState(true)
+
     return (
         <>
             <div className={`${classNamePrefix}__container`}>
-                <Filters classNamePrefix={classNamePrefix} filters={filters} setFilters={setFilters} />
-                <div className="" style={{ borderRadius: '10px', maxHeight: 'calc(100vh - 163px)', overflow: 'auto' }}>
+                <Filters classNamePrefix={classNamePrefix} filters={filters} setFilters={setFilters} handleOpen={setOpen} isOpen={open}/>
+                <div className="" style={{ borderRadius: '10px', maxHeight: 'calc(100vh - 163px)', overflow: 'auto', height: `${open?'auto':0}` }}>
                     <table className={`${classNamePrefix}__wrapper`}>
                         <thead {...getTableProps()} className={`${classNamePrefix}__header`}>
                             {headerGroups.map((headerGroup, index) => <tr key={index} {...headerGroup.getHeaderGroupProps} className={`${classNamePrefix}__header__row`}>

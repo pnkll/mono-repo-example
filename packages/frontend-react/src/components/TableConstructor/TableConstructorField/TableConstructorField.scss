@@ -1,0 +1,62 @@
+@import '../../../assets/vars';
+
+.table-constructor {
+    &__field {
+        &__container {
+            padding: 0 0 10px 0;
+        }
+
+        &__elem {
+            width: 180px;
+
+            &__bar {
+                box-shadow: -3px 0px 15px 5px rgb(34 60 80 / 20%);
+                z-index: 1;
+                display: flex;
+                justify-content: center;
+                margin: 0 1px;
+                cursor: pointer;
+                height: 18px;
+                border-radius: 0 0 4px 4px;
+            }
+        }
+
+        &__menu {
+            display: flex;
+            flex-direction: column;
+            padding: 0 5px 10px 5px;
+            gap: 8px;
+            position: absolute;
+    left: 10px;
+    top: 87px;
+    z-index: 3;
+    background: #ffffffc2;
+    box-shadow: -1px 7px 16px 0px rgb(34 60 80 / 20%);
+    border-radius: 0 0 6px 6px;
+            &.hide {
+                display: none;
+            }
+
+            &__elem {}
+        }
+
+        &__title {
+            &__input {
+                &__input {
+                    padding: 0;
+                    width: -webkit-fill-available;
+                    padding: 10px 0 5px 10px;
+                    border: 0;
+                    font-family: 'Roboto';
+                    background: none;
+                    height: 40px;
+                    font-size: 15px;
+                    font-weight: 500;
+                    &:focus-visible{
+                        outline: none;
+                    }
+                }
+            }
+        }
+    }
+}

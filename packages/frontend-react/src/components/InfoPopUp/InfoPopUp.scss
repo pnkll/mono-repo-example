@@ -1,0 +1,25 @@
+@import '../../assets/vars';
+
+.info-popup {
+    &__container {
+        position: relative;
+    }
+
+    &__text {
+        margin: 0;
+        position: absolute;
+        width: 260px;
+        height: fit-content;
+        top: 8px;
+        left: 28px;
+        box-shadow: 1px 9px 29px 6px rgb(34 60 80 / 20%);
+        border-radius: 7px;
+        font-size: 13px;
+        padding: 0 5px;
+        background: $color-white;
+        z-index: 10;
+        &.hide {
+            display: none;
+        }
+    }
+}

@@ -1,9 +1,10 @@
 import { ChevronDownIcon } from "@heroicons/react/solid"
 import { Formik } from "formik"
+import { isNil } from "lodash"
 import React, { useState } from "react"
 import ReactSelect, { components, NonceProvider } from "react-select"
 
-export default React.memo(function Select({ options, indicator, formik, defaultValue, customStyles, classNamePrefix,id,name,isSearchable=true }) {
+export default React.memo(function Select({ options, indicator, formik, defaultValue, customStyles, classNamePrefix,id,name,isSearchable=true,menuPlacement='bottom',handleChange }) {
 
     const defaultStyles = customStyles || {
         option: (provided, state) => ({
@@ -72,8 +73,9 @@ export default React.memo(function Select({ options, indicator, formik, defaultV
                 styles={styles}
                 options={options}
                 components={{ DropdownIndicator: () => indicator ? indicator : <ArrowsForSelectIcon style={{ paddingRight: '11px' }} /> }}
-                onChange={(e)=>formik.setFieldValue(id,e.value)}
-                defaultValue={defaultValue} />
+                onChange={(e)=>!isNil(formik)?formik.setFieldValue(id,e.value):handleChange(e.value)}
+                defaultValue={defaultValue}
+                menuPlacement={menuPlacement} />
         </>
     )
 })

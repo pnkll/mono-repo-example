@@ -1,10 +1,13 @@
 import { BeakerIcon } from "@heroicons/react/solid"
-import { isNil } from "lodash"
+import { concat, isNil } from "lodash"
 import React from "react"
 import './Input.scss'
 
-export default React.memo(function Input({formik,label,placeholder,id,name,type,autoComplete,className,required}){
+export default React.memo(function Input({formik,label,placeholder,id,name,type,autoComplete,className,required,handleChange,value}){
     const classNamePreffix = className || 'input-field'
+    const changeHandler = (e) =>{
+                !isNil(formik)?formik.setFieldValue(id,e.target.value):handleChange(e)
+    }
     return(
         <>
         <div className={`${classNamePreffix}__container`}>
@@ -13,15 +16,15 @@ export default React.memo(function Input({formik,label,placeholder,id,name,type,
                 required={required}
                 id={id}
                 name={name}
-                value={formik.values[id]}
+                value={!isNil(formik)?formik.values[id]:value}
                 placeholder={placeholder}
-                onChange={(e)=>formik.setFieldValue(id,e.target.value)}
+                onChange={changeHandler}
                 type={type}
-                onClick={()=>formik.setFieldError(id,'')}
+                onClick={()=>!isNil(formik)&&formik.setFieldError(id,'')}
                 autoComplete={autoComplete || 'off'}
-                className={`${classNamePreffix}__input ${formik.touched[name]&&formik.errors[name]?'error':''}`}
+                className={`${classNamePreffix}__input ${!isNil(formik)&&formik.touched[name]&&formik.errors[name]?'error':''}`}
             />
-            {formik.touched[name]&&formik.errors[name]&&<div className={`${classNamePreffix}__error`}>{formik.errors[name]}</div>}
+            {!isNil(formik)&&formik.touched[name]&&formik.errors[name]&&<div className={`${classNamePreffix}__error`}>{formik.errors[name]}</div>}
         </div>
         </>
     )

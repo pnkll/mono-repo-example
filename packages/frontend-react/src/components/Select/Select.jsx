@@ -3,7 +3,7 @@ import { Formik } from "formik"
 import React, { useState } from "react"
 import ReactSelect, { components, NonceProvider } from "react-select"
 
-export default React.memo(function Select({ options, indicator, formik, defaultValue, customStyles, classNamePrefix,id,name }) {
+export default React.memo(function Select({ options, indicator, formik, defaultValue, customStyles, classNamePrefix,id,name,isSearchable=true }) {
 
     const defaultStyles = customStyles || {
         option: (provided, state) => ({
@@ -65,6 +65,7 @@ export default React.memo(function Select({ options, indicator, formik, defaultV
     return (
         <>
             <ReactSelect
+                isSearchable={isSearchable}
                 id={id}
                 name={name}
                 classNamePrefix={classNamePrefix}

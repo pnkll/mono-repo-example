@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import HeaderLayout from '../../page_layouts/HeaderLayout/HeaderLayout.jsx'
 import './TableConstructor.scss'
 import ReactSelect from "react-select";
 import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/solid";
-import { isNil } from "lodash";
+import { isEmpty, isNil } from "lodash";
 import useDrag from "../../hooks/useDrag.js";
 import Button from "../../components/Button/Button.jsx";
 import TableConstructorForm from "../../components/TableConstructorForm/TableConstructorForm.jsx";
+import Table from "../../components/Table/Table.jsx"
+import { useTable } from "react-table";
 
 export default React.memo(function TableConstructor() {
     // const [headers, setHeaders] = useState([
@@ -32,7 +34,7 @@ export default React.memo(function TableConstructor() {
         { order: 1 }
     ])
     const appendHandler = () => {
-        setForms([...forms, { order: forms[forms.length - 1].order + 1 }])
+        setForms([...forms, { order: forms.length>0?forms[forms.length - 1].order + 1:1 }])
     }
     const removeHandler = (idx) => {
         setForms(forms.filter((form, index) => form.order !== idx))
@@ -42,6 +44,24 @@ export default React.memo(function TableConstructor() {
     const submitHandler = () => {
         setData(data.map(el => el && { ...el, isSubmit: true }))
     }
+    const columnsRef = useRef([])
+    // const columns = [
+    //     {Header: 'tifds', accessor: 'fdsjh', 
+    //     Cell: ({ cell: { value } }) => value || "-",
+    //     props: { type: 'string', required: true, unique: false, toIndex: false}},
+    //     {Header: 'tifdsfds', accessor: 'fdsdfsjh', props: { type: 'string', required: true, unique: true, toIndex: false}},
+    //     {Header: 'tissadfds', accessor: 'fddsjh', props: { type: 'number', required: false, unique: false, toIndex: false}},
+    //     {Header: 'tifdsdads', accessor: 'fdsdfdsfgjh', props: { type: 'string', required: true, unique: false, toIndex: false}},
+    //     {Header: 'tiasfds', accessor: 'fffdsjh', props: { type: 'string', required: true, unique: false, toIndex: false}},
+    // ]
+    const dataa = [{
+        id: 1,
+        firstname: 'Jeka',
+        lastname: 'Ormano',
+        age: null
+    }]
+    // const { headerGroups } = useTable({columns, dataa})
+    // console.log(headerGroups)
     return (
         <>
             <HeaderLayout>
@@ -86,6 +106,7 @@ export default React.memo(function TableConstructor() {
                                 onDragOver={(e) => dragOverHandler(e)}
                                 onDrop={(e) => dropHandler(e, form)}>
                                 <TableConstructorForm
+                                    columns={columnsRef.current}
                                     removeHandler={removeHandler}
                                     index={index}
                                     order={form.order}
@@ -95,6 +116,12 @@ export default React.memo(function TableConstructor() {
                                 <Button text='delete' handleClick={() => removeHandler(index)} />
                             </div>
                         </div>)}
+                    </div>
+                    <div className="">
+                        {!isEmpty(columnsRef.current)&&<Table 
+                        columns={columnsRef.current}
+                        data={dataa}
+                        />}
                     </div>
                 </div>
             </HeaderLayout>

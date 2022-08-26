@@ -29,7 +29,7 @@ export default React.memo(function Table({setFilters,filters,setSearch,search,co
         <>
             <div className={`${classNamePrefix}__container`}>
                 <Filters classNamePrefix={classNamePrefix} filters={filters} setFilters={setFilters} />
-                <div className="" style={{ borderRadius: '10px', paddingTop: '30px', maxHeight: 'calc(100vh - 187px)', overflow: 'auto' }}>
+                <div className="" style={{ borderRadius: '10px', maxHeight: 'calc(100vh - 163px)', overflow: 'auto' }}>
                     <table className={`${classNamePrefix}__wrapper`}>
                         <thead {...getTableProps()} className={`${classNamePrefix}__header`}>
                             {headerGroups.map((headerGroup, index) => <tr key={index} {...headerGroup.getHeaderGroupProps} className={`${classNamePrefix}__header__row`}>
@@ -44,7 +44,13 @@ export default React.memo(function Table({setFilters,filters,setSearch,search,co
                                         <div className={`${classNamePrefix}__body__elem`}>{cell.render('Cell')}</div>
                                     </td>)}
                                 </tr>
-                            }) : <tr className={`${classNamePrefix}__body__empty`}>Ничего не найдено</tr>}
+                            }) : 
+                            <tr className={`${classNamePrefix}__body__row`}><td
+                            style={{minWidth: '500px',
+                                textAlign: 'center',
+                                padding: '30px 0'}}
+                            colSpan={columns.length}>Ничего не найдено</td></tr>
+                            }
                         </tbody>
                     </table>
                     <div className="table__bottom">

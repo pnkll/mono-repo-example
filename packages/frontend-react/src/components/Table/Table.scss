@@ -12,6 +12,7 @@ th {
         border-radius: 5px;
         position: relative;
         margin-top: 20px;
+        width: fit-content;
     }
 
     &__bottom {
@@ -54,6 +55,7 @@ th {
             align-items: center;
             justify-content: space-between;
             overflow: hidden;
+            z-index: 1;
         }
 
         &__control {
@@ -105,6 +107,7 @@ th {
         //background: $color-blue;
         font-family: 'Roboto';
         border-collapse: collapse;
+        width: -webkit-fill-available;
     }
 
     &__header {
@@ -113,17 +116,18 @@ th {
     margin: 0;
         &__row {
             border-bottom: 1px solid #8080803d;
-
+            box-shadow: 0px 10px 8px 0px rgb(34 60 80 / 20%);
         }
 
         &__elem {
-            padding: 5px;
+            padding: 26px 5px 5px 5px;
             background: #fff;
             font-family: 'Roboto';
             font-weight: 500;
             color: #2e2828;
             color: $color-but-blue;
             text-align: left;
+            height: 40px;
         }
     }
 

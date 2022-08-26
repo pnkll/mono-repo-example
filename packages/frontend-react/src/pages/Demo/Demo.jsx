@@ -13,6 +13,7 @@ import * as yup from 'yup'
 import { emailValidator, passwordValidator, phoneValidator, stringValidator } from "../../utils/yupValidation.js";
 import SidebarHeaderLayout from "../../page_layouts/SidebarHeaderLayout/SidebarHeaderLayout.jsx";
 import ToggleInput from "../../components/ToggleInput/ToggleInput.jsx";
+import _ from "lodash";
 
 export default React.memo(function Form() {
 
@@ -50,10 +51,10 @@ export default React.memo(function Form() {
         setDisabled(false)
     }
     const columns = [
-        { Header: 'ID',   accessor: 'id' },
+        { Header: 'ID',   accessor: 'id', Cell: ({ cell: { value } }) => <div style={{ width: '25px', textAlign: 'center',color: 'white', background: `#${Math.floor(100000 + Math.random() * 900000)}`, padding: '5px 0', borderRadius: '5px'}}>{value}</div> || '-' },
         { Header: 'UserId', type: 'filter',accessor: 'userId' },
-        { Header: 'Title', accessor: 'title' },
-        { Header: 'Body', accessor: 'body' }
+        { Header: 'Title', accessor: 'title',}, 
+        { Header: 'Body', accessor: 'body',},
     ]
 
     useEffect(() => {

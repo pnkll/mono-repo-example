@@ -6,7 +6,7 @@ import HeaderInput from "./HeaderInput/HeaderInput.jsx"
 import Filters from "./Filters/Filters.jsx"
 import SelectNumber from "../SelectNumber/SelectNumber.jsx"
 
-export default React.memo(function Table({setFilters,filters,setSearch,search,columns,data,currentPage,setCurrentPage,totalItemsCount,itemsCount,classNamePrefix='table',setItemsCount}) {
+export default React.memo(function Table({setFilters,filters,setSearch,search,columns,data,currentPage,setCurrentPage,totalItemsCount,itemsCount,classNamePrefix='table',setItemsCount,emptyCell='Ничего не найдено'}) {
 
     const { prepareRow, rows, headerGroups, getTableProps, getTableBodyProps, } = useTable({ columns, data })
 
@@ -29,7 +29,7 @@ export default React.memo(function Table({setFilters,filters,setSearch,search,co
 
     return (
         <>
-            <div className={`${classNamePrefix}__container`}>
+            <div className={`${classNamePrefix}__container`} style={{marginBottom: open?0:24}}>
                 <Filters classNamePrefix={classNamePrefix} filters={filters} setFilters={setFilters} handleOpen={setOpen} isOpen={open}/>
                 <div className="" style={{ borderRadius: '10px', maxHeight: 'calc(100vh - 163px)', overflow: 'auto', height: `${open?'auto':0}` }}>
                     <table className={`${classNamePrefix}__wrapper`}>
@@ -50,8 +50,10 @@ export default React.memo(function Table({setFilters,filters,setSearch,search,co
                             <tr className={`${classNamePrefix}__body__row`}><td
                             style={{minWidth: '500px',
                                 textAlign: 'center',
-                                padding: '30px 0'}}
-                            colSpan={columns.length}>Ничего не найдено</td></tr>
+                                padding: '30px 0',
+                                height: '100px'
+                            }}
+                            colSpan={columns.length}>{emptyCell}</td></tr>
                             }
                         </tbody>
                     </table>

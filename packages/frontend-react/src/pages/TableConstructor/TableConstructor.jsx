@@ -9,6 +9,7 @@ import * as Yup from 'yup'
 import TableConstrustorField from "../../components/TableConstructor/TableConstructorField/TableConstrustorField.jsx";
 import { PlusIcon } from "@heroicons/react/outline";
 import InfoPopUp from "../../components/InfoPopUp/InfoPopUp.jsx";
+import DragNDropCell from "../../components/DragNDropCell/DragNDropCell.jsx";
 
 export default React.memo(function TableConstructor() {
     const [headers, setHeaders] = useState([
@@ -23,7 +24,6 @@ export default React.memo(function TableConstructor() {
     });
     const [errors, setErrors] = useState([])
     const [columns, setColumns] = useState([])
-    const [infoVisible, setInfoVisible] = useState(true)
     const { sortItems, dragStartHandler, dragEndHandler, dragOverHandler, dropHandler } = useDrag(setHeaders, headers)
     const submitHandler = async () => {
         setErrors([])
@@ -70,9 +70,10 @@ export default React.memo(function TableConstructor() {
                                 </div>
                             )}
                         </div>
-                        <PlusIcon width={20} color='green' style={{ marginBottom: 'auto', cursor: "pointer" }} onClick={handleAppend} />
+                        <PlusIcon width={20} color='green' style={{ marginBottom: 'auto', marginTop: 5, cursor: "pointer" }} onClick={handleAppend} />
                     </div>
-                    {!isEmpty(columns) && <><Table columns={columns} data={[]} />
+                    {!isEmpty(columns) && 
+                    <><Table columns={columns} data={[]} emptyCell={<DragNDropCell/>}/>
                         <Button text={'Импортировать данные'} color={'green'} /></>}
                 </div>
             </HeaderLayout>

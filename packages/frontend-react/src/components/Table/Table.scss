@@ -123,11 +123,14 @@ th {
             padding: 26px 5px 5px 5px;
             background: #fff;
             font-family: 'Roboto';
-            font-weight: 500;
+            font-weight: 400;
             color: #2e2828;
             color: $color-but-blue;
             text-align: left;
             height: 40px;
+            &:not(:nth-child(-n+2)){
+                min-width: 144px;
+            }
         }
     }
 

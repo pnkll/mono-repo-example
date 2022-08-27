@@ -19,6 +19,7 @@
     "date-fns": "^2.29.2",
     "lodash": "^4.17.21",
     "react-dadata": "^2.23.0",
+    "react-drag-drop-files": "^2.3.7",
     "react-spring": "^9.5.2",
     "react-toggle": "^4.1.3",
     "use-react-router-breadcrumbs": "^3.2.1",

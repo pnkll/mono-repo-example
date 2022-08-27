@@ -46,6 +46,10 @@
             color: white;
             margin: 5px 0;
             display: grid;
+            grid-template-areas:
+                "text text"
+                "name time";
+                row-gap: 8px;
 
             &.me {
                 justify-self: flex-end;
@@ -58,12 +62,22 @@
             &__text {
                 justify-self: flex-start;
                 margin: 0;
+                grid-area: text;
+            }
+
+            &__name {
+                justify-self: flex-start;
+                margin: 0;
+                grid-area: name;
+                font-size: 11px;
+                opacity: 0.8;
             }
 
             &__time {
                 justify-self: flex-end;
                 margin: 0;
                 font-size: 11px;
+                grid-area: time;
             }
         }
     }

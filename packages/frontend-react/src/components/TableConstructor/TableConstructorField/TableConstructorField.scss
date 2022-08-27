@@ -22,12 +22,13 @@
         }
 
         &__menu {
+            width: 162px;
             display: flex;
             flex-direction: column;
             padding: 0 5px 10px 5px;
             gap: 8px;
             position: absolute;
-    left: 10px;
+    left: 5px;
     top: 87px;
     z-index: 3;
     background: #ffffffc2;

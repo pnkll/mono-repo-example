@@ -16,6 +16,7 @@ export default React.memo(function MessageElem({ message, type }) {
             return <>
                 <animated.div style={styles} className='auth__message__elem'>
                     <p className='auth__message__elem__text'>{message.question}</p>
+                    <p className='auth__message__elem__name'>Minta CRM</p>
                     <p className='auth__message__elem__time'>{message.time}</p>
                 </animated.div>
             </>;
@@ -23,6 +24,7 @@ export default React.memo(function MessageElem({ message, type }) {
             return <>
                 <div className='auth__message__elem me'>
                     <p className='auth__message__elem__text'>{message.answer}</p>
+                    <p className='auth__message__elem__name'>Вы</p>
                     <p className='auth__message__elem__time'>{message.time}</p>
                 </div>
             </>

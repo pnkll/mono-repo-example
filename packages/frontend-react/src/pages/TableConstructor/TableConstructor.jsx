@@ -18,8 +18,8 @@ export default React.memo(function TableConstructor() {
         setHeaders([...headers, { order: headers[headers.length - 1].order + 1, title: '', code: '', type: 'string', required: false, unique: false, toIndex: false, visible: false, focused: true }])
     }
     const schema = Yup.object().shape({
-        title: Yup.string().min(3, 'min 3').required('Обязательное поле'),
-        code: Yup.string().min(5, 'min 5').matches(/^[a-zA-Z]+$/, 'только английские буквы'),
+        title: Yup.string().required('Обязательное поле'),
+        code: Yup.string().matches(/^[a-zA-Z]+$/, 'Только английские буквы без пробелов'),
     });
     const [errors, setErrors] = useState([])
     const [columns, setColumns] = useState([])

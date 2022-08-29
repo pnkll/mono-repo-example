@@ -1,0 +1,29 @@
+@import '../../assets/vars';
+
+.call-icon {
+    cursor: pointer;
+    background: #1CA16A;
+    border-radius: 43px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    border: 0;
+    align-items: center;
+    &.mic{
+        background: $color-but-blue;
+    }
+    &.speaker{
+        background: $color-but-blue;
+    }
+    &.down{
+        background: $color-but-red;
+    }
+    &.outgoing{
+        background: $color-but-blue;
+    }
+    &:hover {
+        outline: 2px solid white;
+        outline-offset: -3px;
+    }
+}

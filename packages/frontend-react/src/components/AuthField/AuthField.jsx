@@ -7,19 +7,19 @@ import './AuthField.scss'
 import * as Yup from 'yup'
 import { authApi } from '../../services/AuthService.js';
 
-export default React.memo(function AuthField({ id, name, type = 'text', messages, setMessages, sendMessages, currentForm, setData, data, formiks, setCurrentForm, nextField, postData }) {
-    const [createUser,{isFetching}]=authApi.useRegisterMutation()
-    const handleCreate = async (user) =>{
-        console.log((await createUser(user)).data)
+export default React.memo(function AuthField({ id,name,type='text',messages,setMessages,sendMessages,currentForm,setData,data,formiks,setCurrentForm,nextField,rtkHook }) {
+    const [postData,{isLoading,isFetching}]=rtkHook()
+    const handlePost = async (user) =>{
+        console.log((await postData(user)).data)
     }
     const handleSubmit = (values) => {
         sendMessages(name, nextField(id), values, messages, setMessages)
         if (id !== 'signin') {
             id!=='password_repeat'&&setData({ ...data, [Object.keys(values)[0]]: Object.values(values)[0] })
             setCurrentForm(formiks.find(formik => formik.id === nextField(id)))
-            if (id === 'password_repeat') {
+            if (id === 'password_repeat'||id==='user_password') {
                 const originalObject = { ...data, [Object.keys(values)[0]]: Object.values(values)[0] }
-                const user = {
+                const user = id==='password_repeat'?{
                     username: originalObject.username,
                     password: originalObject.password,
                     firstname: originalObject.firstname,
@@ -28,8 +28,11 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                     phone: originalObject.phone,
                     email: originalObject.email,
                     repeat_password: originalObject.password_repeat
+                }:{
+                    username: originalObject.email,
+                    password: originalObject.user_password
                 }
-                handleCreate(user)
+                handlePost(user)
             }
         }
     }
@@ -44,7 +47,7 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                         <form className='auth-field' onSubmit={(e) => { e.preventDefault(); formik.submitForm(); }}>
                             {id === 'organization' ? <InputDadata formik={formik} id={id} name={name} classNamePrefix='auth-field' />
                                 : <Input type={type} placeholder='Введите сообщение' formik={formik} id={id} name={name} className='auth-field-input' />}
-                            <button type='submit' className='auth-field__button' disabled={isFetching}><ChatIcon width={30} /></button>
+                            <button type='submit' className='auth-field__button' disabled={isLoading}><ChatIcon width={30} /></button>
                         </form>
 
                         {id === 'type' ? <div className="auth-field__buttons">

@@ -5,7 +5,7 @@ import { isNil } from 'lodash';
 import AuthField from '../../components/AuthField/AuthField.jsx';
 import * as Yup from 'yup'
 import AuthMessages from '../../components/AuthMessages/AuthMessages.jsx';
-import {useRegisterQuery} from '../../services/AuthService'
+import { authApi } from '../../services/AuthService.js';
 
 export default React.memo(function SignUp() {
     const getTime = () => {
@@ -140,6 +140,7 @@ export default React.memo(function SignUp() {
                 <AuthMessages messages={messages} />
                 {
                     !isNil(currentForm) && <AuthField key={currentForm.id} id={currentForm.id} name={currentForm.id} messages={messages} setMessages={setMessages}
+                        rtkHook={authApi.useRegisterMutation} 
                         nextField={nextField}
                         sendMessages={sendMessage} setData={setData} data={data}
                         currentForm={currentForm} setCurrentForm={setCurrentForm} formiks={formiks}

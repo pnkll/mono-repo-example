@@ -18,8 +18,8 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
             navigate('../')
         }
     }
-    const validationSchema = id === 'passwordRepeat' ? Yup.object().shape({
-        passwordRepeat: Yup.string().required().test('repeat-password', 'Пароли не совпадают', (value => value === data.find(el => Object.keys(el)[0] === 'password').password))
+    const validationSchema = id === 'password_repeat' ? Yup.object().shape({
+        password_repeat: Yup.string().required().test('repeat-password', 'Пароли не совпадают', (value => value === data.find(el => Object.keys(el)[0] === 'password').password))
     }) : currentForm?.validationSchema
     return (
         <>
@@ -27,7 +27,7 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                 {formik => (
                     <>
                         <form className='auth-field' onSubmit={(e) => { e.preventDefault(); formik.submitForm(); }}>
-                            {id === 'org' ? <InputDadata formik={formik} id={id} name={name} classNamePrefix='auth-field' />
+                            {id === 'organization' ? <InputDadata formik={formik} id={id} name={name} classNamePrefix='auth-field' />
                                 : <Input type={type} placeholder='Введите сообщение' formik={formik} id={id} name={name} className='auth-field-input' />}
                             <button type='submit' className='auth-field__button'><ChatIcon width={30} /></button>
                         </form>

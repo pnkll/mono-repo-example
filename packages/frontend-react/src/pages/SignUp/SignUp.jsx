@@ -5,18 +5,26 @@ import { isNil } from 'lodash';
 import AuthField from '../../components/AuthField/AuthField.jsx';
 import * as Yup from 'yup'
 import AuthMessages from '../../components/AuthMessages/AuthMessages.jsx';
+import {useRegister} from '../../services/AuthService'
 
 export default React.memo(function SignUp() {
+    useEffect(()=>{
+        const {data,error,isLoading} = useRegister({message: 'hello'})
+    },[])
     const getTime = () => {
         const date = new Date()
         return date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
     }
     const [messages, setMessages] = useState([
         { id: 'type', question: 'Здравствуйте, вы хотите присоединиться к существующей организации или добавить новую?', answer: null, visible: true, time: getTime() },
-        { id: 'org', question: 'Введите ИНН организации и выберите из списка', answer: null, visible: false, time: '' },
+        { id: 'organization', question: 'Введите ИНН организации и выберите из списка', answer: null, visible: false, time: '' },
         { id: 'email', question: 'Введите e-mail', answer: null, visible: false, time: '' },
+        { id: 'username', question: 'Введите логин', answer: null, visible: false, time: '' },
+        { id: 'firstname', question: 'Введите имя', answer: null, visible: false, time: '' },
+        { id: 'lastname', question: 'Введите фамилию', answer: null, visible: false, time: '' },
+        { id: 'phone', question: 'Введите ваш номер телефона', answer: null, visible: false, time: '' },
         { id: 'password', question: 'Введите ваш пароль', answer: null, visible: false, time: '' },
-        { id: 'passwordRepeat', question: 'Подтвердите пароль', answer: null, visible: false, time: '' },
+        { id: 'password_repeat', question: 'Подтвердите пароль', answer: null, visible: false, time: '' },
         { id: 'signin', question: 'Вы успешно зарегистрировались, отправьте "Войти" для того чтобы авторизоваться', answer: null, visible: false, time: '' },
     ])
     const sendMessage = (currentField, nextField, values, messages, setMessages) => {
@@ -36,12 +44,12 @@ export default React.memo(function SignUp() {
             })
         },
         {
-            id: 'org',
+            id: 'organization',
             initialValues: {
-                org: ''
+                organization: ''
             },
             validationSchema: Yup.object({
-                org: Yup.object().test('', 'Проверьте правильный ли ИНН и выберите организацию из списка', val => typeof (val?.value) === 'string')
+                organization: Yup.object().test('', 'Проверьте правильный ли ИНН и выберите организацию из списка', val => typeof (val?.value) === 'string')
             })
         },
         {
@@ -54,6 +62,42 @@ export default React.memo(function SignUp() {
             })
         },
         {
+            id: 'username',
+            initialValues: {
+                username: ''
+            },
+            validationSchema: Yup.object({
+                username: Yup.string().required('Пожалуйста введите ваш e-mail').matches(/^[a-zA-Z]+$/, 'Только английские буквы без пробелов')
+            })
+        },
+        {
+            id: 'firstname',
+            initialValues: {
+                firstname: ''
+            },
+            validationSchema: Yup.object({
+                firstname: Yup.string().required('Пожалуйста введите ваше имя').matches(/^[а-яА-Я]+$/, 'Только русские буквы без пробелов')
+            })
+        },
+        {
+            id: 'lastname',
+            initialValues: {
+                lastname: ''
+            },
+            validationSchema: Yup.object({
+                lastname: Yup.string().required('Пожалуйста введите вашу фамилию').matches(/^[а-яА-Я]+$/, 'Только русские буквы без пробелов')
+            })
+        },
+        {
+            id: 'phone',
+            initialValues: {
+                phone: ''
+            },
+            validationSchema: Yup.object({
+                phone: Yup.string().required('Пожалуйста введите ваш номер телефона').matches(/^\d+$/, 'Только цифры')
+            })
+        },
+        {
             id: 'password',
             initialValues: {
                 password: ''
@@ -63,9 +107,9 @@ export default React.memo(function SignUp() {
             })
         },
         {
-            id: 'passwordRepeat',
+            id: 'password_repeat',
             initialValues: {
-                passwordRepeat: ''
+                password_repeat: ''
             },
             //У этого поля валидация внутри компонента
         },
@@ -82,11 +126,15 @@ export default React.memo(function SignUp() {
     const [currentForm, setCurrentForm] = useState(formiks.find(formik => formik.id === 'type'))
     const nextField = (id) => {
         switch (id) {
-            case 'type': return 'org'
-            case 'org': return 'email'
-            case 'email': return 'password'
-            case 'password': return 'passwordRepeat'
-            case 'passwordRepeat': return 'signin'
+            case 'type': return 'organization'
+            case 'organization': return 'email'
+            case 'email': return 'username'
+            case 'username': return 'firstname'
+            case 'firstname': return 'lastname'
+            case 'lastname': return 'phone'
+            case 'phone': return 'password'
+            case 'password': return 'password_repeat'
+            case 'password_repeat': return 'signin'
         }
     }
     return (

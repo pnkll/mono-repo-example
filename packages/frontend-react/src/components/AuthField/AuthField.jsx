@@ -5,21 +5,36 @@ import Input from '../Input/Input.jsx';
 import InputDadata from '../InputDadata/InputDadata.jsx';
 import './AuthField.scss'
 import * as Yup from 'yup'
-import { useNavigate } from 'react-router-dom';
+import { authApi } from '../../services/AuthService.js';
 
-export default React.memo(function AuthField({ id, name, type = 'text', messages, setMessages, sendMessages, currentForm, setData, data, formiks, setCurrentForm,nextField }) {
-    const navigate = useNavigate()
+export default React.memo(function AuthField({ id, name, type = 'text', messages, setMessages, sendMessages, currentForm, setData, data, formiks, setCurrentForm, nextField, postData }) {
+    const [createUser,{isFetching}]=authApi.useRegisterMutation()
+    const handleCreate = async (user) =>{
+        console.log((await createUser(user)).data)
+    }
     const handleSubmit = (values) => {
         sendMessages(name, nextField(id), values, messages, setMessages)
-        if(id!=='signin'){setData([...data, values])
-        setCurrentForm(formiks.find(formik => formik.id === nextField(id)))}
-        else{
-            console.log(data)
-            navigate('../')
+        if (id !== 'signin') {
+            id!=='password_repeat'&&setData({ ...data, [Object.keys(values)[0]]: Object.values(values)[0] })
+            setCurrentForm(formiks.find(formik => formik.id === nextField(id)))
+            if (id === 'password_repeat') {
+                const originalObject = { ...data, [Object.keys(values)[0]]: Object.values(values)[0] }
+                const user = {
+                    username: originalObject.username,
+                    password: originalObject.password,
+                    firstname: originalObject.firstname,
+                    lastname: originalObject.lastname,
+                    organization: originalObject.organization.value,
+                    phone: originalObject.phone,
+                    email: originalObject.email,
+                    repeat_password: originalObject.password_repeat
+                }
+                handleCreate(user)
+            }
         }
     }
     const validationSchema = id === 'password_repeat' ? Yup.object().shape({
-        password_repeat: Yup.string().required().test('repeat-password', 'Пароли не совпадают', (value => value === data.find(el => Object.keys(el)[0] === 'password').password))
+        password_repeat: Yup.string().required().test('repeat-password', 'Пароли не совпадают', (value => value === data.password))
     }) : currentForm?.validationSchema
     return (
         <>
@@ -29,15 +44,15 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                         <form className='auth-field' onSubmit={(e) => { e.preventDefault(); formik.submitForm(); }}>
                             {id === 'organization' ? <InputDadata formik={formik} id={id} name={name} classNamePrefix='auth-field' />
                                 : <Input type={type} placeholder='Введите сообщение' formik={formik} id={id} name={name} className='auth-field-input' />}
-                            <button type='submit' className='auth-field__button'><ChatIcon width={30} /></button>
+                            <button type='submit' className='auth-field__button' disabled={isFetching}><ChatIcon width={30} /></button>
                         </form>
 
                         {id === 'type' ? <div className="auth-field__buttons">
-                            <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Присоединиться') }}>Присоединиться</div>
+                            <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Присоединиться')}}>Присоединиться</div>
                             <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Добавить') }}>Добавить</div>
                         </div> : id === 'signin' &&
                         <div className='auth-field__buttons'>
-                            <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Войти');formik.submitForm() }}>Войти</div>
+                            <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Войти'); formik.submitForm() }}>Войти</div>
                         </div>}
                     </>)}
             </Formik>

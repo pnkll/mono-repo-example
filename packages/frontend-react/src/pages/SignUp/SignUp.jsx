@@ -8,32 +8,31 @@ import AuthMessages from '../../components/AuthMessages/AuthMessages.jsx';
 import {useRegisterQuery} from '../../services/AuthService'
 
 export default React.memo(function SignUp() {
-        const {dataa,error,isLoading} = useRegisterQuery({message: 'hello'})
     const getTime = () => {
         const date = new Date()
         return date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
     }
     const [messages, setMessages] = useState([
-        { id: 'type', question: 'Здравствуйте, вы хотите присоединиться к существующей организации или добавить новую?', answer: null, visible: true, time: getTime() },
-        { id: 'organization', question: 'Введите ИНН организации и выберите из списка', answer: null, visible: false, time: '' },
-        { id: 'email', question: 'Введите e-mail', answer: null, visible: false, time: '' },
-        { id: 'username', question: 'Введите логин', answer: null, visible: false, time: '' },
-        { id: 'firstname', question: 'Введите имя', answer: null, visible: false, time: '' },
-        { id: 'lastname', question: 'Введите фамилию', answer: null, visible: false, time: '' },
-        { id: 'phone', question: 'Введите ваш номер телефона', answer: null, visible: false, time: '' },
-        { id: 'password', question: 'Введите ваш пароль', answer: null, visible: false, time: '' },
-        { id: 'password_repeat', question: 'Подтвердите пароль', answer: null, visible: false, time: '' },
-        { id: 'signin', question: 'Вы успешно зарегистрировались, отправьте "Войти" для того чтобы авторизоваться', answer: null, visible: false, time: '' },
+        { id: 'type', question: 'Здравствуйте, вы хотите присоединиться к существующей организации или добавить новую?', answer: null, visible: true, time: getTime(), last:true },
+        { id: 'organization', question: 'Введите ИНН организации и выберите из списка', answer: null, visible: false, time: '', last: false },
+        { id: 'email', question: 'Введите e-mail', answer: null, visible: false, time: '', last: false },
+        { id: 'username', question: 'Введите логин', answer: null, visible: false, time: '', last: false },
+        { id: 'firstname', question: 'Введите имя', answer: null, visible: false, time: '', last: false },
+        { id: 'lastname', question: 'Введите фамилию', answer: null, visible: false, time: '', last: false },
+        { id: 'phone', question: 'Введите ваш номер телефона', answer: null, visible: false, time: '', last: false },
+        { id: 'password', question: 'Введите ваш пароль', answer: null, visible: false, time: '', last: false },
+        { id: 'password_repeat', question: 'Подтвердите пароль', answer: null, visible: false, time: '', last: false },
+        { id: 'signin', question: 'Вы успешно зарегистрировались, отправьте "Войти" для того чтобы авторизоваться', answer: null, visible: false, time: '', last: false },
     ])
     const sendMessage = (currentField, nextField, values, messages, setMessages) => {
         setMessages(messages.map((el, index) => el.id === currentField ?
             {
                 ...el, answer: values[currentField].label ? values[currentField].label : currentField === 'password' ?
-                    values[currentField].replace(/[\s\S]/g, "*") : currentField === 'passwordRepeat' ? values[currentField].replace(/[\s\S]/g, "*") : values[currentField]
+                    values[currentField].replace(/[\s\S]/g, "*") : currentField === 'passwordRepeat' ? values[currentField].replace(/[\s\S]/g, "*") : values[currentField],last:true
             }
-            : el.id === nextField ? { ...el, visible: true, time: getTime() } : el))
+            : el.id === nextField ? { ...el, visible: true, time: getTime(), last: true } : {...el,last: false}))
     }
-    const [data, setData] = useState([])
+    const [data, setData] = useState({})
     const [formiks, setFormiks] = useState([
         {
             id: 'type', initialValues: { type: '' },
@@ -144,7 +143,7 @@ export default React.memo(function SignUp() {
                         nextField={nextField}
                         sendMessages={sendMessage} setData={setData} data={data}
                         currentForm={currentForm} setCurrentForm={setCurrentForm} formiks={formiks}
-                        type={currentForm.id === 'password' ? 'password' : currentForm.id === 'passwordRepeat' ? 'password' : 'text'} />
+                        type={currentForm.id === 'password' ? 'password' : currentForm.id === 'password_repeat' ? 'password' : 'text'} />
                 }
             </AuthLayout>}
         </>

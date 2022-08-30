@@ -18,7 +18,7 @@ module.exports = merge(common, {
         new webpack.DefinePlugin({
             'process.env': {
                 'NODE_ENV': JSON.stringify('development'),
-                'API_URL': JSON.stringify('https://restapi.minta365.ru')
+                'API_URL': JSON.stringify('https://restapi.minta365.ru/api')
             }
         })
     ]

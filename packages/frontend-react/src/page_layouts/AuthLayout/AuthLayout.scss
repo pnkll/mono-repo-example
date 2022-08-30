@@ -6,6 +6,9 @@
         flex-direction: column;
         gap: 15px;
         width: min-content;
+        
+        height: calc(100vh - 20px);
+        justify-content: center;
     }
 
     &__container {
@@ -30,8 +33,13 @@
 
     &__message {
         &__container {
-
             width: 400px;
+            
+            overflow: auto;
+            max-height: calc(100% - 90px);
+            &::-webkit-scrollbar{
+                display: none;
+            }
         }
 
         &__wrapper {

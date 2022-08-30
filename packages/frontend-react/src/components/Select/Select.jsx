@@ -7,6 +7,10 @@ import ReactSelect, { components, NonceProvider } from "react-select"
 export default React.memo(function Select({ options, indicator, formik, defaultValue, customStyles, classNamePrefix,id,name,isSearchable=true,menuPlacement='bottom',handleChange }) {
 
     const defaultStyles = customStyles || {
+        container: (styles) =>({
+            ...styles,
+            width: '-webkit-fill-available'
+        }),
         option: (provided, state) => ({
             ...provided,
             background: state.isSelected ? 'linear-gradient(0deg, rgba(247, 249, 255, 0.25), rgba(247, 249, 255, 0.25)), linear-gradient(0deg, #197DD2, #197DD2), linear-gradient(180deg, #CDD1DF 0%, #E2E5F0 12.27%, #FFFFFF 100%)'

@@ -16,3 +16,9 @@ a{
 #root, button{
     font-family: 'Roboto';
 }
+
+h1{
+    font-size: 21px;
+    margin-top: 0;
+    font-weight: 500;
+}

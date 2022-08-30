@@ -5,12 +5,10 @@ import { isNil } from 'lodash';
 import AuthField from '../../components/AuthField/AuthField.jsx';
 import * as Yup from 'yup'
 import AuthMessages from '../../components/AuthMessages/AuthMessages.jsx';
-import {useRegister} from '../../services/AuthService'
+import {useRegisterQuery} from '../../services/AuthService'
 
 export default React.memo(function SignUp() {
-    useEffect(()=>{
-        const {data,error,isLoading} = useRegister({message: 'hello'})
-    },[])
+        const {dataa,error,isLoading} = useRegisterQuery({message: 'hello'})
     const getTime = () => {
         const date = new Date()
         return date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())

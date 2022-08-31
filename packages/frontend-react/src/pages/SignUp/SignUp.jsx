@@ -25,9 +25,11 @@ export default React.memo(function SignUp() {
         { id: 'signin', question: 'Вы успешно зарегистрировались, отправьте "Войти" для того чтобы авторизоваться', answer: null, visible: false, time: '', last: false },
     ])
     const sendMessage = (currentField, nextField, values, messages, setMessages) => {
-        setMessages(messages.map((el, index) => el.id === currentField ?
+        currentField==='password_repeat'?isNil(values)&&nextField==='password'&&setMessages([...messages,{ id: 'password', question: 'Введите ваш пароль', answer: null, visible: true, time: '', last: true }]):
+        currentField==='password'&&messages.filter(el=>el.id==='password').length>1?setMessages([...messages.map(el=>el.id==='password'&&isNil(el.answer)?{...el,answer: values.password.replace(/[\s\S]/g, "*"),last:true}:{...el,last:false}),{ id: 'password_repeat', question: 'Подтвердите пароль', answer: null, visible: true, time: '', last: true },])
+        :setMessages(messages.map(el => el.id === currentField ?
             {
-                ...el, answer: values[currentField].label ? values[currentField].label : currentField === 'password' ?
+                ...el, answer: isNil(values)?null:values[currentField].label ? values[currentField].label : currentField === 'password' ?
                     values[currentField].replace(/[\s\S]/g, "*") : currentField === 'passwordRepeat' ? values[currentField].replace(/[\s\S]/g, "*") : values[currentField],last:true
             }
             : el.id === nextField ? { ...el, visible: true, time: getTime(), last: true } : {...el,last: false}))

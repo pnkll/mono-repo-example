@@ -12,12 +12,25 @@ export const authApi = Api.injectEndpoints({
             })
         }),
         login: builder.mutation({
-            query: (data)=>({
+            query: (data) => ({
                 url: '/auth/login',
                 method: 'POST',
                 body: data
             })
-        })
+        }),
+        forgot: builder.query({
+            query: (data) => ({
+                url: '/auth/forgot',
+                body: data
+            })
+        }),
+        setPassword: builder.mutation({
+            query: (data) => ({
+                url: '/auth/forgot/restore',
+                method: 'POST',
+                body: data
+            })
+        }),
     }),
     overrideExisting: false,
 })

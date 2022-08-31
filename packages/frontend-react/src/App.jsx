@@ -8,7 +8,7 @@ export default React.memo(function Main() {
 
     const dispatch = useDispatch()
 
-    const init = useSelector((state)=>state.app.init)
+    const init = useSelector((state)=>state.appSlice.init)
 
     const isAuth = false
     useEffect(()=>{

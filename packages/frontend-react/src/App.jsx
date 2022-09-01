@@ -4,7 +4,7 @@ import { publicRoutes, privateRoutes } from './router/index.jsx'
 import { initializeApp } from "./store/slices/appSlice.js"
 import { useDispatch,useSelector } from "react-redux"
 
-export default React.memo(function Main() {
+export default React.memo(function App() {
 
     const dispatch = useDispatch()
 
@@ -18,7 +18,6 @@ export default React.memo(function Main() {
     if (!init){
         return <></>
     }
-    
     return (
         <>
             {isAuth ?

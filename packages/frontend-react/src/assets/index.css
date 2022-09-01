@@ -17,6 +17,8 @@ a{
     -webkit-font-smoothing: antialiased;
     font-family: 'Roboto';
     overflow: hidden;
+    background: #80808030;
+    height: 100vh;
 } 
 button{
     font-family: 'Roboto';

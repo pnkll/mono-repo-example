@@ -13,7 +13,12 @@ a{
     color: black;
 }
 
-#root, button{
+#root{
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Roboto';
+    overflow: hidden;
+} 
+button{
     font-family: 'Roboto';
 }
 

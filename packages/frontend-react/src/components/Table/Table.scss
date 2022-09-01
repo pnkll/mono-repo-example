@@ -14,7 +14,9 @@ th {
         margin-top: 20px;
         width: fit-content;
     }
-
+    &__scroll-wrapper{
+        -webkit-overflow-scrolling: touch;
+    }
     &__bottom {
         display: flex;
         justify-content: space-between;

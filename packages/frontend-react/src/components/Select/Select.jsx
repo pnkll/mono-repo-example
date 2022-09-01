@@ -4,10 +4,10 @@ import { isNil } from "lodash"
 import React, { useState } from "react"
 import ReactSelect, { components, NonceProvider } from "react-select"
 
-export default React.memo(function Select({ options, indicator, formik, defaultValue, customStyles, classNamePrefix,id,name,isSearchable=true,menuPlacement='bottom',handleChange }) {
+export default React.memo(function Select({ options, indicator, formik, defaultValue, customStyles, classNamePrefix, id, name, isSearchable = true, menuPlacement = 'bottom', handleChange, label }) {
 
     const defaultStyles = customStyles || {
-        container: (styles) =>({
+        container: (styles) => ({
             ...styles,
             width: '-webkit-fill-available'
         }),
@@ -69,17 +69,20 @@ export default React.memo(function Select({ options, indicator, formik, defaultV
 
     return (
         <>
-            <ReactSelect
-                isSearchable={isSearchable}
-                id={id}
-                name={name}
-                classNamePrefix={classNamePrefix}
-                styles={styles}
-                options={options}
-                components={{ DropdownIndicator: () => indicator ? indicator : <ArrowsForSelectIcon style={{ paddingRight: '11px' }} /> }}
-                onChange={(e)=>!isNil(formik)?formik.setFieldValue(id,e.value):handleChange(e.value)}
-                defaultValue={defaultValue}
-                menuPlacement={menuPlacement} />
+            <div className="" style={{ display: 'flex', flexDirection: 'column' }}>
+                {!isNil(label) && <label style={{ padding: '5px' }}>{label}</label>}
+                <ReactSelect
+                    isSearchable={isSearchable}
+                    id={id}
+                    name={name}
+                    classNamePrefix={classNamePrefix}
+                    styles={styles}
+                    options={options}
+                    components={{ DropdownIndicator: () => indicator ? indicator : <ArrowsForSelectIcon style={{ paddingRight: '11px' }} /> }}
+                    onChange={(e) => !isNil(formik) ? formik.setFieldValue(id, e.value) : handleChange(e.value)}
+                    defaultValue={defaultValue}
+                    menuPlacement={menuPlacement} />
+            </div>
         </>
     )
 })

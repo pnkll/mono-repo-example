@@ -1,0 +1,25 @@
+@import '../../assets/vars';
+
+.operator-page{
+    &__container{
+        display: flex;
+        gap: 10px;
+    }
+    &__right{
+        &__wrapper{
+            width: -webkit-fill-available;
+        }
+    }
+    &__client{
+        
+    }
+    &__history{
+        
+    }
+    &__control{
+        
+    }
+    &__task-edit{
+        
+    }
+}

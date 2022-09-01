@@ -1,0 +1,12 @@
+@import '../../assets/vars';
+
+.client {
+    &__container {}
+
+    &__wrapper {
+        background: #80808054;
+        width: 500px;
+        height: 300px;
+        border-radius: 5px;
+    }
+}

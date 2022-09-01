@@ -31,7 +31,7 @@ export default React.memo(function Table({setFilters,filters,setSearch,search,co
         <>
             <div className={`${classNamePrefix}__container`} style={{marginBottom: open?0:24}}>
                 <Filters classNamePrefix={classNamePrefix} filters={filters} setFilters={setFilters} handleOpen={setOpen} isOpen={open}/>
-                <div className="" style={{ borderRadius: '10px', maxHeight: 'calc(100vh - 163px)', overflow: 'auto', height: `${open?'auto':0}`, minWidth: '527px' }}>
+                <div className={`${classNamePrefix}__scroll-wrapper`} style={{ borderRadius: '10px', maxHeight: 'calc(100vh - 163px)', overflow: 'auto', height: `${open?'auto':0}`, minWidth: '527px' }}>
                     <table className={`${classNamePrefix}__wrapper`}>
                         <thead {...getTableProps()} className={`${classNamePrefix}__header`}>
                             {headerGroups.map((headerGroup, index) => <tr key={index} {...headerGroup.getHeaderGroupProps} className={`${classNamePrefix}__header__row`}>

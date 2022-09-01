@@ -11,5 +11,7 @@
     }
     &__content{
         padding: 10px;
+        height: calc(100vh - 123px);
+        position: relative;
     }
 }

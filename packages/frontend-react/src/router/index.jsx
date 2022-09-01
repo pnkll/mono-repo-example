@@ -6,6 +6,7 @@ import Tasks from "../pages/Tasks/Tasks.jsx"
 import SignUp from "../pages/SignUp/SignUp.jsx"
 import SignIn from "../pages/SignIn/SignIn.jsx"
 import CallCenter from "../pages/CallCenter/CallCenter.jsx"
+import Operator from "../pages/Operator/Operator.jsx"
 
 export const publicRoutes = [
     { path: '', breadcrumb: '', component: <Navigate to='main' /> },
@@ -15,7 +16,8 @@ export const publicRoutes = [
     { path: 'tasks', breadcrumb: 'Tasks', component: <Tasks /> },
     { path: 'signup', breadcrumb: 'SignUp', component: <SignUp /> },
     { path: 'signin', breadcrumb: 'SignIn', component: <SignIn /> },
-    { path: 'call-center', breadcrumb: 'Call center', component: <CallCenter/>}
+    { path: 'call-center', breadcrumb: 'Call center', component: <CallCenter/>},
+    { path: 'operator', breadcrumb: 'Operator', component: <Operator/>},
 ]
 
 export const privateRoutes = [

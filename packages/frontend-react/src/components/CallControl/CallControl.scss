@@ -1,0 +1,35 @@
+@import '../../assets/vars';
+
+.call-control {
+    &__container {
+        background: #8080804f;
+        padding: 10px;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+
+        &__status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0;
+            font-size: 19px;
+            font-weight: 500;
+
+            &:before {
+                content: '';
+                display: block;
+                width: 10px;
+                height: 10px;
+                border-radius: 10px;
+                background-color: $color-but-green;
+            }
+        }
+    }
+}

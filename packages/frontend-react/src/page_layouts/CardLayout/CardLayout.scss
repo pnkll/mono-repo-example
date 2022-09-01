@@ -1,0 +1,18 @@
+@import '../../assets/vars';
+
+.card-layout {
+    &__container {}
+
+    &__title {
+        font-size: 19px;
+        font-weight: 500;
+        margin: 10px 0 10px 20px;
+    }
+
+    &__wrapper {
+        background: #80808054;
+        border-radius: 5px;
+        padding: 20px;
+        font-size: 14px;
+    }
+}

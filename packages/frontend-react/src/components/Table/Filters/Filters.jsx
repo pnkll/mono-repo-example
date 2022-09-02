@@ -3,7 +3,7 @@ import { isNil } from 'lodash';
 import React from 'react';
 import Button from '../../Button/Button.jsx';
 
-export default React.memo(function Filters({ classNamePrefix = 'table', filters, setFilters,handleOpen,isOpen }) {
+export default React.memo(function Filters({ classNamePrefix = 'table', filters, setFilters,handleOpen,isOpen,handleCreate,href }) {
     return (
         <>
             <div className={`${classNamePrefix}__filters__container`}>
@@ -19,7 +19,7 @@ export default React.memo(function Filters({ classNamePrefix = 'table', filters,
                     {isOpen?<MinusIcon width={20} style={{ marginTop: 'auto', cursor: 'pointer'}} onClick={()=>handleOpen(!isOpen)}/>
                     :<ChevronDownIcon width={20} style={{marginTop: 'auto', cursor: 'pointer'}} onClick={()=>handleOpen(!isOpen)}/>}
                     <AdjustmentsIcon width={20} style={{ rotate: '90deg', cursor: 'pointer' }} />
-                    <Button text='Создать' classNamePrefix={'table__filters button'} />
+                    {!isNil(handleCreate)||!isNil(href)&&<Button text='Создать' classNamePrefix={'table__filters button'} handleClick={handleCreate} href={href}/>}
                 </div>
             </div>
         </>

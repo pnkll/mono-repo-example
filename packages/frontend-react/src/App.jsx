@@ -23,13 +23,13 @@ export default React.memo(function App() {
                 {isAuth ?
                     <Routes>
                         {privateRoutes.map(el =>
-                            <Route key={el.path} element={el.component} path={el.path} />)}
+                            <Route key={el.path} element={el.element} path={el.path} breadcrumb={el.breadcrumb}/>)}
                         {/* <Route path='*' element={<NotFoundPage/>} /> */}
                     </Routes>
                     :
                     <Routes>
                         {publicRoutes.map(el =>
-                            <Route key={el.path} element={el.component} path={el.path} />)}
+                            <Route key={el.path} element={el.element} path={el.path} />)}
                         {/* <Route path='*' element={<Navigate to='signin' />} /> */}
                     </Routes>
                 }

@@ -6,7 +6,7 @@ import HeaderInput from "./HeaderInput/HeaderInput.jsx"
 import Filters from "./Filters/Filters.jsx"
 import SelectNumber from "../SelectNumber/SelectNumber.jsx"
 
-export default React.memo(function Table({setFilters,filters,setSearch,search,columns,data,currentPage,setCurrentPage,totalItemsCount,itemsCount,classNamePrefix='table',setItemsCount,emptyCell='Ничего не найдено'}) {
+export default React.memo(function Table({setFilters,filters,setSearch,search,columns,data,currentPage,setCurrentPage,totalItemsCount,itemsCount,classNamePrefix='table',setItemsCount,emptyCell='Ничего не найдено',handleCreate,buttonHref}) {
 
     const { prepareRow, rows, headerGroups, getTableProps, getTableBodyProps, } = useTable({ columns, data })
 
@@ -30,7 +30,7 @@ export default React.memo(function Table({setFilters,filters,setSearch,search,co
     return (
         <>
             <div className={`${classNamePrefix}__container`} style={{marginBottom: open?0:24}}>
-                <Filters classNamePrefix={classNamePrefix} filters={filters} setFilters={setFilters} handleOpen={setOpen} isOpen={open}/>
+                <Filters classNamePrefix={classNamePrefix} filters={filters} setFilters={setFilters} handleOpen={setOpen} isOpen={open} handleCreate={handleCreate} href={buttonHref}/>
                 <div className={`${classNamePrefix}__scroll-wrapper`} style={{ borderRadius: '10px', maxHeight: 'calc(100vh - 163px)', overflow: 'auto', height: `${open?'auto':0}`, minWidth: '527px' }}>
                     <table className={`${classNamePrefix}__wrapper`}>
                         <thead {...getTableProps()} className={`${classNamePrefix}__header`}>

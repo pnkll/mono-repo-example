@@ -1,0 +1,12 @@
+@import '../../assets/vars';
+
+.item-layout{
+    &__container{
+
+    }
+    &__content{
+        background: #ffffff;
+        border-radius: 5px;
+        padding: 20px;
+    }
+}

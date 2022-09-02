@@ -5,8 +5,10 @@ import TextArea from '../TextArea/TextArea.jsx';
 import Select from '../Select/Select.jsx';
 import SelectField from '../SelectField/SelectField.jsx';
 import * as Yup from 'yup'
+import { taskTypeApi } from '../../services/TaskTypeService.js';
 
 export default React.memo(function TaskType() {
+    const [postTaskType, { isLoading, isFetching }] = taskTypeApi.usePostTaskTypeMutation()
     const validationSchema = Yup.object().shape({
         title: Yup.string()
           .min(2, 'Too Short!')
@@ -15,16 +17,18 @@ export default React.memo(function TaskType() {
       });
     const formik = useFormik({
         initialValues: {
-            title: '',
-            description: '',
-            role: { label: 'User', value: 'user' },
+            title: '',// Стандартный заголовок req
+            description: '',// Описание req
+            executorRole: '',// ID роли, сотрудники которой должны выполнить задание, req
+            controllerRole: '',// ID роли, сотрудники которой имеют право подтверждать выполнение задания req
+            requiredTime: '',// Необходимое время для выполнения задачи (в минутах) 
+            linkedContent: '',
             deadLineHours: '',
-            necessaryToComplete: '',
-            importance: { label: 'Средний', value: 'middle' },
+            priority: ''// Стандартный приоритет задачи (от 0 до 4 включительно)
         },
         validationSchema: validationSchema,
         onSubmit: values => {
-            console.log(values)
+            postTaskType(values)
         }
     })
     const roles = [
@@ -40,12 +44,12 @@ export default React.memo(function TaskType() {
         <>
             <div className="task-type__container" style={{ maxWidth: '400px' }}>
                 <form onSubmit={(e) => { e.preventDefault(); formik.handleSubmit(e) }}>
-                    <Input formik={formik} label='Название' id='title' name='title' type='text' />
-                    <TextArea formik={formik} label='Описание' id='description' name='description' rows={3} />
-                    <SelectField options={roles} label='Какая роль выполняет' formik={formik} id='role' name='role' />
-                    <Input formik={formik} label='Срок выполнения (часы)' id='deadLineHours' name='deadLineHours' type='number' />
-                    <TextArea formik={formik} label='Что необходимо для завершения задачи' id='necessaryToComplete' name='necessaryToComplete' rows={3} />
-                    <SelectField options={importance} label='Степень важности' formik={formik} id='importance' name='importance' />
+                    <Input formik={formik} id='title' name='title' label='Заголовок'/>
+                    <TextArea formik={formik} id='description' name='descrption' label='Описание'/>
+                    <Select formik={formik} id='executorRole' name='executorRole' label='Роль исполнителя'/>
+                    <Select formik={formik} id='controllerRole' name='controllerRole' label='Роль ответственного'/>
+                    <Select formik={formik} id='linkedContent' name='linkedContent' label='Необходимо для завершения задачи'/>
+                    <Select formik={formik} id='priority' name='priority' label='Степень важности'/>
                     <button type='submit'>Создать шаблон</button>
                 </form>
             </div>

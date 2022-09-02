@@ -3,10 +3,13 @@
 .client {
     &__container {}
 
-    &__wrapper {
-        background: #80808054;
-        width: 500px;
-        height: 300px;
-        border-radius: 5px;
+    &__phone{
+        display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    margin: 0;
+    font-weight: 500;
+    color: #197DD2;
     }
 }

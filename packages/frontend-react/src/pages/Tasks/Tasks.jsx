@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Role from '../../components/Role/Role.jsx';
 import TaskType from '../../components/TaskType/TaskType.jsx';
 import HeaderLayout from '../../page_layouts/HeaderLayout/HeaderLayout.jsx';
 
@@ -18,7 +19,12 @@ export default React.memo(function Tasks() {
     return (
         <>
             <HeaderLayout>
-                <TaskType />
+                <div className="" style={{ display: 'flex', gap: 20 }}>
+                    <TaskType />
+                    <Role />
+                </div>
+
+
             </HeaderLayout>
         </>
     )

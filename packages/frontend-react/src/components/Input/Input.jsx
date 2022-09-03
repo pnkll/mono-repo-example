@@ -3,7 +3,7 @@ import { concat, isNil } from "lodash"
 import React from "react"
 import './Input.scss'
 
-export default React.memo(function Input({formik,label,placeholder,id,name,type,autoComplete,className,required,handleChange,value}){
+export default React.memo(function Input({formik,label,placeholder,id,name,type,autoComplete,className,required,handleChange,value,readonly=false}){
     const classNamePreffix = className || 'input-field'
     const changeHandler = (e) =>{
                 !isNil(formik)?formik.setFieldValue(id,e.target.value):handleChange(e)
@@ -23,6 +23,7 @@ export default React.memo(function Input({formik,label,placeholder,id,name,type,
                 onClick={()=>!isNil(formik)&&formik.setFieldError(id,'')}
                 autoComplete={autoComplete || 'off'}
                 className={`${classNamePreffix}__input ${!isNil(formik)&&formik.touched[name]&&formik.errors[name]?'error':''}`}
+                readOnly={readonly}
             />
             {!isNil(formik)&&formik.touched[name]&&formik.errors[name]&&<div className={`${classNamePreffix}__error`}>{formik.errors[name]}</div>}
         </div>

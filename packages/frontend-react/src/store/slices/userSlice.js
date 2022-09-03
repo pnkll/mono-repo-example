@@ -19,4 +19,4 @@ export const {setUser, logout} = userSlice.actions
 
 export default userSlice.reducer
 
-export const takeCurrentUser = (state) => state.userSlice.user
+export const selectCurrentUser = (state) => state.userSlice.user

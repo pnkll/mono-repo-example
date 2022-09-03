@@ -1,0 +1,19 @@
+@import '../../assets/vars';
+
+.history{
+    &__container{
+        padding-left: 13px;
+        position: relative;
+        &::before{
+            content: '';
+            display: block;
+            width: 2px;
+            /* height: 10px; */
+            background: #0000005e;
+            position: absolute;
+            bottom: 0;
+            top: 10px;
+            left: -14px;
+        }
+    }
+}

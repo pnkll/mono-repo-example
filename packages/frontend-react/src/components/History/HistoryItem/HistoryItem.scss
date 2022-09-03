@@ -1,0 +1,23 @@
+@import '../../../assets/vars';
+
+.history-item {
+    &__container{
+        max-width: fit-content;
+    }
+    &__wrapper {
+        position: relative;
+
+        &::before {
+            content: '';
+            display: block;
+            background: #0000005e;
+            width: 28px;
+            height: 10px;
+            position: absolute;
+            top: 50%;
+            left: -25px;
+            height: 2px;
+            z-index: -1;
+        }
+    }
+}

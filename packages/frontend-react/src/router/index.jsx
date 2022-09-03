@@ -11,6 +11,7 @@ import RoleList from "../pages/Roles/RoleList.jsx"
 import RoleById from "../pages/Roles/RoleById/RoleById.jsx"
 import TaskTypeList from "../pages/TaskTypeList/TaskTypeList.jsx"
 import TaskTypeById from "../pages/TaskTypeList/TaskTypeById/TaskTypeById.jsx"
+import Profile from "../pages/Profile/Profile.jsx"
 
 export const publicRoutes = [
     { path: '', breadcrumb: '', element: <Navigate to='main' /> },
@@ -26,8 +27,8 @@ export const publicRoutes = [
     { path: 'settings', breadcrumb: 'Settings', element: <Settings /> },
     { path: 'roles', breadcrumb: 'Roles', element: <RoleList /> },
     { path: 'roles/:id', breadcrumb: 'Роль', element: <RoleById /> },
-    
-]
+    { path: 'profile', breadcrumb: 'Сотрудник', element: <Profile/>}
+]   
 
 export const privateRoutes = [
     { path: '', element: <Navigate to='demo' /> },

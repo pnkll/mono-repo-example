@@ -66,7 +66,7 @@ export default React.memo(function SignUp() {
                 username: ''
             },
             validationSchema: Yup.object({
-                username: Yup.string().required('Пожалуйста введите ваш e-mail').matches(/^[a-zA-Z]+$/, 'Только английские буквы без пробелов')
+                username: Yup.string().required('Пожалуйста введите ваш login').matches(/^[a-zA-Z]+$/, 'Только английские буквы без пробелов')
             })
         },
         {

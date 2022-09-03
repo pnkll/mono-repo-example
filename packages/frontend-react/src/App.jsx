@@ -3,6 +3,8 @@ import { Routes, Route } from "react-router-dom"
 import { publicRoutes, privateRoutes } from './router/index.jsx'
 import { initializeApp } from "./store/slices/appSlice.js"
 import { useDispatch, useSelector } from "react-redux"
+import {takeCurrentUser} from "./store/slices/userSlice";
+import {isNil} from "lodash"
 
 export default React.memo(function App() {
 
@@ -10,7 +12,7 @@ export default React.memo(function App() {
 
     const init = useSelector((state) => state.appSlice.init)
 
-    const isAuth = false
+    const isAuth = !isNil(useSelector(takeCurrentUser)) ? true : false
     useEffect(() => {
         dispatch(initializeApp())
     }, [])

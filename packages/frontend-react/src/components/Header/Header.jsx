@@ -5,8 +5,11 @@ import Button from '../Button/Button.jsx'
 import { MenuAlt1Icon, MenuIcon } from "@heroicons/react/outline";
 import BreadCrumbs from "../BreadCrumbs/BreadCrumbs.jsx";
 import {Link} from 'react-router-dom'
+import {useDispatch} from "react-redux";
+import {logout} from "../../store/slices/userSlice";
 
 export default React.memo(function Header({collapsed,setCollapsed}){
+    const dispatch = useDispatch()
     return(
         <>
         <div className="header__container">
@@ -19,7 +22,7 @@ export default React.memo(function Header({collapsed,setCollapsed}){
             <div className="header__right">
                 <Link to='inbox'><MailIcon width={20}/></Link>
                 <Link to=''><BellIcon width={20}/></Link>
-                <Button text='Logout' color='white'/>
+                <Button text='Logout' color='white' handleClick={()=>dispatch(logout())}/>
             </div>
         </div>
         </>

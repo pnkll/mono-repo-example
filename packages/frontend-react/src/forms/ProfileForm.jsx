@@ -18,7 +18,6 @@ export default React.memo(function ProfileForm() {
                 <Input formik={formik} label={'Last name'} id={'lastname'} name={'lastname'}/>
                 <Input formik={formik} label={'Organization'} id={'organization'} name={'organization'}/>
                 <Input formik={formik} label={'Phone'} id={'phone'} name={'phone'}/>
-                <
             </form>
         </>
     )

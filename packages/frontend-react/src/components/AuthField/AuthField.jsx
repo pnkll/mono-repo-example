@@ -1,22 +1,35 @@
 import { ChatIcon } from '@heroicons/react/outline';
 import { Formik, useFormikContext } from 'formik';
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import Input from '../Input/Input.jsx';
 import InputDadata from '../InputDadata/InputDadata.jsx';
 import './AuthField.scss'
 import * as Yup from 'yup'
-import { authApi } from '../../services/AuthService.js';
+import {setUser} from "../../store/slices/userSlice";
+import {useDispatch} from "react-redux";
+import {useNavigate} from "react-router-dom"
+import {isNil} from "lodash";
 
 export default React.memo(function AuthField({ id, name, type = 'text', messages, setMessages, sendMessages, currentForm, setData, data, formiks, setCurrentForm, nextField, rtkHook }) {
     const [postData, { isLoading, isFetching }] = rtkHook()
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const [postError,setPostError]=useState(null)
     const handlePost = async (user) => {
-        console.log((await postData(user)).data)
+        const response = (await postData(user))
+            if (response.data?.status === 200){
+                dispatch(setUser(response.data.message))
+                navigate('../main')
+            }
+            else if(response.error?.status===422){
+                setPostError(response.error.data.errors)
+            }
     }
     const handleSubmit = (values) => {
-        sendMessages(name, nextField(id), values, messages, setMessages)
+
         if (id !== 'signin') {
             id !== 'password_repeat' && setData({ ...data, [Object.keys(values)[0]]: Object.values(values)[0] })
-            setCurrentForm(formiks.find(formik => formik.id === nextField(id)))
+
             if (id === 'password_repeat' || id === 'user_password') {
                 const originalObject = { ...data, [Object.keys(values)[0]]: Object.values(values)[0] }
                 const user = id === 'password_repeat' ? {
@@ -33,6 +46,9 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                     password: originalObject.user_password
                 }
                 handlePost(user)
+            } else {
+                sendMessages(name, nextField(id), values, messages, setMessages)
+                setCurrentForm(formiks.find(formik => formik.id === nextField(id)))
             }
         }
     }
@@ -66,6 +82,8 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                                 : id === 'signin' ? <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Войти'); formik.submitForm() }}>Войти</div>
                                 : id === 'password_repeat' && <div className="auth-field__buttons__elem" onClick={goToInputPassword}>Ввести пароль заного</div>
                             }</div>
+
+                        {!isNil(postError)&&<p>{postError}</p>}
                     </>)}
             </Formik>
         </>

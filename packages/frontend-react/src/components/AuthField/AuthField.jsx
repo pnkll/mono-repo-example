@@ -29,7 +29,7 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                     email: originalObject.email,
                     repeat_password: originalObject.password_repeat
                 } : {
-                    username: originalObject.email,
+                    username: originalObject.username,
                     password: originalObject.user_password
                 }
                 handlePost(user)

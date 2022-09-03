@@ -12,7 +12,7 @@ export default React.memo(function SignIn() {
         return date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
     }
     const [messages, setMessages] = useState([
-        { id: 'email', question: 'Рады приветствовать вас снова, пожалуйста введите ваш e-mail', answer: null, visible: true, time: getTime() },
+        { id: 'username', question: 'Рады приветствовать вас снова, пожалуйста введите ваш login', answer: null, visible: true, time: getTime() },
         { id: 'user_password', question: 'Введите ваш пароль', answer: null, visible: false, time: '' },
         { id: 'signin', question: 'Успешная авторизация', answer: null, visible: false, time: '' },
     ])
@@ -27,12 +27,12 @@ export default React.memo(function SignIn() {
     const [data, setData] = useState([])
     const [formiks, setFormiks] = useState([
         {
-            id: 'email',
+            id: 'username',
             initialValues: {
-                email: ''
+                username: ''
             },
             validationSchema: Yup.object({
-                email: Yup.string().required('Пожалуйста введите ваш e-mail').email('Некорректный email')
+                username: Yup.string().required('Пожалуйста введите ваш login').matches(/^[a-zA-Z0-9]+$/, 'Только английские буквы без пробелов')
             })
         },
         {
@@ -54,10 +54,10 @@ export default React.memo(function SignIn() {
             })
         },
     ])
-    const [currentForm, setCurrentForm] = useState(formiks.find(formik => formik.id === 'email'))
+    const [currentForm, setCurrentForm] = useState(formiks.find(formik => formik.id === 'username'))
     const nextField = (id) => {
         switch (id) {
-            case 'email': return 'user_password'
+            case 'username': return 'user_password'
             case 'user_password': return 'signin'
         }
     }

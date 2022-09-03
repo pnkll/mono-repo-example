@@ -28,7 +28,6 @@ export default React.memo(function Profile(){
        <SidebarHeaderLayout>
         <CardLayout title={'Сотрудник'}>
             <CardGridLayout array={arr}>
-
             </CardGridLayout>
         </CardLayout>
        </SidebarHeaderLayout>

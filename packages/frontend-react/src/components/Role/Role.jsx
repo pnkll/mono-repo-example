@@ -50,7 +50,7 @@ export default React.memo(function Role() {
             <div className="">
                 <form onSubmit={(e) => { e.preventDefault(); formik.handleSubmit() }}>
                     <Input formik={formik} id='title' name='title' label='Название' />
-                    <Select formik={formik} options={options} id='permissions' name='permissions' label='Права' />
+                    <Select formik={formik} options={options} id='permissions' name='permissions' label='Права' isMulti={true}/>
                     <Button type='submit' text={editMode ? params.id === 'new' ? 'Создать роль' : 'Сохранить' : 'Редактировать'} />
                 </form>
             </div>

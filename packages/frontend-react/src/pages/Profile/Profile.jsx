@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CardGridLayout from '../../page_layouts/CardLayout/CardGridLayout/CardGridLayout.jsx';
 import CardLayout from '../../page_layouts/CardLayout/CardLayout.jsx';
 import SidebarHeaderLayout from '../../page_layouts/SidebarHeaderLayout/SidebarHeaderLayout.jsx';
 import moment from 'moment'
+import Button from '../../components/Button/Button.jsx';
 
 export default React.memo(function Profile(){
+    const [editMode,setEditMode]=useState(false)
     const formatDate = (date) =>{
         return moment(date).locale('ru').format("Do MMMM YYYY")
     }
-    const arr=[
+    const items=[
         //{label: "_id", value: "631150279f0454d9d3c6f7b2"},
 		{label: "Username", value: "test999"},
 		{label: "Firstname", value: "Test999"},
@@ -27,8 +29,8 @@ export default React.memo(function Profile(){
        <>
        <SidebarHeaderLayout>
         <CardLayout title={'Сотрудник'}>
-            <CardGridLayout array={arr}>
-            </CardGridLayout>
+            <CardGridLayout array={items}/>
+            <Button text={editMode?'Сохранить':'Редактировать'} handleClick={()=>console.log('hello')}/>
         </CardLayout>
        </SidebarHeaderLayout>
        </>

@@ -6,7 +6,7 @@ import TransitionLayout from '../TransitionLayout/TransitionLayout.jsx';
 export default React.memo(function AuthLayout({ children }) {
     return (
         <>
-            <TransitionLayout from='right'>
+            <TransitionLayout from='right' overflowX={'visible'}>
                 <div className="auth__container">
                     <div className="auth__left-side"></div>
 

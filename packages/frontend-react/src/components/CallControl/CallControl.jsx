@@ -14,12 +14,6 @@ export default React.memo(function CallControl() {
     const dispatch = useDispatch()
     const expanded = useSelector(state => state.callControlSlice.expanded)
     const sip = useRef()
-    useEffect(()=>{
-        console.log({sip:sip})
-    },[sip.current?.state])
-
-    console.log({Session: Session})
-
     return (
         <>
             {/* <SipProvider

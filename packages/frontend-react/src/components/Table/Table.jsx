@@ -5,6 +5,7 @@ import React, { useState } from "react"
 import HeaderInput from "./HeaderInput/HeaderInput.jsx"
 import Filters from "./Filters/Filters.jsx"
 import SelectNumber from "../SelectNumber/SelectNumber.jsx"
+import _ from "lodash"
 
 export default React.memo(function Table({setFilters,filters,setSearch,search,columns,data,currentPage,setCurrentPage,totalItemsCount,itemsCount,classNamePrefix='table',setItemsCount,emptyCell='Ничего не найдено',handleCreate,buttonHref}) {
 
@@ -29,9 +30,9 @@ export default React.memo(function Table({setFilters,filters,setSearch,search,co
 
     return (
         <>
-            <div className={`${classNamePrefix}__container`} style={{marginBottom: open?0:24}}>
+            <div className={`${classNamePrefix}__container`} style={{marginBottom: open?0:24, height: `${open?'calc(100% - 20px)':0}`}}>
                 <Filters classNamePrefix={classNamePrefix} filters={filters} setFilters={setFilters} handleOpen={setOpen} isOpen={open} handleCreate={handleCreate} href={buttonHref}/>
-                <div className={`${classNamePrefix}__scroll-wrapper`} style={{ borderRadius: '10px', maxHeight: 'calc(100vh - 163px)', overflow: 'auto', height: `${open?'auto':0}`, minWidth: '527px' }}>
+                <div className={`${classNamePrefix}__scroll-wrapper`} style={{ borderRadius: '10px', maxHeight: 'calc(100vh - 163px)', overflow: 'auto', height: `${open?'100%':0}`, minWidth: '527px' }}>
                     <table className={`${classNamePrefix}__wrapper`}>
                         <thead {...getTableProps()} className={`${classNamePrefix}__header`}>
                             {headerGroups.map((headerGroup, index) => <tr key={index} {...headerGroup.getHeaderGroupProps} className={`${classNamePrefix}__header__row`}>
@@ -58,11 +59,11 @@ export default React.memo(function Table({setFilters,filters,setSearch,search,co
                         </tbody>
                     </table>
                     <div className="table__bottom">
-                        <Paginate setPage={setCurrentPage} page={currentPage} itemsCount={itemsCount} totalItemsCount={totalItemsCount} />
-                        <div className="table__bottom__counts">
+                        {!_.isEmpty(data)&&totalItemsCount>itemsCount&&<Paginate setPage={setCurrentPage} page={currentPage} itemsCount={itemsCount} totalItemsCount={totalItemsCount} />}
+                        {!_.isEmpty(data)&&<div className="table__bottom__counts">
                             <SelectNumber defaultValue={itemsCount} values={[5,10,15,20]} handleChange={setItemsCount}/>
                             <p className="table__bottom__counts__info">{((currentPage - 1) * itemsCount)+1}&nbsp;—&nbsp;{itemsCount * currentPage} из {totalItemsCount} записей</p>
-                        </div>
+                        </div>}
                     </div>
                 </div>
             </div>

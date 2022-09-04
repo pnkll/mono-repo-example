@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import HeaderLayout from '../../page_layouts/HeaderLayout/HeaderLayout.jsx'
+import SidebarHeaderLayout from '../../page_layouts/SidebarHeaderLayout/SidebarHeaderLayout.jsx'
 import './TableConstructor.scss'
 import { isEmpty, isNil } from "lodash";
 import useDrag from "../../hooks/useDrag.js";
@@ -47,8 +47,8 @@ export default React.memo(function TableConstructor() {
     }
     return (
         <>
-            <HeaderLayout>
-                <div style={{ display: 'flex', gap: '20px', flexDirection: 'column' }}>
+            <SidebarHeaderLayout>
+                <div style={{ display: 'flex', gap: '20px', flexDirection: 'column', height: '100%' }}>
                     <div className="" style={{ display: 'flex', gap: '10px' }}>
                         <Button text='Добавить поле' color='green' handleClick={handleAppend} />
                         <Button text={`${!isEmpty(columns) ? 'Обновить' : 'Создать'} таблицу`} handleClick={submitHandler} />
@@ -72,11 +72,9 @@ export default React.memo(function TableConstructor() {
                         </div>
                         <PlusIcon width={20} color='green' style={{ marginBottom: 'auto', marginTop: 5, cursor: "pointer" }} onClick={handleAppend} />
                     </div>
-                    {!isEmpty(columns) && 
-                    <><Table columns={columns} data={[]} emptyCell={<DragNDropCell/>}/>
-                        <Button text={'Импортировать данные'} color={'green'} /></>}
+                    {!isEmpty(columns) && <Table columns={columns} data={[]} emptyCell={<DragNDropCell/>}/>}
                 </div>
-            </HeaderLayout>
+            </SidebarHeaderLayout>
         </>
     )
 })

@@ -7,14 +7,15 @@ import BreadCrumbs from "../BreadCrumbs/BreadCrumbs.jsx";
 import {Link} from 'react-router-dom'
 import {useDispatch} from "react-redux";
 import {logout} from "../../store/slices/userSlice";
+import { setCollapsed } from "../../store/slices/sidebarSlice";
 
-export default React.memo(function Header({collapsed,setCollapsed}){
+export default React.memo(function Header({collapsed}){
     const dispatch = useDispatch()
     return(
         <>
         <div className="header__container">
             <div className="header__left">
-                {collapsed?<MenuIcon style={{cursor: 'pointer'}} onClick={()=>setCollapsed(!collapsed)} width={30}/>:collapsed!==undefined?<MenuAlt1Icon style={{cursor: 'pointer'}} onClick={()=>setCollapsed(!collapsed)} width={30}/>:''}
+                {collapsed?<MenuIcon style={{cursor: 'pointer'}} onClick={()=>dispatch(setCollapsed())} width={30}/>:collapsed!==undefined?<MenuAlt1Icon style={{cursor: 'pointer'}} onClick={()=>dispatch(setCollapsed())} width={30}/>:''}
             </div>
             <div className="header__middle">
                 <BreadCrumbs/>

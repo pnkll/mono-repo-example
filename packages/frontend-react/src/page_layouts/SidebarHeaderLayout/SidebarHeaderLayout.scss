@@ -1,22 +1,71 @@
 @import '../../assets/vars';
 
-.sidebar-header-layout{
-    &__container{
+.sidebar-header-layout {
+    &__container {
         display: flex;
     }
-    &__wrapper{
+
+    &__wrapper {
         display: flex;
         flex-direction: column;
         width: 100%;
     }
-    &__content{
+
+    &__content {
         padding: 10px;
         height: calc(100vh - 123px);
         position: relative;
     }
-    &__scroll-container{
+
+    &__scroll-container {
         width: 100%;
         height: 100%;
         overflow-x: scroll;
+    }
+}
+
+//override
+.react-slidedown {
+    ul {
+        position: relative;
+
+        .pro-menu-item {
+            position: relative;
+            padding-left: 33px;
+
+            &::before {
+                content: "";
+                display: block;
+                position: absolute;
+                width: 17px;
+                height: 1px;
+                background: white;
+                top: 50%;
+                left: 12px;
+            }
+
+            &::after {
+                content: "";
+                display: block;
+                position: absolute;
+                width: 6px;
+                height: 7px;
+                background: white;
+                top: calc(50% - 3px);
+                left: 28px;
+                border-radius: 20px;
+            }
+        }
+
+        &::before {
+            display: block;
+            content: "";
+            background: white;
+            top: 12px;
+            bottom: 32px;
+            width: 1px;
+            position: absolute;
+            left: 12px;
+        }
     }
 }

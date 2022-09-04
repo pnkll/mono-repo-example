@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import CardGridLayout from '../../page_layouts/CardLayout/CardGridLayout/CardGridLayout.jsx';
+import React, { useEffect, useState } from 'react';
 import CardLayout from '../../page_layouts/CardLayout/CardLayout.jsx';
 import SidebarHeaderLayout from '../../page_layouts/SidebarHeaderLayout/SidebarHeaderLayout.jsx';
-import moment from 'moment'
-import Button from '../../components/Button/Button.jsx';
 import ProfileForm from "../../forms/ProfileForm.jsx";
+import TransitionLayout from '../../page_layouts/TransitionLayout/TransitionLayout.jsx';
 
-export default React.memo(function Profile(){
-   return(
-       <>
-       <SidebarHeaderLayout>
-        <CardLayout title={'Сотрудник'}>
-            <ProfileForm/>
-        </CardLayout>
-       </SidebarHeaderLayout>
-       </>
-   )
+export default React.memo(function Profile() {
+    return (
+        <>
+            <SidebarHeaderLayout>
+                <TransitionLayout>
+                    <CardLayout title={'Сотрудник'}>
+                        <ProfileForm />
+                    </CardLayout>
+                </TransitionLayout>
+            </SidebarHeaderLayout>
+        </>
+    )
 })

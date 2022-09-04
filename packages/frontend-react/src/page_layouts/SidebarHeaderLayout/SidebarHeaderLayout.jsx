@@ -16,9 +16,9 @@ export default React.memo(function SidebarHeaderLayout({ children }) {
                 <div className='sidebar-header-layout__wrapper'>
                     <Header collapsed={collapsed}/>
                     <div className="sidebar-header-layout__content">
-                        <div className="sidebar-header-layout__scroll-container">
+                        {/* <div className="sidebar-header-layout__scroll-container"> */}
                                 {children}
-                        </div>
+                        {/* </div> */}
                         <CallControl expanded={expanded} setExpanded={setExpanded} />
                     </div>
                 </div>

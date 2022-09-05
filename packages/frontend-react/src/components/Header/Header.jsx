@@ -6,8 +6,8 @@ import { MenuAlt1Icon, MenuIcon } from "@heroicons/react/outline";
 import BreadCrumbs from "../BreadCrumbs/BreadCrumbs.jsx";
 import {Link} from 'react-router-dom'
 import {useDispatch} from "react-redux";
-import {logout} from "../../store/slices/userSlice";
 import { setCollapsed } from "../../store/slices/sidebarSlice";
+import { logout } from "../../store/slices/appSlice";
 
 export default React.memo(function Header({collapsed}){
     const dispatch = useDispatch()

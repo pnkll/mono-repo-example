@@ -1,10 +1,13 @@
 import React from "react";
 import './Header.scss'
-import {useSelector} from "react-redux";
-import {selectCurrentUser} from "../../../store/slices/userSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {selectCurrentUser, setUser} from "../../../store/slices/userSlice";
 import {Link} from "react-router-dom";
+import { usersApi } from "../../../services/UsersService";
+import { rolesApi } from "../../../services/RolesService";
 
 export default React.memo(function Header({collapsed}) {
+    const dispatch = useDispatch()
     const user = useSelector(selectCurrentUser)
     return (
         <>

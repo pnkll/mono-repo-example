@@ -16,7 +16,8 @@ export const authApi = Api.injectEndpoints({
                 url: '/auth/login',
                 method: 'POST',
                 body: data
-            })
+            }),
+            invalidatesTags: ['PROFILE']
         }),
         forgot: builder.query({
             query: (data) => ({

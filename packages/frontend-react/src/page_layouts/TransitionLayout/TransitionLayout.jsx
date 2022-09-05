@@ -4,9 +4,7 @@ import { useSpring, animated } from 'react-spring';
 export default React.memo(function TransitionLayout({ children, from = 'right',overflowX='scroll' }) {
     const [transition, setTransition] = useState(false)
     useEffect(() => {
-        setTimeout(() => {
-            setTransition(true)
-        }, 400)
+        setTransition(true)
     }, [])
     const position = () => {
         switch (from) {

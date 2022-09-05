@@ -80,7 +80,7 @@ export default React.memo(function Select({ options, indicator, formik, defaultV
                     styles={styles}
                     options={options}
                     components={{ DropdownIndicator: () => indicator ? indicator : <ArrowsForSelectIcon style={{ paddingRight: '11px' }} /> }}
-                    onChange={(e) => !isNil(formik) ? formik.setFieldValue(id, e.value) : handleChange(e.value)}
+                    onChange={(e) => !isNil(formik) ? isMulti?formik.setFieldValue(id,e):formik.setFieldValue(id, e.value) : handleChange(e.value)}
                     defaultValue={defaultValue}
                     menuPlacement={menuPlacement} />
             </div>

@@ -15,7 +15,7 @@ export default React.memo(function App() {
 
     const init = useSelector((state) => state.appSlice.init)
     const user = useSelector(selectCurrentUser)
-    !isLoading&&dispatch(setUser(data.message))
+    !isLoading&&dispatch(setUser(data?.message))
 
     const isAuth = !isNil(useSelector(selectToken)) ? true : false
     useEffect(() => {

@@ -10,15 +10,26 @@ import './Task.scss'
 export default React.memo(function Task() {
     const formik = useFormik({
         initialValues: {
-            taskType: '',
-            comment: '',
-            needTime: '',
-            lastTime: '',
-            time: '',
-            attachData: '',
-            executor: '',
-            status: '',
-            priority: ''
+            taskType: '',//ID Шаблона, на основе которого сделали таск
+            organization: '6315fbd3d50683eb579a29bc',//ID организации
+            title: '',//Заголовок
+            description: '',//Описание задачи
+            executor: '', //ID исполнителя 
+            AI_assigned: '',// Флаг, если true - исполнитель выбран алгоритмом, а не живым человеком
+            desiredDate: '',// Желаемая дата начала исполнения задачи
+            status: '',// Статус заявки, допустимые значения: ['task_created', 'task_assigned', 'task_started', 'task_in_progress', 'task_waiting_for_acceptance', 'task_closed']
+            plannedDate: '',// Запланированная дата начала исполнения задачи
+            fireDate: '',// Крайняя дата, по достижении которой задача должна быть выполнена,
+            finishedDate: '',// Дата окончания(фактическая),
+            priority: ''//от 0 до 4
+            //linkedContent: '',// Массив объектов, содержащий ссылки на разные строки из таблиц(например, лицевой счёт и 2 счётчика), краткая схема:
+            // {
+            // TableId: {
+            //     type: String,
+            // },
+            // contentId: {
+            //     type: String,
+            // }
         },
     })
     return (
@@ -27,7 +38,7 @@ export default React.memo(function Task() {
                 <Select options={[{ value: 1, label: 1 }]} label='Task type' />
                 <form>
                     <TextArea formik={formik} label={'Описание'} id='comment' name='comment' />
-                    <div className="" style={{ display: 'flex', gap: 10,justifyContent: 'center', padding: '10px' }}><DatePicker placeholder={'Желаемая дата'} formik={formik} id='needTime' name='needTime' />
+                    <div className="" style={{ display: 'flex', gap: 10, justifyContent: 'center', padding: '10px' }}><DatePicker placeholder={'Желаемая дата'} formik={formik} id='needTime' name='needTime' />
                         <DatePicker placeholder={'Крайний срок'} formik={formik} id='lastTime' name='lastTime' />
                         <DatePicker placeholder={'Назначенная дата'} formik={formik} id='time' name='time' /></div>
                     <Select formik={formik} label={'Исполнитель'} id='executor' name='executor' />

@@ -23,7 +23,7 @@ export default React.memo(function Roles() {
         <>
             <SidebarHeaderLayout>
                 <TransitionLayout from='bottom'>
-                    <Table columns={columns} data={!isLoading?data.message.map(el=>el&&{...el, createdAt: formatDate(el.createdAt),updatedAt: formatDate(el.createdAt)}):[]} buttonHref={'new'} />
+                    <Table label='Список ролей' columns={columns} data={!isLoading?data.message.map(el=>el&&{...el, createdAt: formatDate(el.createdAt),updatedAt: formatDate(el.createdAt)}):[]} buttonHref={'new'} />
                 </TransitionLayout>
             </SidebarHeaderLayout>
         </>

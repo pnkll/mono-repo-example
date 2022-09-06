@@ -87,7 +87,9 @@ export default React.memo(function Form() {
                         </form>
                         <div className="demo-page__table">
                             {!data ? <Button text='fetch users' disabled={disabled} onClick={() => getPosts()} />
-                                : <Table setFilters={setFilters} filters={filters}
+                                : <Table
+                                    label='Demo table'
+                                    setFilters={setFilters} filters={filters}
                                     setSearch={setSearch} search={search}
                                     data={data} columns={columns}
                                     currentPage={currentPage} setCurrentPage={setCurrentPage}

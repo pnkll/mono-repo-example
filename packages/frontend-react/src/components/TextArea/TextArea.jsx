@@ -28,6 +28,7 @@ export default React.memo(function TextArea({formik,id,name,label,required,rows,
                     //{`${formik.submitCount>0 && formik.errors[name] ? 'border-red-900' :''} block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#6495ed]`}
                     id={id}
                     name={name}
+                    value={formik.values[id]}
                     placeholder={placeholder}
                     onChange={formik.handleChange} />
                 {!isNil(formik.errors[name])&&<p className="textarea__error">{formik.submitCount > 0 && formik.errors[name] && formik.errors[name]}</p>}

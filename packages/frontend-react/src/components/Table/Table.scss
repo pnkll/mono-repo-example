@@ -7,7 +7,10 @@ th {
 }
 
 .table {
-    &__container {
+    &__container{
+        height: 100%;
+    }
+    &__sub-container {
         box-shadow: 4px 4px 12px 3px rgb(0 0 0 / 20%);
         border-radius: 5px;
         position: relative;
@@ -132,7 +135,7 @@ th {
             text-align: center;
             height: 40px;
             &:not(:nth-child(-n+2)){
-                min-width: 144px;
+                //min-width: 144px;
             }
         }
     }

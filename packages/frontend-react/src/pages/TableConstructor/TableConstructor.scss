@@ -20,7 +20,9 @@
         //width: -webkit-fill-available;
         width: fit-content;
     }
-
+    &__title-input{
+        max-width: 300px;
+    }
     &__elem {
         background: $color-but-blue;
 

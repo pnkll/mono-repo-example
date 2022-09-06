@@ -87,8 +87,6 @@ th {
                 font-weight: 500;
                 cursor: pointer;
 
-                &:hover {}
-
                 &.active {
                     background: rgb(32 115 171);
 
@@ -131,7 +129,7 @@ th {
             font-weight: 400;
             color: #2e2828;
             color: $color-but-blue;
-            text-align: left;
+            text-align: center;
             height: 40px;
             &:not(:nth-child(-n+2)){
                 min-width: 144px;

@@ -2,13 +2,15 @@ import { Api } from './api'
 
 // Define a service using a base URL and expected endpoints
 export const rolesApi = Api.injectEndpoints({
+    tagTypes: ['ROLES'],
     endpoints: (builder) => ({
         postRole: builder.mutation({
             query: (data) => ({
                 url: '/roles/role',
                 method: 'POST',
                 body: data,//Принимает: { title: Joi.string().required(), # Название permissions: Joi.array(), # Список пермишенов (коды прав, например "assignRole" или "viewTasks") organization: Joi.string(), # ID организации (если не указано, автоматически подставится организация, которой принадлежит пользователь) inherit: Joi.string(), # Наследует все права указанной роли (ObjectID) }
-            })
+            }),
+            invalidatesTags: [{ type: 'ROLES', id: 'LIST' }]
         }),
         linkRole: builder.mutation({
             query: (data) => ({
@@ -21,7 +23,21 @@ export const rolesApi = Api.injectEndpoints({
             query: () => ({
                 url: '/roles/role',
                 method: 'GET',
-            })
+            }),
+            providesTags: (result) =>
+                result.message
+                    ? [
+                        ...result.message.map(({ id }) => ({ type: 'ROLES', id })),
+                        { type: 'ROLES', id: 'LIST' },
+                    ]
+                    : [{ type: 'ROLES', id: 'LIST' }],
+        }),
+        getRoleById: builder.query({
+            query: (id) => ({
+                url: '/roles/role',
+                method: 'GET',
+                params: {_id: id}
+            }),
         }),
         grantPermissions: builder.mutation({
             query: (data) => ({

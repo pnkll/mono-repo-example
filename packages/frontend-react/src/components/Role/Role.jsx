@@ -11,7 +11,11 @@ export default React.memo(function Role() {
     const params = useParams()
     const [editMode, setEditMode] = useState(params.id === 'new' ? true : false)
     const { data, error, isLoading } = rolesApi.useGetPermissionsQuery()
+    const [ getRole ]=rolesApi.endpoints.getRoleById.useLazyQuery()
     const [postRole]=rolesApi.usePostRoleMutation()
+    useEffect(()=>{
+        params.id !== 'new' && getRole(params.id)
+    },[])
     const handleClick = () => {
         if (editMode === true) {
             updatePermissions()

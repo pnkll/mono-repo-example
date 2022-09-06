@@ -6,7 +6,7 @@ export default React.memo(function InfoPopUp({ children, color = '#197DD2', widt
     const [visible, setVisible] = useState(false)
     return (
         <>
-            <div style={style}>
+            <div style={{...style, display: 'flex', alignItems: 'center'}}>
                 <div className="info-popup__container">
                     <InformationCircleIcon width={width} color={color} style={{ cursor: 'help' }} onMouseOver={() => !visible && setVisible(true)} onMouseOut={() => visible && setVisible(false)} />
                     <div className={`info-popup__text ${visible ? '' : 'hide'}`} style={popupStyle}>

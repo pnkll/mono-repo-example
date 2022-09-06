@@ -1,0 +1,40 @@
+@import '../../assets/vars';
+
+.task-create {
+    &__task-type-input {
+        position: relative;
+        z-index: 2;
+    }
+
+    &__form {
+        position: relative;
+
+        &.disabled {
+            &::before {
+                content: 'Пожалуйста выберите шаблон';
+                color: white;
+                position: absolute;
+                z-index: 1;
+                background: #00000085;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transition: all 0.5s ease;
+
+                &:hover {
+                    background: #000000f6;
+                }
+            }
+
+            &:hover {
+                &::before {
+                    background: rgba(0, 0, 0, 0.705);
+                }
+            }
+        }
+    }
+}

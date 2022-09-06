@@ -3,6 +3,7 @@
 .info-popup {
     &__container {
         position: relative;
+        display: flex;
     }
 
     &__text {

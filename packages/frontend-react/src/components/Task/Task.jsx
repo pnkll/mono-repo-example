@@ -6,6 +6,7 @@ import Input from '../Input/Input.jsx';
 import Select from '../Select/Select.jsx';
 import TextArea from '../TextArea/TextArea.jsx';
 import './Task.scss'
+import InfoPopUp from '../InfoPopUp/InfoPopUp.jsx'
 
 export default React.memo(function Task() {
     const formik = useFormik({
@@ -34,9 +35,11 @@ export default React.memo(function Task() {
     })
     return (
         <>
-            <CardLayout title={'Заявка'}>
-                <Select options={[{ value: 1, label: 1 }]} label='Task type' />
-                <form>
+            <CardLayout title={<>Заявка<InfoPopUp>Hello</InfoPopUp></>}>
+                <div className="task-create__task-type-input">
+                    <Select options={[{ options: [{ label: 1, value: 3 }], label: 'Авария' }, { options: [{ label: 1, value: 3 }], label: 'Авария' }, { value: 1, label: 1 }]} label='Категория' formik={formik} id='taskType' name='taskType'/>
+                </div>
+                <form className={`task-create__form ${formik.values.taskType!==''?'':'disabled'}`}>
                     <TextArea formik={formik} label={'Описание'} id='comment' name='comment' />
                     <div className="" style={{ display: 'flex', gap: 10, justifyContent: 'center', padding: '10px' }}><DatePicker placeholder={'Желаемая дата'} formik={formik} id='needTime' name='needTime' />
                         <DatePicker placeholder={'Крайний срок'} formik={formik} id='lastTime' name='lastTime' />

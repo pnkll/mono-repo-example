@@ -4,7 +4,7 @@ import { isNil } from "lodash"
 import React, { useState } from "react"
 import ReactSelect, { components, NonceProvider } from "react-select"
 
-export default React.memo(function Select({ options, indicator, formik, defaultValue, customStyles, classNamePrefix, id, name, isSearchable = true, menuPlacement = 'bottom', handleChange, label,isMulti=false }) {
+export default React.memo(function Select({ options, indicator, formik, defaultValue, customStyles, classNamePrefix, id, name, isSearchable = true, menuPlacement = 'bottom', handleChange, label,isMulti=false,placeholder='Выберите..'}) {
 
     const defaultStyles = customStyles || {
         container: (styles) => ({
@@ -72,6 +72,7 @@ export default React.memo(function Select({ options, indicator, formik, defaultV
             <div className="" style={{ display: 'flex', flexDirection: 'column' }}>
                 {!isNil(label) && <label style={{ padding: '5px' }}>{label}</label>}
                 <ReactSelect
+                placeholder={placeholder}
                     isMulti={isMulti}
                     isSearchable={isSearchable}
                     id={id}

@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
+    "@evercall/react-sip": "^1.1.8",
     "@heroicons/react": "^1.0.6",
     "@reduxjs/toolkit": "^1.8.4",
     "axios": "^0.27.2",
@@ -49,6 +50,7 @@
     "react-input-mask": "^2.0.4",
     "react-paginate": "^8.1.3",
     "react-pro-sidebar": "^0.7.1",
+    "react-query-params": "^1.0.9",
     "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
     "react-select": "^5.4.0",

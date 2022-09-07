@@ -7,6 +7,7 @@ import Select from '../Select/Select.jsx';
 import TextArea from '../TextArea/TextArea.jsx';
 import './Task.scss'
 import InfoPopUp from '../InfoPopUp/InfoPopUp.jsx'
+import AutoTextArea from '../AutoTextArea/AutoTextArea.jsx';
 
 export default React.memo(function Task() {
     const formik = useFormik({
@@ -22,7 +23,8 @@ export default React.memo(function Task() {
             plannedDate: '',// Запланированная дата начала исполнения задачи
             fireDate: '',// Крайняя дата, по достижении которой задача должна быть выполнена,
             finishedDate: '',// Дата окончания(фактическая),
-            priority: ''//от 0 до 4
+            priority: '',
+            files: [[{name: 'Название файла'}],[{name: 'Название файла'}]],//от 0 до 4
             //linkedContent: '',// Массив объектов, содержащий ссылки на разные строки из таблиц(например, лицевой счёт и 2 счётчика), краткая схема:
             // {
             // TableId: {
@@ -32,6 +34,7 @@ export default React.memo(function Task() {
             //     type: String,
             // }
         },
+        onSubmit: values=> console.log(values)
     })
     return (
         <>
@@ -39,14 +42,15 @@ export default React.memo(function Task() {
                 <div className="task-create__task-type-input">
                     <Select options={[{ options: [{ label: 1, value: 3 }], label: 'Авария' }, { options: [{ label: 1, value: 3 }], label: 'Авария' }, { value: 1, label: 1 }]} label='Категория' formik={formik} id='taskType' name='taskType'/>
                 </div>
-                <form className={`task-create__form ${formik.values.taskType!==''?'':'disabled'}`}>
-                    <TextArea formik={formik} label={'Описание'} id='comment' name='comment' />
+                <form className={`task-create__form ${formik.values.taskType===''?'':'disabled'}`} onSubmit={(e)=>{e.preventDefault();formik.submitForm()}}>
+                    <TextArea formik={formik} label={'Описание'} id='description' name='description' maxLength={250} maxRows={6} minRows={4} withAttach={true} attachId='files'/>
                     <div className="" style={{ display: 'flex', gap: 10, justifyContent: 'center', padding: '10px' }}><DatePicker placeholder={'Желаемая дата'} formik={formik} id='needTime' name='needTime' />
                         <DatePicker placeholder={'Крайний срок'} formik={formik} id='lastTime' name='lastTime' />
                         <DatePicker placeholder={'Назначенная дата'} formik={formik} id='time' name='time' /></div>
                     <Select formik={formik} label={'Исполнитель'} id='executor' name='executor' />
                     <Select formik={formik} id='status' name='status' label='Статус заявки' />
                     <Select formik={formik} id='priority' name='priority' label='Степень важности' />
+                    <button type='submit'>Submit</button>
                 </form>
             </CardLayout>
         </>

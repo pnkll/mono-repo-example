@@ -31,6 +31,7 @@ export default React.memo(function Form() {
             password: '',
             remember: false,
             phone: '',
+            info: ''
         },
         validationSchema,
         onSubmit: values => {
@@ -80,7 +81,7 @@ export default React.memo(function Form() {
                             <div className="demo-page__form__elem"><Input formik={formik} id='password' name='password' type='password' placeholder='Password' label='password' /></div>
                             <div className="demo-page__form__elem"><PhoneInput formik={formik} id='phone' name='phone' defaultCode={7} label='Phone' /></div>
                             <div className="demo-page__form__elem"><DatePicker formik={formik} id='date' name='date' placeholder='Выберите дату' showTimeSelect={true} timeIntervals={30} /></div>
-                            <div className="demo-page__form__elem"><TextArea formik={formik} id='info' name='info' placeholder=' ' isRequired={true} rows={5} label='Расскажите о себе' /></div>
+                            <div className="demo-page__form__elem"><TextArea formik={formik} id='info' name='info' placeholder='' isRequired={true} rows={5} label='Расскажите о себе' /></div>
                             <div className="demo-page__form__elem"><Select className='demo-page__form__elem__select' options={[{ label: 'jkfhdsak32j', value: '1' }, { label: 'jkfhdsakj', value: '2' }]} /></div>
                             <div className="demo-page__form__elem"><Button text='Sign in' type='submit' /></div>
                             <ToggleInput formik={formik} label='запомнить меня' id='remember' name='remember' />

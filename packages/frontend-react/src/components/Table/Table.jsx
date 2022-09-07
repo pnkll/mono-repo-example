@@ -30,9 +30,9 @@ export default React.memo(function Table({ setFilters, filters, setSearch, searc
 
     return (
         <>
-            <div className={`${classNamePrefix}__container`}>
+            <div className={`${classNamePrefix}__container`} style={{ marginBottom: open ? 0 : 24, height: `${open ? label?'calc(100% - 45px)':'calc(100% - 20px)' : 0}` }}>
                 {!isNil(label) && <h1 style={{ paddingLeft: '13px' }}>{label}</h1>}
-                <div className={`${classNamePrefix}__sub-container`} style={{ marginBottom: open ? 0 : 24, height: `${open ? 'calc(100% - 20px)' : 0}` }}>
+                <div className={`${classNamePrefix}__sub-container`} style={{ height: '100%'}}>
                     <Filters classNamePrefix={classNamePrefix} filters={filters} setFilters={setFilters} handleOpen={setOpen} isOpen={open} handleCreate={handleCreate} href={buttonHref} />
                     <div className={`${classNamePrefix}__scroll-wrapper`} style={{ borderRadius: '10px', maxHeight: 'calc(100vh - 163px)', overflow: 'auto', height: `${open ? '100%' : 0}`, minWidth: '527px' }}>
                         <table className={`${classNamePrefix}__wrapper`}>

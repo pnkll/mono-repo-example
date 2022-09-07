@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
-import { SipProvider } from "@evercall/react-sip";
+import { SipProvider } from "react-sip";
 //components
 // import Phone from "../components/Phone";
 

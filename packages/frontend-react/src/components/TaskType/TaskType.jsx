@@ -25,6 +25,7 @@ export default React.memo(function TaskType() {
             description: '',// Описание req
             executorRole: '',// ID роли, сотрудники которой должны выполнить задание, req
             controllerRole: '',// ID роли, сотрудники которой имеют право подтверждать выполнение задания req
+            requiredTime: 60,
             //requiredTime: '',// Необходимое время для выполнения задачи (в минутах) 
             //linkedContent: '',
             //deadLineHours: '',

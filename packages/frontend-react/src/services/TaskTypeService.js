@@ -3,7 +3,7 @@ import { Api } from './api'
 // Define a service using a base URL and expected endpoints
 export const taskTypeApi = Api.injectEndpoints({
     endpoints: (builder) => ({
-        getTaskType: builder.query({
+        getTaskTypes: builder.query({
             query: (data) => ({
                 url: '/tasks/tasktype',
                 method: 'GET',

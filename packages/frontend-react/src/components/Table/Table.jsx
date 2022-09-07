@@ -8,8 +8,9 @@ import SelectNumber from "../SelectNumber/SelectNumber.jsx"
 import _, { isNil } from "lodash"
 
 export default React.memo(function Table({ setFilters, filters, setSearch, search, columns, data, currentPage, setCurrentPage, totalItemsCount, itemsCount, classNamePrefix = 'table', setItemsCount, emptyCell = 'Ничего не найдено', handleCreate, buttonHref, label }) {
-
+    // сonst formatColumns =  (columns.map(column=>!isNil(column.Cell)?column:{...column, Cell: ({ cell: { value } }) => !isNil(value)?value:'—'  } ))
     const { prepareRow, rows, headerGroups, getTableProps, getTableBodyProps, } = useTable({ columns, data })
+    
 
     const handleSearch = (value, header) => {
         setSearch({ ...search, id: header.id, value: value })

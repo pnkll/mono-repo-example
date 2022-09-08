@@ -4,7 +4,7 @@ import { isNil } from "lodash"
 import React, { useEffect, useState } from "react"
 import ReactSelect, { components, NonceProvider } from "react-select"
 
-export default React.memo(function Select({ options, indicator, formik, defaultValue, customStyles, classNamePrefix, id, name, isSearchable = true, menuPlacement = 'bottom', handleChange, label,isMulti=false,placeholder='Выберите..'}) {
+export default React.memo(function Select({ options, indicator, formik, hasDefaultValue, customStyles, classNamePrefix, id, name, isSearchable = true, menuPlacement = 'bottom', handleChange, label,isMulti=false,placeholder='Выберите..'}) {
 
     const defaultStyles = customStyles || {
         container: (styles) => ({
@@ -68,9 +68,28 @@ export default React.memo(function Select({ options, indicator, formik, defaultV
     const styles = customStyles || defaultStyles
 
     function getDefaultValue(){
-        return !isNil(formik)&&formik.values[id].map(el=>el&&options.find(elem=>elem.value===el))
+        if (!isNil(hasDefaultValue)){
+            if (isMulti){
+                return !isNil(formik)&&formik.values[id].map(el=>el&&options.find(elem=>elem.value===el))
+            } else{
+                return !isNil(formik)&&options?.find(el=>el.value===formik.values[id])
+            }
+        }
+        else{
+            return null
+        }
+        
     }
-    
+    if(hasDefaultValue){
+        if(isNil(getDefaultValue())){
+            return <>preloader</>
+        }
+        if(isMulti){
+            if(getDefaultValue().length<1){
+                return <>preloader</>
+            }
+        }
+    }
     return (
         <>
            <div className="" style={{ display: 'flex', flexDirection: 'column' }}>
@@ -84,7 +103,7 @@ export default React.memo(function Select({ options, indicator, formik, defaultV
                     classNamePrefix={classNamePrefix}
                     styles={styles}
                     options={options}
-                    defaultValue={isMulti?getDefaultValue():defaultValue}
+                    defaultValue={getDefaultValue()}
                     components={{ DropdownIndicator: () => indicator ? indicator : <ArrowsForSelectIcon style={{ paddingRight: '11px' }} /> }}
                     onChange={(e) => !isNil(formik) ? isMulti?formik.setFieldValue(id,e.map(el=>el.value)):formik.setFieldValue(id, e.value) : handleChange(e.value)}
                     menuPlacement={menuPlacement} />

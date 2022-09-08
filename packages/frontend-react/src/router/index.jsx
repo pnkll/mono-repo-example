@@ -15,6 +15,8 @@ import Profile from "../pages/Profile/Profile.jsx"
 
 export const privateRoutes = [
     { path: '', breadcrumb: '', element: <Navigate to='main' /> },
+    { path: 'signup', element: <Navigate to='../' /> },
+    { path: 'signin', element: <Navigate to='../' /> },
     { path: 'main', breadcrumb: 'Main', element: <Main /> },
     { path: 'demo', breadcrumb: 'Demo', element: <Demo /> },
     { path: 'constructor', breadcrumb: 'Constructor', element: <TableConstructor /> },

@@ -1,8 +1,9 @@
+import rolesSlice, { rolesAdapter, setPermissionList, setRoleList } from '../store/slices/rolesSlice'
 import { Api } from './api'
 
 // Define a service using a base URL and expected endpoints
 export const rolesApi = Api.injectEndpoints({
-    tagTypes: ['ROLES'],
+    tagTypes: ['ROLES','PERMISSIONS'],
     endpoints: (builder) => ({
         postRole: builder.mutation({
             query: (data) => ({
@@ -24,6 +25,14 @@ export const rolesApi = Api.injectEndpoints({
                 url: '/roles/role',
                 method: 'GET',
             }),
+            async onQueryStarted(id,{dispatch,queryFulfilled}){
+                try {
+                    const {data}=await queryFulfilled
+                    dispatch(setRoleList(data.message))
+                } catch (error) {
+                    console.log(error)
+                }
+            },
             providesTags: (result) =>
                 result.message
                     ? [
@@ -49,8 +58,23 @@ export const rolesApi = Api.injectEndpoints({
         getPermissions: builder.query({
             query: () => ({
                 url: '/roles/allPermissions',
-                method: 'GET',//Нужен чтобы выдать указанные права для роли { "role": "ObjectId роли", "permissions": "выдаваемые права (строкой или массивом строк)" }
-            })
+                method: 'GET',
+            }),
+            providesTags: (result) =>
+                result.message
+                    ? [
+                        ...result.message.map(({ id }) => ({ type: 'PERMISSIONS', id })),
+                        { type: 'PERMISSIONS', id: 'LIST' },
+                    ]
+                    : [{ type: 'PERMISSIONS', id: 'LIST' }],
+            async onQueryStarted(id,{dispatch,queryFulfilled}){
+                try {
+                    const {data} = await queryFulfilled
+                    data.status===200&&dispatch(setPermissionList(data.message))
+                } catch (error) {
+                    console.log(error)
+                }
+            },
         }),
     }),
     overrideExisting: false,

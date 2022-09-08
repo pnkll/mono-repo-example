@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState={
-    init: false,
+    initApp: false,
     token: null,
     refreshToken: null,
 }
@@ -11,7 +11,7 @@ export const appSlice = createSlice({
     initialState,
     reducers:{
         initializeApp: (state)=>{
-            state.init = true
+            state.initApp = true
         },
         setCredentials: (state,action)=>{
             state.token=action.payload.token
@@ -27,5 +27,6 @@ export const appSlice = createSlice({
 export const {initializeApp,setCredentials,logout} = appSlice.actions
 
 export const selectToken = (state) => state.appSlice.token
+export const selectInitApp=(state)=>state.appSlice.initApp
 
 export default appSlice.reducer

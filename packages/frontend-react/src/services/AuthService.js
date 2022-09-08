@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { setCredentials } from '../store/slices/appSlice'
 import { Api } from './api'
 
 // Define a service using a base URL and expected endpoints
@@ -17,7 +18,17 @@ export const authApi = Api.injectEndpoints({
                 method: 'POST',
                 body: data
             }),
-            invalidatesTags: ['PROFILE']
+            async onQueryStarted(id,{ dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled
+                    data?.status === 200 && dispatch(setCredentials({
+                        token: data.message.token,
+                        refreshToken: data.message.refreshToken
+                    }))
+                } catch (error) {
+                    console.log(error)
+                }
+            }
         }),
         forgot: builder.query({
             query: (data) => ({

@@ -1,33 +1,20 @@
 import { ChatIcon } from '@heroicons/react/outline';
-import { Formik, useFormikContext } from 'formik';
-import React, { useEffect, useState } from 'react';
+import { Formik } from 'formik';
+import React, { useState } from 'react';
 import Input from '../Input/Input.jsx';
 import InputDadata from '../InputDadata/InputDadata.jsx';
 import './AuthField.scss'
 import * as Yup from 'yup'
-import { setCredentials } from "../../store/slices/appSlice";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom"
 import { isNil } from "lodash";
-import { usersApi } from '../../services/UsersService.js';
 
 export default React.memo(function AuthField({ id, name, type = 'text', messages, setMessages, sendMessages, currentForm, setData, data, formiks, setCurrentForm, nextField, rtkHook }) {
-    const [postData, { isLoading, isFetching }] = rtkHook()
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
+    const [postData,{isLoading,isFetching}] = rtkHook()
     const [postError, setPostError] = useState(null)
     const handlePost = async (user) => {
-        const response = (await postData(user))
-        if (response.data?.status === 200) {
-            dispatch(setCredentials({
-                token: response.data.message.token,
-                refreshToken: response.data.message.refreshToken
-            }))
-            navigate('../main')
-        }
-        else if (response.error?.status === 422) {
-            setPostError(response.error.data.errors)
-        }
+            const {data,error} = await postData(user)
+            if(!isNil(error)){
+                setPostError(error.data.errors)
+            }
     }
     const handleSubmit = (values) => {
 

@@ -1,4 +1,5 @@
-import {Api} from './api'
+import { setUser } from '../store/slices/userSlice'
+import { Api } from './api'
 
 // Define a service using a base URL and expected endpoints
 export const usersApi = Api.injectEndpoints({
@@ -8,7 +9,15 @@ export const usersApi = Api.injectEndpoints({
             query: () => ({
                 url: '/users/profile',
             }),
-            providesTags: ['PROFILE']
+            providesTags: ['PROFILE'],
+            async onQueryStarted(id, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled
+                    data.status === 200 && dispatch(setUser(data.message))
+                } catch (error) {
+                    console.log(error)
+                }
+            }
         }),
         getUsers: builder.query({
             query: () => ({
@@ -27,4 +36,4 @@ export const usersApi = Api.injectEndpoints({
     overrideExisting: false,
 })
 
-export const {useGetProfileQuery}=usersApi
+export const { useGetProfileQuery } = usersApi

@@ -30,7 +30,6 @@ export default function CallControl({props}) {
     
     useEffect(() => {
         remoteAudioElement()
-        console.log(props)
     })
     
     return (
@@ -49,7 +48,7 @@ export default function CallControl({props}) {
                         <MicrophoneIcon width={15} />
                         <PhoneOutgoingIcon width={15} className='phone' />
                         <PauseIcon width={15} className='phone' />
-                    { props.current?.state.callStatus === "callStatus/ACTIVE" || props.current?.state.callStatus ===  "callStatus/STARTING" ?<PhoneDownButton onClick={()=>props.current.stopCall()}/>:<PhoneButton onClick={() => props.current.startCall('1010')} />}
+                    { props.current?.state.callStatus === "callStatus/ACTIVE" || props.current?.state.callStatus ===  "callStatus/STARTING" ?<PhoneDownButton onClick={()=>props.current.stopCall()}/>:<PhoneButton onClick={() => props.current.startCall('1013')} />}
                     </div>
                     <Button text='Создать заявку' w='-webkit-fill-available' color='green' handleClick={() => setEditMode(true)} />
                     <div className={`select ${editMode ? 'visible' : ''}`} >

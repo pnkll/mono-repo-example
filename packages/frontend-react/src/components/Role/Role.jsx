@@ -6,33 +6,39 @@ import Input from '../Input/Input.jsx';
 import Select from '../Select/Select.jsx';
 import { useParams } from 'react-router-dom'
 import Button from '../Button/Button.jsx'
+import { useSelector } from 'react-redux';
+import { selectPermissionList } from '../../store/slices/rolesSlice';
+import { isNil } from 'lodash';
 
 export default React.memo(function Role() {
     const params = useParams()
     const [editMode, setEditMode] = useState(params.id === 'new' ? true : false)
-    const { data, error, isLoading } = rolesApi.useGetPermissionsQuery()
-    const [ getRole ]=rolesApi.endpoints.getRoleById.useLazyQuery()
-    const [postRole]=rolesApi.usePostRoleMutation()
-    useEffect(()=>{
-        params.id !== 'new' && getRole(params.id)
-    },[])
-    const handleClick = () => {
-        if (editMode === true) {
-            updatePermissions()
-        } else {
-
-        }
+    const [fetchGetPermissions] = rolesApi.useLazyGetPermissionsQuery()
+    const [fetchGetRole ]=rolesApi.useLazyGetRoleByIdQuery()
+    const [fetchPostRole]=rolesApi.usePostRoleMutation()
+    const permissionList = useSelector(selectPermissionList)
+    async function getPermissionList(){
+        await fetchGetPermissions()
     }
+    async function getRole(id){
+        await fetchGetRole(id)
+    }
+    async function postRole(data){
+        await fetchPostRole(data)
+    }
+    useEffect(()=>{
+        isNil(permissionList)&& getPermissionList()
+        params.id!=='new'&&getRole(params.id)
+    },[])
     const formik = useFormik({
         initialValues: {
             title: '',//req
             permissions: []//arr permissions: Joi.array(), # Список пермишенов (коды прав, например "assignRole" или "viewTasks")
         },
-        onSubmit: async values => {
+        onSubmit: values => {
             if (editMode) {
                 if (params.id === 'new') {
                     const data = { title: values.title, permissions: values.permissions.map(el => el.value) }
-                    console.log(data)
                     postRole(data)
                 } else {
                     const data = { role: params.id }
@@ -45,7 +51,7 @@ export default React.memo(function Role() {
         }
     })
 
-    const options = !isLoading ? data.message.map(el => el && { label: el.title, value: el.name }) : []
+    const options = !isNil(permissionList)?permissionList.map(el => el && { label: el.title, value: el.name }) : []
     return (
         <>
             <div className="">

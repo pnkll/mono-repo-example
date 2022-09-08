@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Input from '../Input/Input.jsx';
 import { useFormik } from 'formik';
 import TextArea from '../TextArea/TextArea.jsx';
@@ -7,11 +7,21 @@ import SelectField from '../SelectField/SelectField.jsx';
 import * as Yup from 'yup'
 import { taskTypeApi } from '../../services/TaskTypeService.js';
 import { rolesApi } from '../../services/RolesService.js'
+import { useParams } from 'react-router-dom';
 
 export default React.memo(function TaskType() {
+    const params = useParams()
     const [postTaskType, { isLoading, isFetching }] = taskTypeApi.usePostTaskTypeMutation()
     //TODO разобраться с тем как прокинуть isLoading
-    const {data }=rolesApi.useGetRolesQuery()
+    const [getTaskType]=taskTypeApi.useLazyGetTaskTypeByIdQuery()
+    async function getTaskTypeById(id){
+        const response = await getTaskType(id)
+        console.log(response)
+    }
+    useEffect(()=>{
+        params.id!=='new'&&getTaskTypeById(params.id)
+    },[])
+    console.log()
     const validationSchema = Yup.object().shape({
         title: Yup.string()
           .min(2, 'Too Short!')
@@ -36,7 +46,6 @@ export default React.memo(function TaskType() {
             postTaskType(values)
         }
     })
-    const roles = data?.message.map(el=>el&&{label: el.title, value: el._id})
     const priority = [
         { label: 'Очень срочно', value: 4 },
         { label: 'Срочно', value: 3 },

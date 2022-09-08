@@ -9,6 +9,13 @@ export const taskTypeApi = Api.injectEndpoints({
                 method: 'GET',
             })
         }),
+        getTaskTypeById: builder.query({
+            query: (data) => ({
+                url: '/tasks/tasktype',
+                method: 'GET',
+                params: {_id: data}
+            })
+        }),
         updateTaskType: builder.mutation({
             query: (data) => ({
                 url: '/tasks/tasktype',

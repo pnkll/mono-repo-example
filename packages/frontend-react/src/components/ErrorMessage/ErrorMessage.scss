@@ -1,7 +1,7 @@
 @import '../../assets/vars';
 
-.task-type {
-    &__error {
+.error-message{
+    &__container{
         bottom: -88px;
         width: fit-content;
         height: 54px;

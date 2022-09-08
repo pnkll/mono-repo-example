@@ -20,13 +20,13 @@ export const privateRoutes = [
     { path: 'main', breadcrumb: 'Main', element: <Main /> },
     { path: 'demo', breadcrumb: 'Demo', element: <Demo /> },
     { path: 'constructor', breadcrumb: 'Constructor', element: <TableConstructor /> },
-    { path: 'task-types', breadcrumb: 'Шаблоны', element: <TaskTypeList /> },
-    { path: 'task-types/:id', element: <TaskTypeById /> },
+    { path: 'settings/task-types', breadcrumb: 'Шаблоны', element: <TaskTypeList /> },
+    { path: 'settings/task-types/:id', element: <TaskTypeById /> },
     { path: 'call-center', breadcrumb: 'Call center', element: <CallCenter /> },
     { path: 'operator', breadcrumb: 'Operator', element: <Operator /> },
     { path: 'settings', breadcrumb: 'Settings', element: <Settings /> },
-    { path: 'roles', breadcrumb: 'Roles', element: <RoleList /> },
-    { path: 'roles/:id', breadcrumb: 'Роль', element: <RoleById /> },
+    { path: 'settings/roles', breadcrumb: 'Roles', element: <RoleList /> },
+    { path: 'settings/roles/:id', breadcrumb: 'Роль', element: <RoleById /> },
     { path: 'profile', breadcrumb: 'Сотрудник', element: <Profile/>}
 ]   
 

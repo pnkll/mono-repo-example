@@ -4,12 +4,13 @@ import { isNil } from "lodash"
 import React, { useEffect, useState } from "react"
 import ReactSelect, { components, NonceProvider } from "react-select"
 
-export default React.memo(function Select({ options, indicator, formik, hasDefaultValue, customStyles, classNamePrefix, id, name, isSearchable = true, menuPlacement = 'bottom', handleChange, label,isMulti=false,placeholder='Выберите..'}) {
+export default React.memo(function Select({ options, indicator, formik, hasDefaultValue, customStyles, classNamePrefix, id, name, isSearchable = true, menuPlacement = 'bottom', handleChange, label, isMulti = false, placeholder = 'Выберите..', isDisabled = false }) {
 
-    const defaultStyles = customStyles || {
+    const styles = customStyles || {
         container: (styles) => ({
             ...styles,
-            width: '-webkit-fill-available'
+            width: '-webkit-fill-available',
+            borderBottom: !isDisabled?0:'1px solid #B8BBC6',
         }),
         option: (provided, state) => ({
             ...provided,
@@ -33,7 +34,7 @@ export default React.memo(function Select({ options, indicator, formik, hasDefau
             display: 'flex',
             cursor: 'pointer',
             background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.82)), linear-gradient(180deg, #FFFFFF 0%, #E7E9F3 85.74%, #D8DBE7 100%)',
-            border: '1px solid #B8BBC6',
+            border: isDisabled ? 0 : '1px solid #B8BBC6',
             boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.08)',
             borderRadius: '4px 4px 0px 0px',
             fontFamily: 'Roboto',
@@ -44,7 +45,8 @@ export default React.memo(function Select({ options, indicator, formik, hasDefau
             letterSpacing: '0.6px',
             color: '#717686',
             textShadow: '0px 1px 0px rgba(255, 255, 255, 0.72)',
-            height: '32px',
+            height: 'fit-content',
+            minHeight: '32px',
         }),
         menu: (styles) => ({
             ...styles,
@@ -61,41 +63,55 @@ export default React.memo(function Select({ options, indicator, formik, hasDefau
         }),
         indicatorSeparator: (styles) => ({
             display: 'none',
+        }),
+        indicatorsContainer: (styles) => ({
+            ...styles,
+            display: isDisabled ? 'none' : 'flex'
+        }),
+        singleValue: (styles) => ({
+            ...styles,
+            whiteSpace: isDisabled ? 'pre-wrap' : 'nowrap',
+            margin: isDisabled ? 0 : '0 2px'
+        }),
+        valueContainer: (styles)=>({
+            ...styles,
+            padding: isDisabled?'2px 0':'2px 8px',
         })
 
     }
 
-    const styles = customStyles || defaultStyles
+    // const styles = customStyles || defaultStyles
 
-    function getDefaultValue(){
-        if (!isNil(hasDefaultValue)){
-            if (isMulti){
-                return !isNil(formik)&&formik.values[id].map(el=>el&&options.find(elem=>elem.value===el))
-            } else{
-                return !isNil(formik)&&options?.find(el=>el.value===formik.values[id])
+    function getDefaultValue() {
+        if (!isNil(hasDefaultValue)) {
+            if (isMulti) {
+                return !isNil(formik) && formik.values[id].map(el => el && options.find(elem => elem.value === el))
+            } else {
+                return !isNil(formik) && options?.find(el => el.value === formik.values[id])
             }
         }
-        else{
+        else {
             return null
         }
-        
+
     }
-    if(hasDefaultValue){
-        if(isNil(getDefaultValue())){
+    if (hasDefaultValue) {
+        if (isNil(getDefaultValue())) {
             return <>preloader</>
         }
-        if(isMulti){
-            if(getDefaultValue().length<1){
+        if (isMulti) {
+            if (getDefaultValue().length < 1) {
                 return <>preloader</>
             }
         }
     }
     return (
         <>
-           <div className="" style={{ display: 'flex', flexDirection: 'column' }}>
+            <div className="" style={{ display: 'flex', flexDirection: 'column' }}>
                 {!isNil(label) && <label style={{ padding: '5px' }}>{label}</label>}
                 <ReactSelect
-                placeholder={placeholder}
+                    isDisabled={isDisabled}
+                    placeholder={placeholder}
                     isMulti={isMulti}
                     isSearchable={isSearchable}
                     id={id}
@@ -105,7 +121,7 @@ export default React.memo(function Select({ options, indicator, formik, hasDefau
                     options={options}
                     defaultValue={getDefaultValue()}
                     components={{ DropdownIndicator: () => indicator ? indicator : <ArrowsForSelectIcon style={{ paddingRight: '11px' }} /> }}
-                    onChange={(e) => !isNil(formik) ? isMulti?formik.setFieldValue(id,e.map(el=>el.value)):formik.setFieldValue(id, e.value) : handleChange(e.value)}
+                    onChange={(e) => !isNil(formik) ? isMulti ? formik.setFieldValue(id, e.map(el => el.value)) : formik.setFieldValue(id, e.value) : handleChange(e.value)}
                     menuPlacement={menuPlacement} />
             </div>
         </>

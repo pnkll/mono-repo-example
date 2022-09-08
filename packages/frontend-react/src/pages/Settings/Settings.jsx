@@ -8,8 +8,8 @@ import TransitionLayout from '../../page_layouts/TransitionLayout/TransitionLayo
 export default React.memo(function Settings() {
 
     const items = [
-        { label: 'Роли', icon: <PencilIcon width={10} />, href: '../roles' },
-        { label: 'Шаблоны задач', icon: <PencilIcon width={10} />, href: '../task-types' },
+        { label: 'Роли', icon: <PencilIcon width={10} />, href: 'roles' },
+        { label: 'Шаблоны задач', icon: <PencilIcon width={10} />, href: 'task-types' },
     ]
 
     return (

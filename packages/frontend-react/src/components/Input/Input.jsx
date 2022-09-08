@@ -8,6 +8,14 @@ export default React.memo(function Input({formik,label,placeholder,id,name,type,
     const changeHandler = (e) =>{
                 !isNil(formik)?formik.setFieldValue(id,e.target.value):handleChange(e)
     }
+    const notEditStyles = {
+        border: 0,
+    fontSize: '13px',
+    borderBottom: '1px solid',
+    borderRadius: '4px 4px 0 0',
+    paddingLeft: 0,
+    paddingRight: '12px',
+    }
     return(
         <>
         <div className={`${classNamePreffix}__container`}>
@@ -24,6 +32,7 @@ export default React.memo(function Input({formik,label,placeholder,id,name,type,
                 autoComplete={autoComplete || 'off'}
                 className={`${classNamePreffix}__input ${!isNil(formik)&&formik.touched[name]&&formik.errors[name]?'error':''}`}
                 readOnly={readonly}
+                style={readonly?notEditStyles:{}}
             />
             {!isNil(formik)&&formik.touched[name]&&formik.errors[name]&&<div className={`${classNamePreffix}__error`}>{formik.errors[name]}</div>}
         </div>

@@ -45,9 +45,9 @@ export default React.memo(function App() {
     }
     return (
         <>
-                {isAuth&&!isNil(user) ?
+                {isAuth?
                     <Routes>
-                        {privateRoutes.map(el =>
+                        {!isNil(user)&&privateRoutes.map(el =>
                             <Route key={el.path} element={el.element} path={el.path} breadcrumb={el.breadcrumb}/>)}
                         {/* <Route path='*' element={<NotFoundPage/>} /> */}
                     </Routes>

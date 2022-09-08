@@ -13,54 +13,65 @@ import { isNil } from 'lodash';
 export default React.memo(function Role() {
     const params = useParams()
     const [editMode, setEditMode] = useState(params.id === 'new' ? true : false)
-    const [fetchGetPermissions] = rolesApi.useLazyGetPermissionsQuery()
-    const [fetchGetRole ]=rolesApi.useLazyGetRoleByIdQuery()
+    const [fetchGetRole,{isLoading,isFetching} ]=rolesApi.useLazyGetRoleByIdQuery()
     const [fetchPostRole]=rolesApi.usePostRoleMutation()
+    const [fetchUpdateRole]=rolesApi.useGrantPermissionsMutation()
     const permissionList = useSelector(selectPermissionList)
-    async function getPermissionList(){
-        await fetchGetPermissions()
+    const [isLoaded,setIsLoaded]=useState(params.id==='new'?true:false)
+    function handleSubmit(values){
+        if (editMode) {
+            if (params.id === 'new') {
+                postRole(values)
+            } else {
+                const data = { role: params.id, permissions: values.permissions }
+                updateRole(data)
+                setEditMode(false)
+            }
+        }
     }
+    const formik = useFormik({
+        initialValues: {
+            title: '',
+            permissions: []
+        },
+        onSubmit: values => {
+            handleSubmit(values)
+        }
+    })
     async function getRole(id){
-        await fetchGetRole(id)
+        const {data} = await fetchGetRole(id)
+        if(data.status===200){
+            formik.setFieldValue('title',data.message[0].title)
+            formik.setFieldValue('permissions',data.message[0].permissions)
+        }
+        setIsLoaded(true)
     }
     async function postRole(data){
         await fetchPostRole(data)
     }
-    useEffect(()=>{
-        isNil(permissionList)&& getPermissionList()
-        params.id!=='new'&&getRole(params.id)
-    },[])
-    const formik = useFormik({
-        initialValues: {
-            title: '',//req
-            permissions: []//arr permissions: Joi.array(), # Список пермишенов (коды прав, например "assignRole" или "viewTasks")
-        },
-        onSubmit: values => {
-            if (editMode) {
-                if (params.id === 'new') {
-                    const data = { title: values.title, permissions: values.permissions.map(el => el.value) }
-                    postRole(data)
-                } else {
-                    const data = { role: params.id }
-                    updatePermissions(data)
-                    setEditMode(false)
-                }
-            } else {
-                setEditMode(true)
-            }
-        }
-    })
-
+    async function updateRole(data){
+        await fetchUpdateRole(data)
+    }
     const options = !isNil(permissionList)?permissionList.map(el => el && { label: el.title, value: el.name }) : []
+    useEffect(()=>{
+        if(params.id!=='new'){
+            getRole(params.id)
+        }
+    },[params.id])
+
+    if(!isLoaded){
+        return <>Preloader</>
+    }
+
     return (
         <>
-            <div className="">
+            {formik?.values!==null&&<div className="">
                 <form onSubmit={(e) => { e.preventDefault(); formik.handleSubmit() }}>
                     <Input formik={formik} id='title' name='title' label='Название' />
-                    <Select formik={formik} options={options} id='permissions' name='permissions' label='Права' isMulti={true} />
+                    <Select formik={formik} options={options} id='permissions' name='permissions' label='Права' isMulti={true}/>
                     <Button type='submit' text={editMode ? params.id === 'new' ? 'Создать роль' : 'Сохранить' : 'Редактировать'} />
                 </form>
-            </div>
+            </div>}
         </>
     )
 })

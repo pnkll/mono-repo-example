@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import SidebarHeaderLayout from '../../page_layouts/SidebarHeaderLayout/SidebarHeaderLayout.jsx';
 import Table from '../../components/Table/Table.jsx';
 import TransitionLayout from '../../page_layouts/TransitionLayout/TransitionLayout.jsx';
-import { rolesApi } from '../../services/RolesService.js';
 import moment from 'moment';
 import Button from '../../components/Button/Button.jsx';
 import { useSelector } from 'react-redux';
@@ -11,13 +10,6 @@ import { isNil } from 'lodash';
 
 export default React.memo(function Roles() {
     const roleList = useSelector(selectRoleList)
-    const [fetch, { isLoading, isFetching }] = rolesApi.useLazyGetRolesQuery()
-    useEffect(() => {
-        async function getRoleList() {
-            await fetch()
-        }
-        isNil(roleList) && getRoleList()
-    }, [])
     function formatDate(date){
         return moment(date).locale('ru').format("Do MMMM YYYY")
     }

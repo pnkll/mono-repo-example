@@ -1,7 +1,7 @@
 import { ChevronDownIcon } from "@heroicons/react/solid"
 import { Formik } from "formik"
 import { isNil } from "lodash"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import ReactSelect, { components, NonceProvider } from "react-select"
 
 export default React.memo(function Select({ options, indicator, formik, defaultValue, customStyles, classNamePrefix, id, name, isSearchable = true, menuPlacement = 'bottom', handleChange, label,isMulti=false,placeholder='Выберите..'}) {
@@ -65,11 +65,15 @@ export default React.memo(function Select({ options, indicator, formik, defaultV
 
     }
 
-    const [styles, setStyles] = useState(customStyles || defaultStyles)
+    const styles = customStyles || defaultStyles
 
+    function getDefaultValue(){
+        return !isNil(formik)&&formik.values[id].map(el=>el&&options.find(elem=>elem.value===el))
+    }
+    
     return (
         <>
-            <div className="" style={{ display: 'flex', flexDirection: 'column' }}>
+           <div className="" style={{ display: 'flex', flexDirection: 'column' }}>
                 {!isNil(label) && <label style={{ padding: '5px' }}>{label}</label>}
                 <ReactSelect
                 placeholder={placeholder}
@@ -80,9 +84,9 @@ export default React.memo(function Select({ options, indicator, formik, defaultV
                     classNamePrefix={classNamePrefix}
                     styles={styles}
                     options={options}
+                    defaultValue={isMulti?getDefaultValue():defaultValue}
                     components={{ DropdownIndicator: () => indicator ? indicator : <ArrowsForSelectIcon style={{ paddingRight: '11px' }} /> }}
-                    onChange={(e) => !isNil(formik) ? isMulti?formik.setFieldValue(id,e):formik.setFieldValue(id, e.value) : handleChange(e.value)}
-                    defaultValue={defaultValue}
+                    onChange={(e) => !isNil(formik) ? isMulti?formik.setFieldValue(id,e.map(el=>el.value)):formik.setFieldValue(id, e.value) : handleChange(e.value)}
                     menuPlacement={menuPlacement} />
             </div>
         </>

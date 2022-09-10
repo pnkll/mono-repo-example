@@ -3,9 +3,13 @@ import useReactRouterBreadcrumbs from "use-react-router-breadcrumbs";
 import { Link, useLocation } from 'react-router-dom'
 import { ChevronRightIcon } from '@heroicons/react/outline';
 import './BreadCrumbs.scss'
+import { routes } from '../../router/routes.jsx';
+import { useSelector } from 'react-redux';
+import { selectToken } from '../../store/slices/appSlice';
 
 export default React.memo(function BreadCrumbs() {
-    const breadcrumbs = useReactRouterBreadcrumbs()
+    const token = useSelector(selectToken)
+    const breadcrumbs = useReactRouterBreadcrumbs(routes(token))
     const location=useLocation()
     return (
         <>

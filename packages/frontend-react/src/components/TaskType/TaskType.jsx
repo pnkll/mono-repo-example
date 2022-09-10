@@ -11,6 +11,7 @@ import { selectRoleList } from '../../store/slices/rolesSlice.js';
 import Button from '../Button/Button.jsx';
 import './TaskType.scss'
 import ErrorMessage from '../ErrorMessage/ErrorMessage.jsx';
+import { isNil } from 'lodash';
 
 export default React.memo(function TaskType() {
     const [fetchError,setFetchError]=useState(null)
@@ -42,7 +43,7 @@ export default React.memo(function TaskType() {
         validationSchema: validationSchema,
         onSubmit: values => {
             if (editMode) {
-                if (params.id !== 'new') {
+                if (!isNil(params.id)) {
                     updateTaskType({...values,_id: params.id})
                 } else {
                     postTaskType(values)
@@ -53,13 +54,13 @@ export default React.memo(function TaskType() {
         }
     })
     const params = useParams()
-    const [editMode, setEditMode] = useState(params.id === 'new' ? true : false)
-    const [fetchPostTaskType, { isLoading, isFetching }] = taskTypeApi.usePostTaskTypeMutation()
-    const [fetchGetTaskTypeById] = taskTypeApi.useLazyGetTaskTypeByIdQuery()
+    const [editMode, setEditMode] = useState(isNil(params.id)? true : false)
+    const [fetchPostTaskType, { isLoading: isLoadingPost, isFetching }] = taskTypeApi.usePostTaskTypeMutation()
+    const [fetchGetTaskTypeById, {isError,isLoading,isSuccess}] = taskTypeApi.useLazyGetTaskTypeByIdQuery()
     const [fetchUpdateTaskType,{error,isLoading: isLoadingUpdate}] = taskTypeApi.useUpdateTaskTypeMutation()
     async function getTaskTypeById(id) {
         const { data } = await fetchGetTaskTypeById(id)
-        if (data.status === 200) {
+        if (data?.status === 200) {
             const values = data.message[0]
             formik.setFieldValue('title', values.title)
             formik.setFieldValue('description', values.description)
@@ -85,12 +86,17 @@ export default React.memo(function TaskType() {
         { label: 'Низкий', value: 0 }
     ]
     useEffect(() => {
-        if (params.id !== 'new') {
+        if (params.id) {
             getTaskTypeById(params.id)
         }
-    }, [params.id])
+    }, [params])
+    if(isError){
+        return <>Error</>
+    } else if(isLoading){
+        <>Loading</>
+    }
     return (
-        <>
+        <>{(!isNil(params.id)?isSuccess:true)&&
             <div className="task-type__container" style={{ maxWidth: '400px' }}>
                 <form onSubmit={(e) => { e.preventDefault(); formik.handleSubmit(e) }} style={{ display: 'flex', flexDirection: 'column', gap: 10,position: 'relative' }}>
                     <Input formik={formik} id='title' name='title' label='Заголовок' readonly={editMode?false:true}/>
@@ -101,10 +107,10 @@ export default React.memo(function TaskType() {
                         <Select formik={formik} id='priority' name='priority' label='Степень важности' options={priorityOptions} hasDefaultValue={true} isDisabled={editMode?false:true}/>
                     </div>
                     <TextArea formik={formik} id='description' name='description' label='Описание' readonly={editMode?false:true}/>
-                    <Button text={editMode ? params.id === 'new' ? 'Создать шаблон' : 'Сохранить' : 'Редактировать'} type='submit' color={editMode ? params.id === 'new' ? 'green' : 'green' : 'blue'} isLoading={isLoading||isLoadingUpdate}/>
+                    <Button text={editMode ? isNil(params.id)? 'Создать шаблон' : 'Сохранить' : 'Редактировать'} type='submit' color={editMode ? isNil(params.id)? 'green' : 'green' : 'blue'} isLoading={isLoadingPost||isLoadingUpdate}/>
                     {fetchError&&<ErrorMessage message={fetchError}/>}
                 </form>
-            </div>
+            </div>}
         </>
     )
 })

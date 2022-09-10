@@ -11,7 +11,7 @@ const container = document.getElementById('root')
 const root = createRoot(container)
 root.render(
     <Provider store={store}>
-        <PersistGate loading={'hello'} persistor={persistor} >
+        <PersistGate loading={'loading'} persistor={persistor} >
             <BrowserRouter>
                 <App/>
             </BrowserRouter>

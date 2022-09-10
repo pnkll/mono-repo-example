@@ -9,7 +9,7 @@ export default React.memo(function PhoneInput({ formik, label, name, id, default
     const [mask, setMask] = useState(defaultMask ? defaultMask : '999 999 9999')
     const [code, setCode] = useState(defaultCode)
     const [number, setNumber] = useState('')
-    const [inputWidth, setInputWidth]=useState(98)
+    const [inputWidth, setInputWidth] = useState(98)
 
     useEffect(() => {
         formik.handleChange({
@@ -20,7 +20,7 @@ export default React.memo(function PhoneInput({ formik, label, name, id, default
                 value: code + ' ' + number
             }
         })
-        String(code).length===3?setInputWidth(89):String(code).length>3?setInputWidth(80):setInputWidth(98)
+        String(code).length === 3 ? setInputWidth(89) : String(code).length > 3 ? setInputWidth(80) : setInputWidth(98)
     }, [code, number])
 
     function calcMask(code) {
@@ -72,8 +72,16 @@ export default React.memo(function PhoneInput({ formik, label, name, id, default
         <>
             <div className="phone-input">
                 <label onClick={() => setHel(!hel)} className="phone-input__label">{label} {required && '*'}</label>
-                <div className="" style={{ display: "flex" }}><Select classNamePrefix={formik.errors[name] && formik.touched[name] ? 'error-phone' : 'phone'} defaultValue={codeList.find(el => el.value === defaultCode)} options={codeList} handleChange={handleChange} customStyles={selectStyles} indicator={<GlobeAltIcon width={15} />} />
-                    <MaskInput formik={formik} id={id} name={name} mask={mask} handleChange={setNumber} value={number} className='phone-input__field' placeholder='' styles={{width: inputWidth+'px'}}/></div>
+                <div className="" style={{ display: "flex" }}>
+                    <Select
+                        classNamePrefix={formik.errors[name] && formik.touched[name] ? 'error-phone' : 'phone'}
+                        defaultValue={codeList.find(el => el.value === defaultCode)}
+                        options={codeList}
+                        handleChange={handleChange}
+                        customStyles={selectStyles}
+                        indicator={<GlobeAltIcon width={15} />} 
+                        hasDefaultValue={true}/>
+                    <MaskInput formik={formik} id={id} name={name} mask={mask} handleChange={setNumber} value={number} className='phone-input__field' placeholder='' styles={{ width: inputWidth + 'px' }} /></div>
                 {formik.touched[name] && formik.errors[name] && <p className="phone-input__error">{formik.errors[name]}</p>}
             </div>
         </>
@@ -85,40 +93,6 @@ export const codeList = [
     { en: "Albania", ru: "Албания", label: '+355', value: 355 },
     { en: "Algeria", ru: "Алжир", label: '+1', value: 1 },
     { en: "American Samoru: a", ru: "Американское Самоа", label: '+684', value: 684 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
-    { en: "Russia", ru: "Россия", label: '+7', value: 7 },
     { en: "Russia", ru: "Россия", label: '+7', value: 7 },
 
 ]

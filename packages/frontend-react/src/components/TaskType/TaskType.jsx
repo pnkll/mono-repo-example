@@ -3,10 +3,8 @@ import Input from '../Input/Input.jsx';
 import { useFormik } from 'formik';
 import TextArea from '../TextArea/TextArea.jsx';
 import Select from '../Select/Select.jsx';
-import SelectField from '../SelectField/SelectField.jsx';
 import * as Yup from 'yup'
 import { taskTypeApi } from '../../services/TaskTypeService.js';
-import { rolesApi } from '../../services/RolesService.js'
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectRoleList } from '../../store/slices/rolesSlice.js';
@@ -58,7 +56,7 @@ export default React.memo(function TaskType() {
     const [editMode, setEditMode] = useState(params.id === 'new' ? true : false)
     const [fetchPostTaskType, { isLoading, isFetching }] = taskTypeApi.usePostTaskTypeMutation()
     const [fetchGetTaskTypeById] = taskTypeApi.useLazyGetTaskTypeByIdQuery()
-    const [fetchUpdateTaskType,{error}] = taskTypeApi.useUpdateTaskTypeMutation()
+    const [fetchUpdateTaskType,{error,isLoading: isLoadingUpdate}] = taskTypeApi.useUpdateTaskTypeMutation()
     async function getTaskTypeById(id) {
         const { data } = await fetchGetTaskTypeById(id)
         if (data.status === 200) {
@@ -71,8 +69,8 @@ export default React.memo(function TaskType() {
         }
     }
     async function postTaskType(values) {
-        await fetchPostTaskType(values)
-        setEditMode(false)
+        const {data,error} = await fetchPostTaskType(values)
+        error?showError(error.data.errors):setEditMode(false)
     }
     async function updateTaskType(values) {
         const {data,error} = await fetchUpdateTaskType(values)
@@ -103,7 +101,7 @@ export default React.memo(function TaskType() {
                         <Select formik={formik} id='priority' name='priority' label='Степень важности' options={priorityOptions} hasDefaultValue={true} isDisabled={editMode?false:true}/>
                     </div>
                     <TextArea formik={formik} id='description' name='description' label='Описание' readonly={editMode?false:true}/>
-                    <Button text={editMode ? params.id === 'new' ? 'Создать шаблон' : 'Сохранить' : 'Редактировать'} type='submit' color={editMode ? params.id === 'new' ? 'green' : 'green' : 'blue'} />
+                    <Button text={editMode ? params.id === 'new' ? 'Создать шаблон' : 'Сохранить' : 'Редактировать'} type='submit' color={editMode ? params.id === 'new' ? 'green' : 'green' : 'blue'} isLoading={isLoading||isLoadingUpdate}/>
                     {fetchError&&<ErrorMessage message={fetchError}/>}
                 </form>
             </div>

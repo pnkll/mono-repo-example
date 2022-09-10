@@ -9,7 +9,7 @@ import { selectCollapsed } from "../../store/slices/sidebarSlice";
 import { callContollSlice } from "../../store/slices/sidebarSlice";
 export default React.memo(function SidebarHeaderLayout({ children }) {
     const collapsed = useSelector(selectCollapsed)
-    const [expanded, setExpanded] = useState(false)
+    const isSomeQueryPending = useSelector(state => Object.values(state.api.queries).some(query => query.status === 'pending'))
     return (
         <>
             <div className="sidebar-header-layout__container">
@@ -18,7 +18,7 @@ export default React.memo(function SidebarHeaderLayout({ children }) {
                     <Header collapsed={collapsed}/>
                     <div className="sidebar-header-layout__content">
                         {/* <div className="sidebar-header-layout__scroll-container"> */}
-                            { children }
+                            {children}
                         {/* </div> */}
                         <CallWrapper/>
                     </div>

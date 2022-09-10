@@ -67,6 +67,9 @@ export default React.memo(function TableConstructor() {
                         <div className="" style={{ display: 'flex', gap: '10px' }}>
                             <Button text='Добавить поле' color='green' handleClick={handleAppend} />
                             <Button text={`${_.has(table,'columns') ? 'Обновить' : 'Создать'} таблицу`} handleClick={submitHandler} />
+                            <Button text={'Hello'} color={'red'}/>
+                            <Button text={'jfdsj'} customColor={'orange'} w={150}/>
+                            <Button text={'jfdsj'} color={'red'} disabled={true}/>
                             <InfoPopUp><p>Title: обязательное поле</p>
                                 <p>Сode: должен содержать только английские буквы без пробелов</p>
                                 <p>Type: тип данных которые будет содержать поле</p></InfoPopUp>

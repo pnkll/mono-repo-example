@@ -41,7 +41,7 @@ export default function CallControl({props}) {
                     </div>
 
                     <div className="" style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-                        <Button text='Отошел' color='yellow' handleClick={()=>props.current.unregisterSip()}/>
+                        <Button text='Отошел' handleClick={()=>props.current.unregisterSip()}/>
                         <Button text='Закончить смену' color='red' handleClick={()=>props.current.registerSip()}/>
                     </div>
                     <div className="" style={{ display: 'flex', alignItems: 'center', gap: 15, justifyContent: 'center' }}>

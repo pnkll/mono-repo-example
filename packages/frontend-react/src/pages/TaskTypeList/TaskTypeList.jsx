@@ -1,15 +1,36 @@
+import { XIcon } from '@heroicons/react/outline';
 import { isNil } from 'lodash';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import Button from '../../components/Button/Button.jsx';
+import ConfirmModal from '../../components/ConfirmModal/ConfirmModal.jsx';
 import Table from '../../components/Table/Table.jsx';
 import SidebarHeaderLayout from '../../page_layouts/SidebarHeaderLayout/SidebarHeaderLayout.jsx';
 import TransitionLayout from '../../page_layouts/TransitionLayout/TransitionLayout.jsx';
 import { taskTypeApi } from '../../services/TaskTypeService.js';
 
 export default React.memo(function TaskTypeList() {
-    const {data,error,isLoading,isFetching,}=taskTypeApi.useGetTaskTypesQuery()
+    const { data: taskTypesList, error, isLoading: isLoadingGet, isFetching, } = taskTypeApi.useGetTaskTypesQuery()
+    const [fetchRemoveTaskType, {isLoading: isLoadingRemove}] = taskTypeApi.useLazyRemoveTaskTypeQuery()
+    async function removeTaskType(id) {
+        await fetchRemoveTaskType(id)
+    }
+    const modalCallback = useRef()
+    const [showModal, setShowModal] = useState(false)
+    function handleClick(id) {
+        modalCallback.current = () => removeTaskType(id)
+        setShowModal(true)
+    }
+    function customTd(value) {
+        return  <div style={{ display: 'flex', gap: 10 }}>
+            <i style={{display: 'flex',alignItems: 'center'}}>
+                <XIcon width={20} color='red' style={{ cursor: 'pointer' }} onClick={() => handleClick(value)} />
+            </i>
+            <Button color='green' text='Перейти' href={value} />
+            
+        </div>
+    }
     const columns = [
-        { Header: '',accessor: '_id', Cell: ({ cell: { value } }) => <Button color='green' text='Перейти' href={value}/>|| '-' },
+        { Header: '', accessor: '_id', Cell: ({ cell: { value } }) => customTd(value) || '-' },
         { Header: 'Название', accessor: 'title' },
         { Header: 'Исполнитель', accessor: 'executor' },
         { Header: 'Ответственный', accessor: 'controller' },
@@ -18,15 +39,14 @@ export default React.memo(function TaskTypeList() {
         { Header: 'Dead Line', accessor: 'deadLineHours' },
         { Header: 'Степень важности', accessor: 'priority' },
     ]
-    const [getTaskType]=taskTypeApi.useLazyGetTaskTypeByIdQuery()
     return (
         <>
             <SidebarHeaderLayout>
                 <TransitionLayout from='bottom'>
-                    {!isLoading&&<Table columns={columns} data={!isNil(data)?data.message:[]} buttonHref={'new'} emptyCell={error?'Произошла ошибка при загрузке данных':'Пока что нет ни одного шаблона'}/>}
-                    <button onClick={()=>getTaskType('631876b9c450be1fa730ba34')}>CLikc</button>
+                    {!isLoadingGet && <Table columns={columns} data={!isNil(taskTypesList) ? taskTypesList.message : []} buttonHref={'new'} emptyCell={error ? 'Произошла ошибка при загрузке данных' : 'Пока что нет ни одного шаблона'} />}
                 </TransitionLayout>
             </SidebarHeaderLayout>
+            <ConfirmModal callback={modalCallback} isOpen={showModal} setIsOpen={setShowModal} label={'Вы действительно хотите удалить шаблон?'} />
         </>
     )
 })

@@ -15,6 +15,7 @@ import SidebarHeaderLayout from "../../page_layouts/SidebarHeaderLayout/SidebarH
 import ToggleInput from "../../components/ToggleInput/ToggleInput.jsx";
 import _ from "lodash";
 import TransitionLayout from "../../page_layouts/TransitionLayout/TransitionLayout.jsx";
+import Preloader from "../../components/Preloader/Preloader.jsx";
 
 export default React.memo(function Form() {
 
@@ -85,6 +86,8 @@ export default React.memo(function Form() {
                             <div className="demo-page__form__elem"><Select className='demo-page__form__elem__select' options={[{ label: 'jkfhdsak32j', value: '1' }, { label: 'jkfhdsakj', value: '2' }]} /></div>
                             <div className="demo-page__form__elem"><Button text='Sign in' type='submit' /></div>
                             <ToggleInput formik={formik} label='запомнить меня' id='remember' name='remember' />
+                            <div className="">
+                            </div>
                         </form>
                         <div className="demo-page__table">
                             {!data ? <Button text='fetch users' disabled={disabled} onClick={() => getPosts()} />

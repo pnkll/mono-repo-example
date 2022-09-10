@@ -36,8 +36,9 @@ export const taskTypeApi = Api.injectEndpoints({
             query: (data) => ({
                 url: '/tasks/tasktype',
                 method: 'DELETE',
+                params: {_id: data}
             }),
-            invalidatesTags: ['TASK-TYPES']
+            invalidatesTags: [{type: 'TASK-TYPES', id: 'LIST'}]
         }),
         postTaskType: builder.mutation({
             query: (data) => ({

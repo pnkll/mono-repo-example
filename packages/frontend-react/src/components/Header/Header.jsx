@@ -6,7 +6,7 @@ import { MenuAlt1Icon, MenuIcon } from "@heroicons/react/outline";
 import BreadCrumbs from "../BreadCrumbs/BreadCrumbs.jsx";
 import {Link, useNavigate} from 'react-router-dom'
 import {useDispatch} from "react-redux";
-import { setCollapsed } from "../../store/slices/sidebarSlice";
+import { setSidebarCollapsed } from "../../store/slices/sidebarSlice";
 import { logout } from "../../store/slices/appSlice";
 
 export default React.memo(function Header({collapsed}){
@@ -16,7 +16,7 @@ export default React.memo(function Header({collapsed}){
         <>
         <div className="header__container">
             <div className="header__left">
-                {collapsed?<MenuIcon style={{cursor: 'pointer'}} onClick={()=>dispatch(setCollapsed())} width={30}/>:collapsed!==undefined?<MenuAlt1Icon style={{cursor: 'pointer'}} onClick={()=>dispatch(setCollapsed())} width={30}/>:''}
+                {collapsed?<MenuIcon style={{cursor: 'pointer'}} onClick={()=>dispatch(setSidebarCollapsed())} width={30}/>:collapsed!==undefined?<MenuAlt1Icon style={{cursor: 'pointer'}} onClick={()=>dispatch(setSidebarCollapsed())} width={30}/>:''}
             </div>
             <div className="header__middle">
                 <BreadCrumbs/>

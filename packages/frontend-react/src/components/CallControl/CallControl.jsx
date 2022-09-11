@@ -34,10 +34,10 @@ export default function CallControl({props}) {
     
     return (
         <>
-                <div className="call-control__container" style={{ width: 'fit-content', position: 'absolute', bottom: expanded ? '3px' : '-159px', transition: 'all 0.5s ease' }}>
+                <div className="call-control__container" style={{ width: 'fit-content', position: 'absolute', bottom: expanded ? '3px' : '-159px', background: expanded?'rgb(128 128 128 / 63%)':'', transition: 'all 0.5s ease' }}>
                     <div className="call-control__header">
                         <p className='call-control__header__status'>На линии</p>
-                        {expanded ? <MinusIcon width={20} onClick={() => dispatch(setExpanded(!expanded))} /> : <MenuIcon width={20} onClick={() => dispatch(setExpanded(!expanded))} />}
+                        {expanded ? <MinusIcon width={20} onClick={() => dispatch(setExpanded(!expanded))} style={{cursor: 'pointer'}}/> : <MenuIcon style={{cursor: 'pointer'}} width={20} onClick={() => dispatch(setExpanded(!expanded))} />}
                     </div>
 
                     <div className="" style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>

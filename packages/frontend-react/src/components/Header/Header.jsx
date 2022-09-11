@@ -4,13 +4,14 @@ import './Header.scss'
 import Button from '../Button/Button.jsx'
 import { MenuAlt1Icon, MenuIcon } from "@heroicons/react/outline";
 import BreadCrumbs from "../BreadCrumbs/BreadCrumbs.jsx";
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import {useDispatch} from "react-redux";
 import { setCollapsed } from "../../store/slices/sidebarSlice";
 import { logout } from "../../store/slices/appSlice";
 
 export default React.memo(function Header({collapsed}){
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     return(
         <>
         <div className="header__container">
@@ -23,7 +24,7 @@ export default React.memo(function Header({collapsed}){
             <div className="header__right">
                 <Link to='inbox'><MailIcon width={20}/></Link>
                 <Link to=''><BellIcon width={20}/></Link>
-                <Button text='Logout' color='white' handleClick={()=>dispatch(logout())}/>
+                <Button text='Logout' color='white' handleClick={()=>{dispatch(logout());navigate('../')}}/>
             </div>
         </div>
         </>

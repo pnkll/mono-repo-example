@@ -8,11 +8,9 @@ import { taskTypeApi } from '../../../services/TaskTypeService.js';
 export default React.memo(function TaskTypeById() {
     return (
         <>
-            <SidebarHeaderLayout>
                     <SettingLayout label='Шаблон'>
                         <TaskType/>
                     </SettingLayout>
-            </SidebarHeaderLayout>
         </>
     )
 })

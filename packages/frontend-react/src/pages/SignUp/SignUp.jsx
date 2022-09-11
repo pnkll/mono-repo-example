@@ -138,7 +138,7 @@ export default React.memo(function SignUp() {
     }
     return (
         <>
-            {!isNil(messages) && <AuthLayout>
+            {!isNil(messages) && <>
                 <AuthMessages messages={messages} />
                 {
                     !isNil(currentForm) && <AuthField key={currentForm.id} id={currentForm.id} name={currentForm.id} messages={messages} setMessages={setMessages}
@@ -148,7 +148,7 @@ export default React.memo(function SignUp() {
                         currentForm={currentForm} setCurrentForm={setCurrentForm} formiks={formiks}
                         type={currentForm.id === 'password' ? 'password' : currentForm.id === 'password_repeat' ? 'password' : 'text'} />
                 }
-            </AuthLayout>}
+            </>}
         </>
     )
 })

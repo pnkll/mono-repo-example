@@ -21,11 +21,9 @@ export default React.memo(function Roles() {
     ]
     return (
         <>
-            <SidebarHeaderLayout>
                 <TransitionLayout from='bottom'>
                     <Table label='Список ролей' columns={columns} data={!isNil(roleList) ? roleList.map(el => el && { ...el, createdAt: formatDate(el.createdAt), updatedAt: formatDate(el.createdAt) }) : []} buttonHref={'new'} />
                 </TransitionLayout>
-            </SidebarHeaderLayout>
         </>
     )
 })

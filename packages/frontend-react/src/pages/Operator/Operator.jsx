@@ -10,7 +10,6 @@ import './Operator.scss'
 export default React.memo(function Operator() {
     return (
         <>
-            <SidebarHeaderLayout>
                 <TransitionLayout>
                     <div className="operator-page__container">
                         <div className="operator-page__left__wrapper">
@@ -31,7 +30,6 @@ export default React.memo(function Operator() {
                         </div>
                     </div>
                 </TransitionLayout>
-            </SidebarHeaderLayout>
         </>
     )
 })

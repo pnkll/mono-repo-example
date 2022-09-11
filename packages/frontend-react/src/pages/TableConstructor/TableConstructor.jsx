@@ -61,7 +61,6 @@ export default React.memo(function TableConstructor() {
     }
     return (
         <>
-            <SidebarHeaderLayout>
                 <TransitionLayout>
                     <div style={{ display: 'flex', gap: '20px', flexDirection: 'column', height: '100%' }}>
                         <div className="" style={{ display: 'flex', gap: '10px' }}>
@@ -96,7 +95,6 @@ export default React.memo(function TableConstructor() {
                         {_.has(table,'columns') && <Table label={table.title} columns={table.columns} data={[]} emptyCell={<DragNDropCell />} />}
                     </div>
                 </TransitionLayout>
-            </SidebarHeaderLayout>
         </>
     )
 })

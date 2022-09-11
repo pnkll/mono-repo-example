@@ -6,11 +6,9 @@ export default React.memo(function Main() {
 
     return (
         <>
-            <SidebarHeaderLayout>
                 <TransitionLayout>
                     main
                 </TransitionLayout>
-            </SidebarHeaderLayout>
         </>
     )
 })

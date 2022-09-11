@@ -7,13 +7,11 @@ import TransitionLayout from '../../page_layouts/TransitionLayout/TransitionLayo
 export default React.memo(function Profile() {
     return (
         <>
-            <SidebarHeaderLayout>
                 <TransitionLayout>
                     <CardLayout title={'Сотрудник'}>
                         <ProfileForm />
                     </CardLayout>
                 </TransitionLayout>
-            </SidebarHeaderLayout>
         </>
     )
 })

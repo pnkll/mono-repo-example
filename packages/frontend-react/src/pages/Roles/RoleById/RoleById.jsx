@@ -6,11 +6,9 @@ import Role from '../../../components/Role/Role.jsx';
 export default React.memo(function RoleById(){
    return(
        <>
-            <SidebarHeaderLayout>
                 <SettingLayout label='Role'>
                     <Role/>
                 </SettingLayout>
-            </SidebarHeaderLayout>
        </>
    )
 })

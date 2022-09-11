@@ -14,13 +14,11 @@ export default React.memo(function Settings() {
 
     return (
         <>
-            <SidebarHeaderLayout>
                 <TransitionLayout>
                     <TwoColumnLayout>
                         <SettingItem label='Главные' items={items} />
                     </TwoColumnLayout>
                 </TransitionLayout>
-            </SidebarHeaderLayout>
         </>
     )
 })

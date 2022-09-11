@@ -74,7 +74,6 @@ export default React.memo(function Form() {
     ])
     return (
         <>
-            <SidebarHeaderLayout>
                 <TransitionLayout>
                     <div className="demo-page__container">
                         <form className="demo-page__form" onSubmit={(e) => { e.preventDefault(); formik.handleSubmit(e) }}>
@@ -102,7 +101,6 @@ export default React.memo(function Form() {
                         </div>
                     </div>
                 </TransitionLayout>
-            </SidebarHeaderLayout>
         </>
     )
 })

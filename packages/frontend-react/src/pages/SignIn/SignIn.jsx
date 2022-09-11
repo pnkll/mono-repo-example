@@ -63,7 +63,7 @@ export default React.memo(function SignIn() {
     }
     return (
         <>
-            {!isNil(messages) && <AuthLayout>
+            {!isNil(messages) && <>
                 <AuthMessages messages={messages} />
                 {
                     !isNil(currentForm) && <AuthField key={currentForm.id} id={currentForm.id} name={currentForm.id} messages={messages} setMessages={setMessages}
@@ -73,7 +73,7 @@ export default React.memo(function SignIn() {
                         currentForm={currentForm} setCurrentForm={setCurrentForm} formiks={formiks}
                         type={currentForm.id === 'user_password' ? 'password' : currentForm.id === 'passwordRepeat' ? 'password' : 'text'} />
                 }
-            </AuthLayout>}
+            </>}
         </>
     )
 })

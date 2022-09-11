@@ -41,11 +41,9 @@ export default React.memo(function TaskTypeList() {
     ]
     return (
         <>
-            <SidebarHeaderLayout>
                 <TransitionLayout from='bottom'>
                     {!isLoadingGet && <Table columns={columns} data={!isNil(taskTypesList) ? taskTypesList.message : []} buttonHref={'new'} emptyCell={error ? 'Произошла ошибка при загрузке данных' : 'Пока что нет ни одного шаблона'} />}
                 </TransitionLayout>
-            </SidebarHeaderLayout>
             <ConfirmModal callback={modalCallback} isOpen={showModal} setIsOpen={setShowModal} label={'Вы действительно хотите удалить шаблон?'} />
         </>
     )

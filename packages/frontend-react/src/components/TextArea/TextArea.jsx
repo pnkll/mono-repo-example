@@ -55,7 +55,7 @@ export default React.memo(function TextArea({ formik, id, name, label, required,
                 {!isEmpty(formik?.values[attachId]) && <div className="textarea__files-preview__container">
                     <hr />
                     <div className="textarea__files-preview__wrapper">
-                        {formik?.values[attachId].map((file, index) => <div className="textarea__files-preview__elem">
+                        {formik?.values[attachId].map((file, index) => <div key={index} className="textarea__files-preview__elem">
                             <i className="textarea__files-preview__elem__icon"/>
                             <XIcon width={20} className="textarea__files-preview__elem__x-icon" onClick={()=>handleRemove(index)}/>
                             {file[0].name}

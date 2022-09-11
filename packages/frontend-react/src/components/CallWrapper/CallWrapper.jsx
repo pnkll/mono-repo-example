@@ -37,7 +37,7 @@ export default function CallWrapper() {
             pathname={initialState.pathname}
             user={initialState.user}
             password={initialState.password}
-            autoRegister={initialState.autoRegister}
+            autoRegister={false}
             autoAnswer={initialState.autoAnswer}
             iceRestart={initialState.iceRestart}
             sessionTimersExpires={initialState.sessionTimersExpires}

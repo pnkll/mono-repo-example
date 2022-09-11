@@ -9,8 +9,17 @@
         display: flex;
         align-items: center;
         font-weight: 500;
+        svg{
+            color: black;
+        }
         &.current{
-            color: #197DD2
+            color: #197DD2;
+            &:hover{
+                color: #197DD2
+            }
+        }
+        &:hover{
+            color: #197dd269;
         }
     }
 }

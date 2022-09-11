@@ -34,7 +34,7 @@ export const rolesApi = Api.injectEndpoints({
                 }
             },
             providesTags: (result) =>
-                result.message
+                result?.message
                     ? [
                         ...result.message.map(({ id }) => ({ type: 'ROLES', id })),
                         { type: 'ROLES', id: 'LIST' },
@@ -61,7 +61,7 @@ export const rolesApi = Api.injectEndpoints({
                 method: 'GET',
             }),
             providesTags: (result) =>
-                result.message
+                result?.message
                     ? [
                         ...result.message.map(({ id }) => ({ type: 'PERMISSIONS', id })),
                         { type: 'PERMISSIONS', id: 'LIST' },

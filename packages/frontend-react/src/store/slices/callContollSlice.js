@@ -8,14 +8,14 @@ const initialState={
     pathname: "",
     user: "1002",
     password: "2495",
-    autoRegister: true,
+    autoRegister: false,
     autoAnswer: false, // automatically answer incoming calls; false by default
     iceRestart: false, // force ICE session to restart on every WebRTC call; false by default
     sessionTimersExpires: 120, // value for Session-Expires header; 120 by default
     // iceServers: [
     //     { urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302"] },
     // ],
-    debug: true,
+    debug: false,
     connect_pending: false,
 }
 

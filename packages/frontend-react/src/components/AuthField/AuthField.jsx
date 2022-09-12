@@ -8,7 +8,7 @@ import * as Yup from 'yup'
 import { isNil } from "lodash";
 import { authApi } from '../../services/AuthService.js';
 
-export default React.memo(function AuthField({ id, name, type = 'text', messages, setMessages, sendMessages, currentForm, setData, data, formiks, setCurrentForm, nextField, rtkHook }) {
+export default React.memo(function AuthField({ id, name, type = 'text', messages, setMessages, sendMessages, currentForm, setData, data, formiks, setCurrentForm, nextField, rtkHook,setOrder,order}) {
     const [postData, { isLoading, isFetching }] = rtkHook()
     const [postError, setPostError] = useState(null)
     const [fetchPostOrganization, { error }] = authApi.useRegisterOrganizationMutation()
@@ -60,12 +60,13 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
     const validationSchema = id === 'password_repeat' ? Yup.object().shape({
         password_repeat: Yup.string().required().test('repeat-password', 'Пароли не совпадают', (value => value === data.password))
     }) : currentForm?.validationSchema
-    const goBackToInput = (id) => {
-        const cloneData = { ...data }
-        delete cloneData[id]
-        setData(cloneData)
-        setCurrentForm(formiks.find(formik => formik.id === id))
-        sendMessages(name, id, null, messages, setMessages)
+    const goBackToInput = (fieldId) => {
+        setOrder(order.map(el=>el.id===fieldId?{...el, next: id}:el))//переопределяем порядок чтобы вернуться к текущему полю после ввода
+        const tmp = { ...data }
+        delete tmp[fieldId]
+        setData(tmp)
+        setCurrentForm(formiks.find(formik => formik.id === fieldId))
+        sendMessages(name, fieldId, null, messages, setMessages)
     }
     function renderInput(formik) {
         switch (id) {

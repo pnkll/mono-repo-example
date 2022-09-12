@@ -30,14 +30,13 @@ export default React.memo(function SignUp() {
         { id: 'signin', question: 'Вы успешно зарегистрировались, отправьте "Войти" для того чтобы авторизоваться', answer: null, visible: false, time: '', last: false },
     ])
     const sendMessage = (currentField, nextField, values, messages, setMessages) => {
-        //currentField === 'password_repeat'
-            //? 
-            isNil(values) ? setMessages([...messages, {...(messages.find(el=>el.id===nextField)),answer: null, time: '', last: true}])
-            : //currentField === 'password' && 
-            messages.filter(el => el.id === currentField).length > 1
+        isNil(values) ? setMessages([...messages, { ...(messages.find(el => el.id === nextField)), answer: null, time: '', last: true }])
+            : messages.filter(el => el.id === currentField).length > 1
                 ? setMessages([...messages.map(el => el.id === currentField && isNil(el.answer)
-                    ? { ...el, answer: getHiderValue(values.password), last: true }
-                    : { ...el, last: false }), {...(messages.find(el=>el.id===nextField)),answer:null, visible: true, time: '', last: true},])
+                    ? { ...el, answer: (currentField==='password'||currentField==='password__repeat')
+                        ?getHiderValue(values[currentField])
+                        :values[currentField], last: true }
+                    : { ...el, last: false }), { ...(messages.find(el => el.id === nextField)), answer: null, visible: true, time: '', last: true },])
                 : setMessages(messages.map(el => el.id === currentField
                     ? {
                         ...el, answer: isNil(values)
@@ -162,41 +161,45 @@ export default React.memo(function SignUp() {
         },
     ])
     const [currentForm, setCurrentForm] = useState(formiks.find(formik => formik.id === 'type'))
-    const nextField = (id) => {
-        if (data.type === 'Добавить') {
-            switch (id) {
-                case 'key': return 'organization'
-                case 'organization': return 'email_org'
-                case 'email_org': return 'username'
-                case 'username': return 'firstname'
-                case 'firstname': return 'lastname'
-                case 'lastname': return 'phone'
-                case 'phone': return 'email'
-                case 'email': return 'password'
-                case 'password': return 'password_repeat'
-                case 'password_repeat': return 'signin'
-            }
-        } else {
-            switch (id) {
-                case 'type': return 'key'
-                case 'key': return 'organization'
-                case 'organization': return 'email'
-                case 'email': return 'username'
-                case 'username': return 'firstname'
-                case 'firstname': return 'lastname'
-                case 'lastname': return 'phone'
-                case 'phone': return 'password'
-                case 'password': return 'password_repeat'
-                case 'password_repeat': return 'signin'
-            }
-        }
+    const arr = [
+        { id: 'key', next: 'organization' }
+    ]
+    const [order, setOrder] = useState([
+        { id: 'type', next: 'key' },
+        { id: 'key', next: 'organization' },
+        { id: 'organization', next: 'email' },
+        { id: 'email', next: 'username' },
+        { id: 'username', next: 'firstname' },
+        { id: 'firstname', next: 'lastname' },
+        { id: 'lastname', next: 'phone' },
+        { id: 'phone', next: 'password' },
+        { id: 'password', next: 'password_repeat' },
+        { id: 'password_repeat', next: 'signin' }
+    ])
+    function nextField(id) {
+        return order.find(el => el.id === id)?.next
     }
+    useEffect(() => {
+        data.type === 'Добавить' && setOrder([
+            { id: 'key', next: 'organization' },
+            { id: 'organization', next: 'email_org' },
+            { id: 'email_org', next: 'username' },
+            { id: 'username', next: 'firstname' },
+            { id: 'firstname', next: 'lastname' },
+            { id: 'lastname', next: 'phone' },
+            { id: 'phone', next: 'email' },
+            { id: 'email', next: 'password' },
+            { id: 'password', next: 'password_repeat' },
+            { id: 'password_repeat', next: 'signin' },
+        ])
+    }, [data.type])
     return (
         <>
             {!isNil(messages) && <>
                 <AuthMessages messages={messages} />
                 {
-                    !isNil(currentForm) && <AuthField key={currentForm.id}
+                    !isNil(currentForm) && <AuthField
+                        key={currentForm.id}
                         id={currentForm.id}
                         name={currentForm.id}
                         messages={messages}
@@ -209,6 +212,8 @@ export default React.memo(function SignUp() {
                         currentForm={currentForm}
                         setCurrentForm={setCurrentForm}
                         formiks={formiks}
+                        setOrder={setOrder}
+                        order={order}
                         type={currentForm.id === 'password' ? 'password' : currentForm.id === 'password_repeat' ? 'password' : 'text'} />
                 }
             </>}

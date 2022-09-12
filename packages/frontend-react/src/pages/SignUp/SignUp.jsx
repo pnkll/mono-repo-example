@@ -5,16 +5,10 @@ import AuthField from '../../components/AuthField/AuthField.jsx';
 import * as Yup from 'yup'
 import AuthMessages from '../../components/AuthMessages/AuthMessages.jsx';
 import { authApi } from '../../services/AuthService.js';
+import { getTime } from '../../helpers/forAuth';
 
 export default React.memo(function SignUp() {
-    const getTime = () => {
-        const date = new Date()
-        return date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
-    }
     const [data, setData] = useState({})
-    function getHiderValue(value) {
-        return value.replace(/[\s\S]/g, "*")
-    }
     const [messages, setMessages] = useState([
         { id: 'type', question: 'Здравствуйте, вы хотите присоединиться к существующей организации или добавить новую?', answer: null, visible: true, time: getTime(), last: true },
         { id: 'key', question: 'Хотите зарегистрироваться по ИНН или ключу', answer: null, visible: false, time: '', last: false },
@@ -29,34 +23,6 @@ export default React.memo(function SignUp() {
         { id: 'password_repeat', question: 'Подтвердите пароль', answer: null, visible: false, time: '', last: false },
         { id: 'signin', question: 'Вы успешно зарегистрировались, отправьте "Войти" для того чтобы авторизоваться', answer: null, visible: false, time: '', last: false },
     ])
-    const sendMessage = (currentField, nextField, values, messages, setMessages) => {
-        isNil(values) ? setMessages([...messages, { ...(messages.find(el => el.id === nextField)), answer: null, time: '', last: true }])
-            : messages.filter(el => el.id === currentField).length > 1
-                ? setMessages([...messages.map(el => el.id === currentField && isNil(el.answer)
-                    ? { ...el, answer: (currentField==='password'||currentField==='password__repeat')
-                        ?getHiderValue(values[currentField])
-                        :values[currentField], last: true }
-                    : { ...el, last: false }), { ...(messages.find(el => el.id === nextField)), answer: null, visible: true, time: '', last: true },])
-                : setMessages(messages.map(el => el.id === currentField
-                    ? {
-                        ...el, answer: isNil(values)
-                            ? null
-                            : values[currentField].label
-                                ? values[currentField].label
-                                : currentField === 'password'
-                                    ? getHiderValue(values[currentField])
-                                    : currentField === 'passwordRepeat'
-                                        ? getHiderValue(values[currentField])
-                                        : values[currentField], last: true
-                    }
-                    : el.id === nextField
-                        ? {
-                            ...el, question: (currentField === 'key' && values.key === 'Ключ')
-                                ? 'Введите ключ'
-                                : el.question, visible: true, time: getTime(), last: true
-                        }
-                        : { ...el, last: false }))
-    }
     const [formiks, setFormiks] = useState([
         {
             id: 'type', initialValues: { type: '' },
@@ -161,9 +127,6 @@ export default React.memo(function SignUp() {
         },
     ])
     const [currentForm, setCurrentForm] = useState(formiks.find(formik => formik.id === 'type'))
-    const arr = [
-        { id: 'key', next: 'organization' }
-    ]
     const [order, setOrder] = useState([
         { id: 'type', next: 'key' },
         { id: 'key', next: 'organization' },
@@ -176,9 +139,6 @@ export default React.memo(function SignUp() {
         { id: 'password', next: 'password_repeat' },
         { id: 'password_repeat', next: 'signin' }
     ])
-    function nextField(id) {
-        return order.find(el => el.id === id)?.next
-    }
     useEffect(() => {
         data.type === 'Добавить' && setOrder([
             { id: 'key', next: 'organization' },
@@ -205,8 +165,6 @@ export default React.memo(function SignUp() {
                         messages={messages}
                         setMessages={setMessages}
                         rtkHook={authApi.useRegisterMutation}
-                        nextField={nextField}
-                        sendMessages={sendMessage}
                         setData={setData}
                         data={data}
                         currentForm={currentForm}

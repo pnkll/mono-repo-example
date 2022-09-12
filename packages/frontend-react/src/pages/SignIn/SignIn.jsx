@@ -5,25 +5,14 @@ import AuthMessages from '../../components/AuthMessages/AuthMessages.jsx';
 import AuthLayout from '../../page_layouts/AuthLayout/AuthLayout.jsx';
 import * as Yup from 'yup'
 import { authApi } from '../../services/AuthService.js';
+import { getTime } from '../../helpers/forAuth';
 
 export default React.memo(function SignIn() {
-    const getTime = () => {
-        const date = new Date()
-        return date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
-    }
     const [messages, setMessages] = useState([
         { id: 'username', question: 'Рады приветствовать вас снова, пожалуйста введите ваш login', answer: null, visible: true, time: getTime() },
         { id: 'user_password', question: 'Введите ваш пароль', answer: null, visible: false, time: '' },
         { id: 'signin', question: 'Успешная авторизация', answer: null, visible: false, time: '' },
     ])
-    const sendMessage = (currentField, nextField, values, messages, setMessages) => {
-        setMessages(messages.map((el, index) => el.id === currentField ?
-            {
-                ...el, answer: values[currentField].label ? values[currentField].label : currentField === 'user_password' ?
-                    values[currentField].replace(/[\s\S]/g, "*") : currentField === 'passwordRepeat' ? values[currentField].replace(/[\s\S]/g, "*") : values[currentField]
-            }
-            : el.id === nextField ? { ...el, visible: true, time: getTime() } : el))
-    }
     const [data, setData] = useState([])
     const [formiks, setFormiks] = useState([
         {
@@ -55,22 +44,29 @@ export default React.memo(function SignIn() {
         },
     ])
     const [currentForm, setCurrentForm] = useState(formiks.find(formik => formik.id === 'username'))
-    const nextField = (id) => {
-        switch (id) {
-            case 'username': return 'user_password'
-            case 'user_password': return 'signin'
-        }
-    }
+    const [order, setOrder] = useState([
+        { id: 'username', next: 'user_password' },
+        { id: 'user_password', next: 'signin' }
+    ])
     return (
         <>
             {!isNil(messages) && <>
                 <AuthMessages messages={messages} />
                 {
-                    !isNil(currentForm) && <AuthField key={currentForm.id} id={currentForm.id} name={currentForm.id} messages={messages} setMessages={setMessages}
+                    !isNil(currentForm) && <AuthField
+                        key={currentForm.id}
+                        id={currentForm.id}
+                        name={currentForm.id}
+                        messages={messages}
+                        setMessages={setMessages}
                         rtkHook={authApi.useLoginMutation}
-                        nextField={nextField}
-                        sendMessages={sendMessage} setData={setData} data={data}
-                        currentForm={currentForm} setCurrentForm={setCurrentForm} formiks={formiks}
+                        setData={setData}
+                        data={data}
+                        currentForm={currentForm}
+                        setCurrentForm={setCurrentForm}
+                        formiks={formiks}
+                        order={order}
+                        setOrder={setOrder}
                         type={currentForm.id === 'user_password' ? 'password' : currentForm.id === 'passwordRepeat' ? 'password' : 'text'} />
                 }
             </>}

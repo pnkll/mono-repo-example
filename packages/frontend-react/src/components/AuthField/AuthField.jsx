@@ -7,8 +7,9 @@ import './AuthField.scss'
 import * as Yup from 'yup'
 import { isNil } from "lodash";
 import { authApi } from '../../services/AuthService.js';
+import { updateMessages, getNextField } from '../../helpers/forAuth.js';
 
-export default React.memo(function AuthField({ id, name, type = 'text', messages, setMessages, sendMessages, currentForm, setData, data, formiks, setCurrentForm, nextField, rtkHook,setOrder,order}) {
+export default React.memo(function AuthField({ id, name, type = 'text', messages, setMessages, currentForm, setData, data, formiks, setCurrentForm,rtkHook,setOrder,order}) {
     const [postData, { isLoading, isFetching }] = rtkHook()
     const [postError, setPostError] = useState(null)
     const [fetchPostOrganization, { error }] = authApi.useRegisterOrganizationMutation()
@@ -23,7 +24,7 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
             if (data?.type === 'Добавить') {
                 const { data: responseData, error } = await fetchPostOrganization({ inn: !isNil(data?.organization?.value) ? data?.organization?.value : data?.organization, email: values.email_org })
                 if (!isNil(error)) {
-                    sendMessages(name, nextField(id), values, messages, setMessages)
+                    updateMessages(name, getNextField(id,order), values, messages, setMessages)
                     setPostError(error.data.errors)
                     return
                 } else if (!isNil(responseData)) {
@@ -52,8 +53,8 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                 }
                 handlePost(user)
             } else {
-                sendMessages(name, nextField(id), values, messages, setMessages)
-                setCurrentForm(formiks.find(formik => formik.id === nextField(id)))
+                updateMessages(name, getNextField(id,order), values, messages, setMessages)
+                setCurrentForm(formiks.find(formik => formik.id === getNextField(id,order)))
             }
         }
     }
@@ -66,7 +67,7 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
         delete tmp[fieldId]
         setData(tmp)
         setCurrentForm(formiks.find(formik => formik.id === fieldId))
-        sendMessages(name, fieldId, null, messages, setMessages)
+        updateMessages(name, fieldId, null, messages, setMessages)
     }
     function renderInput(formik) {
         switch (id) {
@@ -85,7 +86,7 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                     <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Добавить') }}>Добавить</div>
                 </>)
             case 'email_org':
-                return <div className="auth-field__buttons__elem" onClick={()=>goBackToInput('organization')}>Ввести пароль заного</div>
+                return <div className="auth-field__buttons__elem" onClick={()=>goBackToInput('organization')}>Заного указать организацию</div>
             case 'signin':
                 return <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Войти'); formik.submitForm() }}>Войти</div>
             case 'password_repeat':

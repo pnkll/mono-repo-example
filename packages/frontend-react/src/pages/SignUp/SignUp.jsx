@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import AuthLayout from '../../page_layouts/AuthLayout/AuthLayout.jsx';
 import './SignUp.scss'
 import { isNil } from 'lodash';
 import AuthField from '../../components/AuthField/AuthField.jsx';
@@ -13,7 +12,7 @@ export default React.memo(function SignUp() {
         return date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
     }
     const [data, setData] = useState({})
-    function hiderPassword(value){
+    function getHiderValue(value){
         return value.replace(/[\s\S]/g, "*")
     }
     const [messages, setMessages] = useState([
@@ -32,13 +31,13 @@ export default React.memo(function SignUp() {
     ])
     const sendMessage = (currentField, nextField, values, messages, setMessages) => {
         currentField === 'password_repeat' ? isNil(values) && nextField === 'password' && setMessages([...messages, { id: 'password', question: 'Введите ваш пароль', answer: null, visible: true, time: '', last: true }]) :
-            currentField === 'password' && messages.filter(el => el.id === 'password').length > 1 ? setMessages([...messages.map(el => el.id === 'password' && isNil(el.answer) ? { ...el, answer: values.password.replace(/[\s\S]/g, "*"), last: true } : { ...el, last: false }), { id: 'password_repeat', question: 'Подтвердите пароль', answer: null, visible: true, time: '', last: true },])
+            currentField === 'password' && messages.filter(el => el.id === 'password').length > 1 ? setMessages([...messages.map(el => el.id === 'password' && isNil(el.answer) ? { ...el, answer: getHiderValue(values.password), last: true } : { ...el, last: false }), { id: 'password_repeat', question: 'Подтвердите пароль', answer: null, visible: true, time: '', last: true },])
                 : setMessages(messages.map(el => el.id === currentField ?
                     {
                         ...el, answer: isNil(values) ? null : values[currentField].label ? values[currentField].label : currentField === 'password' ?
-                            values[currentField].replace(/[\s\S]/g, "*") : currentField === 'passwordRepeat' ? values[currentField].replace(/[\s\S]/g, "*") : values[currentField], last: true
+                            getHiderValue(values[currentField]): currentField === 'passwordRepeat' ? getHiderValue(values[currentField]) : values[currentField], last: true
                     }
-                    : el.id === nextField ? { ...el, visible: true, time: getTime(), last: true } : { ...el, last: false }))
+                    : el.id === nextField ? { ...el, question: (currentField==='key'&&values.key==='Ключ')?'Введите ключ':el.question, visible: true, time: getTime(), last: true } : { ...el, last: false }))
     }
     const [formiks, setFormiks] = useState([
         {

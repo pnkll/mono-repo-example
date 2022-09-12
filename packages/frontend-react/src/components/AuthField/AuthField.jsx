@@ -9,26 +9,29 @@ import { isNil } from "lodash";
 import { authApi } from '../../services/AuthService.js';
 
 export default React.memo(function AuthField({ id, name, type = 'text', messages, setMessages, sendMessages, currentForm, setData, data, formiks, setCurrentForm, nextField, rtkHook }) {
-    const [postData,{isLoading,isFetching}] = rtkHook()
+    const [postData, { isLoading, isFetching }] = rtkHook()
     const [postError, setPostError] = useState(null)
-    const [fetchPostOrganization, {error}] = authApi.useRegisterOrganizationMutation()
+    const [fetchPostOrganization, { error }] = authApi.useRegisterOrganizationMutation()
     const handlePost = async (user) => {
-            const {data,error} = await postData(user)
-            if(!isNil(error)){
-                setPostError(error.data.errors)
-            }
+        const { data, error } = await postData(user)
+        if (!isNil(error)) {
+            setPostError(error.data.errors)
+        }
     }
     const handleSubmit = async (values) => {
-        if (id==='email'){
-            if(data?.type==='Добавить'){
-                const {data: responseData,error} = await fetchPostOrganization({inn: data?.organization?.value, email: values.email})
-                if(!isNil(error)){
+        console.log(data)
+        if (id === 'email_org') {
+            if (data?.type === 'Добавить') {
+                const { data: responseData, error } = await fetchPostOrganization({ inn: !isNil(data?.organization?.value)?data?.organization?.value:data?.organization, email: values.email_org })
+                if (!isNil(error)) {
+                    sendMessages(name, nextField(id), values, messages, setMessages)
                     setPostError(error.data.errors)
-                    return 
-                } else if (!isNil(responseData)){
-                    setData({...data, inn: responseData.message.token})
+                    return
+                } else if (!isNil(responseData)) {
+                    data.organization.value = responseData.message.token;
+                    setData({ ...data })
                 }
-            } 
+            }
         }
         if (id !== 'signin') {
             id !== 'password_repeat' && setData({ ...data, [Object.keys(values)[0]]: Object.values(values)[0] })
@@ -40,7 +43,7 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                     password: originalObject.password,
                     firstname: originalObject.firstname,
                     lastname: originalObject.lastname,
-                    organization: originalObject.organization.value,
+                    organization: !isNil(originalObject.organization.value)?originalObject.organization.value:originalObject.organization,
                     phone: originalObject.phone,
                     email: originalObject.email,
                     repeat_password: originalObject.password_repeat
@@ -58,12 +61,19 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
     const validationSchema = id === 'password_repeat' ? Yup.object().shape({
         password_repeat: Yup.string().required().test('repeat-password', 'Пароли не совпадают', (value => value === data.password))
     }) : currentForm?.validationSchema
-    const goToInput = (id) => {
+    const goToInputPassword = () => {
         const cloneData = { ...data }
-        delete cloneData[id]
+        delete cloneData.password
         setData(cloneData)
-        setCurrentForm(formiks.find(formik => formik.id === id))
-        sendMessages(name, id, null, messages, setMessages)
+        setCurrentForm(formiks.find(formik => formik.id === 'password'))
+        sendMessages(name, 'password', null, messages, setMessages)
+    }
+    function goToInputInn() {
+        const cloneData = { ...data }
+        delete cloneData.organization
+        setData(cloneData)
+        setCurrentForm(formiks.find(formik => formik.id === 'organization'))
+        sendMessages(name, 'organization', null, messages, setMessages)
     }
     return (
         <>
@@ -71,22 +81,29 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                 {formik => (
                     <>
                         <form className='auth-field' onSubmit={(e) => { e.preventDefault(); formik.submitForm(); }}>
-                            {id === 'organization' ? <InputDadata formik={formik} id={id} name={name} classNamePrefix='auth-field' />
-                                : <Input type={type} placeholder='Введите сообщение' formik={formik} id={id} name={name} className='auth-field-input' />}
+                            {id === 'organization' ?
+                                data.key === 'ИНН'?<InputDadata formik={formik} id={id} name={name} classNamePrefix='auth-field' />
+                                : <Input type={type} placeholder='Введите сообщение' formik={formik} id={id} name={name} className='auth-field-input'/>
+                                : <Input type={type} placeholder={`${id==='type'||'key'?'Выберите команду из списка':'Введите сообщение'}`} formik={formik} id={id} name={name} className='auth-field-input' readonly={id==='type'||'key'?true:false} defaultStyles={false}/>}
                             <button type='submit' className='auth-field__button' disabled={isLoading}><ChatIcon width={30} /></button>
                         </form>
 
                         <div className="auth-field__buttons">
-                            {!isNil(postError)&&<>
-                                <div className="auth-field__buttons__elem" onClick={()=>goToInput('organization')}>Ввести ИНН заного</div>
-                                </>}
+                            {!isNil(postError) && <>
+                                <div className="auth-field__buttons__elem" onClick={goToInputInn}>Ввести ИНН заного</div>
+                            </>}
                             {id === 'type' ?
                                 <>
                                     <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Присоединиться') }}>Присоединиться</div>
                                     <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Добавить') }}>Добавить</div>
                                 </>
                                 : id === 'signin' ? <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Войти'); formik.submitForm() }}>Войти</div>
-                                    : id === 'password_repeat' && <div className="auth-field__buttons__elem" onClick={()=>goToInput('password')}>Ввести пароль заного</div>
+                                    : id === 'password_repeat' ? <div className="auth-field__buttons__elem" onClick={goToInputPassword}>Ввести пароль заного</div>
+                                    : id === 'key'&&
+                                    <>
+                                    <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Ключ') }}>Ключ</div>
+                                    <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'ИНН') }}>ИНН</div>
+                                </>
                             }</div>
 
                         {!isNil(postError) && <p>{postError}</p>}

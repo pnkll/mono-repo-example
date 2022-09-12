@@ -12,10 +12,16 @@ export default React.memo(function SignUp() {
         const date = new Date()
         return date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
     }
+    const [data, setData] = useState({})
+    function hiderPassword(value){
+        return value.replace(/[\s\S]/g, "*")
+    }
     const [messages, setMessages] = useState([
-        { id: 'type', question: 'Здравствуйте, вы хотите присоединиться к существующей организации или добавить новую?', answer: null, visible: true, time: getTime(), last:true },
+        { id: 'type', question: 'Здравствуйте, вы хотите присоединиться к существующей организации или добавить новую?', answer: null, visible: true, time: getTime(), last: true },
+        { id: 'key', question: 'Хотите зарегистрироваться по ИНН или ключу', answer: null, visible: false, time: '', last: false },
         { id: 'organization', question: 'Введите ИНН организации и выберите из списка', answer: null, visible: false, time: '', last: false },
         { id: 'email', question: 'Введите e-mail', answer: null, visible: false, time: '', last: false },
+        { id: 'email_org', question: 'Введите e-mail организации', answer: null, visible: false, time: '', last: false },
         { id: 'username', question: 'Введите логин', answer: null, visible: false, time: '', last: false },
         { id: 'firstname', question: 'Введите имя', answer: null, visible: false, time: '', last: false },
         { id: 'lastname', question: 'Введите фамилию', answer: null, visible: false, time: '', last: false },
@@ -25,21 +31,27 @@ export default React.memo(function SignUp() {
         { id: 'signin', question: 'Вы успешно зарегистрировались, отправьте "Войти" для того чтобы авторизоваться', answer: null, visible: false, time: '', last: false },
     ])
     const sendMessage = (currentField, nextField, values, messages, setMessages) => {
-        currentField==='password_repeat'?isNil(values)&&nextField==='password'&&setMessages([...messages,{ id: 'password', question: 'Введите ваш пароль', answer: null, visible: true, time: '', last: true }]):
-        currentField==='password'&&messages.filter(el=>el.id==='password').length>1?setMessages([...messages.map(el=>el.id==='password'&&isNil(el.answer)?{...el,answer: values.password.replace(/[\s\S]/g, "*"),last:true}:{...el,last:false}),{ id: 'password_repeat', question: 'Подтвердите пароль', answer: null, visible: true, time: '', last: true },])
-        :setMessages(messages.map(el => el.id === currentField ?
-            {
-                ...el, answer: isNil(values)?null:values[currentField].label ? values[currentField].label : currentField === 'password' ?
-                    values[currentField].replace(/[\s\S]/g, "*") : currentField === 'passwordRepeat' ? values[currentField].replace(/[\s\S]/g, "*") : values[currentField],last:true
-            }
-            : el.id === nextField ? { ...el, visible: true, time: getTime(), last: true } : {...el,last: false}))
+        currentField === 'password_repeat' ? isNil(values) && nextField === 'password' && setMessages([...messages, { id: 'password', question: 'Введите ваш пароль', answer: null, visible: true, time: '', last: true }]) :
+            currentField === 'password' && messages.filter(el => el.id === 'password').length > 1 ? setMessages([...messages.map(el => el.id === 'password' && isNil(el.answer) ? { ...el, answer: values.password.replace(/[\s\S]/g, "*"), last: true } : { ...el, last: false }), { id: 'password_repeat', question: 'Подтвердите пароль', answer: null, visible: true, time: '', last: true },])
+                : setMessages(messages.map(el => el.id === currentField ?
+                    {
+                        ...el, answer: isNil(values) ? null : values[currentField].label ? values[currentField].label : currentField === 'password' ?
+                            values[currentField].replace(/[\s\S]/g, "*") : currentField === 'passwordRepeat' ? values[currentField].replace(/[\s\S]/g, "*") : values[currentField], last: true
+                    }
+                    : el.id === nextField ? { ...el, visible: true, time: getTime(), last: true } : { ...el, last: false }))
     }
-    const [data, setData] = useState({})
     const [formiks, setFormiks] = useState([
         {
             id: 'type', initialValues: { type: '' },
             validationSchema: Yup.object({
                 type: Yup.string().required('Пожалуйста выберите').test('', 'Некорректное значение', (value) => value === 'Добавить' || value === 'Присоединиться')
+            })
+        },
+        {
+            id: 'key',
+            initialValues: { key: '' },
+            validationSchema: Yup.object({
+                key: Yup.string().required('Пожалуйста выберите').test('', 'Некорректное значение', (value) => value === 'ИНН' || value === 'Ключ')
             })
         },
         {
@@ -49,6 +61,15 @@ export default React.memo(function SignUp() {
             },
             validationSchema: Yup.object({
                 organization: Yup.object().test('', 'Проверьте правильный ли ИНН и выберите организацию из списка', val => typeof (val?.value) === 'string')
+            })
+        },
+        {
+            id: 'email_org',
+            initialValues: {
+                email_org: ''
+            },
+            validationSchema: Yup.object({
+                email_org: Yup.string().required('Пожалуйста введите ваш e-mail').email('Некорректный email')
             })
         },
         {
@@ -124,16 +145,32 @@ export default React.memo(function SignUp() {
     ])
     const [currentForm, setCurrentForm] = useState(formiks.find(formik => formik.id === 'type'))
     const nextField = (id) => {
-        switch (id) {
-            case 'type': return 'organization'
-            case 'organization': return 'email'
-            case 'email': return 'username'
-            case 'username': return 'firstname'
-            case 'firstname': return 'lastname'
-            case 'lastname': return 'phone'
-            case 'phone': return 'password'
-            case 'password': return 'password_repeat'
-            case 'password_repeat': return 'signin'
+        if (data.type === 'Добавить') {
+            switch (id) {
+                case 'key': return 'organization'
+                case 'organization': return 'email_org'
+                case 'email_org': return 'username'
+                case 'username': return 'firstname'
+                case 'firstname': return 'lastname'
+                case 'lastname': return 'phone'
+                case 'phone': return 'email'
+                case 'email': return 'password'
+                case 'password': return 'password_repeat'
+                case 'password_repeat': return 'signin'
+            }
+        } else {
+            switch (id) {
+                case 'type': return 'key'
+                case 'key': return 'organization'
+                case 'organization': return 'email'
+                case 'email': return 'username'
+                case 'username': return 'firstname'
+                case 'firstname': return 'lastname'
+                case 'lastname': return 'phone'
+                case 'phone': return 'password'
+                case 'password': return 'password_repeat'
+                case 'password_repeat': return 'signin'
+            }
         }
     }
     return (
@@ -142,7 +179,7 @@ export default React.memo(function SignUp() {
                 <AuthMessages messages={messages} />
                 {
                     !isNil(currentForm) && <AuthField key={currentForm.id} id={currentForm.id} name={currentForm.id} messages={messages} setMessages={setMessages}
-                        rtkHook={authApi.useRegisterMutation} 
+                        rtkHook={authApi.useRegisterMutation}
                         nextField={nextField}
                         sendMessages={sendMessage} setData={setData} data={data}
                         currentForm={currentForm} setCurrentForm={setCurrentForm} formiks={formiks}

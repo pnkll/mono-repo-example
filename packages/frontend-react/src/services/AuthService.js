@@ -12,13 +12,20 @@ export const authApi = Api.injectEndpoints({
                 body: data,
             })
         }),
+        registerOrganization: builder.mutation({
+            query: (data) => ({
+                url: '/organizations',
+                method: 'POST',
+                body: data,
+            })
+        }),
         login: builder.mutation({
             query: (data) => ({
                 url: '/auth/login',
                 method: 'POST',
                 body: data
             }),
-            async onQueryStarted(id,{ dispatch, queryFulfilled }) {
+            async onQueryStarted(id, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled
                     data?.status === 200 && dispatch(setCredentials({

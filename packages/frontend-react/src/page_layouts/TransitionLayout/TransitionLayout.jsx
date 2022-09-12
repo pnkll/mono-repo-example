@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSpring, animated } from 'react-spring';
 
-export default React.memo(function TransitionLayout({ children, from = 'right',overflowX='scroll', h='100%', w= '100%' }) {
-    const [transition, setTransition] = useState(false)
-    useEffect(() => {
-        setTransition(true)
-    }, [])
+
+export default React.memo(function TransitionLayout({ children, from = 'right', overflowX = 'scroll', h = '100%', w = '100%', delay=100, custom }) {
+
     const position = () => {
         switch (from) {
             case 'left': return 'translateX(-100vw)'
@@ -14,10 +12,15 @@ export default React.memo(function TransitionLayout({ children, from = 'right',o
             case 'bottom': return 'translateY(100vh)'
         }
     }
-    const styles = useSpring({ transform: transition ? 'translateX(0)' : position(), height: h,width: w, overflowX: overflowX })
+    const styles = useSpring(custom?custom:{
+        from: { transform: position() },
+        to: { transform: 'translateX(0)' },
+        delay: delay
+    })
     return (
         <>
-            <animated.div style={styles}>
+
+            <animated.div style={{ ...styles, overflowX: overflowX, width: w, height: h }}>
                 {children}
             </animated.div>
         </>

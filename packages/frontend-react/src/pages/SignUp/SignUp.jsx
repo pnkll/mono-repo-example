@@ -12,7 +12,7 @@ export default React.memo(function SignUp() {
         return date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
     }
     const [data, setData] = useState({})
-    function getHiderValue(value){
+    function getHiderValue(value) {
         return value.replace(/[\s\S]/g, "*")
     }
     const [messages, setMessages] = useState([
@@ -30,14 +30,33 @@ export default React.memo(function SignUp() {
         { id: 'signin', question: 'Вы успешно зарегистрировались, отправьте "Войти" для того чтобы авторизоваться', answer: null, visible: false, time: '', last: false },
     ])
     const sendMessage = (currentField, nextField, values, messages, setMessages) => {
-        currentField === 'password_repeat' ? isNil(values) && nextField === 'password' && setMessages([...messages, { id: 'password', question: 'Введите ваш пароль', answer: null, visible: true, time: '', last: true }]) :
-            currentField === 'password' && messages.filter(el => el.id === 'password').length > 1 ? setMessages([...messages.map(el => el.id === 'password' && isNil(el.answer) ? { ...el, answer: getHiderValue(values.password), last: true } : { ...el, last: false }), { id: 'password_repeat', question: 'Подтвердите пароль', answer: null, visible: true, time: '', last: true },])
-                : setMessages(messages.map(el => el.id === currentField ?
-                    {
-                        ...el, answer: isNil(values) ? null : values[currentField].label ? values[currentField].label : currentField === 'password' ?
-                            getHiderValue(values[currentField]): currentField === 'passwordRepeat' ? getHiderValue(values[currentField]) : values[currentField], last: true
+        //currentField === 'password_repeat'
+            //? 
+            isNil(values) ? setMessages([...messages, {...(messages.find(el=>el.id===nextField)),answer: null, time: '', last: true}])
+            : //currentField === 'password' && 
+            messages.filter(el => el.id === currentField).length > 1
+                ? setMessages([...messages.map(el => el.id === currentField && isNil(el.answer)
+                    ? { ...el, answer: getHiderValue(values.password), last: true }
+                    : { ...el, last: false }), {...(messages.find(el=>el.id===nextField)),answer:null, visible: true, time: '', last: true},])
+                : setMessages(messages.map(el => el.id === currentField
+                    ? {
+                        ...el, answer: isNil(values)
+                            ? null
+                            : values[currentField].label
+                                ? values[currentField].label
+                                : currentField === 'password'
+                                    ? getHiderValue(values[currentField])
+                                    : currentField === 'passwordRepeat'
+                                        ? getHiderValue(values[currentField])
+                                        : values[currentField], last: true
                     }
-                    : el.id === nextField ? { ...el, question: (currentField==='key'&&values.key==='Ключ')?'Введите ключ':el.question, visible: true, time: getTime(), last: true } : { ...el, last: false }))
+                    : el.id === nextField
+                        ? {
+                            ...el, question: (currentField === 'key' && values.key === 'Ключ')
+                                ? 'Введите ключ'
+                                : el.question, visible: true, time: getTime(), last: true
+                        }
+                        : { ...el, last: false }))
     }
     const [formiks, setFormiks] = useState([
         {
@@ -177,11 +196,19 @@ export default React.memo(function SignUp() {
             {!isNil(messages) && <>
                 <AuthMessages messages={messages} />
                 {
-                    !isNil(currentForm) && <AuthField key={currentForm.id} id={currentForm.id} name={currentForm.id} messages={messages} setMessages={setMessages}
+                    !isNil(currentForm) && <AuthField key={currentForm.id}
+                        id={currentForm.id}
+                        name={currentForm.id}
+                        messages={messages}
+                        setMessages={setMessages}
                         rtkHook={authApi.useRegisterMutation}
                         nextField={nextField}
-                        sendMessages={sendMessage} setData={setData} data={data}
-                        currentForm={currentForm} setCurrentForm={setCurrentForm} formiks={formiks}
+                        sendMessages={sendMessage}
+                        setData={setData}
+                        data={data}
+                        currentForm={currentForm}
+                        setCurrentForm={setCurrentForm}
+                        formiks={formiks}
                         type={currentForm.id === 'password' ? 'password' : currentForm.id === 'password_repeat' ? 'password' : 'text'} />
                 }
             </>}

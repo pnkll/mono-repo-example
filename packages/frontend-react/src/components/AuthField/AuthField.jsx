@@ -60,12 +60,12 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
     const validationSchema = id === 'password_repeat' ? Yup.object().shape({
         password_repeat: Yup.string().required().test('repeat-password', 'Пароли не совпадают', (value => value === data.password))
     }) : currentForm?.validationSchema
-    const goToInputPassword = () => {
+    const goBackToInput = (id) => {
         const cloneData = { ...data }
-        delete cloneData.password
+        delete cloneData[id]
         setData(cloneData)
-        setCurrentForm(formiks.find(formik => formik.id === 'password'))
-        sendMessages(name, 'password', null, messages, setMessages)
+        setCurrentForm(formiks.find(formik => formik.id === id))
+        sendMessages(name, id, null, messages, setMessages)
     }
     function renderInput(formik) {
         switch (id) {
@@ -83,10 +83,12 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                     <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Присоединиться') }}>Присоединиться</div>
                     <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Добавить') }}>Добавить</div>
                 </>)
+            case 'email_org':
+                return <div className="auth-field__buttons__elem" onClick={()=>goBackToInput('organization')}>Ввести пароль заного</div>
             case 'signin':
                 return <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Войти'); formik.submitForm() }}>Войти</div>
             case 'password_repeat':
-                return <div className="auth-field__buttons__elem" onClick={goToInputPassword}>Ввести пароль заного</div>
+                return <div className="auth-field__buttons__elem" onClick={()=>goBackToInput('password')}>Ввести пароль заного</div>
             case 'key':
                 return (<>
                     <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Ключ') }}>Ключ</div>

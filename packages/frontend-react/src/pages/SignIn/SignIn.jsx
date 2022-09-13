@@ -6,6 +6,7 @@ import AuthLayout from '../../page_layouts/AuthLayout/AuthLayout.jsx';
 import * as Yup from 'yup'
 import { authApi } from '../../services/AuthService.js';
 import { getTime } from '../../helpers/forAuth';
+import { useEffect } from 'react';
 
 export default React.memo(function SignIn() {
     const [messages, setMessages] = useState([
@@ -67,7 +68,8 @@ export default React.memo(function SignIn() {
                         formiks={formiks}
                         order={order}
                         setOrder={setOrder}
-                        type={currentForm.id === 'user_password' ? 'password' : currentForm.id === 'passwordRepeat' ? 'password' : 'text'} />
+                        type={currentForm.id === 'user_password' ? 'password' : currentForm.id === 'passwordRepeat' ? 'password' : 'text'}
+                        formType={'signin'} />
                 }
             </>}
         </>

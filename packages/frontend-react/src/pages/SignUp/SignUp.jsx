@@ -152,7 +152,11 @@ export default React.memo(function SignUp() {
             { id: 'password', next: 'password_repeat' },
             { id: 'password_repeat', next: 'signin' },
         ])
+        data.type === 'Присоединиться' && setMessages(messages.map(el=>el.id==='key'?{...el, question: 'У вас есть ключ или вы хотите присоединиться по ИНН?'}:el))
     }, [data.type])
+    useEffect(()=>{
+        
+    },[data.key])
     return (
         <>
             {!isNil(messages) && <>
@@ -172,7 +176,8 @@ export default React.memo(function SignUp() {
                         formiks={formiks}
                         setOrder={setOrder}
                         order={order}
-                        type={currentForm.id === 'password' ? 'password' : currentForm.id === 'password_repeat' ? 'password' : 'text'} />
+                        type={currentForm.id === 'password' ? 'password' : currentForm.id === 'password_repeat' ? 'password' : 'text'} 
+                        formType={'signup'} />
                 }
             </>}
         </>

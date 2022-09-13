@@ -1,4 +1,4 @@
-import { ChatIcon } from '@heroicons/react/outline';
+import { ChatIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import { Formik } from 'formik';
 import React, { useState } from 'react';
 import Input from '../Input/Input.jsx';
@@ -8,8 +8,9 @@ import * as Yup from 'yup'
 import { isNil } from "lodash";
 import { authApi } from '../../services/AuthService.js';
 import { updateMessages, getNextField } from '../../helpers/forAuth.js';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-export default React.memo(function AuthField({ id, name, type = 'text', messages, setMessages, currentForm, setData, data, formiks, setCurrentForm,rtkHook,setOrder,order}) {
+export default React.memo(function AuthField({ id, name, type = 'text', messages, setMessages, currentForm, setData, data, formiks, setCurrentForm, rtkHook, setOrder, order,formType }) {
     const [postData, { isLoading, isFetching }] = rtkHook()
     const [postError, setPostError] = useState(null)
     const [fetchPostOrganization, { error }] = authApi.useRegisterOrganizationMutation()
@@ -24,7 +25,7 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
             if (data?.type === 'Добавить') {
                 const { data: responseData, error } = await fetchPostOrganization({ inn: !isNil(data?.organization?.value) ? data?.organization?.value : data?.organization, email: values.email_org })
                 if (!isNil(error)) {
-                    updateMessages(name, getNextField(id,order), values, messages, setMessages)
+                    updateMessages(name, getNextField(id, order), values, messages, setMessages)
                     setPostError(error.data.errors)
                     return
                 } else if (!isNil(responseData)) {
@@ -53,8 +54,8 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                 }
                 handlePost(user)
             } else {
-                updateMessages(name, getNextField(id,order), values, messages, setMessages)
-                setCurrentForm(formiks.find(formik => formik.id === getNextField(id,order)))
+                updateMessages(name, getNextField(id, order), values, messages, setMessages)
+                setCurrentForm(formiks.find(formik => formik.id === getNextField(id, order)))
             }
         }
     }
@@ -62,7 +63,7 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
         password_repeat: Yup.string().required().test('repeat-password', 'Пароли не совпадают', (value => value === data.password))
     }) : currentForm?.validationSchema
     const goBackToInput = (fieldId) => {
-        setOrder(order.map(el=>el.id===fieldId?{...el, next: id}:el))//переопределяем порядок чтобы вернуться к текущему полю после ввода
+        setOrder(order.map(el => el.id === fieldId ? { ...el, next: id } : el))//переопределяем порядок чтобы вернуться к текущему полю после ввода
         const tmp = { ...data }
         delete tmp[fieldId]
         setData(tmp)
@@ -75,7 +76,7 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                 return data.key === 'ИНН'
                     ? <InputDadata formik={formik} id={id} name={name} classNamePrefix='auth-field' />
                     : <Input type={type} placeholder='Введите сообщение' formik={formik} id={id} name={name} className='auth-field-input' />
-            default: return <Input type={type} placeholder={`${(id === 'type' || id==='key' )? 'Выберите команду из списка' : 'Введите сообщение'}`} formik={formik} id={id} name={name} className='auth-field-input' readonly={(id === 'type' ||id=== 'key' )? true : false} defaultStyles={false} />
+            default: return <Input type={type} placeholder={`${(id === 'type' || id === 'key') ? 'Выберите команду из списка' : 'Введите сообщение'}`} formik={formik} id={id} name={name} className='auth-field-input' readonly={(id === 'type' || id === 'key') ? true : false} defaultStyles={false} />
         }
     }
     function renderButtons(formik) {
@@ -86,32 +87,45 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                     <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Добавить') }}>Добавить</div>
                 </>)
             case 'email_org':
-                return <div className="auth-field__buttons__elem" onClick={()=>goBackToInput('organization')}>Заного указать организацию</div>
+                return <div className="auth-field__buttons__elem" onClick={() => goBackToInput('organization')}>Заного указать организацию</div>
             case 'signin':
                 return <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Войти'); formik.submitForm() }}>Войти</div>
             case 'password_repeat':
-                return <div className="auth-field__buttons__elem" onClick={()=>goBackToInput('password')}>Ввести пароль заного</div>
+                return <div className="auth-field__buttons__elem" onClick={() => goBackToInput('password')}>Ввести пароль заного</div>
             case 'key':
                 return (<>
                     <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Ключ') }}>Ключ</div>
                     <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'ИНН') }}>ИНН</div>
                 </>)
+            case 'user_password':
+                return <div className="auth-field__buttons__elem" onClick={() => {setMessages(messages.map(el=>el.id==='username'?{...el, question: 'Введите логин'}:el));goBackToInput('username')}}>Ввести логин заного</div>
             default: return null
         }
     }
+    const [menuVisible,setMenuVisible]=useState(true)
+    const navigate = useNavigate()
     return (
         <>
             <Formik initialValues={currentForm.initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
                 {formik => (
                     <>
+                        {menuVisible&&<div className="auth-field__buttons">
+                        <div className="auth-field__buttons__elem" onClick={() => {navigate(formType==='signin'?'../signup':'../signin') }}>{formType==='signin'?'Зарегистрироваться':'Уже зарегистрирован'}</div>
+                            {renderButtons(formik)}
+                        </div>}
                         <form className='auth-field' onSubmit={(e) => { e.preventDefault(); formik.submitForm(); }}>
+                            <div className="auth-field__hamburger" onClick={()=>setMenuVisible(!menuVisible)}>
+                                {!menuVisible?<MenuIcon width={14}/>
+                                :<XIcon width={14} />}
+                                Меню
+                            </div>
                             {renderInput(formik)}
                             <button type='submit' className='auth-field__button' disabled={isLoading}><ChatIcon width={30} /></button>
                         </form>
 
-                        <div className="auth-field__buttons">
+                        {/* <div className="auth-field__buttons">
                             {renderButtons(formik)}
-                        </div>
+                        </div> */}
 
                         {!isNil(postError) && <p>{postError}</p>}
                     </>)}

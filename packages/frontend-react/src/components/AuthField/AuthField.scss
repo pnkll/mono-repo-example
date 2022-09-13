@@ -3,7 +3,8 @@
 .auth-field {
     display: flex;
     gap: 10px;
-    align-items: flex-start;
+    // align-items: flex-start;
+    align-items: center;
 
     &-input {
         &__container {
@@ -36,7 +37,8 @@
 
     &__buttons {
         display: flex;
-        gap: 20px;
+        gap: 10px;
+        flex-wrap: wrap;
         &__elem {
             background: beige;
             display: flex;
@@ -45,6 +47,19 @@
             border-radius: 5px;
             padding: 5px;
             cursor: pointer;
+            font-size: 13px;
         }
+    }
+    &__hamburger{
+        display: flex;
+        gap: 3px;
+        background: #1e5887;
+        color: white;
+        //height: 100%;
+        align-items: center;
+        padding: 6px 6px;
+        font-size: 12px;
+        border-radius: 10px;
+        cursor: pointer;
     }
 }

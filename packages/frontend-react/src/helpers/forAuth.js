@@ -1,11 +1,11 @@
 import { isNil } from "lodash";
 
-export function getTime(){
+export function getTime() {
     const date = new Date()
     return date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
 }
 
-export function getNextField(id,order) {
+export function getNextField(id, order) {
     return order.find(el => el.id === id)?.next
 }
 
@@ -14,13 +14,16 @@ function getHiderValue(value) {
     return value.replace(/[\s\S]/g, "*")
 }
 
-export function updateMessages(currentField, getNextField, values, messages, setMessages){
-    isNil(values) ? setMessages([...messages, { ...(messages.find(el => el.id === getNextField)), answer: null, time: '', last: true }])
+export function updateMessages(currentField, getNextField, values, messages, setMessages) {
+    isNil(values)
+        ? setMessages([...messages, { ...(messages.find(el => el.id === getNextField)), answer: null, time: '', last: true }])
         : messages.filter(el => el.id === currentField).length > 1
             ? setMessages([...messages.map(el => el.id === currentField && isNil(el.answer)
-                ? { ...el, answer: (currentField==='password'||currentField==='password_repeat'||currentField==='user_password')
-                    ?getHiderValue(values[currentField])
-                    :values[currentField], last: true }
+                ? {
+                    ...el, answer: (currentField === 'password' || currentField === 'password_repeat' || currentField === 'user_password')
+                        ? getHiderValue(values[currentField])
+                        : values[currentField], last: true
+                }
                 : { ...el, last: false }), { ...(messages.find(el => el.id === getNextField)), answer: null, visible: true, time: '', last: true },])
             : setMessages(messages.map(el => el.id === currentField
                 ? {

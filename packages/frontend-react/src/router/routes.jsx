@@ -15,6 +15,7 @@ import TaskTypeById from "../pages/TaskTypeList/TaskTypeById/TaskTypeById.jsx"
 import Profile from "../pages/Profile/Profile.jsx"
 import SidebarHeaderLayout from "../page_layouts/SidebarHeaderLayout/SidebarHeaderLayout.jsx"
 import AuthLayout from "../page_layouts/AuthLayout/AuthLayout.jsx"
+import UsersList from "../pages/UsersList/UsersList.jsx"
 
 export const routes = (token) => {
     if (token) {
@@ -36,6 +37,8 @@ export const routes = (token) => {
                     { path: 'settings/roles/:id', breadcrumb: 'Роль', element: <RoleById /> },
                     { path: 'settings/roles/new', breadcrumb: 'Создание роли', element: <RoleById /> },
                     { path: 'profile', breadcrumb: 'Сотрудник', element: <Profile /> },
+                    { path: 'users', breadcrumb: 'Сотрудник', element: <UsersList /> },
+                    { path: 'users/:id', breadcrumb: 'Сотрудник', element: <Profile /> },
                 ]
             },
         ]

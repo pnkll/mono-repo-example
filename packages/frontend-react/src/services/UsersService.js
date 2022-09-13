@@ -22,7 +22,10 @@ export const usersApi = Api.injectEndpoints({
         getUsers: builder.query({
             query: () => ({
                 url: '/users',
-            })
+            }),
+            transformResponse: (data)=>{
+                return data.message
+            }
         }),
         updateProfile: builder.mutation({
             query: (data) => ({

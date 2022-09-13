@@ -6,8 +6,11 @@ import {selectCurrentUser,setUser} from "../store/slices/userSlice";
 import moment from "moment";
 import Button from "../components/Button/Button.jsx";
 import {usersApi} from "../services/UsersService";
+import { useParams } from 'react-router-dom';
+import { isNil } from 'lodash';
 
 export default React.memo(function ProfileForm() {
+    const params = useParams()
     const formatDate = (date) =>{
         return moment(date).locale('ru').format("Do MMMM YYYY")
     }
@@ -21,15 +24,15 @@ export default React.memo(function ProfileForm() {
     }
     const formik = useFormik({
         initialValues: {
-            username: user.username,
-            firstname: user.firstname,
-            lastname: user.lastname,
-            organization: user.organization,
-            phone: user.phone,
-            verify: user.verify,
-            email: user.email,
-            createdAt: formatDate(user.createdAt),
-            updatedAt: formatDate(user.updatedAt),
+            username: user?.username,
+            firstname: user?.firstname,
+            lastname: user?.lastname,
+            organization: user?.organization,
+            phone: user?.phone,
+            verify: user?.verify,
+            email: user?.email,
+            createdAt: formatDate(user?.createdAt),
+            updatedAt: formatDate(user?.updatedAt),
         },
         onSubmit: values=>{
             if(editMode){
@@ -44,7 +47,7 @@ export default React.memo(function ProfileForm() {
     })
     return (
         <>
-            <form onSubmit={(e) => {
+            {!isNil(user)&&<form onSubmit={(e) => {
                 e.preventDefault();
                 formik.handleSubmit()
             }}>
@@ -57,7 +60,7 @@ export default React.memo(function ProfileForm() {
                 <Input formik={formik} label={'Последнее обновление'} id={'updatedAt'} name={'updatedAt'} readonly={true}/>
                 <Input formik={formik} label={'Электронный адрес'} id={'email'} name={'email'} readonly={true}/>
                 <Button type={'submit'} text={editMode?'Сохранить':'Редактировать'} color={editMode?'green':'blue'}/>
-            </form>
+            </form>}
         </>
     )
 })

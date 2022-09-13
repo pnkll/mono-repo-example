@@ -1,3 +1,4 @@
+import { isNil } from 'lodash'
 import { Api } from './api'
 
 // Define a service using a base URL and expected endpoints
@@ -16,6 +17,17 @@ export const taskTypeApi = Api.injectEndpoints({
                         { type: 'TASK-TYPES', id: 'LIST' },
                     ]
                     : [{ type: 'TASK-TYPES', id: 'LIST' }],
+        }),
+        getTaskTypesForSelector: builder.query({
+            query: (data) => ({
+                url: '/tasks/tasktype',
+                method: 'GET',
+            }),
+            transformResponse: (data)=>{
+                if(!isNil(data)){
+                    return data.message?.map(taskType=>taskType&&{label: taskType.title,value: taskType._id})
+                }
+            }
         }),
         getTaskTypeById: builder.query({
             query: (data) => ({

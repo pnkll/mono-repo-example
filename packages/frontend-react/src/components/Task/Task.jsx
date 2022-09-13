@@ -8,8 +8,14 @@ import TextArea from '../TextArea/TextArea.jsx';
 import './Task.scss'
 import InfoPopUp from '../InfoPopUp/InfoPopUp.jsx'
 import AutoTextArea from '../AutoTextArea/AutoTextArea.jsx';
+import { taskTypeApi } from '../../services/TaskTypeService.js';
+import { useSelector } from 'react-redux';
+import { rolesApi } from '../../services/RolesService.js';
+import { priorityOptions } from '../../helpers/forTask.js';
 
 export default React.memo(function Task() {
+    const {data: taskTypes,error}=taskTypeApi.useGetTaskTypesForSelectorQuery()
+    const {data: roles, error: getRolesError}=rolesApi.useGetRolesForSelectorQuery()
     const formik = useFormik({
         initialValues: {
             taskType: '',//ID Шаблона, на основе которого сделали таск
@@ -38,9 +44,9 @@ export default React.memo(function Task() {
     })
     return (
         <>
-            <CardLayout title={<>Заявка<InfoPopUp>Hello</InfoPopUp></>}>
+            <CardLayout title={<>Заявка<InfoPopUp><p>Описание карточки</p></InfoPopUp></>}>
                 <div className="task-create__task-type-input">
-                    <Select options={[{ options: [{ label: 1, value: 3 }], label: 'Авария' }, { options: [{ label: 1, value: 3 }], label: 'Авария' }, { value: 1, label: 1 }]} label='Категория' formik={formik} id='taskType' name='taskType'/>
+                    <Select options={taskTypes} label='Категория' formik={formik} id='taskType' name='taskType'/>
                 </div>
                 <form className={`task-create__form ${formik.values.taskType===''?'':'disabled'}`} onSubmit={(e)=>{e.preventDefault();formik.submitForm()}}>
                     <TextArea formik={formik} label={'Описание'} id='description' name='description' maxLength={250} maxRows={6} minRows={4} withAttach={true} attachId='files'/>
@@ -49,7 +55,7 @@ export default React.memo(function Task() {
                         <DatePicker placeholder={'Назначенная дата'} formik={formik} id='time' name='time' /></div>
                     <Select formik={formik} label={'Исполнитель'} id='executor' name='executor' />
                     <Select formik={formik} id='status' name='status' label='Статус заявки' />
-                    <Select formik={formik} id='priority' name='priority' label='Степень важности' />
+                    <Select formik={formik} id='priority' options={priorityOptions} name='priority' label='Степень важности' />
                     <button type='submit'>Submit</button>
                 </form>
             </CardLayout>

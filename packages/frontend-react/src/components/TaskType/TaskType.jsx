@@ -12,6 +12,7 @@ import Button from '../Button/Button.jsx';
 import './TaskType.scss'
 import ErrorMessage from '../ErrorMessage/ErrorMessage.jsx';
 import { isNil } from 'lodash';
+import { priorityOptions } from '../../helpers/forTask.js';
 
 export default React.memo(function TaskType() {
     const [fetchError,setFetchError]=useState(null)
@@ -78,13 +79,6 @@ export default React.memo(function TaskType() {
         error?showError(error.data.errors):setEditMode(false)
     }
     const roleListOptions = useSelector(selectRoleList)?.map(el => el && { label: el.title, value: el._id })
-    const priorityOptions = [
-        { label: 'Очень срочно', value: 4 },
-        { label: 'Срочно', value: 3 },
-        { label: 'Высокий', value: 2 },
-        { label: 'Средний', value: 1 },
-        { label: 'Низкий', value: 0 }
-    ]
     useEffect(() => {
         if (params.id) {
             getTaskTypeById(params.id)

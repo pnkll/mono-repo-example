@@ -1,3 +1,4 @@
+import { isNil } from 'lodash'
 import rolesSlice, { rolesAdapter, setPermissionList, setRoleList } from '../store/slices/rolesSlice'
 import { Api } from './api'
 
@@ -40,6 +41,24 @@ export const rolesApi = Api.injectEndpoints({
                         { type: 'ROLES', id: 'LIST' },
                     ]
                     : [{ type: 'ROLES', id: 'LIST' }],
+        }),
+        getRolesForSelector: builder.query({
+            query: () => ({
+                url: '/roles/role',
+                method: 'GET',
+            }),
+            transformResponse: (data)=>{
+                if(!isNil(data)){
+                    return data.message?.map(role=>role&&{label: role.title, value: role._id})
+                }
+            }
+            // providesTags: (result) =>
+            //     result?.message
+            //         ? [
+            //             ...result.message.map(({ id }) => ({ type: 'ROLES', id })),
+            //             { type: 'ROLES', id: 'LIST' },
+            //         ]
+            //         : [{ type: 'ROLES', id: 'LIST' }],
         }),
         getRoleById: builder.query({
             query: (id) => ({

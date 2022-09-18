@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import './DatePicker.scss'
 import ru from 'date-fns/locale/ru'
 
-export default function DatePicker({ formik, id, name, placeholder, showTimeSelect, timeIntervals, className, label,required,format="yyyy/MM/dd HH:mm" }) {
+export default function DatePicker({ formik, id, name, placeholder, showTimeSelect=false, timeIntervals=30, className, label,required,format="yyyy/MM/dd HH:mm" }) {
 
     const [date, setDate] = useState()
 

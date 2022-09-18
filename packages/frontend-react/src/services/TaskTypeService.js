@@ -25,7 +25,7 @@ export const taskTypeApi = Api.injectEndpoints({
             }),
             transformResponse: (data)=>{
                 if(!isNil(data)){
-                    return data.message?.map(taskType=>taskType&&{label: taskType.title,value: taskType._id})
+                    return data.message?.map(taskType=>taskType&&{label: taskType.title,value: taskType._id, data: taskType})
                 }
             }
         }),

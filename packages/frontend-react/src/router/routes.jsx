@@ -48,6 +48,7 @@ export const routes = (token) => {
                 {index: true, element: <Navigate to='signin'/>},
                 {path: 'signin', element: <SignIn/>},
                 {path: 'signup', element: <SignUp/>},
+                {path: '*', element: <Navigate to='signin'/>}
             ]},
             {path: '*', breadcrumb: null, element: <>Такой страницы не существует</>},
         ]

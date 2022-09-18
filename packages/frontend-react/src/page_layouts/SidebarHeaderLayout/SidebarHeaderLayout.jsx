@@ -15,7 +15,11 @@ export default function SidebarHeaderLayout({ children }) {
     return (
         <>
             <div className="sidebar-header-layout__container">
-                {visible&&<TransitionLayout from='left' overflowX='visible' h='auto' w='auto'>
+                {visible && <TransitionLayout from='left' overflowX='visible' h='auto' w='auto' custom={{
+                    from: { transform: 'translateX(-100vw)' },
+                    to: { transform: 'translateX(0)', zIndex: 100 },
+                    delay: 100
+                }}>
                     <Sidebar collapsed={collapsed} />
                 </TransitionLayout>}
                 <div className='sidebar-header-layout__wrapper'>

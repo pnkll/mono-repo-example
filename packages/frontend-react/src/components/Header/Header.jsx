@@ -36,7 +36,7 @@ export default function Header({ collapsed }) {
                 <div className="header__right">
                     <Link to='inbox'><MailIcon width={20} /></Link>
                     <Link to=''><BellIcon width={20} /></Link>
-                    <Button text='Logout' color='white' handleClick={handleLogout} />
+                    <Button text='Выйти' color='white' handleClick={handleLogout} />
                 </div>
             </div>
             <ConfirmModal isOpen={showModal} setIsOpen={setShowModal} callback={modalCallback} label={'Вы действительно хотите выйти?'} />

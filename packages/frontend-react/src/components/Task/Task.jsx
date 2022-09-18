@@ -12,6 +12,9 @@ import { taskTypeApi } from '../../services/TaskTypeService.js';
 import { useSelector } from 'react-redux';
 import { rolesApi } from '../../services/RolesService.js';
 import { priorityOptions } from '../../helpers/forTask.js';
+import { useState } from 'react';
+import { isNil } from 'lodash';
+import Button from '../Button/Button.jsx';
 
 export default React.memo(function Task() {
     const {data: taskTypes,error}=taskTypeApi.useGetTaskTypesForSelectorQuery()
@@ -42,21 +45,29 @@ export default React.memo(function Task() {
         },
         onSubmit: values=> console.log(values)
     })
+    const [keyOfSelect,setKeyOfSelect]=useState(1)
+    function setTemplate(id){
+        const taskType = taskTypes.find(el=>el.value===id)
+        formik.setFieldValue('taskType', id)
+        formik.setFieldValue('priority',taskType.data.priority)
+        setKeyOfSelect(keyOfSelect+1)
+    }
     return (
         <>
             <CardLayout title={<>Заявка<InfoPopUp><p>Описание карточки</p></InfoPopUp></>}>
                 <div className="task-create__task-type-input">
-                    <Select options={taskTypes} label='Категория' formik={formik} id='taskType' name='taskType'/>
+                    <Select options={taskTypes} label='Категория' id='taskType' name='taskType' handleChange={setTemplate}/>
                 </div>
-                <form className={`task-create__form ${formik.values.taskType===''?'':'disabled'}`} onSubmit={(e)=>{e.preventDefault();formik.submitForm()}}>
+                <form className={`task-create__form ${formik.values.taskType!==''?'':'disabled'}`} onSubmit={(e)=>{e.preventDefault();formik.submitForm()}}>
                     <TextArea formik={formik} label={'Описание'} id='description' name='description' maxLength={250} maxRows={6} minRows={4} withAttach={true} attachId='files'/>
-                    <div className="" style={{ display: 'flex', gap: 10, justifyContent: 'center', padding: '10px' }}><DatePicker placeholder={'Желаемая дата'} formik={formik} id='needTime' name='needTime' />
-                        <DatePicker placeholder={'Крайний срок'} formik={formik} id='lastTime' name='lastTime' />
-                        <DatePicker placeholder={'Назначенная дата'} formik={formik} id='time' name='time' /></div>
+                    <div className="" style={{ display: 'flex', gap: 10, justifyContent: 'center', padding: '10px' }}>
+                        <DatePicker placeholder={'Желаемая дата'} formik={formik} id='needTime' name='needTime' showTimeSelect={true}/>
+                        <DatePicker placeholder={'Крайний срок'} formik={formik} id='lastTime' name='lastTime' showTimeSelect={true}/>
+                        <DatePicker placeholder={'Назначенная дата'} formik={formik} id='time' name='time' showTimeSelect={true}/></div>
                     <Select formik={formik} label={'Исполнитель'} id='executor' name='executor' />
                     <Select formik={formik} id='status' name='status' label='Статус заявки' />
-                    <Select formik={formik} id='priority' options={priorityOptions} name='priority' label='Степень важности' />
-                    <button type='submit'>Submit</button>
+                    <Select key={keyOfSelect} formik={formik} id='priority' options={priorityOptions} hasDefaultValue={formik.values.taskType!==''?true:false} name='priority' label='Степень важности' />
+                    <Button color={'green'} text='Создать заявку' type='submit'/>
                 </form>
             </CardLayout>
         </>

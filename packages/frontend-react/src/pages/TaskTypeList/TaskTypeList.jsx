@@ -8,7 +8,7 @@ import SidebarHeaderLayout from '../../page_layouts/SidebarHeaderLayout/SidebarH
 import TransitionLayout from '../../page_layouts/TransitionLayout/TransitionLayout.jsx';
 import { taskTypeApi } from '../../services/TaskTypeService.js';
 
-export default React.memo(function TaskTypeList() {
+export default function TaskTypeList() {
     const { data: taskTypesList, error, isLoading: isLoadingGet, isFetching, } = taskTypeApi.useGetTaskTypesQuery()
     const [fetchRemoveTaskType, { isLoading: isLoadingRemove }] = taskTypeApi.useLazyRemoveTaskTypeQuery()
     async function removeTaskType(id) {
@@ -52,4 +52,4 @@ export default React.memo(function TaskTypeList() {
             <ConfirmModal callback={modalCallback} isOpen={showModal} setIsOpen={setShowModal} label={'Вы действительно хотите удалить шаблон?'} />
         </>
     )
-})
+}

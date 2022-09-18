@@ -1,7 +1,7 @@
 import React from 'react';
 import './TwoColumnItemLayout.scss'
 
-export default React.memo(function TwoColumnItemLayout({children, label}){
+export default function TwoColumnItemLayout({children, label}){
    return(
        <>
         <div className="item-layout__container" style={{    minWidth: '48%', maxWidth: '48%', flex: '0 1 50%'}}>
@@ -12,4 +12,4 @@ export default React.memo(function TwoColumnItemLayout({children, label}){
         </div>
        </>
    )
-})
+}

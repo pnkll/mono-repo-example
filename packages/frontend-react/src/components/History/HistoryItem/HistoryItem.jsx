@@ -1,7 +1,7 @@
 import React from 'react';
 import './HistoryItem.scss'
 
-export default React.memo(function HistoryItem(){
+export default function HistoryItem(){
    return(
        <>
        <div className="history-item__container">
@@ -16,4 +16,4 @@ export default React.memo(function HistoryItem(){
        </div>
        </>
    )
-})
+}

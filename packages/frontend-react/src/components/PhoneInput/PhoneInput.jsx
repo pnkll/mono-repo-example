@@ -4,7 +4,7 @@ import MaskInput from "../MaskInput/MaskInput.jsx";
 import { GlobeAltIcon } from "@heroicons/react/solid";
 import './PhoneInput.scss'
 
-export default React.memo(function PhoneInput({ formik, label, name, id, defaultMask, defaultCode, required, error }) {
+export default function PhoneInput({ formik, label, name, id, defaultMask, defaultCode, required, error }) {
 
     const [mask, setMask] = useState(defaultMask ? defaultMask : '999 999 9999')
     const [code, setCode] = useState(defaultCode)
@@ -86,7 +86,7 @@ export default React.memo(function PhoneInput({ formik, label, name, id, default
             </div>
         </>
     )
-})
+}
 
 export const codeList = [
     { en: "Afghanistan", ru: "Афганистан", label: '+93', value: 93 },

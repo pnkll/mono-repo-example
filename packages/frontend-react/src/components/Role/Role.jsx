@@ -11,7 +11,7 @@ import { selectPermissionList } from '../../store/slices/rolesSlice';
 import { isNil } from 'lodash';
 import ErrorMessage from '../ErrorMessage/ErrorMessage.jsx';
 
-export default React.memo(function Role() {
+export default function Role() {
     const [fetchError,setFetchError]=useState(null)
     function showError(error){
         setFetchError(error)
@@ -94,4 +94,4 @@ export default React.memo(function Role() {
             </div>}
         </>
     )
-})
+}

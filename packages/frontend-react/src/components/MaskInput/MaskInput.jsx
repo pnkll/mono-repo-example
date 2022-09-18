@@ -2,7 +2,7 @@ import React from "react";
 import ReactInputMask from "react-input-mask";
 import './MaskInput.scss'
 
-export default React.memo(function MaskInput({formik,handleChange, value, mask,id,name,styles,placeholder,className,required,label}){
+export default function MaskInput({formik,handleChange, value, mask,id,name,styles,placeholder,className,required,label}){
     return(
         <>
         <div className="mask-input__container"></div>
@@ -11,4 +11,4 @@ export default React.memo(function MaskInput({formik,handleChange, value, mask,i
         {formik.touched[name]&&formik.errors[name]&&<p className="mask-input__error"></p>}
         </>
     )
-})
+}

@@ -7,7 +7,7 @@ import SidebarHeaderLayout from '../../page_layouts/SidebarHeaderLayout/SidebarH
 import TransitionLayout from '../../page_layouts/TransitionLayout/TransitionLayout.jsx';
 import './Operator.scss'
 
-export default React.memo(function Operator() {
+export default function Operator() {
     return (
         <>
                 <TransitionLayout>
@@ -32,4 +32,4 @@ export default React.memo(function Operator() {
                 </TransitionLayout>
         </>
     )
-})
+}

@@ -5,7 +5,7 @@ import * as axios from 'axios'
 import { isNil } from 'lodash';
 import './InputDadata.scss'
 
-export default React.memo(function InputDadata({formik,id,name,classNamePrefix,customStyles}) {
+export default function InputDadata({formik,id,name,classNamePrefix,customStyles}) {
     const defaultStyles = customStyles || {
         container: (styles)=>({
             ...styles,
@@ -59,4 +59,4 @@ export default React.memo(function InputDadata({formik,id,name,classNamePrefix,c
             </div>
         </>
     )
-})
+}

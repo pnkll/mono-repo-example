@@ -4,7 +4,7 @@ import SidebarHeaderLayout from '../../page_layouts/SidebarHeaderLayout/SidebarH
 import ProfileForm from "../../forms/ProfileForm.jsx";
 import TransitionLayout from '../../page_layouts/TransitionLayout/TransitionLayout.jsx';
 
-export default React.memo(function Profile() {
+export default function Profile() {
     return (
         <>
                 <TransitionLayout>
@@ -14,4 +14,4 @@ export default React.memo(function Profile() {
                 </TransitionLayout>
         </>
     )
-})
+}

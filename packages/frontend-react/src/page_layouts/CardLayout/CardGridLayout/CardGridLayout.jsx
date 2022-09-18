@@ -1,7 +1,7 @@
 import React from 'react';
 import './CardGridLayout.scss'
 
-export default React.memo(function CardGridLayout({array}) {
+export default function CardGridLayout({array}) {
     return (
         <>
             <div className="card-grid__container">
@@ -12,4 +12,4 @@ export default React.memo(function CardGridLayout({array}) {
             </div>
         </>
     )
-})
+}

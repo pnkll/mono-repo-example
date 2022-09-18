@@ -3,7 +3,7 @@ import { isNil } from 'lodash';
 import React from 'react';
 import Button from '../Button/Button.jsx';
 
-export default React.memo(function NavTableTd({ href,handleRemove,id }) {
+export default function NavTableTd({ href,handleRemove,id }) {
     return (
         <>
             <div style={{ display: 'flex', gap: 10 }}>
@@ -15,4 +15,4 @@ export default React.memo(function NavTableTd({ href,handleRemove,id }) {
             </div>
         </>
     )
-})
+}

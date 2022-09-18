@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik'
 import Input from '../Input/Input.jsx'
 import Select from '../Select/Select.jsx'
 import ToggleInput from '../ToggleInput/ToggleInput.jsx'
 import Button from '../Button/Button.jsx';
-import { isNil } from 'lodash';
 import * as Yup from 'yup'
 
 export default React.memo(function TableConstructorForm({ removeHandler, index, type, data, setData, submitHandler, order, setColumns, columns }) {

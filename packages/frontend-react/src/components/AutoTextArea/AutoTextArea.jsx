@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 
-export default React.memo(function AutoTextArea({ maxLength = 10 }) {
+export default function AutoTextArea({ maxLength = 10 }) {
     const [value, setValue] = useState('')
     return (
         <>
@@ -16,4 +16,4 @@ export default React.memo(function AutoTextArea({ maxLength = 10 }) {
             <p>{value.length}:{maxLength}</p>
         </>
     )
-})
+}

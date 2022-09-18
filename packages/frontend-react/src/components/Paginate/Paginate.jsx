@@ -3,7 +3,7 @@ import React from "react"
 import './Paginate.scss'
 import {ArrowCircleLeftIcon, ArrowCircleRightIcon, ChevronDoubleLeftIcon, ChevronDoubleRightIcon, DotsHorizontalIcon} from '@heroicons/react/solid'
 
-export default React.memo(function Paginate({ setPage, page, itemsCount, totalItemsCount, className, pageClassName, activeClassName, previousClassName, nextClassName,breakLabel,nextLabel,previousLabel }) {
+export default function Paginate({ setPage, page, itemsCount, totalItemsCount, className, pageClassName, activeClassName, previousClassName, nextClassName,breakLabel,nextLabel,previousLabel }) {
     return (
         <ReactPaginate
             pageCount={Math.ceil(totalItemsCount / itemsCount)}
@@ -20,4 +20,4 @@ export default React.memo(function Paginate({ setPage, page, itemsCount, totalIt
             nextClassName={nextClassName || 'next'}
             forcePage={page-1}/>
     )
-})
+}

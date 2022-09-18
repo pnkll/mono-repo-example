@@ -1,7 +1,7 @@
 import { isNil } from 'lodash';
 import React from 'react';
 
-export default React.memo(function SettingLayout({ children, label }) {
+export default function SettingLayout({ children, label }) {
     return (
         <>
             <div className="setting-layout__container" style={{width: 'fit-content'}}>
@@ -12,4 +12,4 @@ export default React.memo(function SettingLayout({ children, label }) {
             </div>
         </>
     )
-})
+}

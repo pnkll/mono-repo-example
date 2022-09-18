@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import TwoColumnItemLayout from '../../layouts/TwoColumnItemLayout/TwoColumnItemLayout.jsx';
 import './SettingItem.scss'
 
-export default React.memo(function SettingItem({ label, items}) {
+export default function SettingItem({ label, items}) {
     return (
         <>
             <TwoColumnItemLayout label={label}>
@@ -16,4 +16,4 @@ export default React.memo(function SettingItem({ label, items}) {
             </TwoColumnItemLayout>
         </>
     )
-})
+}

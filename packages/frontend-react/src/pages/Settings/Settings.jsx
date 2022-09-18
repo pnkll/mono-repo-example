@@ -5,7 +5,7 @@ import TwoColumnLayout from '../../layouts/TwoColumnLayout/TwoColumnLayout.jsx';
 import SidebarHeaderLayout from '../../page_layouts/SidebarHeaderLayout/SidebarHeaderLayout.jsx'
 import TransitionLayout from '../../page_layouts/TransitionLayout/TransitionLayout.jsx';
 
-export default React.memo(function Settings() {
+export default function Settings() {
 
     const items = [
         { label: 'Роли', icon: <PencilIcon width={10} />, href: 'roles' },
@@ -21,4 +21,4 @@ export default React.memo(function Settings() {
                 </TransitionLayout>
         </>
     )
-})
+}

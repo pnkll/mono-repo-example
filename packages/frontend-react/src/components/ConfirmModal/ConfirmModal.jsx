@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Modal from 'react-modal'
 import Button from '../Button/Button.jsx';
 
-export default React.memo(function ConfirmModal({ isOpen, setIsOpen, callback, label }) {
+export default function ConfirmModal({ isOpen, setIsOpen, callback, label }) {
     Modal.setAppElement('#root');
     const customStyles = {
         overlay: { zIndex: 100 },
@@ -32,4 +32,4 @@ export default React.memo(function ConfirmModal({ isOpen, setIsOpen, callback, l
         </Modal>
         </>
     )
-})
+}

@@ -1,13 +1,13 @@
 import React from 'react';
 
-export default React.memo(function Preloader() {
+export default function Preloader() {
     return (
         <>
             hello
             <loaderSvg />
         </>
     )
-})
+}
 
 export const loaderSvg = () => {
     return (

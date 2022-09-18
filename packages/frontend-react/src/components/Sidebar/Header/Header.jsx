@@ -1,10 +1,10 @@
 import React from "react";
 import './Header.scss'
 import {useDispatch, useSelector} from "react-redux";
-import {selectCurrentUser, setUser} from "../../../store/slices/userSlice";
+import {selectCurrentUser} from "../../../store/slices/userSlice";
 import {Link} from "react-router-dom";
 
-export default React.memo(function Header({collapsed}) {
+export default function Header({collapsed}) {
     const dispatch = useDispatch()
     const user = useSelector(selectCurrentUser)
     return (
@@ -17,4 +17,4 @@ export default React.memo(function Header({collapsed}) {
             </div>
         </>
     )
-})
+}

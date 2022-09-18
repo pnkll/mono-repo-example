@@ -2,7 +2,7 @@ import { InformationCircleIcon } from '@heroicons/react/outline';
 import React, { useState } from 'react';
 import './InfoPopUp.scss'
 
-export default React.memo(function InfoPopUp({ children, color = '#197DD2', width = 20,style,popupStyle }) {
+export default function InfoPopUp({ children, color = '#197DD2', width = 20,style,popupStyle }) {
     const [visible, setVisible] = useState(false)
     return (
         <>
@@ -16,4 +16,4 @@ export default React.memo(function InfoPopUp({ children, color = '#197DD2', widt
             </div>
         </>
     )
-})
+}

@@ -4,7 +4,7 @@ import { isNil } from "lodash"
 import React, { useEffect, useState } from "react"
 import ReactSelect, { components, NonceProvider } from "react-select"
 
-export default React.memo(function Select({ options, indicator, formik, hasDefaultValue, customStyles, classNamePrefix, id, name, isSearchable = true, menuPlacement = 'bottom', handleChange, label, isMulti = false, placeholder = 'Выберите..', isDisabled = false, defaultValue }) {
+export default function Select({ options, indicator, formik, hasDefaultValue, customStyles, classNamePrefix, id, name, isSearchable = true, menuPlacement = 'bottom', handleChange, label, isMulti = false, placeholder = 'Выберите..', isDisabled = false, defaultValue }) {
 
     const styles = customStyles || {
         container: (styles) => ({
@@ -126,7 +126,7 @@ export default React.memo(function Select({ options, indicator, formik, hasDefau
             </div>
         </>
     )
-})
+}
 
 export const ArrowsForSelectIcon = ({ style }) => {
     return (

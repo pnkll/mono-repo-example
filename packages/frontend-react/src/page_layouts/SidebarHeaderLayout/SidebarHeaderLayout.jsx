@@ -8,7 +8,7 @@ import { selectSidebarCollapsed, selectSidebarVisible } from "../../store/slices
 import { Outlet } from "react-router-dom";
 import TransitionLayout from "../TransitionLayout/TransitionLayout.jsx";
 
-export default React.memo(function SidebarHeaderLayout({ children }) {
+export default function SidebarHeaderLayout({ children }) {
     const collapsed = useSelector(selectSidebarCollapsed)
     const isSomeQueryPending = useSelector(state => Object.values(state.api.queries).some(query => query.status === 'pending'))
     const visible = useSelector(selectSidebarVisible)
@@ -30,4 +30,4 @@ export default React.memo(function SidebarHeaderLayout({ children }) {
             </div>
         </>
     )
-})
+}

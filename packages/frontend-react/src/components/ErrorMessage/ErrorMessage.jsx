@@ -2,7 +2,7 @@ import React, { useEffect,useState } from 'react';
 import './ErrorMessage.scss'
 import { useSpring, animated } from 'react-spring';
 
-export default React.memo(function ErrorMessage({ message }) {
+export default function ErrorMessage({ message }) {
     const [transition,setTransition]=useState(false)
     useEffect(()=>{
         setTransition(true)
@@ -18,4 +18,4 @@ export default React.memo(function ErrorMessage({ message }) {
             </animated.div>
         </>
     )
-})
+}

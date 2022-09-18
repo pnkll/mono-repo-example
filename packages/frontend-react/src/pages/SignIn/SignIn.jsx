@@ -8,7 +8,7 @@ import { authApi } from '../../services/AuthService.js';
 import { getTime } from '../../helpers/forAuth';
 import { useEffect } from 'react';
 
-export default React.memo(function SignIn() {
+export default function SignIn() {
     const [messages, setMessages] = useState([
         { id: 'username', question: 'Рады приветствовать вас снова, пожалуйста введите ваш login', answer: null, visible: true, time: getTime() },
         { id: 'user_password', question: 'Введите ваш пароль', answer: null, visible: false, time: '' },
@@ -74,4 +74,4 @@ export default React.memo(function SignIn() {
             </>}
         </>
     )
-})
+}

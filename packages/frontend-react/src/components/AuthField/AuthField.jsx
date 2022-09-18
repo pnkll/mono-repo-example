@@ -8,7 +8,7 @@ import * as Yup from 'yup'
 import { isNil } from "lodash";
 import { authApi } from '../../services/AuthService.js';
 import { updateMessages, getNextField } from '../../helpers/forAuth.js';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default React.memo(function AuthField({ id, name, type = 'text', messages, setMessages, currentForm, setData, data, formiks, setCurrentForm, rtkHook, setOrder, order,formType }) {
     const [postData, { isLoading, isFetching }] = rtkHook()

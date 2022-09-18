@@ -8,7 +8,7 @@ import Table from '../../components/Table/Table.jsx';
 import Select from '../../components/Select/Select.jsx'
 import TaskFromCall from '../../components/TaskFromCall/TaskFromCall.jsx'
 
-export default React.memo(function CallCenter() {
+export default function CallCenter() {
     const columns = [
         { Header: 'Дата', accessor: 'date' },
         { Header: 'Статус', accessor: 'status' },
@@ -126,4 +126,4 @@ export default React.memo(function CallCenter() {
             </SidebarHeaderLayout>
         </>
     )
-})
+}

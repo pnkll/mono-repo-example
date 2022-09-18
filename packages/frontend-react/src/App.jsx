@@ -7,7 +7,7 @@ import { usersApi } from "./services/UsersService.js"
 import { rolesApi } from "./services/RolesService.js"
 import { routes } from "./router/routes.jsx"
 
-export default React.memo(function App() {
+export default function App() {
 
     const [fetchGetProfile, {isSuccess: isSuccessProfile}] = usersApi.useLazyGetProfileQuery()
     const [fetchGetRoles] = rolesApi.useLazyGetRolesQuery()
@@ -43,4 +43,4 @@ export default React.memo(function App() {
     const router = useRoutes(routes(token))
 
     return (token?isSuccessProfile:true)&&router
-})
+}

@@ -17,7 +17,7 @@ import _ from "lodash";
 import TransitionLayout from "../../page_layouts/TransitionLayout/TransitionLayout.jsx";
 import Preloader from "../../components/Preloader/Preloader.jsx";
 
-export default React.memo(function Form() {
+export default function Form() {
 
     const validationSchema = yup.object({
         email: emailValidator(true),
@@ -103,4 +103,4 @@ export default React.memo(function Form() {
                 </TransitionLayout>
         </>
     )
-})
+}

@@ -5,7 +5,7 @@ import Table from '../../components/Table/Table.jsx';
 import TransitionLayout from '../../page_layouts/TransitionLayout/TransitionLayout.jsx';
 import { usersApi } from '../../services/UsersService';
 
-export default React.memo(function UsersList(){
+export default function UsersList(){
     const {data: users,error}=usersApi.useGetUsersQuery()
     const columns=[
         {Header: '', accessor: '_id', Cell: ({cell:{value}})=><NavTableTd href={value}/>||'-'},
@@ -24,4 +24,4 @@ export default React.memo(function UsersList(){
        </TransitionLayout>
        </>
    )
-})
+}

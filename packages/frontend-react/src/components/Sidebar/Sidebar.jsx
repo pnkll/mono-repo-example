@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader, SidebarContent, SidebarFooter } from 'react-pro-sidebar';
 import './Sidebar.scss';
 import { Link } from "react-router-dom";
@@ -6,7 +6,7 @@ import Footer from "./Footer/Footer.jsx";
 import Header from "./Header/Header.jsx";
 import { BriefcaseIcon, ClipboardCheckIcon, CollectionIcon, CubeIcon } from "@heroicons/react/outline";
 
-export default React.memo(function Sidebar({collapsed}) {
+export default function Sidebar({collapsed}) {
     
     return (
         <>
@@ -42,4 +42,4 @@ export default React.memo(function Sidebar({collapsed}) {
             </ProSidebar>
         </>
     )
-})
+}

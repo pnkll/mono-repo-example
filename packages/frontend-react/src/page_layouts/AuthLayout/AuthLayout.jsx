@@ -4,7 +4,7 @@ import InfoPopUp from '../../components/InfoPopUp/InfoPopUp.jsx'
 import TransitionLayout from '../TransitionLayout/TransitionLayout.jsx';
 import { Outlet } from 'react-router-dom';
 
-export default React.memo(function AuthLayout({ children }) {
+export default function AuthLayout({ children }) {
     return (
         <>
             <TransitionLayout from='right' overflowX={'visible'}>
@@ -24,4 +24,4 @@ export default React.memo(function AuthLayout({ children }) {
             </TransitionLayout>
         </>
     )
-})
+}

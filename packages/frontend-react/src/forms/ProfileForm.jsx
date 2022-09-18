@@ -9,7 +9,7 @@ import {usersApi} from "../services/UsersService";
 import { useParams } from 'react-router-dom';
 import { isNil } from 'lodash';
 
-export default React.memo(function ProfileForm() {
+export default function ProfileForm() {
     const params = useParams()
     const formatDate = (date) =>{
         return moment(date).locale('ru').format("Do MMMM YYYY")
@@ -63,4 +63,4 @@ export default React.memo(function ProfileForm() {
             </form>}
         </>
     )
-})
+}

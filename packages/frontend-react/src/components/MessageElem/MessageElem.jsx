@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSpring, animated } from 'react-spring';
 
 
-export default React.memo(function MessageElem({ message, type }) {
+export default function MessageElem({ message, type }) {
     const [transition,setTransition]=useState(false)
     useEffect(()=>{
         setTimeout(()=>{
@@ -34,4 +34,4 @@ export default React.memo(function MessageElem({ message, type }) {
                 </div>
             </>
     }
-})
+}

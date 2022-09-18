@@ -6,7 +6,7 @@ import './History.scss'
 import Button from '../Button/Button.jsx';
 import { ClockIcon } from '@heroicons/react/outline';
 
-export default React.memo(function History() {
+export default function History() {
     return (
         <>
             <CardLayout title={'History'} styleWrapper={{ background: 'none', paddingRight: 0 }}>
@@ -23,4 +23,4 @@ export default React.memo(function History() {
             </CardLayout>
         </>
     )
-})
+}

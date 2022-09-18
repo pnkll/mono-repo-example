@@ -1,8 +1,8 @@
 import React from 'react';
 
-export default React.memo(function TaskCreate(){
+export default function TaskCreate(){
    return(
        <>
        </>
    )
-})
+}

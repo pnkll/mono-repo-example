@@ -7,7 +7,7 @@ import AuthMessages from '../../components/AuthMessages/AuthMessages.jsx';
 import { authApi } from '../../services/AuthService.js';
 import { getTime } from '../../helpers/forAuth';
 
-export default React.memo(function SignUp() {
+export default function SignUp() {
     const [data, setData] = useState({})
     const [messages, setMessages] = useState([
         { id: 'type', question: 'Здравствуйте, вы хотите присоединиться к существующей организации или добавить новую?', answer: null, visible: true, time: getTime(), last: true },
@@ -182,4 +182,4 @@ export default React.memo(function SignUp() {
             </>}
         </>
     )
-})
+}

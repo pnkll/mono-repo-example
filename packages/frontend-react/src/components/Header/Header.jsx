@@ -12,7 +12,7 @@ import { useState } from "react";
 import ConfirmModal from "../ConfirmModal/ConfirmModal.jsx";
 import { useRef } from "react";
 
-export default React.memo(function Header({ collapsed }) {
+export default function Header({ collapsed }) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [showModal, setShowModal] = useState(false)
@@ -42,4 +42,4 @@ export default React.memo(function Header({ collapsed }) {
             <ConfirmModal isOpen={showModal} setIsOpen={setShowModal} callback={modalCallback} label={'Вы действительно хотите выйти?'} />
         </>
     )
-})
+}

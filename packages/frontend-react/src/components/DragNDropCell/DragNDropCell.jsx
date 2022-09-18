@@ -2,7 +2,7 @@ import { DocumentPlusIcon } from '@heroicons/react/outline';
 import React, { useState } from 'react';
 import { FileUploader } from "react-drag-drop-files";
 
-export default React.memo(function DragNDropCell({ width = 40 }) {
+export default function DragNDropCell({ width = 40 }) {
     const [file, setFile] = useState(null);
     console.log(file)
     return (
@@ -26,4 +26,4 @@ export default React.memo(function DragNDropCell({ width = 40 }) {
             </div>
         </>
     )
-})
+}

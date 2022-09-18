@@ -1,7 +1,7 @@
 import React from 'react';
 import './CardLayout.scss'
 
-export default React.memo(function CardLayout({children,title,style,styleWrapper}) {
+export default function CardLayout({children,title,style,styleWrapper}) {
     return (
         <>
             <div className="card-layout__container" style={style}>
@@ -12,4 +12,4 @@ export default React.memo(function CardLayout({children,title,style,styleWrapper
             </div>
         </>
     )
-})
+}

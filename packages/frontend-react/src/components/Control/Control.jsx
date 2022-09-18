@@ -1,7 +1,7 @@
 import React from 'react';
 import CardLayout from '../../page_layouts/CardLayout/CardLayout.jsx';
 
-export default React.memo(function Control(){
+export default function Control(){
    return(
        <>
        <CardLayout title={'Обращение'}>
@@ -9,4 +9,4 @@ export default React.memo(function Control(){
        </CardLayout>
        </>
    )
-})
+}

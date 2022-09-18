@@ -5,7 +5,7 @@ import SettingLayout from '../../../layouts/SettingLayout/SettingLayout.jsx';
 import SidebarHeaderLayout from '../../../page_layouts/SidebarHeaderLayout/SidebarHeaderLayout.jsx';
 import { taskTypeApi } from '../../../services/TaskTypeService.js';
 
-export default React.memo(function TaskTypeById() {
+export default function TaskTypeById() {
     return (
         <>
                     <SettingLayout label='Шаблон'>
@@ -13,4 +13,4 @@ export default React.memo(function TaskTypeById() {
                     </SettingLayout>
         </>
     )
-})
+}

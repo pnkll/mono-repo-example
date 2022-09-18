@@ -4,7 +4,7 @@ import CardGridLayout from '../../page_layouts/CardLayout/CardGridLayout/CardGri
 import CardLayout from '../../page_layouts/CardLayout/CardLayout.jsx';
 import './Client.scss'
 
-export default React.memo(function Client() {
+export default function Client() {
     const arr = [
         { label: 'Лицевой счет', value: '5462798543' },
         { label: 'Лицевой счет', value: '5462798543' },
@@ -24,4 +24,4 @@ export default React.memo(function Client() {
             </CardLayout>
         </>
     )
-})
+}

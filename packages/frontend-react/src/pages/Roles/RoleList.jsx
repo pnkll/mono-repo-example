@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { selectRoleList } from '../../store/slices/rolesSlice.js';
 import { isNil } from 'lodash';
 
-export default React.memo(function Roles() {
+export default function Roles() {
     const roleList = useSelector(selectRoleList)
     function formatDate(date){
         return moment(date).locale('ru').format("Do MMMM YYYY")
@@ -26,4 +26,4 @@ export default React.memo(function Roles() {
                 </TransitionLayout>
         </>
     )
-})
+}

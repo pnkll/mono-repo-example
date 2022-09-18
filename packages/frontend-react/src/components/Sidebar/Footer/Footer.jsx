@@ -5,7 +5,7 @@ import { QuestionMarkCircleIcon } from "@heroicons/react/outline";
 import { Menu, MenuItem } from "react-pro-sidebar";
 import { CogIcon } from "@heroicons/react/outline";
 
-export default React.memo(function Footer() {
+export default function Footer() {
     return (
         <>
             <div className="pro-sidebar-footer__wrapper">
@@ -20,4 +20,4 @@ export default React.memo(function Footer() {
             </div>
         </>
     )
-})
+}

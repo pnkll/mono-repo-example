@@ -14,7 +14,7 @@ import TransitionLayout from "../../page_layouts/TransitionLayout/TransitionLayo
 import Input from "../../components/Input/Input.jsx";
 import { tableApi } from "../../services/TableService.js";
 
-export default React.memo(function TableConstructor() {
+export default function TableConstructor() {
     const [title, setTitle] = useState('')
     const [headers, setHeaders] = useState([{ order: 1, title: '', code: '', type: 'String', required: false, unique: false, index: false, visible: false, focused: true }])
     const { sortItems, dragStartHandler, dragEndHandler, dragOverHandler, dropHandler } = useDrag(setHeaders, headers)
@@ -97,4 +97,4 @@ export default React.memo(function TableConstructor() {
                 </TransitionLayout>
         </>
     )
-})
+}

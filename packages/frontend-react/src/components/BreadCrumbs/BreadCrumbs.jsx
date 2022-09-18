@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { selectToken } from '../../store/slices/appSlice';
 import TransitionLayout from '../../page_layouts/TransitionLayout/TransitionLayout.jsx';
 
-export default React.memo(function BreadCrumbs() {
+export default function BreadCrumbs() {
     const token = useSelector(selectToken)
     const breadcrumbs = useReactRouterBreadcrumbs(routes(token))
     const location = useLocation()
@@ -27,4 +27,4 @@ export default React.memo(function BreadCrumbs() {
             </div>
         </>
     )
-})
+}

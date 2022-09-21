@@ -32,9 +32,9 @@ export default function CallControl({ props }) {
         remoteAudioElement()
     })
 
-    function getCallStatus(str) {
+    function getCallStatus() {
         if (props.current?.state.callDirection === null) {
-            switch (str) {
+            switch (props.current?.state.callStatus) {
                 case 'callStatus/IDLE': return 'Ожидание'
                 case 'callStatus/STARTING': return 'Вызов'
                 case 'callStatus/ACTIVE': return 'Звонок'
@@ -47,18 +47,26 @@ export default function CallControl({ props }) {
             }
         }
     }
+    function getPositionStatus(){
+        switch (props.current?.state.sipStatus){
+            case 'sipStatus/CONNECTED': return 'Неактивен'
+            case 'sipStatus/REGISTERED': return 'На линии'
+        }
+    }
+    function renderButtons(){
 
+    }
     return (
         <>
             <div className="call-control__container" style={{ width: 'fit-content', position: 'absolute', bottom: expanded ? '3px' : '-159px', background: expanded ? 'rgb(128 128 128 / 63%)' : '', transition: 'all 0.5s ease' }}>
                 <div className="call-control__header">
-                    <p className='call-control__header__status'>На линии</p>
+                    <p className='call-control__header__status' style={{before: {backgroundColor: 'red'}}}>{getPositionStatus()}</p>
                     {expanded ? <MinusIcon width={20} onClick={() => dispatch(setExpanded(!expanded))} style={{ cursor: 'pointer' }} /> : <MenuIcon style={{ cursor: 'pointer' }} width={20} onClick={() => dispatch(setExpanded(!expanded))} />}
                 </div>
 
                 <div className="" style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-                    <Button text='Отошел' handleClick={() => props.current.unregisterSip()} />
-                    <Button text='Закончить смену' color='red' handleClick={() => props.current.registerSip()} />
+                    <Button text={`${getPositionStatus()==='На линии'?'Отошел':'На линию'}`} handleClick={() => getPositionStatus()==='На линии'?props.current.unregisterSip():props.current.registerSip()} color={getPositionStatus()!=='На линии'?'green':'blue'}/>
+                    <Button text='Закончить смену' color='red' handleClick={() => props.current.unregisterSip()} disabled={true}/>
                 </div>
                 <div className="" style={{ display: 'flex', alignItems: 'center', gap: 15, justifyContent: 'center' }}>
                     <MicrophoneIcon width={15} />
@@ -66,14 +74,8 @@ export default function CallControl({ props }) {
                     <PauseIcon width={15} className='phone' />
                     {props.current?.state.callStatus === "callStatus/ACTIVE" || props.current?.state.callStatus === "callStatus/STARTING" ? <PhoneDownButton onClick={() => props.current?.stopCall()} /> : <PhoneButton onClick={() => props.current?.startCall('1010')} />}
                 </div>
-                <Button text='Создать заявку' w='-webkit-fill-available' color='green' handleClick={() => setEditMode(true)} />
-                <div className={`select ${editMode ? 'visible' : ''}`} >
-                    <Select />
-                    <XIcon color='red' width={30} onClick={() => setEditMode(false)} />
-                </div>
                 {props.current?.state.callCounterpart}<br />
-                {props.current?.state.sipStatus}<br />
-                {getCallStatus(props.current?.state.callStatus)}
+                {getCallStatus()}
             </div>
         </>
     )

@@ -27,6 +27,15 @@ export const usersApi = Api.injectEndpoints({
                 return data.message
             }
         }),
+        getUsersById: builder.query({
+            query: (data) => ({
+                url: '/users/ids',
+                params:{
+                    ids: data
+                }
+                
+            })
+        }),
         updateProfile: builder.mutation({
             query: (data) => ({
                 url: '/users/profile',

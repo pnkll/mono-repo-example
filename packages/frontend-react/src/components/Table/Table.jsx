@@ -35,7 +35,7 @@ export default React.memo(function Table({ setFilters, filters, setSearch, searc
                 {!isNil(label) && <h1 style={{ paddingLeft: '13px' }}>{label}</h1>}
                 <div className={`${classNamePrefix}__sub-container`} style={{ height: '100%'}}>
                     <Filters classNamePrefix={classNamePrefix} filters={filters} setFilters={setFilters} handleOpen={setOpen} isOpen={open} handleCreate={handleCreate} href={buttonHref} />
-                    <div className={`${classNamePrefix}__scroll-wrapper`} style={{ borderRadius: '10px', maxHeight: 'calc(100vh - 163px)', overflow: 'auto', height: `${open ? '100%' : 0}`, minWidth: '527px' }}>
+                    <div className={`${classNamePrefix}__scroll-wrapper`} style={{ borderRadius: '10px', transition: 'all 0.5s ease', maxHeight: 'calc(100vh - 163px)', overflow: 'auto', height: `${open ? '100%' : '0%'}`, minWidth: '527px' }}>
                         <table className={`${classNamePrefix}__wrapper`}>
                             <thead {...getTableProps()} className={`${classNamePrefix}__header`}>
                                 {headerGroups.map((headerGroup, index) => <tr key={index} {...headerGroup.getHeaderGroupProps} className={`${classNamePrefix}__header__row`}>

@@ -95,6 +95,13 @@ export const rolesApi = Api.injectEndpoints({
                 }
             },
         }),
+        getUsersByRoleId: builder.query({
+            query: (roleId)=>({
+                url: '/roles/usersbyrole',
+                method: 'GET',
+                params: {roleId: roleId}
+            })
+        }),
     }),
     overrideExisting: false,
 })

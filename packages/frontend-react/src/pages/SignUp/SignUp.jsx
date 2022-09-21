@@ -43,7 +43,7 @@ export default function SignUp() {
                 organization: ''
             },
             validationSchema: Yup.object({
-                organization: Yup.object().test('', 'Проверьте правильный ли ИНН и выберите организацию из списка', val => typeof (val?.value) === 'string')
+                //organization: Yup.object().test('', 'Проверьте правильный ли ИНН и выберите организацию из списка', val => typeof (val?.value) === 'string')
             })
         },
         {

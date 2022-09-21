@@ -23,14 +23,21 @@
             font-size: 19px;
             font-weight: 500;
 
-            &:before {
-                content: '';
+            // &:before {
+            //     content: '';
+            //     display: block;
+            //     width: 10px;
+            //     height: 10px;
+            //     border-radius: 10px;
+            //     //background-color: $color-but-green;
+            // }
+        }
+        &__indicator{
+            content: '';
                 display: block;
                 width: 10px;
                 height: 10px;
                 border-radius: 10px;
-                //background-color: $color-but-green;
-            }
         }
     }
 }

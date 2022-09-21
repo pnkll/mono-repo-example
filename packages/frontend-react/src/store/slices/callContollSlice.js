@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState={
+    volume: true,
     visible: true,
     expanded: false,
     host: "sip.minta365.ru",
@@ -25,10 +26,15 @@ export const callControllSlice = createSlice({
     reducers:{
         setExpanded: (state)=>{
             state.expanded = !state.expanded
+        },
+        setVolume: (state)=>{
+            state.volume = !state.volume
         }
     }
 })
 
-export const { setExpanded } = callControllSlice.actions
+export const selectVolume = (state)=> state.callControllSlice.volume
+
+export const { setExpanded,setVolume } = callControllSlice.actions
 
 export default callControllSlice.reducer

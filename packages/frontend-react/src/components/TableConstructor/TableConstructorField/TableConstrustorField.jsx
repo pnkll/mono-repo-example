@@ -3,6 +3,7 @@ import { isNil } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import Input from '../../Input/Input.jsx';
 import Select from '../../Select/Select.jsx';
+import TextArea from '../../TextArea/TextArea.jsx';
 import ToggleInput from '../../ToggleInput/ToggleInput.jsx';
 import './TableConstructorField.scss'
 
@@ -17,6 +18,10 @@ export default React.memo(function TableConstructorField({ field, fields, setFie
         { value: 'String', label: 'string' },
         { value: 'Number', label: 'number' },
         { value: 'Date', label: 'date' },
+    ]
+    const headerTypeOptions = [
+        { value: 0, label: 0},
+        { value: 1, label: 1}
     ]
     const [menuIsOpen, setMenuIsOpen] = useState(false)
     useEffect(()=>{
@@ -41,9 +46,14 @@ export default React.memo(function TableConstructorField({ field, fields, setFie
                                 {!isNil(errors) && errors.code?.type !== 'required' && <p style={{ margin: 0, fontSize: '12px', color: 'red' }}>{errors.code?.errors[0]}</p>}
                             </div>
                             <Select id='type' name='type' options={options} value={options.find(option => option.value === field.type)} defaultValue={options.find(option => option.value === field.type)} isSearchable={false} menuPlacement={'bottom'} handleChange={(e) => handleChange('type', e, index)} />
+                            <Select id='headerType' name='headerType' options={headerTypeOptions} value={headerTypeOptions.find(option => option.value === field.headerType)} handleChange={(e) => handleChange('headerType', e, index)}/>
+                            <Input placeholder={'Default'} handleChange={(e) => handleChange('default', e.target.value, index)} id='default' name='default' value={field.default}/>
                             <ToggleInput id='required' name='required' handleChange={(e) => handleChange('required', e.target.checked, index)} checked={field.required} label={'is required?'} />
                             <ToggleInput id='unique' name='unique' handleChange={(e) => handleChange('unique', e.target.checked, index)} checked={field.unique} label={'is unique?'} />
                             <ToggleInput id='index' name='index' handleChange={(e) => handleChange('index', e.target.checked, index)} checked={field.index} label={'is to index?'} />
+                            <ToggleInput id='primary' name='primary' handleChange={(e) => handleChange('primary', e.target.checked, index)} checked={field.primary} label={'is primary?'} />
+                            {field.headerType===1
+                            && <Input placeholder={'expr'} id='expr' name='expr' handleChange={(e)=>handleChange('expr', e.target.value, index)}/>}
                         </div>
             </div>
         </>

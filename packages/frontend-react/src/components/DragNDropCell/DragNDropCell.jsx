@@ -1,10 +1,19 @@
 import { DocumentPlusIcon } from '@heroicons/react/outline';
+import { isNil } from 'lodash';
 import React, { useState } from 'react';
 import { FileUploader } from "react-drag-drop-files";
+import { tableApi } from '../../services/TableService';
 
-export default function DragNDropCell({ width = 40 }) {
+export default function DragNDropCell({ width = 40, id }) {
+    const [postData] = tableApi.useUploadFileMutation()
     const [file, setFile] = useState(null);
-    console.log(file)
+    function createFormData(file) {
+        const formdata = new FormData()
+        formdata.append("table_id", id)
+        formdata.append("withDeletion", true)
+        formdata.append("file", file)
+        //postData(formdata)
+    }
     return (
         <>
             <div style={{
@@ -13,15 +22,15 @@ export default function DragNDropCell({ width = 40 }) {
                 alignItems: 'center',
                 height: '189px'
             }}>
-                <FileUploader name='file' handleChange={setFile} hoverTitle={' '} style={{
+                <FileUploader name='file' handleChange={createFormData} hoverTitle={' '} style={{
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center'
                 }}>
-                    <svg style={{cursor: 'pointer'}} width={width} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <svg style={{ cursor: 'pointer' }} width={width} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                     </svg>
-                    <p style={{ maxWidth: '200px', margin: '0 auto',cursor: 'pointer' }}>Перенесите файл сюда или кликните для того чтобы загрузить</p>
+                    <p style={{ maxWidth: '200px', margin: '0 auto', cursor: 'pointer' }}>Перенесите файл сюда или кликните для того чтобы загрузить</p>
                 </FileUploader>
             </div>
         </>

@@ -4,7 +4,7 @@ import './Sidebar.scss';
 import { Link } from "react-router-dom";
 import Footer from "./Footer/Footer.jsx";
 import Header from "./Header/Header.jsx";
-import { BriefcaseIcon, ClipboardCheckIcon, CollectionIcon, CubeIcon } from "@heroicons/react/outline";
+import {TableIcon, CollectionIcon, CubeIcon } from "@heroicons/react/outline";
 
 export default function Sidebar({collapsed}) {
     
@@ -16,23 +16,17 @@ export default function Sidebar({collapsed}) {
                 </SidebarHeader>
                 <SidebarContent>
                     <Menu iconShape="square">
-                        <MenuItem icon={<CubeIcon/>}>Dashboard</MenuItem>
+                        <MenuItem icon={<CubeIcon/>}><Link to='../'>Главная</Link></MenuItem>
                         <SubMenu  title="Pages" icon={<CollectionIcon/>}>
                             <MenuItem><Link to='../demo'>Demo</Link></MenuItem>
-                            <MenuItem><Link to='../main'>Main</Link></MenuItem>
-                            <MenuItem><Link to='../constructor'>Constructor</Link></MenuItem>
                             <MenuItem><Link to='../tasks'>Tasks</Link></MenuItem>
                             <MenuItem><Link to='../call-center'>Control</Link></MenuItem>
                             <MenuItem><Link to='../operator'>Operator</Link></MenuItem>
                             <MenuItem><Link to='../users'>Пользователи</Link></MenuItem>
                         </SubMenu>
-                        <SubMenu title="Contracts" icon={<BriefcaseIcon/>}>
-                            <MenuItem><Link to='../demo'>Demo</Link></MenuItem>
-                            <MenuItem><Link to=''>Main</Link></MenuItem>
-                        </SubMenu>
-                        <SubMenu title="Tasks" icon={<ClipboardCheckIcon/>}>
-                            <MenuItem><Link to='../demo'>Demo</Link></MenuItem>
-                            <MenuItem><Link to=''>Main</Link></MenuItem>
+                        <SubMenu title="Таблицы" icon={<TableIcon/>}>
+                            <MenuItem><Link to='../tables'>Список таблиц</Link></MenuItem>
+                            <MenuItem><Link to='../tables/create'>Создать</Link></MenuItem>
                         </SubMenu>
                     </Menu>
                 </SidebarContent>

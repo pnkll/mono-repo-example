@@ -16,6 +16,9 @@ import Profile from "../pages/Profile/Profile.jsx"
 import SidebarHeaderLayout from "../page_layouts/SidebarHeaderLayout/SidebarHeaderLayout.jsx"
 import AuthLayout from "../page_layouts/AuthLayout/AuthLayout.jsx"
 import UsersList from "../pages/UsersList/UsersList.jsx"
+import TableList from "../pages/TableList/TableList.jsx"
+import TableById from "../pages/TableList/TableById/TableById.jsx"
+import Page404 from "../pages/Page404/Page404.jsx"
 
 export const routes = (token) => {
     if (token) {
@@ -23,11 +26,11 @@ export const routes = (token) => {
             {
                 path: '/', element: <SidebarHeaderLayout />, children: [
                     { index: true, breadcrumb: 'Главная', element: <Main />, state: { hello: 'hfds' } },
-                    {path: '*', breadcrumb: null, element: <>Такого раздела не существует</>},
+                    {path: '*', breadcrumb: null, element: <Page404/>},
                     { path: 'signup', element: <Navigate to='../' /> },
                     { path: 'signin', element: <Navigate to='../' /> },
                     { path: 'demo', breadcrumb: 'Demo', element: <Demo /> },
-                    { path: 'constructor', breadcrumb: 'Constructor', element: <TableConstructor /> },
+                    { path: 'tables/create', breadcrumb: 'Constructor', element: <TableConstructor /> },
                     { path: 'settings/task-types', breadcrumb: 'Шаблоны', element: <TaskTypeList /> },
                     { path: 'settings/task-types/:id', breadcrumb: 'Шаблон', element: <TaskTypeById /> },
                     { path: 'settings/task-types/new', breadcrumb: 'Создание шаблона', element: <TaskTypeById /> },
@@ -39,6 +42,8 @@ export const routes = (token) => {
                     { path: 'profile', breadcrumb: 'Сотрудник', element: <Profile /> },
                     { path: 'users', breadcrumb: 'Сотрудник', element: <UsersList /> },
                     { path: 'users/:id', breadcrumb: 'Сотрудник', element: <Profile /> },
+                    { path: 'tables', breadcrumb: 'Список таблиц', element: <TableList /> },
+                    { path: 'tables/:id', breadcrumb: 'Таблица', element: <TableById /> },
                 ]
             },
         ]

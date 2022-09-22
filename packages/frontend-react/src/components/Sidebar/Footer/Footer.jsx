@@ -11,10 +11,10 @@ export default function Footer() {
             <div className="pro-sidebar-footer__wrapper">
                 <Menu>
                     <MenuItem icon={<CogIcon />}>
-                        <Link to='../settings'>Settings</Link>
+                        <Link to='../settings'>Настройки</Link>
                     </MenuItem>
                     <MenuItem icon={<QuestionMarkCircleIcon />}>
-                        <Link to='../help'>Help</Link>
+                        <Link to='../help'>Помощь</Link>
                     </MenuItem>
                 </Menu>
             </div>

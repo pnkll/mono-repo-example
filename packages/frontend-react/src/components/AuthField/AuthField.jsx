@@ -87,18 +87,18 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                     <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Добавить') }}>Добавить</div>
                 </>)
             case 'email_org':
-                return <div className="auth-field__buttons__elem" onClick={() => goBackToInput('organization')}>Заного указать организацию</div>
+                return <div className="auth-field__buttons__elem" onClick={() => goBackToInput('organization')}>Заново указать организацию</div>
             case 'signin':
                 return <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Войти'); formik.submitForm() }}>Войти</div>
             case 'password_repeat':
-                return <div className="auth-field__buttons__elem" onClick={() => goBackToInput('password')}>Ввести пароль заного</div>
+                return <div className="auth-field__buttons__elem" onClick={() => goBackToInput('password')}>Ввести пароль заново</div>
             case 'key':
                 return (<>
                     <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Ключ') }}>Ключ</div>
                     <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'ИНН') }}>ИНН</div>
                 </>)
             case 'user_password':
-                return <div className="auth-field__buttons__elem" onClick={() => {setMessages(messages.map(el=>el.id==='username'?{...el, question: 'Введите логин'}:el));goBackToInput('username')}}>Ввести логин заного</div>
+                return <div className="auth-field__buttons__elem" onClick={() => {setMessages(messages.map(el=>el.id==='username'?{...el, question: 'Введите логин'}:el));goBackToInput('username')}}>Ввести логин заново</div>
             default: return null
         }
     }

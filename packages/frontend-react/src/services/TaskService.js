@@ -5,8 +5,11 @@ export const taskApi = Api.injectEndpoints({
     endpoints: (builder) => ({
         getTaskById: builder.query({
             query: (id) => ({
-                url: `/tasks/task?_id=${id}`,
+                url: '/tasks/task',
                 method: 'GET',
+                params: {
+                    _id: id
+                }
             })
         }),
         getTasks: builder.query({
@@ -17,8 +20,11 @@ export const taskApi = Api.injectEndpoints({
         }),
         postTask: builder.query({
             query: (id) => ({
-                url: `/tasks/task?_id=${id}`,
+                url: '/tasks/task',
                 method: 'GET',
+                params: {
+                    _id: id
+                }
             })
         }),
     }),

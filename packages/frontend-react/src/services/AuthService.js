@@ -10,14 +10,25 @@ export const authApi = Api.injectEndpoints({
                 url: '/auth/register',
                 method: 'POST',
                 body: data,
-            })
+            }),
+            async onQueryStarted(id, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled
+                    data?.status === 200 && dispatch(setCredentials({
+                        token: data.message.token,
+                        refreshToken: data.message.refreshToken
+                    }))
+                } catch (error) {
+                    console.log(error)
+                }
+            }
         }),
         registerOrganization: builder.mutation({
             query: (data) => ({
                 url: '/organizations',
                 method: 'POST',
                 body: data,
-            })
+            }),
         }),
         login: builder.mutation({
             query: (data) => ({

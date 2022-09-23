@@ -2,9 +2,11 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import Table from '../../../components/Table/Table.jsx';
 import TransitionLayout from '../../../page_layouts/TransitionLayout/TransitionLayout.jsx';
+import { tableApi } from '../../../services/TableService.js';
 
 export default function TableById() {
     const params = useParams()
+    const {data:table}=tableApi.useGetTableContentsQuery(params.id)
     const columns = Object.keys(tmp.headers).map((el,index)=>
     el?{Header: Object.values(tmp.headers)[index], accessor: el}:el) 
     return (

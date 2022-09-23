@@ -33,9 +33,12 @@ export const tableApi = Api.injectEndpoints({
             }
         }),
         getTableContents: builder.query({
-            query:()=>({
-                url: '/tables/contents',
-                method: 'GET'
+            query:(id)=>({
+                url: '/tables/content',
+                method: 'GET',
+                params: {
+                    query: JSON.stringify({table_id: id})
+                }
             }),
             transformResponse: (data)=>{
                 if(!isNil(data)){

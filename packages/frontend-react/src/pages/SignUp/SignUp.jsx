@@ -43,7 +43,11 @@ export default function SignUp() {
                 organization: ''
             },
             validationSchema: Yup.object({
-                //organization: Yup.object().test('', 'Проверьте правильный ли ИНН и выберите организацию из списка', val => typeof (val?.value) === 'string')
+                organization: //data.key === 'ИНН'
+                    //? 
+                    Yup.object().test('', 'Проверьте правильный ли ИНН и выберите организацию из списка', val => typeof (val?.value) === 'string')
+                    //: 
+                    //Yup.string().required('Пожалуйста вставьте ключ')
             })
         },
         {
@@ -97,7 +101,7 @@ export default function SignUp() {
                 phone: ''
             },
             validationSchema: Yup.object({
-                phone: Yup.string().required('Пожалуйста введите ваш номер телефона').matches(/^\d+$/, 'Только цифры')
+                phone: Yup.string().required('Пожалуйста введите ваш номер телефона').matches(/^\d+$/, 'Только цифры').min(10, 'Введите номер без 8').max(10, 'Введите номер без 8')
             })
         },
         {
@@ -152,11 +156,8 @@ export default function SignUp() {
             { id: 'password', next: 'password_repeat' },
             { id: 'password_repeat', next: 'signin' },
         ])
-        data.type === 'Присоединиться' && setMessages(messages.map(el=>el.id==='key'?{...el, question: 'У вас есть ключ или вы хотите присоединиться по ИНН?'}:el))
+        data.type === 'Присоединиться' && setMessages(messages.map(el => el.id === 'key' ? { ...el, question: 'У вас есть ключ или вы хотите присоединиться по ИНН?' } : el))
     }, [data.type])
-    useEffect(()=>{
-        
-    },[data.key])
     return (
         <>
             {!isNil(messages) && <>
@@ -176,7 +177,7 @@ export default function SignUp() {
                         formiks={formiks}
                         setOrder={setOrder}
                         order={order}
-                        type={currentForm.id === 'password' ? 'password' : currentForm.id === 'password_repeat' ? 'password' : 'text'} 
+                        type={currentForm.id === 'password' ? 'password' : currentForm.id === 'password_repeat' ? 'password' : 'text'}
                         formType={'signup'} />
                 }
             </>}

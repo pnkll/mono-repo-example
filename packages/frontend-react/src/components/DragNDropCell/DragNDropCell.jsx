@@ -1,13 +1,11 @@
-import { DocumentPlusIcon } from '@heroicons/react/outline';
-import { isNil } from 'lodash';
-import React, { useState } from 'react';
+import React from 'react';
 import { FileUploader } from "react-drag-drop-files";
 import { tableApi } from '../../services/TableService';
 
 export default function DragNDropCell({ width = 40, id }) {
     const [postData] = tableApi.useUploadFileMutation()
-    const [file, setFile] = useState(null);
     function createFormData(file) {
+        console.log({...file})
         const formdata = new FormData()
         formdata.append("table_id", id)
         formdata.append("withDeletion", true)

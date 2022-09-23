@@ -8,7 +8,19 @@
         display: flex;
         flex-direction: column;
         gap: 15px;
-        left: calc(100% - 250px);
+        right: 20px;
+    }
+
+    &__move{
+        position: absolute;
+        left: 0;
+        top: 0;
+        // width: 15px;
+        // height: 15px;
+        // background-color: black;
+        transform: rotate(0deg);
+        transition: all 0.5s ease;
+        padding: 5px;
     }
 
     &__header {

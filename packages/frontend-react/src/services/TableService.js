@@ -53,10 +53,15 @@ export const tableApi = Api.injectEndpoints({
                 url: '/tables/content/data',
                 method: 'GET',
                 params: {
-                    table_id: table_id,
+                    table_id: JSON.stringify(table_id),
                     data: JSON.stringify(data)
                 }
             }),
+            transformResponse: (data) => {
+                if (!isNil(data)) {
+                    return data.status === 200 && data.message
+                }
+            }
         })
     }),
     overrideExisting: false,

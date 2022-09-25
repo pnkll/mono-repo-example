@@ -3,7 +3,7 @@ import { concat, isNil } from "lodash"
 import React from "react"
 import './Input.scss'
 
-export default function Input({formik,label,placeholder,id,name,type,autoComplete,className,required,handleChange,value,readonly=false,defaultStyles=true}){
+export default function Input({formik,label,placeholder,id,name,type,autoComplete,className,required,handleChange,value,readonly=false,defaultStyles=true,setFocus=null }){
     const classNamePreffix = className || 'input-field'
     const changeHandler = (e) =>{
                 !isNil(formik)?formik.setFieldValue(id,e.target.value):handleChange(e)
@@ -33,6 +33,8 @@ export default function Input({formik,label,placeholder,id,name,type,autoComplet
                 className={`${classNamePreffix}__input ${!isNil(formik)&&formik.touched[name]&&formik.errors[name]?'error':''}`}
                 readOnly={readonly}
                 style={readonly?defaultStyles?notEditStyles:{}:{}}
+                onFocus={setFocus?()=>setFocus(id):null}
+                onBlur={setFocus?()=>setFocus(null):null}
             />
             {!isNil(formik)&&formik.touched[name]&&formik.errors[name]&&<div className={`${classNamePreffix}__error`}>{formik.errors[name]}</div>}
         </div>

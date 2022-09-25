@@ -26,27 +26,37 @@ export const tableApi = Api.injectEndpoints({
                 url: '/tables',
                 method: 'GET'
             }),
-            transformResponse: (data)=>{
-                if(!isNil(data)){
-                    return data.status===200&&data.message
+            transformResponse: (data) => {
+                if (!isNil(data)) {
+                    return data.status === 200 && data.message
                 }
             }
         }),
         getTableContents: builder.query({
-            query:({table_id,limit,page})=>({
+            query: ({ table_id, limit, page }) => ({
                 url: '/tables/content',
                 method: 'GET',
                 params: {
-                    query: JSON.stringify({table_id: table_id}),
+                    query: JSON.stringify({ table_id: table_id }),
                     limit: limit,
                     page: page
                 }
             }),
-            transformResponse: (data)=>{
-                if(!isNil(data)){
-                    return data.status===200&&data.message
+            transformResponse: (data) => {
+                if (!isNil(data)) {
+                    return data.status === 200 && data.message
                 }
             }
+        }),
+        getContentByData: builder.query({
+            query: ({ data, table_id }) => ({
+                url: '/tables/content/data',
+                method: 'GET',
+                params: {
+                    table_id: table_id,
+                    data: JSON.stringify(data)
+                }
+            }),
         })
     }),
     overrideExisting: false,

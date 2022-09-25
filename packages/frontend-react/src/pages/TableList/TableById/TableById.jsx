@@ -9,10 +9,10 @@ import { tableApi } from '../../../services/TableService.js';
 
 export default function TableById() {
     const params = useParams()
-    const [itemsCount,setItemsCount]=useState(5)
-    const [currentPage,setCurrentPage]=useState(1)
-    //const { data: table } = tableApi.useGetTableContentsQuery(params.id,itemsCount,currentPage)
-    const [getTable,{ data: table }] = tableApi.useLazyGetTableContentsQuery()
+    const [itemsCount, setItemsCount] = useState(5)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [filterData, setFilterData] = useState(null)
+    const [getTable, { data: table }] = tableApi.useLazyGetTableContentsQuery()
     function getColumns() {
         if (!isNil(table?.headers)) {
             return Object.keys(table?.headers).map((el, index) => el
@@ -21,21 +21,23 @@ export default function TableById() {
         }
         return []
     }
-    useEffect(()=>{
-        getTable({table_id:params.id,limit:itemsCount,page:currentPage})
-    },[itemsCount,currentPage])
+    useEffect(() => {
+        getTable({ table_id: params.id, limit: itemsCount, page: currentPage })
+    }, [itemsCount, currentPage])
     return (
         <>
             <TransitionLayout from='bottom'>
-                {!isNil(table) && <Table 
-                    columns={getColumns()} 
-                    data={table?.docs?.map(el => el ? el.data : el)}
+                {!isNil(table) && <Table
+                    id={params.id}
+                    columns={getColumns()}
+                    data={filterData!==null?filterData:table?.docs?.map(el => el ? el.data : el)}
                     totalItemsCount={table.totalDocs}
                     itemsCount={itemsCount}
                     setItemsCount={setItemsCount}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
-                    />}
+                    setFilterData={setFilterData}
+                />}
             </TransitionLayout>
         </>
     )

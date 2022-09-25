@@ -19,6 +19,7 @@ export default function TableList() {
         { Header: 'Последнее обновление', accessor: 'updatedAt' }
     ]
     const [itemsCount, setItemsCount] = useState(10)
+    console.log(tableList)
     return (
         <>
             <TransitionLayout from='right'>

@@ -35,11 +35,26 @@ export default React.memo(function Table({ id, setFilters, filters, filter, setF
             <div className={`${classNamePrefix}__container`} style={{ marginBottom: open ? 0 : 24, height: `${open ? label ? 'calc(100% - 45px)' : 'calc(100% - 20px)' : 0}` }}>
 
                 <div className={`${classNamePrefix}__sub-container`} style={{ height: '100%' }}>
-                    <Filters setVis={setVisibleFilter} vis={visibleFilter}
-                        classNamePrefix={classNamePrefix} filters={filters} setFilters={setFilters} handleOpen={setOpen} isOpen={open} handleCreate={handleCreate} href={buttonHref} />
+                    <Filters
+                        setVis={setVisibleFilter}
+                        vis={visibleFilter}
+                        classNamePrefix={classNamePrefix}
+                        filters={filters}
+                        setFilters={setFilters}
+                        handleOpen={setOpen}
+                        isOpen={open}
+                        handleCreate={handleCreate}
+                        href={buttonHref} 
+                        setFilterData={setFilterData}/>
                     <div className={`${classNamePrefix}__scroll-wrapper`} style={{ borderRadius: '10px', transition: 'all 0.5s ease', maxHeight: 'calc(100vh - 163px)', overflow: 'auto', height: `${open ? '100%' : '0%'}`, minWidth: '527px' }}>
                         {!isNil(label) && <h1 style={{ paddingLeft: '13px' }}>{label}</h1>}
-                        {setFilterData&&visibleFilter&&<Filter setFilterData={setFilterData} columns={columns} id={id} visibleFilter={visibleFilter}/>}
+                        {setFilterData
+                            && visibleFilter
+                            && <Filter
+                                setFilterData={setFilterData}
+                                columns={columns}
+                                id={id}
+                                visibleFilter={visibleFilter} />}
                         <table className={`${classNamePrefix}__wrapper`}>
                             <thead {...getTableProps()} className={`${classNamePrefix}__header`}>
                                 {headerGroups.map((headerGroup, index) => <tr key={index} {...headerGroup.getHeaderGroupProps} className={`${classNamePrefix}__header__row`}>

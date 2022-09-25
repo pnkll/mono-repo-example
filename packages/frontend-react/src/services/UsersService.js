@@ -44,6 +44,15 @@ export const usersApi = Api.injectEndpoints({
             }),
             invalidatesTags: ['PROFILE']
         }),
+        getConfirmationUsers: builder.query({
+            query: ()=>({
+                url: '/users/confirmation',
+                method: 'GET'
+            }),
+            transformResponse: (data)=>{
+                return data.message
+            }
+        })
     }),
     overrideExisting: false,
 })

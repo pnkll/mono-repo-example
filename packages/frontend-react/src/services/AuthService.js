@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { setCredentials } from '../store/slices/appSlice'
+import { addNotify } from '../store/slices/notificationsSlice'
 import { Api } from './api'
 
 // Define a service using a base URL and expected endpoints
@@ -39,10 +40,13 @@ export const authApi = Api.injectEndpoints({
             async onQueryStarted(id, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled
-                    data?.status === 200 && dispatch(setCredentials({
-                        token: data.message.token,
-                        refreshToken: data.message.refreshToken
-                    }))
+                    if (data?.status === 200) {
+                        dispatch(setCredentials({
+                            token: data.message.token,
+                            refreshToken: data.message.refreshToken
+                        }))
+                        dispatch(addNotify({ type: 'success', message: 'Успешная авторизация, рады приветствовать вас на портале MintaCRM' }))
+                    }
                 } catch (error) {
                     console.log(error)
                 }

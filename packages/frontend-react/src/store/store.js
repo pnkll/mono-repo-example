@@ -4,6 +4,7 @@ import userReducer from './slices/userSlice'
 import sidebarReducer from './slices/sidebarSlice'
 import callControlReducer from './slices/callContollSlice'
 import rolesReducer from './slices/rolesSlice'
+import notificationsReducer from './slices/notificationsSlice'
 import { Api } from '../services/api'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   callControlSlice: callControlReducer,
   sidebarSlice: sidebarReducer,
   rolesSlice: rolesReducer,
+  notificationsSlice: notificationsReducer,
   [Api.reducerPath]: Api.reducer
 })
 

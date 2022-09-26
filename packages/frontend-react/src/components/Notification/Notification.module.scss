@@ -1,0 +1,56 @@
+@import '../../assets/vars';
+
+.notify{
+    &__container{
+        border-radius: 5px;
+        padding: 10px;
+        position: relative;
+        overflow: hidden;
+        animation: mount 0.5s forwards;
+        max-width: 350px;
+        &.complete{
+            animation: unmount 0.5s forwards;
+        }
+    }
+    &__title{
+        color: $color-black;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    &__message{
+        font-size: 13px;
+        font-weight: 500;
+    }
+    &__progress-bar{
+        height: 10px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+}
+
+@keyframes mount {
+    0%{
+        //transform: translateX(120px);
+        right: -104%;
+    }
+    100%{
+        //transform: translateX(0px);
+        right: 0%;
+    }
+}
+@keyframes unmount {
+    0%{
+        //transform: translateX(0px);
+        right: 0%;
+    }
+    30%{
+        right: 10%;
+    }
+    100%{
+        //transform: translateX(120px);
+        right: -104%;
+    }
+}

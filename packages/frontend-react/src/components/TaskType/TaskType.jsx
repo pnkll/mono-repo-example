@@ -6,16 +6,18 @@ import Select from '../Select/Select.jsx';
 import * as Yup from 'yup'
 import { taskTypeApi } from '../../services/TaskTypeService.js';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectRoleList } from '../../store/slices/rolesSlice.js';
 import Button from '../Button/Button.jsx';
 import './TaskType.scss'
 import ErrorMessage from '../ErrorMessage/ErrorMessage.jsx';
 import { isNil } from 'lodash';
 import { priorityOptions } from '../../helpers/forTask.js';
+import { addNotify } from '../../store/slices/notificationsSlice.js';
 
 export default React.memo(function TaskType() {
     const [fetchError,setFetchError]=useState(null)
+    const dispatch=useDispatch()
     function showError(error){
         setFetchError(error)
         setTimeout(()=>{
@@ -72,11 +74,13 @@ export default React.memo(function TaskType() {
     }
     async function postTaskType(values) {
         const {data,error} = await fetchPostTaskType(values)
-        error?showError(error.data.errors):setEditMode(false)
+        //error?showError(error.data.errors):setEditMode(false)
+        error?dispatch(addNotify({type: 'error', message:error.data.errors})):setEditMode(false)
     }
     async function updateTaskType(values) {
         const {data,error} = await fetchUpdateTaskType(values)
-        error?showError(error.data.errors):setEditMode(false)
+        //error?showError(error.data.errors):setEditMode(false)
+        error?dispatch(addNotify({type: 'error', message:error.data.errors})):setEditMode(false)
     }
     const roleListOptions = useSelector(selectRoleList)?.map(el => el && { label: el.title, value: el._id })
     useEffect(() => {

@@ -57,7 +57,7 @@ export default function CallControl({ props }) {
         }
     }
     const volume = useSelector(state => state.callControlSlice.volume)
-    const [play, { stop }] = useSound(bell, { volume: volume ? 1 : 0 })
+    //const [play, { stop }] = useSound(bell, { volume: volume ? 1 : 0 })
     function renderVolumeButton() {
         const style = { cursor: 'pointer' }
         if (volume) {
@@ -67,25 +67,38 @@ export default function CallControl({ props }) {
         }
     }
     useEffect(() => {
-        props.current.state.callDirection === 'callDirection/OUTGOING' ? play() : stop()
+        //props.current.state.callDirection === 'callDirection/OUTGOING' ? play() : stop()
     }, [props.current?.state.callDirection])
     const [move, setMove] = useState(false)
     const [position, setPosition] = useState(20)
     function handleMove(e) {
-        move && (e?.screenX>300)&&setPosition(e?.view.innerWidth - e?.screenX - 218)
+        move && (e?.screenX > 300) && setPosition(e?.view.innerWidth - e?.screenX - 218)
     }
     useEffect(() => {
         window.addEventListener('mousemove', handleMove, true)
         return () => window.removeEventListener('mousemove', handleMove, true)
     }, [move])
+    function getButton() {
+        //props.current?.state.callStatus ===
+        switch (getCallStatus()) {
+            case 'Звонок':
+                return <PhoneDownButton onClick={() => props.current?.stopCall()} />
+            case 'Исходящий вызов':
+                return <PhoneDownButton onClick={() => props.current?.stopCall()} />
+            case 'Входящий вызов':
+                return <PhoneButton onClick={() => props.current?.answerCall()} />
+            case 'Ожидание':
+                return <PhoneButton onClick={() => props.current?.startCall('1019')} />
+        }
+    }
     return (
         <>
             <div className="call-control__container" style={{
                 width: 'fit-content', position: 'absolute', bottom: expanded ? '3px' : '-159px', background: expanded ? 'rgb(128 128 128 / 63%)' : '', transition: 'all 0.5s ease',
-                right: position>20?`${position}px`: '20px'
+                right: position > 20 ? `${position}px` : '20px'
             }}>
                 <LinkIcon width={15} className='call-control__move'
-                    style={{ cursor: move ? 'grabbing' : 'grab', transform: move?'rotate(45deg)':'rotate(0deg)' }}
+                    style={{ cursor: move ? 'grabbing' : 'grab', transform: move ? 'rotate(45deg)' : 'rotate(0deg)' }}
                     onClick={() => { setMove(!move) }}
                 />
                 <div className="call-control__header">
@@ -107,7 +120,7 @@ export default function CallControl({ props }) {
                     <MicrophoneIcon width={15} />
                     <PhoneOutgoingIcon width={15} className='phone' />
                     <PauseIcon width={15} className='phone' />
-                    {props.current?.state.callStatus === "callStatus/ACTIVE" || props.current?.state.callStatus === "callStatus/STARTING" ? <PhoneDownButton onClick={() => props.current?.stopCall()} /> : <PhoneButton onClick={() => props.current?.startCall('1010')} />}
+                    {getButton()}
                 </div>
                 {props.current?.state.callCounterpart}<br />
                 {getCallStatus()}

@@ -15,10 +15,14 @@ import { priorityOptions } from '../../helpers/forTask.js';
 import { useState } from 'react';
 import { isNil } from 'lodash';
 import Button from '../Button/Button.jsx';
+import { usersApi } from '../../services/UsersService.js';
 
 export default React.memo(function Task() {
     const {data: taskTypes,error}=taskTypeApi.useGetTaskTypesForSelectorQuery()
     const {data: roles, error: getRolesError}=rolesApi.useGetRolesForSelectorQuery()
+    const {data: usersByRole, error: getUsersByRoleError}=rolesApi.useGetUsersByRoleIdQuery("6315fbd36480c7721d3c3450")
+    const {data: user}=usersApi.useGetUsersByIdQuery('632b2c90050946e0628bc7fb,632b2bde1e18d5955b6cd62a')
+    console.log(usersByRole)
     const formik = useFormik({
         initialValues: {
             taskType: '',//ID Шаблона, на основе которого сделали таск

@@ -4,7 +4,7 @@ import './Sidebar.scss';
 import { Link } from "react-router-dom";
 import Footer from "./Footer/Footer.jsx";
 import Header from "./Header/Header.jsx";
-import {TableIcon, CollectionIcon, CubeIcon } from "@heroicons/react/outline";
+import {TableIcon, CollectionIcon, CubeIcon, TemplateIcon } from "@heroicons/react/outline";
 
 export default function Sidebar({collapsed}) {
     
@@ -16,7 +16,7 @@ export default function Sidebar({collapsed}) {
                 </SidebarHeader>
                 <SidebarContent>
                     <Menu iconShape="square">
-                        <MenuItem icon={<CubeIcon/>}><Link to='../'>Главная</Link></MenuItem>
+                        <MenuItem icon={<TemplateIcon/>}><Link to='../'>Главная</Link></MenuItem>
                         <SubMenu  title="Pages" icon={<CollectionIcon/>}>
                             <MenuItem><Link to='../demo'>Demo</Link></MenuItem>
                             <MenuItem><Link to='../tasks'>Tasks</Link></MenuItem>

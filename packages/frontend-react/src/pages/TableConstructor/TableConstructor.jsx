@@ -69,47 +69,47 @@ export default function TableConstructor() {
                 setErrors(fakeErrors)
             }))
     }
-    const tmp = {
-        "org_id": "632b2bde1e18d5955b6cd62a",
-        "createdBy": "632b2c90050946e0628bc7fb",
-        "updatedBy": "632b2c90050946e0628bc7fb",
-        "title": "Тестовая табличкаа 2",
-        "importSettings": {
-            "id": {
-                "type": "fromFile",
-                "header": "Id",
-                "primary": false,
-                "index": 0,
-                "expr": "return \""
-            },
-            "name": {
-                "type": "fromFile",
-                "header": "Name",
-                "primary": false,
-                "index": 1,
-                "expr": "return \""
-            }
-        },
-        "schema": {
-            "id": {
-                "index": false,
-                "type": "Number",
-                "default": ""
-            },
-            "name": {
-                "index": false,
-                "type": "String",
-                "default": ""
-            }
-        },
-        "_id": "632c85c48c0c0ae27358f05a",
-        "files": [],
-        "createdAt": "2022-09-22T15:56:52.686Z",
-        "updatedAt": "2022-09-22T15:56:52.686Z"
-    } 
-    useEffect(()=>{
-        setTable({...table,id: tmp._id, title: tmp.title, columns: Object.values(tmp.importSettings).map((el, index) => el && { Header: el.header, accessor: Object.keys(tmp.importSettings)[index] })}) 
-    },[])
+    // const tmp = {
+    //     "org_id": "632b2bde1e18d5955b6cd62a",
+    //     "createdBy": "632b2c90050946e0628bc7fb",
+    //     "updatedBy": "632b2c90050946e0628bc7fb",
+    //     "title": "Тестовая табличкаа 2",
+    //     "importSettings": {
+    //         "id": {
+    //             "type": "fromFile",
+    //             "header": "Id",
+    //             "primary": false,
+    //             "index": 0,
+    //             "expr": "return \""
+    //         },
+    //         "name": {
+    //             "type": "fromFile",
+    //             "header": "Name",
+    //             "primary": false,
+    //             "index": 1,
+    //             "expr": "return \""
+    //         }
+    //     },
+    //     "schema": {
+    //         "id": {
+    //             "index": false,
+    //             "type": "Number",
+    //             "default": ""
+    //         },
+    //         "name": {
+    //             "index": false,
+    //             "type": "String",
+    //             "default": ""
+    //         }
+    //     },
+    //     "_id": "632c85c48c0c0ae27358f05a",
+    //     "files": [],
+    //     "createdAt": "2022-09-22T15:56:52.686Z",
+    //     "updatedAt": "2022-09-22T15:56:52.686Z"
+    // } 
+    // useEffect(()=>{
+    //     setTable({...table,id: tmp._id, title: tmp.title, columns: Object.values(tmp.importSettings).map((el, index) => el && { Header: el.header, accessor: Object.keys(tmp.importSettings)[index] })}) 
+    // },[])
     return (
         <>
                 <TransitionLayout>

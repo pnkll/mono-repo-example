@@ -24,6 +24,7 @@ export default function TableById() {
     useEffect(() => {
         getTable({ table_id: params.id, limit: itemsCount, page: currentPage })
     }, [itemsCount, currentPage])
+    console.log(filterData)
     return (
         <>
             <TransitionLayout from='bottom'>

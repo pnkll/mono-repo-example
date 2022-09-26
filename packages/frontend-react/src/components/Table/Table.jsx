@@ -75,7 +75,8 @@ export default React.memo(function Table({ id, setFilters, filters, filter, setF
                                             minWidth: '500px',
                                             textAlign: 'center',
                                             padding: '30px 0',
-                                            height: '100px'
+                                            height: '100px',
+                                            background: 'white'
                                         }}
                                         colSpan={columns.length}>{emptyCell}</td></tr>
                                 }

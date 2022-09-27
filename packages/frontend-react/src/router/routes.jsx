@@ -26,7 +26,8 @@ export const routes = (token) => {
             {
                 path: '/', element: <SidebarHeaderLayout />, children: [
                     { index: true, breadcrumb: 'Главная', element: <Main />, state: { hello: 'hfds' } },
-                    {path: '*', breadcrumb: null, element: <Page404/>},
+                    {path: '*', element: <Navigate replace to='../404'/>},
+                    {path: '404', breadcrumb: 'Раздел не найден', element: <Page404/>},
                     { path: 'signup', element: <Navigate to='../' /> },
                     { path: 'signin', element: <Navigate to='../' /> },
                     { path: 'demo', breadcrumb: 'Demo', element: <Demo /> },

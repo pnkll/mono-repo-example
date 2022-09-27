@@ -16,13 +16,14 @@ import { useState } from 'react';
 import { isNil } from 'lodash';
 import Button from '../Button/Button.jsx';
 import { usersApi } from '../../services/UsersService.js';
+import { useEffect } from 'react';
 
 export default React.memo(function Task() {
+    //'632b2c90050946e0628bc7fb,632db358a457c421276b7a86'
     const {data: taskTypes,error}=taskTypeApi.useGetTaskTypesForSelectorQuery()
-    const {data: roles, error: getRolesError}=rolesApi.useGetRolesForSelectorQuery()
-    const {data: usersByRole, error: getUsersByRoleError}=rolesApi.useGetUsersByRoleIdQuery("6315fbd36480c7721d3c3450")
-    const {data: user}=usersApi.useGetUsersByIdQuery('632b2c90050946e0628bc7fb,632b2bde1e18d5955b6cd62a')
-    console.log(usersByRole)
+    const [getUsersIds, {data: ids}]=rolesApi.useLazyGetUsersByRoleIdQuery()
+    const [getUsersById,{data: users}]=usersApi.useLazyGetUsersByIdQuery()
+    const [executorOptions,setExecutorOptions]=useState(null)
     const formik = useFormik({
         initialValues: {
             taskType: '',//ID Шаблона, на основе которого сделали таск
@@ -49,11 +50,17 @@ export default React.memo(function Task() {
         },
         onSubmit: values=> console.log(values)
     })
+    async function setExecutorRole(){
+        await getUsersIds('632b2bde8cbdc749d419e395')
+        .then(({data})=>getUsersById(data.message))
+        .then(({data})=>setExecutorOptions(data.message.map(el=>el?{label: `${el.firstname} ${el.lastname}`, value: el._id}:el)))
+    }
     const [keyOfSelect,setKeyOfSelect]=useState(1)
-    function setTemplate(id){
+    async function setTemplate(id){
         const taskType = taskTypes.find(el=>el.value===id)
         formik.setFieldValue('taskType', id)
         formik.setFieldValue('priority',taskType.data.priority)
+        setExecutorRole()
         setKeyOfSelect(keyOfSelect+1)
     }
     return (
@@ -68,7 +75,7 @@ export default React.memo(function Task() {
                         <DatePicker placeholder={'Желаемая дата'} formik={formik} id='needTime' name='needTime' showTimeSelect={true}/>
                         <DatePicker placeholder={'Крайний срок'} formik={formik} id='lastTime' name='lastTime' showTimeSelect={true}/>
                         <DatePicker placeholder={'Назначенная дата'} formik={formik} id='time' name='time' showTimeSelect={true}/></div>
-                    <Select formik={formik} label={'Исполнитель'} id='executor' name='executor' />
+                    <Select formik={formik} label={'Исполнитель'} id='executor' name='executor' options={executorOptions}/>
                     <Select formik={formik} id='status' name='status' label='Статус заявки' />
                     <Select key={keyOfSelect} formik={formik} id='priority' options={priorityOptions} hasDefaultValue={formik.values.taskType!==''?true:false} name='priority' label='Степень важности' />
                     <Button color={'green'} text='Создать заявку' type='submit'/>

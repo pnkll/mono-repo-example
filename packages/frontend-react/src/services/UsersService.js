@@ -1,3 +1,4 @@
+import { addNotify } from '../store/slices/notificationsSlice'
 import { setUser } from '../store/slices/userSlice'
 import { Api } from './api'
 
@@ -52,6 +53,21 @@ export const usersApi = Api.injectEndpoints({
             transformResponse: (data)=>{
                 return data.message
             }
+        }),
+        confirmUsers: builder.mutation({
+            query: (ids)=>({
+                url: '/users/confirmation',
+                method: 'POST',
+                body: {ids: ids}
+            }),
+            async onQueryStarted(id,{dispatch,queryFulfilled}){
+                try {
+                    const {data}=await queryFulfilled
+                    dispatch(addNotify({type: 'success', message: 'Пользователь успешно подтвержден'}))
+                } catch ({error}) {
+                    dispatch(addNotify({type: 'error', message: error.data.errors}))
+                }
+            },
         })
     }),
     overrideExisting: false,

@@ -2,12 +2,14 @@ import { isNil } from 'lodash';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import Button from '../../components/Button/Button.jsx';
 import NavTableTd from '../../components/NavTableTd/NavTableTd.jsx';
 import Table from '../../components/Table/Table.jsx';
 import TransitionLayout from '../../page_layouts/TransitionLayout/TransitionLayout.jsx';
 import { usersApi } from '../../services/UsersService';
 
 export default function UsersList(){
+    const [confirmUser]=usersApi.useConfirmUsersMutation()
     const columns=[
         {Header: '', accessor: '_id', Cell: ({cell:{value}})=><NavTableTd href={value}/>||'-'},
         {Header: 'Логин', accessor: 'username'},
@@ -15,6 +17,7 @@ export default function UsersList(){
         {Header: 'Фамилия', accessor: 'lastname'},
         {Header: 'Телефон', accessor: 'phone'},
         {Header: 'Почта', accessor: 'email'},
+        {Header: '', accessor: 'id', Cell: ({cell:{value}})=>!isNil(value)?<Button handleClick={()=>confirmUser([value])} text='Подтвердить' color='green'/>:'Подтвержден'}
     ]
     const [filters,setFilters]=useState([
         {title: 'Все', status: true, rtkHook: usersApi.useLazyGetUsersQuery},
@@ -30,7 +33,7 @@ export default function UsersList(){
             {!isNil(users)
                 ?<Table 
                 columns={columns} 
-                data={users}
+                data={users.map(el=>el.verified===false?{...el, id: el._id}:el)}
                 filters={filters}
                 setFilters={setFilters}/>
                 :<>Preloader</>}

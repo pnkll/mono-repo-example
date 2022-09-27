@@ -23,7 +23,6 @@ export default function Notification({ message, type, id }) {
     }
     function handlePauseTimer() {
         clearInterval(intervalTimer)
-        console.log('hello')
     }
     function handleCloseNotification() {
         handlePauseTimer()
@@ -45,7 +44,7 @@ export default function Notification({ message, type, id }) {
             <div className={`${s['notify__container']} ${complete&&s.complete}`}
                 onMouseEnter={handlePauseTimer}
                 onMouseLeave={handleStartTimer}
-                style={{background: `${type==='error'?'#ff00006e':'#74d17457'}`}}>
+                style={{background: `${type==='error'?'rgb(243 139 139 / 93%)':'#74d17457'}`}}>
                 <span className={s['notify__title']}>
                     {type==='error'
                     ?<><BanIcon width={20} style={{color: 'red'}}/>Ошибка</>

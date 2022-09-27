@@ -3,7 +3,6 @@ import Client from '../../components/Client/Client.jsx';
 import Control from '../../components/Control/Control.jsx';
 import History from '../../components/History/History.jsx';
 import Task from '../../components/Task/Task.jsx';
-import SidebarHeaderLayout from '../../page_layouts/SidebarHeaderLayout/SidebarHeaderLayout.jsx';
 import TransitionLayout from '../../page_layouts/TransitionLayout/TransitionLayout.jsx';
 import './Operator.scss'
 

@@ -8,6 +8,7 @@
         overflow: hidden;
         animation: mount 0.5s forwards;
         max-width: 350px;
+        z-index: 100;
         &.complete{
             animation: unmount 0.5s forwards;
         }

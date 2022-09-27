@@ -8,7 +8,7 @@ import TransitionLayout from '../../page_layouts/TransitionLayout/TransitionLayo
 export default function Page404() {
     const navigate = useNavigate()
     function goBack() {
-        navigate(-1)
+        navigate(-1,{replace:true})
     }
     return (
         <>

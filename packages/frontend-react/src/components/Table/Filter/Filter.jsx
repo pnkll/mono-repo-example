@@ -1,12 +1,14 @@
 import _ from 'lodash';
 import React from 'react';
+import { useMemo } from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import useTableFilter from '../../../hooks/useTableFilter.js';
 import { tableApi } from '../../../services/TableService.js';
 import Button from '../../Button/Button.jsx';
 import Input from '../../Input/Input.jsx';
-import './Filter.scss'
+import './Filter.scss';
+import Select from '../../Select/Select.jsx'
 
 export default function Filter({ columns, setFilterData, id,height }) {
   const { data, values, handleClear, handleAccess, handleChange } = useTableFilter({ columns })
@@ -18,10 +20,11 @@ export default function Filter({ columns, setFilterData, id,height }) {
     message && setFilterData(message.map(el => el ? el.data : el))
   }, [message])
   const [focus, setFocus] = useState(null)
+  const options = useMemo(()=>values.map(el=>el?{value: el.id,label:el.id}:el))
   return (
     <>
       <div className='table-filter__elems'>
-        {values.map((val, index) =>
+        {/* {values.map((val, index) =>
           <div className='table-filter__elem' key={index}>
             <label
               className={`table-filter__label${focus === val.id || val.value !== '' ? ' focused' : ''}`}>
@@ -35,7 +38,8 @@ export default function Filter({ columns, setFilterData, id,height }) {
               handleChange={(e) => handleChange(e, val)}
               setFocus={setFocus}
             />
-          </div>)}
+          </div>)} */}
+          <Select options={options} handleChange={(e)=>console.log(e)}/>
         <div className="table-filter__buttons">
           <Button handleClick={handleAccess} color='green' text='Применить' />
           <Button handleClick={handleClear} color='white' text='Сбросить' />

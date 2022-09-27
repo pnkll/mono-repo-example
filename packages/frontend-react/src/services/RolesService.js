@@ -64,7 +64,9 @@ export const rolesApi = Api.injectEndpoints({
             query: (id) => ({
                 url: '/roles/role',
                 method: 'GET',
-                params: {_id: id}
+                query: {
+                    _id: id 
+                }
             }),
         }),
         grantPermissions: builder.mutation({

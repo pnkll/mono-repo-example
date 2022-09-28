@@ -1,14 +1,14 @@
 import { Formik } from 'formik';
 import React, { useState } from 'react';
-import Input from "../components/Input/Input.jsx";
+import Input from "../../components/Input/Input.jsx";
 import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../store/slices/userSlice";
+import { selectCurrentUser } from "../../store/slices/userSlice";
 import moment from "moment";
-import Button from "../components/Button/Button.jsx";
-import { usersApi } from "../services/UsersService";
+import Button from "../../components/Button/Button.jsx";
+import { usersApi } from "../../services/UsersService";
 import { useParams } from 'react-router-dom';
 import { isNil } from 'lodash';
-import ToggleInput from '../components/ToggleInput/ToggleInput.jsx';
+import ToggleInput from '../../components/ToggleInput/ToggleInput.jsx';
 
 export default function ProfileForm() {
     const params = useParams()

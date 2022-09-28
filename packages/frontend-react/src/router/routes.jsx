@@ -41,7 +41,7 @@ export const routes = (token) => {
                     { path: 'settings/roles/:id', breadcrumb: 'Роль', element: <RoleById /> },
                     { path: 'settings/roles/new', breadcrumb: 'Создание роли', element: <RoleById /> },
                     { path: 'profile', breadcrumb: 'Сотрудник', element: <Profile /> },
-                    { path: 'users', breadcrumb: 'Сотрудник', element: <UsersList /> },
+                    { path: 'users', breadcrumb: 'Сотрудники', element: <UsersList /> },
                     { path: 'users/:id', breadcrumb: 'Сотрудник', element: <Profile /> },
                     { path: 'tables', breadcrumb: 'Список таблиц', element: <TableList /> },
                     { path: 'tables/:id', breadcrumb: 'Таблица', element: <TableById /> },

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Toggle from 'react-toggle'
 import './ToggleInput.scss'
 
-export default React.memo(function ToggleInput({ formik, label, checked = false, id, name, classNamePrefix,handleChange }) {
+export default React.memo(function ToggleInput({ formik, label, checked = false, id, name, classNamePrefix,handleChange,readOnly=false }) {
     const className = classNamePrefix || 'toggle-input'
     return (
         <>
@@ -14,6 +14,7 @@ export default React.memo(function ToggleInput({ formik, label, checked = false,
                     name={name}
                     checked={!isNil(formik)?formik.values[id]:checked}
                     onChange={!isNil(formik)?formik.handleChange:handleChange}
+                    readOnly={readOnly}
                 />
                 {!isNil(label)&&<p style={{margin: 0}}>{label}</p>}
             </div>

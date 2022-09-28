@@ -4,7 +4,7 @@ import { Api } from './api'
 
 // Define a service using a base URL and expected endpoints
 export const usersApi = Api.injectEndpoints({
-    typeTags: ['PROFILE','USERS','UNCONFIRM-USERS'],
+    typeTags: ['PROFILE', 'USERS', 'UNCONFIRM-USERS'],
     endpoints: (builder) => ({
         getProfile: builder.query({
             query: () => ({
@@ -24,24 +24,35 @@ export const usersApi = Api.injectEndpoints({
             query: () => ({
                 url: '/users',
             }),
-            transformResponse: (data)=>{
+            transformResponse: (data) => {
                 return data.message
             },
             providesTags: (result) =>
-            result.message
+                result.message
                     ? [
                         ...result.message.map(({ id }) => ({ type: 'USERS', id })),
                         { type: 'USERS', id: 'LIST' },
                     ]
                     : [{ type: 'USERS', id: 'LIST' }],
         }),
+        getUserById: builder.query({
+            query: (data) => ({
+                url: '/users/ids',
+                params: {
+                    ids: [data]
+                },
+            }),
+            transformResponse: (data)=>{
+                return data.message[0]
+            }
+        }),
         getUsersById: builder.query({
             query: (data) => ({
                 url: '/users/ids',
-                params:{
-                    ids: data
+                params: {
+                    ids: typeof (data) === 'string' ? [data] : data
                 }
-                
+
             })
         }),
         updateProfile: builder.mutation({
@@ -50,18 +61,26 @@ export const usersApi = Api.injectEndpoints({
                 method: 'PATCH',
                 body: data,
             }),
-            invalidatesTags: ['PROFILE']
+            invalidatesTags: ['PROFILE'],
+            async onQueryStarted(id,{dispatch,queryFulfilled}){
+                try {
+                    const {data} = await queryFulfilled
+                    data?.status===200&&dispatch(addNotify({type:'success', message: 'Профиль успешно обновлен'}))
+                } catch ({error}) {
+                    dispatch(addNotify({type:'error',message: error.data.errors}))
+                }
+            }
         }),
         getConfirmationUsers: builder.query({
-            query: ()=>({
+            query: () => ({
                 url: '/users/confirmation',
                 method: 'GET'
             }),
-            transformResponse: (data)=>{
+            transformResponse: (data) => {
                 return data.message
             },
             providesTags: (result) =>
-            result.message
+                result.message
                     ? [
                         ...result.message.map(({ id }) => ({ type: 'CONFIRM-USERS', id })),
                         { type: 'UNCONFIRM-USERS', id: 'LIST' },
@@ -69,18 +88,18 @@ export const usersApi = Api.injectEndpoints({
                     : [{ type: 'UNCONFIRM-USERS', id: 'LIST' }],
         }),
         confirmUsers: builder.mutation({
-            query: (ids)=>({
+            query: (ids) => ({
                 url: '/users/confirmation',
                 method: 'POST',
-                body: {ids: ids}
+                body: { ids: ids }
             }),
-            invalidatesTags: ['UNCONFIRM-USERS','USERS'],
-            async onQueryStarted(id,{dispatch,queryFulfilled}){
+            invalidatesTags: ['UNCONFIRM-USERS', 'USERS'],
+            async onQueryStarted(id, { dispatch, queryFulfilled }) {
                 try {
-                    const {data}=await queryFulfilled
-                    dispatch(addNotify({type: 'success', message: 'Пользователь успешно подтвержден'}))
-                } catch ({error}) {
-                    dispatch(addNotify({type: 'error', message: error.data.errors}))
+                    const { data } = await queryFulfilled
+                    dispatch(addNotify({ type: 'success', message: 'Пользователь успешно подтвержден' }))
+                } catch ({ error }) {
+                    dispatch(addNotify({ type: 'error', message: error.data.errors }))
                 }
             },
         })

@@ -6,7 +6,8 @@ import './Input.scss'
 export default function Input({formik,label,placeholder,id,name,type,autoComplete,className,required,handleChange,value,readonly=false,defaultStyles=true,setFocus=null }){
     const classNamePreffix = className || 'input-field'
     const changeHandler = (e) =>{
-                !isNil(formik)?formik.setFieldValue(id,e.target.value):handleChange(e)
+                //!isNil(formik)?formik.setFieldValue(id,e.target.value):handleChange(e)
+                !isNil(formik)?formik.handleChange(e):handleChange(e)
     }
     const notEditStyles = {
         border: 0,

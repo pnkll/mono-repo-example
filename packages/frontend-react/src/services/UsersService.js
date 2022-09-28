@@ -4,7 +4,7 @@ import { Api } from './api'
 
 // Define a service using a base URL and expected endpoints
 export const usersApi = Api.injectEndpoints({
-    typeTags: ['PROFILE'],
+    typeTags: ['PROFILE','USERS','UNCONFIRM-USERS'],
     endpoints: (builder) => ({
         getProfile: builder.query({
             query: () => ({
@@ -26,7 +26,14 @@ export const usersApi = Api.injectEndpoints({
             }),
             transformResponse: (data)=>{
                 return data.message
-            }
+            },
+            providesTags: (result) =>
+            result.message
+                    ? [
+                        ...result.message.map(({ id }) => ({ type: 'USERS', id })),
+                        { type: 'USERS', id: 'LIST' },
+                    ]
+                    : [{ type: 'USERS', id: 'LIST' }],
         }),
         getUsersById: builder.query({
             query: (data) => ({
@@ -52,7 +59,14 @@ export const usersApi = Api.injectEndpoints({
             }),
             transformResponse: (data)=>{
                 return data.message
-            }
+            },
+            providesTags: (result) =>
+            result.message
+                    ? [
+                        ...result.message.map(({ id }) => ({ type: 'CONFIRM-USERS', id })),
+                        { type: 'UNCONFIRM-USERS', id: 'LIST' },
+                    ]
+                    : [{ type: 'UNCONFIRM-USERS', id: 'LIST' }],
         }),
         confirmUsers: builder.mutation({
             query: (ids)=>({
@@ -60,6 +74,7 @@ export const usersApi = Api.injectEndpoints({
                 method: 'POST',
                 body: {ids: ids}
             }),
+            invalidatesTags: ['UNCONFIRM-USERS','USERS'],
             async onQueryStarted(id,{dispatch,queryFulfilled}){
                 try {
                     const {data}=await queryFulfilled

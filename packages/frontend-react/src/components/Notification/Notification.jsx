@@ -44,7 +44,7 @@ export default function Notification({ message, type, id }) {
             <div className={`${s['notify__container']} ${complete&&s.complete}`}
                 onMouseEnter={handlePauseTimer}
                 onMouseLeave={handleStartTimer}
-                style={{background: `${type==='error'?'rgb(243 139 139 / 93%)':'#74d17457'}`}}>
+                style={{background: `${type==='error'?'rgb(243 139 139 / 93%)':'rgb(126 191 126 / 89%)'}`}}>
                 <span className={s['notify__title']}>
                     {type==='error'
                     ?<><BanIcon width={20} style={{color: 'red'}}/>Ошибка</>
@@ -53,7 +53,7 @@ export default function Notification({ message, type, id }) {
                 <p className={s['notify__message']}>
                     {message}
                 </p>
-                <i className={s['notify__progress-bar']} style={{ width: `${progress}%`, background: `${type==='error'?'#e35757':'#86d186'}` }} />
+                <i className={s['notify__progress-bar']} style={{ width: `${progress}%`, background: `${type==='error'?'#e35757':'rgb(14 179 14)'}` }} />
             </div>
         </>
     )

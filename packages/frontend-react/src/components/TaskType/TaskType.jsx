@@ -18,12 +18,6 @@ import { addNotify } from '../../store/slices/notificationsSlice.js';
 export default React.memo(function TaskType() {
     const [fetchError,setFetchError]=useState(null)
     const dispatch=useDispatch()
-    function showError(error){
-        setFetchError(error)
-        setTimeout(()=>{
-            setFetchError(null)
-        },5000)
-    }
     const validationSchema = Yup.object().shape({
         title: Yup.string()
             .min(2, 'Too Short!')
@@ -99,10 +93,10 @@ export default React.memo(function TaskType() {
                 <form onSubmit={(e) => { e.preventDefault(); formik.handleSubmit(e) }} style={{ display: 'flex', flexDirection: 'column', gap: 10,position: 'relative' }}>
                     <Input formik={formik} id='title' name='title' label='Заголовок' readonly={editMode?false:true}/>
                     <div className="" style={{ display: 'flex', gap: 10 }}>
-                        <Select formik={formik} id='executorRole' name='executorRole' label='Роль исполнителя' options={roleListOptions} hasDefaultValue={true} isDisabled={editMode?false:true}/>
-                        <Select formik={formik} id='controllerRole' name='controllerRole' label='Роль ответственного' options={roleListOptions} hasDefaultValue={true} isDisabled={editMode?false:true}/>
+                        <Select formik={formik} id='executorRole' name='executorRole' label='Роль исполнителя' options={roleListOptions} hasDefaultValue={!isNil(params.id)?true:false} isDisabled={editMode?false:true}/>
+                        <Select formik={formik} id='controllerRole' name='controllerRole' label='Роль ответственного' options={roleListOptions} hasDefaultValue={!isNil(params.id)?true:false} isDisabled={editMode?false:true}/>
                         {/* <Select formik={formik} id='linkedContent' name='linkedContent' label='Необходимо для завершения задачи'/> */}
-                        <Select formik={formik} id='priority' name='priority' label='Степень важности' options={priorityOptions} hasDefaultValue={true} isDisabled={editMode?false:true}/>
+                        <Select formik={formik} id='priority' name='priority' label='Степень важности' options={priorityOptions} hasDefaultValue={!isNil(params.id)?true:false} isDisabled={editMode?false:true}/>
                     </div>
                     <TextArea formik={formik} id='description' name='description' label='Описание' readonly={editMode?false:true}/>
                     <Button text={editMode ? isNil(params.id)? 'Создать шаблон' : 'Сохранить' : 'Редактировать'} type='submit' color={editMode ? isNil(params.id)? 'green' : 'green' : 'blue'} isLoading={isLoadingPost||isLoadingUpdate}/>

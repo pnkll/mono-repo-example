@@ -74,7 +74,7 @@ export default function SignUp() {
                 username: ''
             },
             validationSchema: Yup.object({
-                username: Yup.string().required('Пожалуйста введите ваш login').matches(/^[a-zA-Z]+$/, 'Только английские буквы без пробелов')
+                username: Yup.string().required('Пожалуйста введите ваш login').matches(/^[a-zA-Z0-9]+$/, 'Только английские буквы без пробелов')
             })
         },
         {

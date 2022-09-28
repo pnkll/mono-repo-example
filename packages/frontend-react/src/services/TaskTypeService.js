@@ -1,4 +1,5 @@
 import { isNil } from 'lodash'
+import { addNotify } from '../store/slices/notificationsSlice'
 import { Api } from './api'
 
 // Define a service using a base URL and expected endpoints
@@ -44,13 +45,21 @@ export const taskTypeApi = Api.injectEndpoints({
             }),
             invalidatesTags: ['TASK-TYPES']
         }),
-        removeTaskType: builder.query({
+        removeTaskType: builder.mutation({
             query: (data) => ({
                 url: '/tasks/tasktype',
                 method: 'DELETE',
                 params: {_id: data}
             }),
-            invalidatesTags: [{type: 'TASK-TYPES', id: 'LIST'}]
+            invalidatesTags: ['TASK-TYPES'],
+            async onQueryStarted(id,{dispatch,queryFulfiled}){
+                try {
+                    await queryFulfiled
+                    dispatch(addNotify({type: 'success',message: 'Шаблон успешно удален'}))
+                } catch (error) {
+                    
+                }
+            }
         }),
         postTaskType: builder.mutation({
             query: (data) => ({

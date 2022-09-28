@@ -10,7 +10,7 @@ import { taskTypeApi } from '../../services/TaskTypeService.js';
 
 export default function TaskTypeList() {
     const { data: taskTypesList, error, isLoading: isLoadingGet, isFetching, } = taskTypeApi.useGetTaskTypesQuery()
-    const [fetchRemoveTaskType, { isLoading: isLoadingRemove }] = taskTypeApi.useLazyRemoveTaskTypeQuery()
+    const [fetchRemoveTaskType, { isLoading: isLoadingRemove }] = taskTypeApi.useRemoveTaskTypeMutation()
     async function removeTaskType(id) {
         await fetchRemoveTaskType(id)
     }
@@ -39,6 +39,7 @@ export default function TaskTypeList() {
         { Header: 'Dead Line', accessor: 'deadLineHours' },
         { Header: 'Степень важности', accessor: 'priority' },
     ]
+    const [fetchPostTaskType] = taskTypeApi.usePostTaskTypeMutation()
     return (
         <>
             <TransitionLayout from='bottom'>

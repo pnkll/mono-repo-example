@@ -15,14 +15,17 @@ export const authApi = Api.injectEndpoints({
             async onQueryStarted(id, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled
-                    data?.status === 200 && dispatch(setCredentials({
-                        token: data.message.token,
-                        refreshToken: data.message.refreshToken
-                    }))
-                } catch (error) {
-                    console.log(error)
+                    if (data?.status === 200) {
+                        dispatch(setCredentials({
+                            token: data.message.token,
+                            refreshToken: data.message.refreshToken
+                        }))
+                        dispatch(addNotify({type: 'success', message: 'Вы успешно зарегистрировались, добро пожаловать на портал MintaCRM'}))
+                    }
+                    } catch ({ error }) {
+                        dispatch(addNotify({ type: 'error', message: error.data.errors }))
+                    }
                 }
-            }
         }),
         registerOrganization: builder.mutation({
             query: (data) => ({
@@ -30,6 +33,13 @@ export const authApi = Api.injectEndpoints({
                 method: 'POST',
                 body: data,
             }),
+            async onQueryStarted(id,{dispatch, queryFulfilled}){
+                try {
+                    data?.status===200&&addNotify({type: 'success', message: 'Организация успешно зарегистрирована, продолжайте регистрацию чтобы зарегистрировать администратора для организации'})
+                } catch ({error}) {
+                    console.log(error)
+                }
+            }
         }),
         login: builder.mutation({
             query: (data) => ({
@@ -47,8 +57,8 @@ export const authApi = Api.injectEndpoints({
                         }))
                         dispatch(addNotify({ type: 'success', message: 'Успешная авторизация, рады приветствовать вас на портале MintaCRM' }))
                     }
-                } catch (error) {
-                    console.log(error)
+                } catch ({error}) {
+                    dispatch(addNotify({ type: 'error', message: error.data.errors }))
                 }
             }
         }),

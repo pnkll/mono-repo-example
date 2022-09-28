@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSpring, animated } from 'react-spring';
+import s from '../AuthMessages.module.scss'
 
 
 export default function MessageElem({ message, type }) {
@@ -19,18 +20,18 @@ export default function MessageElem({ message, type }) {
     switch (type) {
         case 'question':
             return <>
-                <animated.div style={styles} className='auth__message__elem' ref={message.last?lastMessage:null}>
-                    <p className='auth__message__elem__text'>{message.question}</p>
-                    <p className='auth__message__elem__name'>Minta CRM</p>
-                    <p className='auth__message__elem__time'>{message.time}</p>
+                <animated.div style={styles} className={s['message__elem']} ref={message.last?lastMessage:null}>
+                    <p className={s['message__elem__text']}>{message.question}</p>
+                    <p className={s['message__elem__name']}>Minta CRM</p>
+                    <p className={s['message__elem__time']}>{message.time}</p>
                 </animated.div>
             </>;
         case 'answer':
             return <>
-                <div className='auth__message__elem me' ref={message.last?lastMessage:null}>
-                    <p className='auth__message__elem__text'>{message.answer}</p>
-                    <p className='auth__message__elem__name'>Вы</p>
-                    <p className='auth__message__elem__time'>{message.time}</p>
+                <div className={`${s['message__elem']} ${s.me}`} ref={message.last?lastMessage:null}>
+                    <p className={s['message__elem__text']}>{message.answer}</p>
+                    <p className={s['message__elem__name']}>Вы</p>
+                    <p className={s['message__elem__time']}>{message.time}</p>
                 </div>
             </>
     }

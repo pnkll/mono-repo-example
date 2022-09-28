@@ -155,7 +155,6 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                             <button type='submit' className='auth-field__button' disabled={isLoading}><ChatIcon width={30} /></button>
                             <AutoSubmitToken id={id} />
                         </form>
-                        {!isNil(postError) && <p>{postError}</p>}
                     </>)}
             </Formik>
         </>

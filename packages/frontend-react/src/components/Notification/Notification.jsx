@@ -4,7 +4,7 @@ import { removeNotify } from '../../store/slices/notificationsSlice';
 import s from './Notification.module.scss'
 import { CheckIcon, BanIcon} from "@heroicons/react/outline";
 
-export default function Notification({ message, type, id }) {
+export default function Notification({ message, type, id, from='right' }) {
     const [complete, setComplete] = useState(false)
     const [progress, setProgress] = useState(0)
     const [intervalTimer, setIntervalTimer] = useState(null)
@@ -41,7 +41,7 @@ export default function Notification({ message, type, id }) {
     }, [progress])
     return (
         <>
-            <div className={`${s['notify__container']} ${complete&&s.complete}`}
+            <div className={`${s['notify__container']} ${complete&&s.complete} ${s[from]}`}
                 onMouseEnter={handlePauseTimer}
                 onMouseLeave={handleStartTimer}
                 style={{background: `${type==='error'?'rgb(243 139 139 / 93%)':'rgb(126 191 126 / 89%)'}`}}>

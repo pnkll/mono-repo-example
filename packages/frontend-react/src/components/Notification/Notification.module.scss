@@ -6,11 +6,19 @@
         padding: 10px;
         position: relative;
         overflow: hidden;
-        animation: mount 0.5s forwards;
         max-width: 350px;
         z-index: 100;
-        &.complete{
-            animation: unmount 0.5s forwards;
+        &.right{
+            animation: from-right 0.5s forwards;
+            &.complete{
+                animation: to-right 0.5s forwards;
+            }
+        }
+        &.left{
+            animation: from-left 0.5s forwards;
+            &.complete{
+                animation: to-left 0.5s forwards;
+            }
         }
     }
     &__title{
@@ -32,7 +40,7 @@
     }
 }
 
-@keyframes mount {
+@keyframes from-right {
     0%{
         //transform: translateX(120px);
         right: -104%;
@@ -42,7 +50,7 @@
         right: 0%;
     }
 }
-@keyframes unmount {
+@keyframes to-right {
     0%{
         //transform: translateX(0px);
         right: 0%;
@@ -53,5 +61,29 @@
     100%{
         //transform: translateX(120px);
         right: -104%;
+    }
+}
+
+@keyframes from-left {
+    0%{
+        //transform: translateX(120px);
+        left: -104%;
+    }
+    100%{
+        //transform: translateX(0px);
+        left: 0%;
+    }
+}
+@keyframes to-left {
+    0%{
+        //transform: translateX(0px);
+        left: 0%;
+    }
+    30%{
+        left: 10%;
+    }
+    100%{
+        //transform: translateX(120px);
+        left: -104%;
     }
 }

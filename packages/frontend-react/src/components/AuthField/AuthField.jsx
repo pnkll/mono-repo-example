@@ -39,9 +39,8 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                 }
             }
         }
-        if (id !== 'signin') {
-            id !== 'password_repeat'
-                && setData({ ...data, [Object.keys(values)[0]]: Object.values(values)[0] })
+        if (id !== 'password_repeat') {
+            setData({ ...data, [Object.keys(values)[0]]: Object.values(values)[0] })
             if (id === 'password_repeat' || id === 'user_password') {
                 const originalObject = { ...data, [Object.keys(values)[0]]: Object.values(values)[0] }
                 const user = id === 'password_repeat' ? {
@@ -105,8 +104,6 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                 </>)
             case 'email_org':
                 return <div className="auth-field__buttons__elem" onClick={() => goBackToInput('organization')}>Заново указать организацию</div>
-            case 'signin':
-                return <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Войти'); formik.submitForm() }}>Войти</div>
             case 'password_repeat':
                 return <div className="auth-field__buttons__elem" onClick={() => goBackToInput('password')}>Ввести пароль заново</div>
             case 'key':

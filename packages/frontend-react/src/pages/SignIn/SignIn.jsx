@@ -1,21 +1,18 @@
 import { isNil } from 'lodash';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import AuthField from '../../components/AuthField/AuthField.jsx';
 import AuthMessages from '../../components/AuthMessages/AuthMessages.jsx';
-import AuthLayout from '../../page_layouts/AuthLayout/AuthLayout.jsx';
 import * as Yup from 'yup'
 import { authApi } from '../../services/AuthService.js';
 import { getTime } from '../../helpers/forAuth';
-import { useEffect } from 'react';
 
 export default function SignIn() {
     const [messages, setMessages] = useState([
         { id: 'username', question: 'Рады приветствовать вас снова, пожалуйста введите ваш login', answer: null, visible: true, time: getTime() },
         { id: 'user_password', question: 'Введите ваш пароль', answer: null, visible: false, time: '' },
-        { id: 'signin', question: 'Успешная авторизация', answer: null, visible: false, time: '' },
     ])
     const [data, setData] = useState([])
-    const [formiks, setFormiks] = useState([
+    const formiks = useMemo(() => [
         {
             id: 'username',
             initialValues: {
@@ -34,20 +31,10 @@ export default function SignIn() {
                 user_password: Yup.string().required('Пожалуйста введите пароль').matches(/^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/, "Неправильный пароль")
             })
         },
-        {
-            id: 'signin',
-            initialValues: {
-                signin: ''
-            },
-            validationSchema: Yup.object({
-
-            })
-        },
     ])
     const [currentForm, setCurrentForm] = useState(formiks.find(formik => formik.id === 'username'))
     const [order, setOrder] = useState([
         { id: 'username', next: 'user_password' },
-        { id: 'user_password', next: 'signin' }
     ])
     return (
         <>
@@ -68,7 +55,11 @@ export default function SignIn() {
                         formiks={formiks}
                         order={order}
                         setOrder={setOrder}
-                        type={currentForm.id === 'user_password' ? 'password' : currentForm.id === 'passwordRepeat' ? 'password' : 'text'}
+                        type={currentForm.id === 'user_password' 
+                            ? 'password' 
+                            : currentForm.id === 'passwordRepeat' 
+                                ? 'password' 
+                                : 'text'}
                         formType={'signin'} />
                 }
             </>}

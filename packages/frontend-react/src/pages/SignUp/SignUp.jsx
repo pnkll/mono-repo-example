@@ -23,7 +23,7 @@ export default function SignUp() {
         { id: 'password_repeat', question: 'Подтвердите пароль', answer: null, visible: false, time: '', last: false },
         { id: 'signin', question: 'Вы успешно зарегистрировались, отправьте "Войти" для того чтобы авторизоваться', answer: null, visible: false, time: '', last: false },
     ])
-    const [formiks, setFormiks] = useState([
+    const formiks = React.useMemo(()=>[
         {
             id: 'type', initialValues: { type: '' },
             validationSchema: Yup.object({

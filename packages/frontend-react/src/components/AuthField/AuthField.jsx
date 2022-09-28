@@ -67,7 +67,7 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
     function getValidationSchema() {
         switch (id) {
             case 'password_repeat':
-                return Yup.object().shape({ password_repeat: Yup.string().required().test('repeat-password', 'Пароли не совпадают', (value => value === data.password)) })
+                return Yup.object().shape({ password_repeat: Yup.string().required('Подтвердите пароль').test('repeat-password', 'Пароли не совпадают', (value => value === data.password)) })
             case 'organization':
                 if (data.key === 'Ключ') {
                     return Yup.object().shape({ organization: Yup.string().required('Пожалуйста вставьте ключ') })
@@ -125,7 +125,6 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
     }
     const [menuVisible, setMenuVisible] = useState(true)
     const navigate = useNavigate()
-    console.log(messages)
     return (
         <>
             <Formik initialValues={currentForm.initialValues} validationSchema={getValidationSchema()} onSubmit={handleSubmit}>

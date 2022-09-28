@@ -120,15 +120,6 @@ export default function SignUp() {
             },
             //У этого поля валидация внутри компонента
         },
-        {
-            id: 'signin',
-            initialValues: {
-                signin: ''
-            },
-            validationSchema: Yup.object({
-
-            })
-        },
     ])
     const [currentForm, setCurrentForm] = useState(formiks.find(formik => formik.id === 'type'))
     const [order, setOrder] = useState([

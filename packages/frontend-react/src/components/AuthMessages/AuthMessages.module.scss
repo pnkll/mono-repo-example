@@ -2,59 +2,20 @@
 
 .message {
     &__container {
-        width: 400px;
-        
+        //width: 400px;
+        position: sticky;
+        top: 10px;
         overflow: auto;
-        max-height: calc(100% - 90px);
-        &::-webkit-scrollbar{
+        //overflow: auto;
+        max-height: calc(100% - 40px);
+        width: 100%;
+
+        &::-webkit-scrollbar {
             display: none;
         }
     }
 
     &__wrapper {
         display: grid;
-    }
-
-    &__elem {
-        justify-self: flex-start;
-        background: #1e5887;
-        border-radius: 8px;
-        padding: 8px;
-        color: white;
-        margin: 5px 0;
-        display: grid;
-        grid-template-areas:
-            "text text"
-            "name time";
-            row-gap: 8px;
-
-        &.me {
-            justify-self: flex-end;
-            background: beige;
-            border-radius: 8px;
-            padding: 8px;
-            color: black;
-        }
-
-        &__text {
-            justify-self: flex-start;
-            margin: 0;
-            grid-area: text;
-        }
-
-        &__name {
-            justify-self: flex-start;
-            margin: 0;
-            grid-area: name;
-            font-size: 11px;
-            opacity: 0.8;
-        }
-
-        &__time {
-            justify-self: flex-end;
-            margin: 0;
-            font-size: 11px;
-            grid-area: time;
-        }
     }
 }

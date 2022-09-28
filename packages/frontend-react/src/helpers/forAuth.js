@@ -15,8 +15,9 @@ function getHiderValue(value) {
 }
 
 export function updateMessages(currentField, getNextField, values, messages, setMessages) {
-    isNil(values)
-        ? setMessages([...messages, { ...(messages.find(el => el.id === getNextField)), answer: null, time: '', last: true }])
+    (isNil(values) || typeof (values) === 'string')
+        //?setMessages([...messages, { ...(messages.find(el => el.id === getNextField)), answer: null, time: getTime(), last: true }])
+        ? setMessages([...messages.map(el => el.id === currentField ? { ...el, answer: values } : el),{ ...(messages.find(el => el.id === getNextField)), answer: null, time: getTime(), last: true }])
         : messages.filter(el => el.id === currentField).length > 1
             ? setMessages([...messages.map(el => el.id === currentField && isNil(el.answer)
                 ? {
@@ -29,13 +30,15 @@ export function updateMessages(currentField, getNextField, values, messages, set
                 ? {
                     ...el, answer: isNil(values)
                         ? null
-                        : values[currentField].label
-                            ? values[currentField].label
-                            : currentField === 'password'
-                                ? getHiderValue(values[currentField])
-                                : currentField === 'passwordRepeat'
+                        : typeof (values) === 'string'
+                            ? values
+                            : values[currentField].label
+                                ? values[currentField].label
+                                : currentField === 'password'
                                     ? getHiderValue(values[currentField])
-                                    : values[currentField], last: true
+                                    : currentField === 'passwordRepeat'
+                                        ? getHiderValue(values[currentField])
+                                        : values[currentField], last: true
                 }
                 : el.id === getNextField
                     ? {

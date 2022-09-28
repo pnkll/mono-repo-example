@@ -39,8 +39,9 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                 }
             }
         }
-        if (id !== 'password_repeat') {
-            setData({ ...data, [Object.keys(values)[0]]: Object.values(values)[0] })
+        if (id !== 'signin') {
+            id !== 'password_repeat'
+                && setData({ ...data, [Object.keys(values)[0]]: Object.values(values)[0] })
             if (id === 'password_repeat' || id === 'user_password') {
                 const originalObject = { ...data, [Object.keys(values)[0]]: Object.values(values)[0] }
                 const user = id === 'password_repeat' ? {
@@ -74,13 +75,13 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
             default: return currentForm?.validationSchema
         }
     }
-    const goBackToInput = (fieldId, replace = true) => {
+    const goBackToInput = (message,fieldId, replace = true,) => {
         replace && setOrder(order.map(el => el.id === fieldId ? { ...el, next: id } : el))//переопределяем порядок чтобы вернуться к текущему полю после ввода
         const tmp = { ...data }
         delete tmp[fieldId]
         setData(tmp)
         setCurrentForm(formiks.find(formik => formik.id === fieldId))
-        updateMessages(name, fieldId, null, messages, setMessages)
+        updateMessages(name, fieldId, message, messages, setMessages)
     }
     function renderInput(formik) {
         switch (id) {
@@ -102,10 +103,12 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                     <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Присоединиться') }}>Присоединиться</div>
                     <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Добавить') }}>Добавить</div>
                 </>)
+            case 'firstname':
+                return <div className="auth-field__buttons__elem" onClick={() => goBackToInput('Ввести логин заново','username')}>Ввести логин заново</div>
             case 'email_org':
-                return <div className="auth-field__buttons__elem" onClick={() => goBackToInput('organization')}>Заново указать организацию</div>
+                return <div className="auth-field__buttons__elem" onClick={() => goBackToInput('Заново указать организацию','organization')}>Заново указать организацию</div>
             case 'password_repeat':
-                return <div className="auth-field__buttons__elem" onClick={() => goBackToInput('password')}>Ввести пароль заново</div>
+                return <div className="auth-field__buttons__elem" onClick={() => goBackToInput('Ввести пароль заново','password')}>Ввести пароль заново</div>
             case 'key':
                 return (<>
                     <div className="auth-field__buttons__elem" onClick={() => { formik.setFieldValue(id, 'Ключ') }}>Ключ</div>
@@ -115,13 +118,14 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                 return <div className="auth-field__buttons__elem" onClick={() => {
                     setMessages(messages.map(el => el.id === 'username'
                         ? { ...el, question: 'Введите логин' }
-                        : el)); goBackToInput('username')
+                        : el)); goBackToInput('Ввести логин заново','username')
                 }}>Ввести логин заново</div>
             default: return null
         }
     }
     const [menuVisible, setMenuVisible] = useState(true)
     const navigate = useNavigate()
+    console.log(messages)
     return (
         <>
             <Formik initialValues={currentForm.initialValues} validationSchema={getValidationSchema()} onSubmit={handleSubmit}>
@@ -137,7 +141,7 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                                 : 'Уже зарегистрирован'}</div>
                             {!isNil(postError)
                                 && formType === 'signup'
-                                && <div className="auth-field__buttons__elem" onClick={() => goBackToInput(data.type === 'Добавить' ? 'username' : 'email', false)}>Попробовать снова</div>}
+                                && <div className="auth-field__buttons__elem" onClick={() => goBackToInput('Попробовать снова',data.type === 'Добавить' ? 'username' : 'email', false)}>Попробовать снова</div>}
                             {renderButtons(formik)}
                         </div>}
                         <form className='auth-field' onSubmit={(e) => { e.preventDefault(); formik.submitForm(); }}>

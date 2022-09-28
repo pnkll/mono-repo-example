@@ -1,6 +1,6 @@
 import React from 'react';
+import Role from '../../../forms/Role/Role.jsx';
 import SettingLayout from '../../../layouts/SettingLayout/SettingLayout.jsx';
-import Role from '../../../components/Role/Role.jsx';
 
 export default function RoleById(){
    return(

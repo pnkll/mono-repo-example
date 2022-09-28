@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import TaskType from '../../../components/TaskType/TaskType.jsx';
+import TaskType from '../../../forms/TaskType/TaskType.jsx';
 import SettingLayout from '../../../layouts/SettingLayout/SettingLayout.jsx';
-import SidebarHeaderLayout from '../../../page_layouts/SidebarHeaderLayout/SidebarHeaderLayout.jsx';
-import { taskTypeApi } from '../../../services/TaskTypeService.js';
 
 export default function TaskTypeById() {
     return (

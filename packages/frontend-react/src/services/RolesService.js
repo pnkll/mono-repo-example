@@ -68,6 +68,9 @@ export const rolesApi = Api.injectEndpoints({
                     _id: id 
                 }
             }),
+            transformResponse: (data)=>{
+                return data.message[0]
+            }
         }),
         grantPermissions: builder.mutation({
             query: (data) => ({

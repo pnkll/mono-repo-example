@@ -35,7 +35,10 @@ export const taskTypeApi = Api.injectEndpoints({
                 url: '/tasks/tasktype',
                 method: 'GET',
                 params: {_id: data}
-            })
+            }),
+            transformResponse: (data)=>{
+                return data.message[0]
+            }
         }),
         updateTaskType: builder.mutation({
             query: (data) => ({
@@ -43,7 +46,15 @@ export const taskTypeApi = Api.injectEndpoints({
                 method: 'PUT',
                 body: data,
             }),
-            invalidatesTags: ['TASK-TYPES']
+            invalidatesTags: ['TASK-TYPES'],
+            async onQueryStarted(id,{dispatch,queryFulfilled}){
+                try {
+                    const {data}=await queryFulfilled
+                    dispatch(addNotify({type:'success',message: 'Шаблон успешно обновлён'}))
+                } catch ({error}) {
+                    dispatch(addNotify({type: 'error', message: error.data.errors}))
+                }
+            }
         }),
         removeTaskType: builder.mutation({
             query: (data) => ({
@@ -67,7 +78,15 @@ export const taskTypeApi = Api.injectEndpoints({
                 method: 'POST',
                 body: data,
             }),
-            invalidatesTags: ['TASK-TYPES']
+            invalidatesTags: ['TASK-TYPES'],
+            async onQueryStarted(id,{dispatch,queryFulfilled}){
+                try {
+                    const {data}=await queryFulfilled
+                    dispatch(addNotify({type:'success',message: 'Шаблон успешно создан'}))
+                } catch ({error}) {
+                    dispatch(addNotify({type: 'error', message: error.data.errors}))
+                }
+            }
         }),
     }),
     overrideExisting: false,

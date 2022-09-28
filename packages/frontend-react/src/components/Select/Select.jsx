@@ -10,7 +10,7 @@ export default function Select({ options, indicator, formik, hasDefaultValue, cu
         container: (styles) => ({
             ...styles,
             width: '-webkit-fill-available',
-            borderBottom: !isDisabled?0:'1px solid #B8BBC6',
+            borderBottom: !isDisabled ? 0 : '1px solid #B8BBC6',
         }),
         option: (provided, state) => ({
             ...provided,
@@ -73,9 +73,9 @@ export default function Select({ options, indicator, formik, hasDefaultValue, cu
             whiteSpace: isDisabled ? 'pre-wrap' : 'nowrap',
             margin: isDisabled ? 0 : '0 2px'
         }),
-        valueContainer: (styles)=>({
+        valueContainer: (styles) => ({
             ...styles,
-            padding: isDisabled?'2px 0':'2px 8px',
+            padding: isDisabled ? '2px 0' : '2px 8px',
         })
 
     }
@@ -83,26 +83,10 @@ export default function Select({ options, indicator, formik, hasDefaultValue, cu
     // const styles = customStyles || defaultStyles
 
     function getDefaultValue() {
-        if (!isNil(hasDefaultValue)) {
-            if (isMulti) {
-                return !isNil(formik) && formik.values[id].map(el => el && options.find(elem => elem.value === el))
-            } else {
-                return !isNil(formik) ? options?.find(el => el.value === formik.values[id]): defaultValue&&defaultValue
-            }
-        }
-        else {
-            return null
-        }
-
-    }
-    if (hasDefaultValue) {
-        if (isNil(getDefaultValue())) {
-            return <>preloader</>
-        }
         if (isMulti) {
-            if (getDefaultValue().length < 1) {
-                return <>preloader</>
-            }
+            return !isNil(formik) && formik.values[id].map(el => el && options.find(elem => elem.value === el))
+        } else {
+            return !isNil(formik) ? options?.find(el => el.value === formik.values[id]) : defaultValue && defaultValue
         }
     }
     return (
@@ -119,7 +103,7 @@ export default function Select({ options, indicator, formik, hasDefaultValue, cu
                     classNamePrefix={classNamePrefix}
                     styles={styles}
                     options={options}
-                    defaultValue={getDefaultValue()}
+                    defaultValue={defaultValue ? getDefaultValue() : null}
                     components={{ DropdownIndicator: () => indicator ? indicator : <ArrowsForSelectIcon style={{ paddingRight: '11px' }} /> }}
                     onChange={(e) => !isNil(formik) ? isMulti ? formik.setFieldValue(id, e.map(el => el.value)) : formik.setFieldValue(id, e.value) : handleChange(e.value)}
                     menuPlacement={menuPlacement} />
@@ -127,7 +111,6 @@ export default function Select({ options, indicator, formik, hasDefaultValue, cu
         </>
     )
 }
-
 export const ArrowsForSelectIcon = ({ style }) => {
     return (
         <svg style={style} width="6" height="9" viewBox="0 0 6 9" fill="none" xmlns="http://www.w3.org/2000/svg">

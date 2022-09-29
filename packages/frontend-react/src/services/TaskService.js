@@ -1,3 +1,4 @@
+import { addNotify } from '../store/slices/notificationsSlice'
 import { Api } from './api'
 
 // Define a service using a base URL and expected endpoints
@@ -18,14 +19,20 @@ export const taskApi = Api.injectEndpoints({
                 method: 'GET'
             })
         }),
-        postTask: builder.query({
-            query: (id) => ({
+        postTask: builder.mutation({
+            query: (data) => ({
                 url: '/tasks/task',
-                method: 'GET',
-                params: {
-                    _id: id
+                method: 'POST',
+                body: data
+            }),
+            async onQueryStarted(id,{dispatch,queryFulfilled}){
+                try {
+                    const {data}=await queryFulfilled
+                    dispatch(addNotify({type:'success',message:'Задача успешно создана'}))
+                } catch ({error}) {
+                    dispatch(addNotify({type:'error',message: error.data.errors}))
                 }
-            })
+            }
         }),
     }),
     overrideExisting: false,

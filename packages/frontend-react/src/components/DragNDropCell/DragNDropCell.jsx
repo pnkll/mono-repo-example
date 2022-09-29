@@ -1,16 +1,22 @@
+//import { concat } from 'lodash';
 import React from 'react';
 import { FileUploader } from "react-drag-drop-files";
 import { tableApi } from '../../services/TableService';
+import concat from 'concat-stream';
 
 export default function DragNDropCell({ width = 40, id }) {
     const [postData] = tableApi.useUploadFileMutation()
     function createFormData(file) {
-        console.log({...file})
-        const formdata = new FormData()
-        formdata.append("table_id", id)
-        formdata.append("withDeletion", true)
-        formdata.append("file", file)
-        //postData(formdata)
+        const promise = new Promise((resolve)=>{
+            const formdata = new FormData()
+            formdata.append("table_id", id)
+            formdata.append("withDeletion", true)
+            formdata.append("file", file)
+            formdata.pipe(concat({ encoding: 'buffer' }, data => resolve({ data, headers: formdata.getHeaders() })));
+        })
+        promise.then(({data,headers})=>{
+            postData({data:data,headers:headers})
+        })
     }
     return (
         <>

@@ -1,4 +1,3 @@
-import { setFluidGetter } from '@react-spring/shared'
 import { useState, useEffect, useMemo } from 'react'
 
 export default function useTableFilter({ columns }) {

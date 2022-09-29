@@ -3,6 +3,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import DragNDropCell from '../../../components/DragNDropCell/DragNDropCell.jsx';
 import Table from '../../../components/Table/Table.jsx';
 import TransitionLayout from '../../../page_layouts/TransitionLayout/TransitionLayout.jsx';
 import { tableApi } from '../../../services/TableService.js';
@@ -38,6 +39,7 @@ export default function TableById() {
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                     setFilterData={setFilterData}
+                    emptyCell={<DragNDropCell id={params.id}/>}
                 />}
             </TransitionLayout>
         </>

@@ -17,7 +17,8 @@
         //padding: 4px 8px;
         //border-radius: 3px;
         cursor: pointer;
-        width: 30px;
+        width: fit-content;
+        min-width: 30px;
         height: 30px;
         &:hover{
             background: rgb(126, 179, 248);

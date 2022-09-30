@@ -5,29 +5,31 @@ import TextArea from '../../components/TextArea/TextArea.jsx';
 import Select from '../../components/Select/Select.jsx';
 import * as Yup from 'yup'
 import { taskTypeApi } from '../../services/TaskTypeService.js';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectRoleList } from '../../store/slices/rolesSlice.js';
 import Button from '../../components/Button/Button.jsx';
 import './TaskType.scss'
 import { isNil } from 'lodash';
 import { priorityOptions } from '../../helpers/forTask.js';
+import {selectCurrentUser} from '../../store/slices/userSlice'
 
 export default React.memo(function TaskType() {
     const params = useParams()
+    const navigate = useNavigate()
     const isNew = params.id ? false : true
     const [editMode, setEditMode] = useState(isNew ? true : false)
-    const [fetchPostTaskType, { isLoading: isLoadingPost, isFetching }] = taskTypeApi.usePostTaskTypeMutation()
+    const [fetchPostTaskType, { data: postTaskResponse, isLoading: isLoadingPost, isFetching, isSuccess: isSuccessPost }] = taskTypeApi.usePostTaskTypeMutation()
     const [fetchGetTaskTypeById, { data: taskType, isError, isLoading, isSuccess }] = taskTypeApi.useLazyGetTaskTypeByIdQuery()
     const [fetchUpdateTaskType, { error, isLoading: isLoadingUpdate }] = taskTypeApi.useUpdateTaskTypeMutation()
-
+    const organization=useSelector(selectCurrentUser)?.organization
     const roleListOptions = useSelector(selectRoleList)?.map(el => el && { label: el.title, value: el._id })
     function handleSubmit(values) {
         if (editMode) {
             if (!isNew) {
-                fetchUpdateTaskType({ ...values, _id: params.id })
+                fetchUpdateTaskType({ ...values, _id: params.id, })
             } else {
-                fetchPostTaskType(values)
+                fetchPostTaskType({...values, organization: organization})
             }
         } else {
             setEditMode(!editMode)
@@ -59,8 +61,9 @@ export default React.memo(function TaskType() {
             fetchGetTaskTypeById(params.id)
         }
     }, [params])
-
-
+    useEffect(()=>{
+        isSuccessPost&&navigate(`../settings/task-types/${postTaskResponse._id}`)
+    },[isSuccessPost])
     if (isError) {
         return <>Error</>
     } else if (isLoading) {
@@ -80,7 +83,11 @@ export default React.memo(function TaskType() {
                             <Select formik={formik} defaultValue={isNew?false:true} id='priority' name='priority' label='Степень важности' options={priorityOptions} isDisabled={editMode ? false : true} />
                         </div>
                         <TextArea formik={formik} id='description' name='description' label='Описание' readonly={editMode ? false : true} />
-                        <Button text={editMode ? isNew ? 'Создать шаблон' : 'Сохранить' : 'Редактировать'} type='submit' color={editMode ? isNew ? 'green' : 'green' : 'blue'} isLoading={isLoadingPost || isLoadingUpdate} />
+                        <Button text={editMode 
+                            ? isNew 
+                                ? 'Создать шаблон' 
+                                : 'Сохранить' 
+                            : 'Редактировать'} type='submit' color={editMode ? isNew ? 'green' : 'green' : 'blue'} isLoading={isLoadingPost || isLoadingUpdate} />
                     </form>
                 </div>
             )}

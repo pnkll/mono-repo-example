@@ -4,7 +4,7 @@ import { Api } from './api'
 
 // Define a service using a base URL and expected endpoints
 export const taskTypeApi = Api.injectEndpoints({
-    tagTypes:['TASK-TYPES'],
+    tagTypes: ['TASK-TYPES'],
     endpoints: (builder) => ({
         getTaskTypes: builder.query({
             query: (data) => ({
@@ -12,7 +12,7 @@ export const taskTypeApi = Api.injectEndpoints({
                 method: 'GET',
             }),
             providesTags: (result) =>
-            result.message
+                result.message
                     ? [
                         ...result.message.map(({ id }) => ({ type: 'TASK-TYPES', id })),
                         { type: 'TASK-TYPES', id: 'LIST' },
@@ -24,9 +24,9 @@ export const taskTypeApi = Api.injectEndpoints({
                 url: '/tasks/tasktype',
                 method: 'GET',
             }),
-            transformResponse: (data)=>{
-                if(!isNil(data)){
-                    return data.message?.map(taskType=>taskType&&{label: taskType.title,value: taskType._id, data: taskType})
+            transformResponse: (data) => {
+                if (!isNil(data)) {
+                    return data.message?.map(taskType => taskType && { label: taskType.title, value: taskType._id, data: taskType })
                 }
             }
         }),
@@ -34,9 +34,9 @@ export const taskTypeApi = Api.injectEndpoints({
             query: (data) => ({
                 url: '/tasks/tasktype',
                 method: 'GET',
-                params: {_id: data}
+                params: { _id: data }
             }),
-            transformResponse: (data)=>{
+            transformResponse: (data) => {
                 return data.message[0]
             }
         }),
@@ -47,12 +47,12 @@ export const taskTypeApi = Api.injectEndpoints({
                 body: data,
             }),
             invalidatesTags: ['TASK-TYPES'],
-            async onQueryStarted(id,{dispatch,queryFulfilled}){
+            async onQueryStarted(id, { dispatch, queryFulfilled }) {
                 try {
-                    const {data}=await queryFulfilled
-                    dispatch(addNotify({type:'success',message: 'Шаблон успешно обновлён'}))
-                } catch ({error}) {
-                    dispatch(addNotify({type: 'error', message: error.data.errors}))
+                    const { data } = await queryFulfilled
+                    dispatch(addNotify({ type: 'success', message: 'Шаблон успешно обновлён' }))
+                } catch ({ error }) {
+                    dispatch(addNotify({ type: 'error', message: error.data.errors }))
                 }
             }
         }),
@@ -60,15 +60,15 @@ export const taskTypeApi = Api.injectEndpoints({
             query: (data) => ({
                 url: '/tasks/tasktype',
                 method: 'DELETE',
-                params: {_id: data}
+                params: { _id: data }
             }),
             invalidatesTags: ['TASK-TYPES'],
-            async onQueryStarted(id,{dispatch,queryFulfiled}){
+            async onQueryStarted(id, { dispatch, queryFulfiled }) {
                 try {
                     await queryFulfiled
-                    dispatch(addNotify({type: 'success',message: 'Шаблон успешно удален'}))
+                    dispatch(addNotify({ type: 'success', message: 'Шаблон успешно удален' }))
                 } catch (error) {
-                    
+
                 }
             }
         }),
@@ -79,14 +79,17 @@ export const taskTypeApi = Api.injectEndpoints({
                 body: data,
             }),
             invalidatesTags: ['TASK-TYPES'],
-            async onQueryStarted(id,{dispatch,queryFulfilled}){
+            transformResponse: (data) => {
+                return data?.message
+            },
+            async onQueryStarted(id, { dispatch, queryFulfilled }) {
                 try {
-                    const {data}=await queryFulfilled
-                    dispatch(addNotify({type:'success',message: 'Шаблон успешно создан'}))
-                } catch ({error}) {
-                    dispatch(addNotify({type: 'error', message: error.data.errors}))
+                    const { data } = await queryFulfilled
+                    dispatch(addNotify({ type: 'success', message: `Шаблон ${data?.title} успешно создан` }))
+                } catch ({ error }) {
+                    dispatch(addNotify({ type: 'error', message: error?.data?.errors }))
                 }
-            }
+            },
         }),
     }),
     overrideExisting: false,

@@ -4,29 +4,27 @@ import { FileUploader } from "react-drag-drop-files";
 import { tableApi } from '../../services/TableService';
 import concat from 'concat-stream';
 
-export default function DragNDropCell({ width = 40, id }) {
-    const [postData] = tableApi.useUploadFileMutation()
+export default function DragNDropCell({ width = 40, id, styleContainer,styleLabel, }) {
+    const [postData,{data,error}] = tableApi.useUploadFileMutation()
+    const [key,setKey]=React.useState(0)
     function createFormData(file) {
-        const promise = new Promise((resolve)=>{
-            const formdata = new FormData()
-            formdata.append("table_id", id)
-            formdata.append("withDeletion", true)
-            formdata.append("file", file)
-            formdata.pipe(concat({ encoding: 'buffer' }, data => resolve({ data, headers: formdata.getHeaders() })));
-        })
-        promise.then(({data,headers})=>{
-            postData({data:data,headers:headers})
-        })
+        const formdata = new FormData()
+        formdata.append("table_id", '632c5f74c7574ba5243e4b29')
+        formdata.append("withDeletion", false)
+        formdata.append("file", file)
+        //console.log(file)
+        setKey(key+1)
+        postData(formdata)
     }
     return (
         <>
-            <div style={{
+            <div style={styleContainer?styleContainer:{
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 height: '189px'
             }}>
-                <FileUploader name='file' handleChange={createFormData} hoverTitle={' '} style={{
+                <FileUploader key={key} name='file' handleChange={createFormData} hoverTitle={' '} style={styleLabel?styleLabel:{
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center'

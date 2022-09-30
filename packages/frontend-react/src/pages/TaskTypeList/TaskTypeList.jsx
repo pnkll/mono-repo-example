@@ -40,15 +40,20 @@ export default function TaskTypeList() {
         { Header: 'Степень важности', accessor: 'priority' },
     ]
     const [fetchPostTaskType] = taskTypeApi.usePostTaskTypeMutation()
+    const buttons = React.useMemo(() => [{ text: 'Создать', href: 'new', className: 'table__filters button' }], [])
     return (
         <>
             <TransitionLayout from='bottom'>
                 {!isLoadingGet &&
-                    <Table columns={columns} data={!isNil(taskTypesList)
-                        ? taskTypesList.message
-                        : []} buttonHref={'new'} emptyCell={error
+                    <Table
+                        columns={columns}
+                        data={!isNil(taskTypesList)
+                            ? taskTypesList.message
+                            : []}
+                        emptyCell={error
                             ? 'Произошла ошибка при загрузке данных'
-                            : 'Пока что нет ни одного шаблона'} />}
+                            : 'Пока что нет ни одного шаблона'}
+                        buttons={buttons} />}
             </TransitionLayout>
             <ConfirmModal callback={modalCallback} isOpen={showModal} setIsOpen={setShowModal} label={'Вы действительно хотите удалить шаблон?'} />
         </>

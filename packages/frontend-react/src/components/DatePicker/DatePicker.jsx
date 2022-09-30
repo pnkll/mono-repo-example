@@ -4,8 +4,9 @@ import ReactDatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
 import './DatePicker.scss'
 import ru from 'date-fns/locale/ru'
+import moment from "moment/moment";
 
-export default function DatePicker({ formik, id, name, placeholder, showTimeSelect=false, timeIntervals=30, className, label,required,format="yyyy/MM/dd HH:mm" }) {
+export default function DatePicker({ formik, id, name, placeholder, showTimeSelect=false, timeIntervals=30, className, label,required,format="yyyy/MM/dd HH:mm",locale=ru,formatDate }) {
 
     const [date, setDate] = useState()
 
@@ -37,7 +38,7 @@ export default function DatePicker({ formik, id, name, placeholder, showTimeSele
                     id={id}
                     name={name} 
                     minDate={new Date()}
-                    locale={ru}
+                    locale={locale}
                     timeCaption='Время'/>
                 {formik.touched[name] && formik.errors[name] && <span className="date-picker__error">{formik.errors[name]}</span>}
             </div>

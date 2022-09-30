@@ -12,13 +12,9 @@ export const tableApi = Api.injectEndpoints({
             })
         }),
         uploadFile: builder.mutation({
-            query: ({data,headers}) => ({
+            query: (data) => ({
                 url: '/tables/content/upload',
                 method: 'POST',
-                // headers: {
-                //     "content-type": "multipart/form-data"
-                // },
-                headers,
                 body: data
             })
         }),

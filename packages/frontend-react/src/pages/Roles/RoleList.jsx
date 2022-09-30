@@ -7,10 +7,11 @@ import Button from '../../components/Button/Button.jsx';
 import { useSelector } from 'react-redux';
 import { selectRoleList } from '../../store/slices/rolesSlice.js';
 import { isNil } from 'lodash';
+import { useNavigate } from 'react-router-dom';
 
 export default function Roles() {
     const roleList = useSelector(selectRoleList)
-    function formatDate(date){
+    function formatDate(date) {
         return moment(date).locale('ru').format("Do MMMM YYYY")
     }
     const columns = [
@@ -19,13 +20,19 @@ export default function Roles() {
         { Header: 'Дата создания', accessor: 'createdAt' },
         { Header: 'Последнее обновление', accessor: 'updatedAt' }
     ]
+    const buttons = React.useMemo(()=>[{text: 'Создать', href:'new', className:'table__filters button'}],[])
     return (
         <>
-                <TransitionLayout from='bottom'>
-                    <Table label='Список ролей' columns={columns} data={!isNil(roleList) 
-                        ? roleList.map(el => el && { ...el, createdAt: formatDate(el.createdAt), updatedAt: formatDate(el.createdAt) }) 
-                        : []} buttonHref={'new'} />
-                </TransitionLayout>
+            <TransitionLayout from='bottom'>
+                <Table
+                    label='Список ролей'
+                    columns={columns}
+                    data={!isNil(roleList)
+                        ? roleList.map(el => el && { ...el, createdAt: formatDate(el.createdAt), updatedAt: formatDate(el.createdAt) })
+                        : []}
+                    buttons={buttons}
+                />
+            </TransitionLayout>
         </>
     )
 }

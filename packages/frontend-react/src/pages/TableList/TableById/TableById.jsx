@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import DragNDropCell from '../../../components/DragNDropCell/DragNDropCell.jsx';
+import DragNDropModal from '../../../components/DragNDropModal/DragNDropModal.jsx';
 import Table from '../../../components/Table/Table.jsx';
 import TransitionLayout from '../../../page_layouts/TransitionLayout/TransitionLayout.jsx';
 import { tableApi } from '../../../services/TableService.js';
@@ -25,23 +26,28 @@ export default function TableById() {
     useEffect(() => {
         getTable({ table_id: params.id, limit: itemsCount, page: currentPage })
     }, [itemsCount, currentPage])
-    console.log(filterData)
+    const [isOpenModal, setIsOpenModal] = useState(false)
+    const buttons = React.useMemo(() => [
+        { text: 'Загрузить данные', callback: () => setIsOpenModal(!isOpenModal), className:'table__filters button' },
+        { text: 'Добавить строчку', callback: () => setIsOpenModal(!isOpenModal), className:'table__filters button' }], [])
     return (
         <>
             <TransitionLayout from='bottom'>
                 {!isNil(table) && <Table
                     id={params.id}
                     columns={getColumns()}
-                    data={filterData!==null?filterData:table?.docs?.map(el => el ? el.data : el)}
+                    data={filterData !== null ? filterData : table?.docs?.map(el => el ? el.data : el)}
                     totalItemsCount={table.totalDocs}
                     itemsCount={itemsCount}
                     setItemsCount={setItemsCount}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                     setFilterData={setFilterData}
-                    emptyCell={<DragNDropCell id={params.id}/>}
+                    emptyCell={<DragNDropCell id={params.id} />}
+                    buttons={buttons}
                 />}
             </TransitionLayout>
+            <DragNDropModal id={params.id} isOpen={isOpenModal} setIsOpen={setIsOpenModal}/>
         </>
     )
 }

@@ -64,8 +64,13 @@ export const rolesApi = Api.injectEndpoints({
             query: (id) => ({
                 url: '/roles/role',
                 method: 'GET',
-                query: {
-                    _id: id 
+                // query: {
+                //     _id: id 
+                // }
+                params: {
+                    query: JSON.stringify({
+                        _id: id
+                    })
                 }
             }),
             transformResponse: (data)=>{

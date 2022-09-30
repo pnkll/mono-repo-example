@@ -60,8 +60,8 @@ export default React.memo(function Task() {
             fireDate: '',
             finishedDate: '',
             priority: taskType.priority,
-            files: [[{ name: 'Название файла' }], [{ name: 'Название файла' }]],
-            status: 'task_created'
+            files: '',
+            status: ''
         })
     async function setExecutorRole(role_id) {
         await getUsersIdsByRoleId(role_id)
@@ -76,14 +76,18 @@ export default React.memo(function Task() {
         setTaskType(taskType)
     }
     function handlePost(values){
-        const arr = Object.keys(values).map((el,index)=>el&&{[el]:Object.values(values)[index]})
-        console.log(arr)
-        console.log(arr.reduce((prev,item)=>{
-            console.log(Object.values(item))
-            if((Object.values(item)[0])!==''){
-            return {...prev,[Object.keys(item)[0]]: Object.values(item)[0]}
-            }
-        },{}))
+        console.log(moment(values.plannedDate).format('DD.MM.YYYY'))
+        const body = Object.keys({...values})
+        .map((el, index) => {
+            if (el && Object.values(values)[index] !== ''){
+                    return{ [el] : Object.values(values)[index]}
+                }
+        })
+        .filter(el=>el)
+        .reduce((prev,item)=>{
+            return {...prev, [Object.keys(item)[0]]: Object.values(item)[0]}
+        },{})
+        postTask(body)
     }
     return (
         <>
@@ -97,7 +101,7 @@ export default React.memo(function Task() {
                             <Input formik={formik} label='Название' id='title' name='title'/>
                             <TextArea formik={formik} label={'Описание'} id='description' name='description' maxLength={250} maxRows={6} minRows={4} withAttach={true} attachId='files' />
                             <div className="" style={{ display: 'flex', gap: 10, justifyContent: 'center', padding: '10px' }}>
-                                <DatePicker placeholder={'Желаемая дата'} formik={formik} id='plannedDate' name='plannedDate' showTimeSelect={true} />
+                                <DatePicker placeholder={'Желаемая дата'} formik={formik} id='plannedDate' name='plannedDate' showTimeSelect={true} formatDate={'DD.MM.YYYY hh:mm'}/>
                                 <DatePicker placeholder={'Крайний срок'} formik={formik} id='fireDate' name='fireDate' showTimeSelect={true} />
                                 <DatePicker placeholder={'Назначенная дата'} formik={formik} id='finishedDate' name='finishedDate' showTimeSelect={true} /></div>
                             <Select formik={formik} defaultValue={true} label={'Исполнитель'} id='executor' name='executor' options={executorOptions} />

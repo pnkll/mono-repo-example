@@ -19,9 +19,12 @@ export const tableApi = Api.injectEndpoints({
             })
         }),
         getTables: builder.query({
-            query: () => ({
+            query: (sort) => ({
                 url: '/tables',
-                method: 'GET'
+                method: 'GET',
+                params: {
+                    sort: JSON.stringify(sort)
+                }
             }),
             transformResponse: (data) => {
                 if (!isNil(data)) {

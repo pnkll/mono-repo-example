@@ -26,6 +26,7 @@
     "react-modal": "^3.15.1",
     "react-preloaders": "^3.0.3",
     "react-sip": "^0.8.1",
+    "react-spinners": "^0.13.4",
     "react-spring": "^9.5.2",
     "react-textarea-autosize": "^8.3.4",
     "react-toggle": "^4.1.3",

@@ -7,9 +7,14 @@ import Filters from "./Filters/Filters.jsx"
 import SelectNumber from "../SelectNumber/SelectNumber.jsx"
 import _, { isNil } from "lodash"
 import Filter from "./Filter/Filter.jsx"
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid"
+import HeaderSort from "./HeaderSort/HeaderSort.jsx"
+import PreloaderCell from "./PreloaderCell/PreloaderCell.jsx"
 
-export default React.memo(function Table({ id, setFilters, filters, filter, setFilterData, setSearch, search, columns, data, currentPage, setCurrentPage, totalItemsCount, itemsCount, classNamePrefix = 'table', setItemsCount, emptyCell = 'Ничего не найдено', label,buttons }) {
+export default React.memo(function Table({ isFetching = false, id, setFilters, filters, filter, setFilterData, setSearch, search, columns, setColumns, data, currentPage, setCurrentPage, totalItemsCount, itemsCount, classNamePrefix = 'table', setItemsCount, emptyCell = 'Ничего не найдено', label, buttons, sortDataCallback }) {
     // сonst formatColumns =  (columns.map(column=>!isNil(column.Cell)?column:{...column, Cell: ({ cell: { value } }) => !isNil(value)?value:'—'  } ))
+
+
     const { prepareRow, rows, headerGroups, getTableProps, getTableBodyProps } = useTable({ columns, data })
 
 
@@ -21,6 +26,7 @@ export default React.memo(function Table({ id, setFilters, filters, filter, setF
         try {
             switch (header.type) {
                 case 'filter': return <HeaderInput header={header} handleSearch={handleSearch} />
+                case 'sort': return <HeaderSort header={header} columns={columns} sortDataCallback={sortDataCallback} />
             }
         } catch (error) {
             return header.render('Header')
@@ -44,9 +50,9 @@ export default React.memo(function Table({ id, setFilters, filters, filter, setF
                         handleOpen={setOpen}
                         isOpen={open}
                         setFilterData={setFilterData}
-                        buttons={buttons}/>
-                    <div className={`${classNamePrefix}__scroll-wrapper`} style={{ borderRadius: '10px', transition: 'all 0.5s ease', maxHeight: 'calc(100vh - 163px)', overflow: 'auto', height: `${open ? '100%' : '0%'}`, minWidth: '527px' }}>
-                        {!isNil(label) && <h1 style={{ paddingLeft: '13px' }}>{label}</h1>}
+                        buttons={buttons} />
+                    <div className={`${classNamePrefix}__scroll-wrapper`} style={{ borderRadius: '10px', transition: 'all 0.5s ease', maxHeight: 'calc(100vh - 163px)', overflow: 'autoй', height: `${open ? '100%' : '0%'}`, minWidth: '527px' }}>
+                        {/* {!isNil(label) && <h1 style={{ paddingLeft: '13px' }}>{label}</h1>} */}
                         {setFilterData
                             && visibleFilter
                             && <Filter
@@ -61,14 +67,16 @@ export default React.memo(function Table({ id, setFilters, filters, filter, setF
                                 </tr>)}
                             </thead>
                             <tbody {...getTableBodyProps} className={`${classNamePrefix}__body`}>
-                                {rows.length > 0 ? rows.map((row, index) => {
-                                    prepareRow(row)
-                                    return <tr key={index} {...row.getRowProps()} className={`${classNamePrefix}__body__row`}>
-                                        {row.cells.map((cell, index) => <td key={index} {...cell.getCellProps} className={`${classNamePrefix}__body__elem__wrapper`}>
-                                            <div className={`${classNamePrefix}__body__elem`}>{cell.render('Cell')}</div>
-                                        </td>)}
-                                    </tr>
-                                }) :
+                                {isFetching && <PreloaderCell colSpan={columns.length} />}
+                                {rows.length > 0 ?
+                                    rows.map((row, index) => {
+                                        prepareRow(row)
+                                        return <tr key={index} {...row.getRowProps()} className={`${classNamePrefix}__body__row`}>
+                                            {row.cells.map((cell, index) => <td key={index} {...cell.getCellProps} className={`${classNamePrefix}__body__elem__wrapper`}>
+                                                <div className={`${classNamePrefix}__body__elem`}>{cell.render('Cell')}</div>
+                                            </td>)}
+                                        </tr>
+                                    }) :
                                     <tr className={`${classNamePrefix}__body__row`}><td
                                         style={{
                                             minWidth: '500px',

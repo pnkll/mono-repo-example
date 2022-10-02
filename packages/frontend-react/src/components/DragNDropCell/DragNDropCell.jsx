@@ -2,7 +2,7 @@
 import React from 'react';
 import { FileUploader } from "react-drag-drop-files";
 import { tableApi } from '../../services/TableService';
-import concat from 'concat-stream';
+import ReactResumableJs from 'react-resumable-js'
 
 export default function DragNDropCell({ width = 40, id, styleContainer,styleLabel, }) {
     const [postData,{data,error}] = tableApi.useUploadFileMutation()
@@ -14,7 +14,7 @@ export default function DragNDropCell({ width = 40, id, styleContainer,styleLabe
         formdata.append("file", file)
         //console.log(file)
         setKey(key+1)
-        postData(formdata)
+        //postData(formdata)
     }
     return (
         <>

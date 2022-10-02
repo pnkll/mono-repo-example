@@ -45,7 +45,6 @@ export default function Role() {
             fetchGetRoleById(params.id)
         }
     }, [params])
-
     if (isError) {
         return <>Error</>
     } else if (isLoading) {

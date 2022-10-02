@@ -27,14 +27,14 @@ export default function SignUp() {
         {
             id: 'type', initialValues: { type: '' },
             validationSchema: Yup.object({
-                type: Yup.string().required('Пожалуйста выберите').test('', 'Некорректное значение', (value) => value === 'Добавить' || value === 'Присоединиться')
+                type: Yup.string().required('Пожалуйста выберите').oneOf(['Добавить','Присоединиться'],'Некорретное значение')
             })
         },
         {
             id: 'key',
             initialValues: { key: '' },
             validationSchema: Yup.object({
-                key: Yup.string().required('Пожалуйста выберите').test('', 'Некорректное значение', (value) => value === 'ИНН' || value === 'Ключ')
+                key: Yup.string().required('Пожалуйста выберите').oneOf(['ИНН','Ключ'],'Некорректное значение')
             })
         },
         {

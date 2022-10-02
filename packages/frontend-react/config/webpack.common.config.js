@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack =require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
@@ -16,7 +17,8 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, '../src/index.html')
         }),
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin(),
+        new webpack.ProgressPlugin()
     ],
     module: {
         rules: [
@@ -61,5 +63,9 @@ module.exports = {
                 }
             }
         ]
-    }
+    },
+    resolve:{
+        extensions: ['.jsx','.js']
+    },
+    devtool: 'inline-source-map'
 }

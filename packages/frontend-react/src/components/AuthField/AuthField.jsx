@@ -91,9 +91,8 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
                     : <Input type={type} placeholder='Введите сообщение' formik={formik} id={id} name={name} className='auth-field-input' />
             default: return <Input type={type} placeholder={`${(id === 'type' || id === 'key')
                 ? 'Выберите команду из списка'
-                : 'Введите сообщение'}`} formik={formik} id={id} name={name} className='auth-field-input' readonly={(id === 'type' || id === 'key')
-                    ? true
-                    : false} defaultStyles={false} />
+                : 'Введите сообщение'}`} formik={formik} id={id} name={name} className='auth-field-input' 
+                    defaultStyles={false} />
         }
     }
     function renderButtons(formik) {

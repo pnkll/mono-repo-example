@@ -5,21 +5,25 @@ import { tableApi } from '../../services/TableService';
 import ReactResumableJs from 'react-resumable-js'
 import { useState } from 'react';
 import './DragNDropCell.scss'
+import Uploader from '../Uploader/Uploader';
+import { useRef } from 'react';
+import { useEffect } from 'react';
+import { isNil } from 'lodash';
 
 export default function DragNDropCell({ width = 40, id, styleContainer, styleLabel, }) {
     const [postData, { data, error }] = tableApi.useUploadFileMutation()
     const [key, setKey] = React.useState(0)
     function createFormData(file) {
-        const formdata = new FormData()
-        formdata.append("table_id", '632c5f74c7574ba5243e4b29')
-        formdata.append("withDeletion", false)
-        formdata.append("file", file)
+        console.log(file)
+        // const formdata = new FormData()
+        // formdata.append("table_id", '632c5f74c7574ba5243e4b29')
+        // formdata.append("withDeletion", false)
+        // formdata.append("file", file)
         //console.log(file)
         setKey(key + 1)
         //postData(formdata)
     }
     const [state,setState] = useState(null)
-    console.log(state)
     return (
         <>
             <div style={styleContainer ? styleContainer : {
@@ -29,7 +33,7 @@ export default function DragNDropCell({ width = 40, id, styleContainer, styleLab
                 height: '189px'
             }}>
 
-                <ReactResumableJs
+                {/* <ReactResumableJs
                     uploaderID="image-upload"
                     dropTargetID="myDropTarget"
                     filetypes={["jpg", "png", "csv","exe"]}
@@ -66,10 +70,13 @@ export default function DragNDropCell({ width = 40, id, styleContainer, styleLab
                     }}
                 >
                 {/* <button onClick={resumable.cancel}>Остановить загрузку</button> */}
-                </ReactResumableJs>
+                {/* </ReactResumableJs> */} 
 
+                <Uploader/>
 
-                <FileUploader key={key} name='image-upload' handleChange={createFormData} hoverTitle={' '} style={styleLabel ? styleLabel : {
+            
+
+                {/* <FileUploader key={key} name='image-upload' handleChange={createFormData} hoverTitle={' '} style={styleLabel ? styleLabel : {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center'
@@ -78,7 +85,7 @@ export default function DragNDropCell({ width = 40, id, styleContainer, styleLab
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                     </svg>
                     <p style={{ maxWidth: '200px', margin: '0 auto', cursor: 'pointer' }}>Перенесите файл сюда или кликните для того чтобы загрузить</p>
-                </FileUploader>
+                </FileUploader> */}
             </div>
         </>
     )

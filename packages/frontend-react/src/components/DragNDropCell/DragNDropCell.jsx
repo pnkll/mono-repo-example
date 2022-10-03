@@ -3,28 +3,73 @@ import React from 'react';
 import { FileUploader } from "react-drag-drop-files";
 import { tableApi } from '../../services/TableService';
 import ReactResumableJs from 'react-resumable-js'
+import { useState } from 'react';
+import './DragNDropCell.scss'
 
-export default function DragNDropCell({ width = 40, id, styleContainer,styleLabel, }) {
-    const [postData,{data,error}] = tableApi.useUploadFileMutation()
-    const [key,setKey]=React.useState(0)
+export default function DragNDropCell({ width = 40, id, styleContainer, styleLabel, }) {
+    const [postData, { data, error }] = tableApi.useUploadFileMutation()
+    const [key, setKey] = React.useState(0)
     function createFormData(file) {
         const formdata = new FormData()
         formdata.append("table_id", '632c5f74c7574ba5243e4b29')
         formdata.append("withDeletion", false)
         formdata.append("file", file)
         //console.log(file)
-        setKey(key+1)
+        setKey(key + 1)
         //postData(formdata)
     }
+    const [state,setState] = useState(null)
+    console.log(state)
     return (
         <>
-            <div style={styleContainer?styleContainer:{
+            <div style={styleContainer ? styleContainer : {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 height: '189px'
             }}>
-                <FileUploader key={key} name='file' handleChange={createFormData} hoverTitle={' '} style={styleLabel?styleLabel:{
+
+                <ReactResumableJs
+                    uploaderID="image-upload"
+                    dropTargetID="myDropTarget"
+                    filetypes={["jpg", "png", "csv","exe"]}
+                    fileAccept="image/*"
+                    fileAddedMessage="Started!"
+                    completedMessage="Complete!"
+                    service={`http://87.103.193.156:3000/upload`}
+                    textLabel="Uploaded files"
+                    previousText="Drop to upload your media:"
+                    disableDragAndDrop={state==='upload'||state==='pause'}
+                    onFileSuccess={(file, message) => {
+                        console.log('hello');
+                    }}
+                    onFileAdded={(file, resumable) => {
+                        resumable.upload();
+                        setState('upload')
+                    }}
+                    maxFileSize={100240000}
+                    //maxFiles={1}
+                    startButton={state==='pause'}
+                    pauseButton={state==='upload'}
+                    cancelButton={state==='upload'||state==='pause'}
+                    onStartUpload={() => {
+                        setState('upload')
+                    }}
+                    onCancelUpload={() => {
+                        setState(null)
+                    }}
+                    onPauseUpload={() => {
+                        setState('pause')
+                    }}
+                    onResumeUpload={() => {
+                        setState('upload')
+                    }}
+                >
+                {/* <button onClick={resumable.cancel}>Остановить загрузку</button> */}
+                </ReactResumableJs>
+
+
+                <FileUploader key={key} name='image-upload' handleChange={createFormData} hoverTitle={' '} style={styleLabel ? styleLabel : {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center'

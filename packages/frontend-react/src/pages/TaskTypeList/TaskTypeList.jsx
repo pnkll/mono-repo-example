@@ -55,7 +55,7 @@ export default function TaskTypeList() {
                             : 'Пока что нет ни одного шаблона'}
                         buttons={buttons} />}
             </TransitionLayout>
-            <ConfirmModal callback={modalCallback} isOpen={showModal} setIsOpen={setShowModal} label={'Вы действительно хотите удалить шаблон?'} />
+            <ConfirmModal callback={modalCallback} isOpen={showModal} setIsOpen={setShowModal} label={'Вы действительно хотите удалить шаблон?'}/>
         </>
     )
 }

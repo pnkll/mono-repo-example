@@ -88,7 +88,7 @@ export default function CallControl({ props }) {
             case 'Входящий вызов':
                 return <PhoneButton onClick={() => props.current?.answerCall()} />
             case 'Ожидание':
-                return <PhoneButton onClick={() => props.current?.startCall('1019')} />
+                return <PhoneButton onClick={() => props.current?.startCall('1010')} />
         }
     }
     return (

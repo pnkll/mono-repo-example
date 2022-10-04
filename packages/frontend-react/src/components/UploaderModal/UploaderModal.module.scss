@@ -1,0 +1,106 @@
+@import '../../assets/vars';
+
+.modal {
+    &__header {
+        justify-content: space-between;
+        display: flex;
+
+    }
+
+    &__x-icon {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        cursor: pointer;
+    }
+
+    &__file-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        font-family: Roboto;
+        margin-top: 15px;
+
+        &__elem {
+            display: flex;
+            position: relative;
+            gap: 15px;
+            align-items: center;
+
+            &.focused {
+                background-color: rgb(184 182 182);
+                border-radius: 5px;
+            }
+
+            &__x-icon {
+                position: absolute;
+                top: 2px;
+                left: 2px;
+                z-index: 1;
+                cursor: pointer;
+                width: 15px;
+            }
+
+            &__icon {
+                font-style: normal;
+                height: 51px;
+                background: $color-but-blue;
+                display: flex;
+                align-items: flex-end;
+                width: 46px;
+                justify-content: center;
+                font-size: 11px;
+                position: relative;
+                border-radius: 3px;
+                color: white;
+
+                &::before {
+                    content: "";
+                    border: 9px solid transparent;
+                    border-bottom: 9px solid black;
+                    border-left: 9px solid black;
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    border-bottom-left-radius: 6px;
+                }
+
+                &::after {
+                    content: "";
+                    border: 9px solid transparent;
+                    border-top: 9px solid white;
+                    border-right: 9px solid white;
+                    position: absolute;
+                    top: -1px;
+                    right: -1px;
+                }
+            }
+
+            &__info {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            &__name {
+                margin: 0;
+            }
+
+            &__size {
+                margin: 0;
+            }
+        }
+    }
+}
+
+.modal__file-list__elem {
+    &.focused {
+        .modal__file-list__elem__icon {
+            &::after {
+                border-top: 9px solid rgb(184 182 182);
+                border-right: 9px solid rgb(184 182 182);
+                top: 0
+            }
+        }
+    }
+}

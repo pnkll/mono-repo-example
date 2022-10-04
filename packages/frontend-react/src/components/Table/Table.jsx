@@ -51,7 +51,7 @@ export default React.memo(function Table({ isFetching = false, id, setFilters, f
                         isOpen={open}
                         setFilterData={setFilterData}
                         buttons={buttons} />
-                    <div className={`${classNamePrefix}__scroll-wrapper`} style={{ borderRadius: '10px', transition: 'all 0.5s ease', maxHeight: 'calc(100vh - 163px)', overflow: 'autoй', height: `${open ? '100%' : '0%'}`, minWidth: '527px' }}>
+                    <div className={`${classNamePrefix}__scroll-wrapper`} style={{ borderRadius: '10px', transition: 'all 0.5s ease', maxHeight: 'calc(100vh - 163px)', overflow: 'auto', height: `${open ? '100%' : '0%'}`, minWidth: '527px' }}>
                         {/* {!isNil(label) && <h1 style={{ paddingLeft: '13px' }}>{label}</h1>} */}
                         {setFilterData
                             && visibleFilter

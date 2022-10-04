@@ -17,7 +17,22 @@ export const taskApi = Api.injectEndpoints({
             query: () => ({
                 url: '/tasks/task',
                 method: 'GET'
-            })
+            }),
+            transformResponse: (data)=>{
+                return data.message
+            }
+        }),
+        getTaskById: builder.query({
+            query: (id)=>({
+                url: '/tasks/task',
+                method: 'GET',
+                params: {
+                    _id: id
+                }    
+            }),
+            transformResponse: (data)=>{
+                return data.message[0]
+            }
         }),
         postTask: builder.mutation({
             query: (data) => ({

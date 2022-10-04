@@ -29,7 +29,7 @@ export default function TaskTypeList() {
 
         </div>
     }
-    const columns = [
+    const columns = React.useMemo(()=>[
         { Header: '', accessor: '_id', Cell: ({ cell: { value } }) => customTd(value) || '-' },
         { Header: 'Название', accessor: 'title' },
         { Header: 'Исполнитель', accessor: 'executor' },
@@ -38,7 +38,7 @@ export default function TaskTypeList() {
         { Header: 'Прикрепить', accessor: 'linkedContent' },
         { Header: 'Dead Line', accessor: 'deadLineHours' },
         { Header: 'Степень важности', accessor: 'priority' },
-    ]
+    ],[])
     const [fetchPostTaskType] = taskTypeApi.usePostTaskTypeMutation()
     const buttons = React.useMemo(() => [{ text: 'Создать', href: 'new', className: 'table__filters button' }], [])
     return (

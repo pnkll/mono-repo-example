@@ -4,13 +4,15 @@ import './Sidebar.scss';
 import { Link } from "react-router-dom";
 import Footer from "./Footer/Footer.jsx";
 import Header from "./Header/Header.jsx";
-import { TableIcon, CollectionIcon, CubeIcon, TemplateIcon } from "@heroicons/react/outline";
+import { TableIcon, CollectionIcon, CubeIcon, TemplateIcon, ClipboardListIcon } from "@heroicons/react/outline";
 import { useState } from "react";
 
 export default function Sidebar({ collapsed }) {
     const [subMenu, setSubMenu] = useState([
         { open: false },
-        { open: false }])
+        { open: false },
+        { open: false },
+    ])
     return (
         <>
             <ProSidebar style={{ height: 'calc(100vh - 20px)', margin: '10px 0 0 10px', position: 'sticky', top: 0, zIndex: 100 }} collapsed={collapsed}>
@@ -35,6 +37,11 @@ export default function Sidebar({ collapsed }) {
                             onOpenChange={() => setSubMenu(subMenu.map((el, index) => index === 1 ? { ...el, open: !el.open } : { ...el, open: false }))}>
                             <MenuItem><Link to='../tables'>Список таблиц</Link></MenuItem>
                             <MenuItem><Link to='../tables/create'>Создать</Link></MenuItem>
+                        </SubMenu>
+                        <SubMenu title="Задачи" icon={<ClipboardListIcon />}
+                            open={subMenu[2].open}
+                            onOpenChange={() => setSubMenu(subMenu.map((el, index) => index === 2 ? { ...el, open: !el.open } : { ...el, open: false }))}>
+                            <MenuItem><Link to='../tasks'>Все</Link></MenuItem>
                         </SubMenu>
                     </Menu>
                 </SidebarContent>

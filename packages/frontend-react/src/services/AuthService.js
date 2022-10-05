@@ -20,12 +20,12 @@ export const authApi = Api.injectEndpoints({
                             token: data.message.token,
                             refreshToken: data.message.refreshToken
                         }))
-                        dispatch(addNotify({type: 'success', message: 'Вы успешно зарегистрировались, добро пожаловать на портал MintaCRM'}))
+                        dispatch(addNotify({ type: 'success', message: 'Вы успешно зарегистрировались, добро пожаловать на портал MintaCRM' }))
                     }
-                    } catch ({ error }) {
-                        dispatch(addNotify({ type: 'error', message: error.data.errors }))
-                    }
+                } catch ({ error }) {
+                    dispatch(addNotify({ type: 'error', message: error.data.errors }))
                 }
+            }
         }),
         registerOrganization: builder.mutation({
             query: (data) => ({
@@ -33,10 +33,10 @@ export const authApi = Api.injectEndpoints({
                 method: 'POST',
                 body: data,
             }),
-            async onQueryStarted(id,{dispatch, queryFulfilled}){
+            async onQueryStarted(id, { dispatch, queryFulfilled }) {
                 try {
-                    data?.status===200&&addNotify({type: 'success', message: 'Организация успешно зарегистрирована, продолжайте регистрацию чтобы зарегистрировать администратора для организации'})
-                } catch ({error}) {
+                    data?.status === 200 && addNotify({ type: 'success', message: 'Организация успешно зарегистрирована, продолжайте регистрацию чтобы зарегистрировать администратора для организации' })
+                } catch ({ error }) {
                     console.log(error)
                 }
             }
@@ -53,11 +53,12 @@ export const authApi = Api.injectEndpoints({
                     if (data?.status === 200) {
                         dispatch(setCredentials({
                             token: data.message.token,
-                            refreshToken: data.message.refreshToken
+                            refreshToken: data.message.refreshToken,
+                            tokenExp: data.message.tokenExp
                         }))
                         dispatch(addNotify({ type: 'success', message: 'Успешная авторизация, рады приветствовать вас на портале MintaCRM' }))
                     }
-                } catch ({error}) {
+                } catch ({ error }) {
                     dispatch(addNotify({ type: 'error', message: error.data.errors }))
                 }
             }

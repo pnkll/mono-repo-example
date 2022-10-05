@@ -1,14 +1,21 @@
 import _, { isNil } from 'lodash';
 import React from 'react';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import Resumablejs from 'resumablejs'
+import { tableApi } from '../../services/TableService';
+import { selectToken } from '../../store/slices/appSlice';
 import { addNotify } from '../../store/slices/notificationsSlice';
 import UploaderModal from '../UploaderModal/UploaderModal';
 import s from './Uploader.module.scss'
 
-const r = new Resumablejs({
-    target: 'http://87.103.193.156:3000/upload',
+
+
+const resumable = (token)=>{
+    console.log('hello')
+    return new Resumablejs({
+    target: process.env.API_URL+'/tables/upload',
     query: {},
     fileType: ['csv'],
     maxFiles: 2,
@@ -25,7 +32,7 @@ const r = new Resumablejs({
     // },
     testMethod: 'post',
     testChunks: false,
-    headers: {},
+    headers: {Authorization: `Bearer ${token}`},
     chunkSize: 1024 * 1024,
     simultaneousUploads: 1,
     fileParameterName: 'file',
@@ -34,10 +41,19 @@ const r = new Resumablejs({
     uploaderID: 'upload-file',
     dropTargetID: 'drag-file-element'
 })
+}
 
 
 
 export default function Uploader({ width = 40 }) {
+
+    const [postFile]=tableApi.useUploadFileMutation()
+
+    const params = useParams()
+
+    const token = useSelector(selectToken)
+
+    const r = React.useMemo(()=>resumable(token),[])
 
     const [prog, setProg] = React.useState(0)
 
@@ -70,8 +86,9 @@ export default function Uploader({ width = 40 }) {
     const [isOpenModal,setIsOpenModal]=React.useState(false)
     useEffect(() => {
         r.on('fileSuccess', (file, message) => {
-            console.log('complete', { file: file, message: message })
+            console.log('complete', { file: file, message: JSON.parse(message) })
             setProg(0)
+            postFile({id:params.id,file: JSON.parse(message).message,withDeletion:true})
         })
 
         r.on('error', (message, file) => {
@@ -99,7 +116,6 @@ export default function Uploader({ width = 40 }) {
         })
     }, [])
 
-    
     return (
         <>
             <form

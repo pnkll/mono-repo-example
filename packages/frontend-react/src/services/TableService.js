@@ -12,10 +12,14 @@ export const tableApi = Api.injectEndpoints({
             })
         }),
         uploadFile: builder.mutation({
-            query: (data) => ({
-                url: '/tables/content/upload',
+            query: ({ id, file, withDeletion }) => ({
+                url: '/tables/content/fileUpload',
                 method: 'POST',
-                body: data
+                body: {
+                    table_id: id,
+                    file: file,
+                    withDeletion: withDeletion,
+                }
             })
         }),
         getTables: builder.query({

@@ -14,18 +14,18 @@ export default function TableList() {
     function formatDate(date) {
         return moment(date).locale('ru').format("Do MMMM YYYY")
     }
-    const columns = React.useMemo(()=>[
+    const columns = React.useMemo(() => [
         { Header: '', accessor: '_id', Cell: ({ cell: { value } }) => <Button color='green' text='Перейти' href={value} /> || '-' },
         { Header: 'Название', accessor: 'title' },
         { Header: 'Дата создания', accessor: 'createdAt', type: 'sort', sort: 0 },
         { Header: 'Последнее обновление', accessor: 'updatedAt', type: 'sort', sort: 0 }
     ])
-    const {sort,stateColumns,sortDataCallback} = useTableSort({columns})
+    const { sort, stateColumns, sortDataCallback } = useTableSort({ columns })
     const [itemsCount, setItemsCount] = useState(10)
     useEffect(() => {
         getTables(sort)
     }, [sort])
-    
+
     return (
         <>
             <TransitionLayout from='right'>

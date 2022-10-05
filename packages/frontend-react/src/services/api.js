@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { isNil } from 'lodash';
 import { setCredentials } from '../store/slices/appSlice';
 import { logout } from '../store/slices/appSlice';
 
@@ -32,20 +33,37 @@ const baseQuery = fetchBaseQuery({
 })
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
-    let result = await baseQuery(args, api, extraOptions)
-    if (result?.error?.status === 401) {
+    // let result = await baseQuery(args, api, extraOptions)
+    // if (result?.error?.status === 401) {
+    //     const refreshToken = api.getState().appSlice.refreshToken
+    //     const refreshResult = await baseQuery({ url: '/auth/token', method: 'GET', params: { token: refreshToken } }, api)
+    //     if (refreshResult?.data) {
+    //         // store the new token 
+    //         api.dispatch(setCredentials({ ...refreshResult.data.message }))
+    //         // retry the original query with new access token 
+    //         result = await baseQuery(args, api, extraOptions)
+    //     } else {
+    //         api.dispatch(logout())
+    //     }
+    // }
+    const tokenExp = api.getState().appSlice.tokenExp
+    if(!isNil(tokenExp)&&new Date().getTime()>tokenExp){
+        return await refresh()
+    } else{
+        return await baseQuery(args,api,extraOptions)
+    }
+    async function refresh(){
         const refreshToken = api.getState().appSlice.refreshToken
         const refreshResult = await baseQuery({ url: '/auth/token', method: 'GET', params: { token: refreshToken } }, api)
         if (refreshResult?.data) {
             // store the new token 
             api.dispatch(setCredentials({ ...refreshResult.data.message }))
             // retry the original query with new access token 
-            result = await baseQuery(args, api, extraOptions)
+            return await baseQuery(args, api, extraOptions)
         } else {
             api.dispatch(logout())
         }
     }
-    return result
 }
 
 export const Api = createApi({

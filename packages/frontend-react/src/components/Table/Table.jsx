@@ -51,7 +51,7 @@ export default React.memo(function Table({ isFetching = false, id, setFilters, f
                         isOpen={open}
                         setFilterData={setFilterData}
                         buttons={buttons} />
-                    <div className={`${classNamePrefix}__scroll-wrapper`} style={{ borderRadius: '10px', transition: 'all 0.5s ease', maxHeight: 'calc(100vh - 163px)', overflow: 'auto', height: `${open ? '100%' : '0%'}`, minWidth: '527px' }}>
+                    <div className={`${classNamePrefix}__scroll-wrapper`} style={{ borderRadius: '10px', transition: 'all 0.5s ease', maxHeight: 'calc(100vh - 143px)', overflow: 'auto', height: `${open ? '100%' : '0%'}`, minWidth: '527px' }}>
                         {/* {!isNil(label) && <h1 style={{ paddingLeft: '13px' }}>{label}</h1>} */}
                         {setFilterData
                             && visibleFilter
@@ -68,16 +68,20 @@ export default React.memo(function Table({ isFetching = false, id, setFilters, f
                             </thead>
                             <tbody {...getTableBodyProps} className={`${classNamePrefix}__body`}>
                                 {isFetching && <PreloaderCell colSpan={columns.length} />}
-                                {rows.length > 0 ?
-                                    rows.map((row, index) => {
+                                {rows.length > 0 ? <>
+                                    {rows.map((row, index) => {
                                         prepareRow(row)
                                         return <tr key={index} {...row.getRowProps()} className={`${classNamePrefix}__body__row`}>
                                             {row.cells.map((cell, index) => <td key={index} {...cell.getCellProps} className={`${classNamePrefix}__body__elem__wrapper`}>
                                                 <div className={`${classNamePrefix}__body__elem`}>{cell.render('Cell')}</div>
                                             </td>)}
                                         </tr>
-                                    }) :
-                                    <tr className={`${classNamePrefix}__body__row`}><td
+                                    })}
+                                    <tr style={{ height: '100%', background: 'white' }}>
+                                        <td colSpan={columns.length} />
+                                    </tr>
+                                </>
+                                    : <tr className={`${classNamePrefix}__body__row`}><td
                                         style={{
                                             minWidth: '500px',
                                             textAlign: 'center',

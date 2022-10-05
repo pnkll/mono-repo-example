@@ -28,11 +28,15 @@ export default function App() {
 
     const dispatch = useDispatch()
 
+    async function getCommon(){
+        await getProfile()
+        await getRoles()
+        await getPermissions()
+    }
+
     useEffect(() => {
         if (!isNil(token)) {
-            getProfile()
-            getRoles()
-            getPermissions()
+            getCommon()
         }
         !init && dispatch(initializeApp(true))
     }, [token])

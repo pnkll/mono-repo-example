@@ -22,7 +22,7 @@ export default function BreadCrumbs() {
                         key={breadcrumb.key}
                         w='auto'
                         h='auto'
-                        overflowX='visible'
+                        overflowX='hidden'
                     ><Link className={`breadcrumbs__elem ${location.pathname === breadcrumb.match.pathname ? 'current' : ''}`} to={breadcrumb.match.pathname}>{breadcrumb.breadcrumb}{breadcrumbs.length - 1 !== idx ? <ChevronRightIcon width={17} /> : ''}</Link></TransitionLayout>)}
             </div>
         </>

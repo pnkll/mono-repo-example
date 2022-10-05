@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import React from 'react';
-import { useMemo } from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import useTableFilter from '../../../hooks/useTableFilter.js';
@@ -14,29 +13,29 @@ import { XIcon } from '@heroicons/react/outline';
 export default function Filter({ columns, setFilterData, id, height, setFetching }) {
   const { data, values, setValues, handleClear, handleAccess, handleChange } = useTableFilter({ columns })
   const [filterTable, { data: message, isFetching }] = tableApi.useLazyGetContentByDataQuery()
+  const [focus, setFocus] = useState(null)
+  const [options, setOptions] = useState(values.map(el => el ? { value: el.id, label: el.id } : el))
+  const [keyOfSelect, setKeyOfSelect] = useState(0)
+  function handleRemove(id) {
+    setValues(values.map(el => el.id === id ? { ...el, visible: false, value: '' } : el))
+    const tmp = values.find(el => el.id === id)
+    setOptions([...options, { value: tmp.id, label: tmp.id }])
+    handleAccess()
+  }
+  function handleSelect(value) {
+    setValues(values.map(el => el.id === value ? { ...el, visible: true } : el))
+    setKeyOfSelect(keyOfSelect + 1)
+    setOptions(options.filter(option => option.value !== value))
+  }
   useEffect(() => {
     !_.isEmpty(data) ? filterTable({ data, table_id: id }) : setFilterData(null)
   }, [data])
   useEffect(() => {
     message && setFilterData(message.map(el => el ? el.data : el))
   }, [message])
-  const [focus, setFocus] = useState(null)
-  //const options = useMemo(() => values.map(el => el ? { value: el.id, label: el.id } : el))
-  const [options, setOptions] = useState(values.map(el => el ? { value: el.id, label: el.id } : el))
   useEffect(() => {
     setFetching(isFetching)
   }, [isFetching])
-  function handleRemove(id) {
-    setValues(values.map(el => el.id === id ? { ...el, visible: false, value: '' } : el))
-    const tmp = values.find(el=>el.id===id)
-    setOptions([...options, {value: tmp.id, label: tmp.id}])
-  }
-  const [keyOfSelect, setKeyOfSelect] = useState(0)
-  function handleSelect(value) {
-    setValues(values.map(el => el.id === value ? { ...el, visible: true } : el))
-    setKeyOfSelect(keyOfSelect + 1)
-    setOptions(options.filter(option => option.value !== value))
-  }
   return (
     <>
       <div className='table-filter__elems'>
@@ -60,8 +59,8 @@ export default function Filter({ columns, setFilterData, id, height, setFetching
           <Select key={keyOfSelect} options={options} handleChange={handleSelect} />
         </div>}
         <div className="table-filter__buttons">
-          <Button handleClick={handleAccess} color='green' text='Применить' />
-          <Button handleClick={handleClear} color='white' text='Сбросить' />
+          <Button handleClick={handleAccess} color='green' text='Применить' disabled={_.isEmpty(values.filter(el=>el.value!==''))}/>
+          <Button handleClick={handleClear} color='white' text='Сбросить' disabled={_.isEmpty(data)}/>
         </div>
       </div>
     </>

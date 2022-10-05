@@ -5,14 +5,14 @@ export default function PreloaderCell({ colSpan }) {
     return (
         <>
             <tr style={{
-                background: 'rgb(167 184 231 / 35%)',
+                //background: 'rgb(167 184 231 / 35%)',
                 position: 'absolute',
-                top: '84px',
+                top: 0,
                 right: 0,
                 left: 0,
-                bottom: 0
+                bottom: '-74vh'
             }}>
-                <td colSpan={colSpan} style={{ height: '100%', position: 'absolute', width: '100%' }}>
+                <th colSpan={colSpan} style={{ height: '100%', position: 'absolute', width: '100%' }}>
                     <div className="" style={{
                         height: '100%',
                         display: 'flex',
@@ -24,7 +24,7 @@ export default function PreloaderCell({ colSpan }) {
                             width={30}
                             color={'#197DD2'}
                         /></div>
-                </td>
+                </th>
             </tr>
         </>
     )

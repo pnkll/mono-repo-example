@@ -11,7 +11,7 @@ import { tableApi } from '../../../services/TableService.js';
 
 export default function TableById() {
     const params = useParams()
-    const [itemsCount, setItemsCount] = useState(5)
+    const [itemsCount, setItemsCount] = useState(10)
     const [currentPage, setCurrentPage] = useState(1)
     const [filterData, setFilterData] = useState(null)
     const [getTable, { data: table, isFetching }] = tableApi.useLazyGetTableContentsQuery()

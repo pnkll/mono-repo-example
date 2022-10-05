@@ -34,6 +34,7 @@ th {
         margin: 0;
         bottom: 0px;
         background: white;
+        z-index: 1;
         &__counts {
             display: flex;
             gap: 20px;
@@ -65,7 +66,7 @@ th {
             align-items: center;
             justify-content: space-between;
             overflow: hidden;
-            z-index: 1;
+            z-index: 3;
         }
 
         &__control {
@@ -123,6 +124,7 @@ th {
         position: sticky;
     top: 0;
     margin: 0;
+    z-index: 1;
         &__row {
             border-bottom: 1px solid #8080803d;
             box-shadow: 0px 10px 8px 0px rgb(34 60 80 / 20%);

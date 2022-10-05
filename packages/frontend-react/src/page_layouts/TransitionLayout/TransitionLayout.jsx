@@ -2,7 +2,7 @@ import React from 'react';
 import { useSpring, animated } from 'react-spring';
 
 
-export default function TransitionLayout({ children, from = 'right', overflowX = 'scroll', h = '100%', w = '100%', delay=100, custom }) {
+export default function TransitionLayout({ children, from = 'right', overflowX = 'hidden', h = '100%', w = '100%', delay=100, custom }) {
 
     const position = () => {
         switch (from) {

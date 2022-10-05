@@ -26,7 +26,7 @@ export default function SidebarHeaderLayout({ children }) {
                     <Sidebar collapsed={collapsed} />
                 </TransitionLayout>}
                 <div className='sidebar-header-layout__wrapper'>
-                    <TransitionLayout from='top' overflowX={'auto'} h='auto' w='auto'>
+                    <TransitionLayout from='top' overflowX='hidden' h='auto' w='auto'>
                         <Header collapsed={collapsed} />
                     </TransitionLayout>
                     <div className="sidebar-header-layout__content">

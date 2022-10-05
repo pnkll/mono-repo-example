@@ -67,9 +67,10 @@ export default React.memo(function Table({ isFetching = false, id, setFilters, f
                                 {headerGroups.map((headerGroup, index) => <tr key={index} {...headerGroup.getHeaderGroupProps} className={`${classNamePrefix}__header__row`}>
                                     {headerGroup.headers.map((header, index) => <th key={index} {...header.getHeaderProps} className={`${classNamePrefix}__header__elem`}>{selectType(header)}</th>)}
                                 </tr>)}
-                            </thead>
-                            <tbody {...getTableBodyProps} className={`${classNamePrefix}__body`}>
                                 {(fetching||isFetching) && <PreloaderCell colSpan={columns.length} />}
+                            </thead>
+                            <tbody {...getTableBodyProps} className={`${classNamePrefix}__body`} style={{opacity: (fetching||isFetching)?'0.6':1}}>
+                                
                                 {rows.length > 0 ? <>
                                     {rows.map((row, index) => {
                                         prepareRow(row)

@@ -8,9 +8,11 @@ import moment from 'moment';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import useTableSort from '../../hooks/useTableSort.js';
+import PreloaderForPage from '../../components/PreloaderForPage/PreloaderForPage.jsx';
+import ErrorForPage from '../../components/ErrorForPage/ErrorForPage.jsx';
 
 export default function TableList() {
-    const [getTables, { data: tableList, isLoading, isFetching }] = tableApi.useLazyGetTablesQuery()
+    const [getTables, { data: tableList, isLoading, isFetching, isError }] = tableApi.useLazyGetTablesQuery()
     function formatDate(date) {
         return moment(date).locale('ru').format("Do MMMM YYYY")
     }
@@ -25,9 +27,11 @@ export default function TableList() {
     useEffect(() => {
         getTables(sort)
     }, [sort])
-
+    
     return (
         <>
+            {isLoading&&<PreloaderForPage/>}
+            {isError&&<ErrorForPage/>}
             <TransitionLayout from='right'>
                 {!isNil(tableList)
                     && <Table

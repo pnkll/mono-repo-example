@@ -49,6 +49,13 @@ export const taskApi = Api.injectEndpoints({
                 }
             }
         }),
+        updateTask: builder.mutation({
+            query: (data)=>({
+                url: '/task/task',
+                method: 'PUT',
+                body: data
+            }),
+        })
     }),
     overrideExisting: false,
 })

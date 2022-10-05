@@ -21,6 +21,9 @@ th {
     &__scroll-wrapper{
         -webkit-overflow-scrolling: touch;
         height: 100%;
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
     &__bottom {
         display: flex;

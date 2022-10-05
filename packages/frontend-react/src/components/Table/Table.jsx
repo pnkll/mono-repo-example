@@ -17,6 +17,7 @@ export default React.memo(function Table({ isFetching = false, id, setFilters, f
 
     const { prepareRow, rows, headerGroups, getTableProps, getTableBodyProps } = useTable({ columns, data })
 
+    const [fetching,setFetching]=useState(false)
 
     const handleSearch = (value, header) => {
         setSearch({ ...search, id: header.id, value: value })
@@ -56,6 +57,7 @@ export default React.memo(function Table({ isFetching = false, id, setFilters, f
                         {setFilterData
                             && visibleFilter
                             && <Filter
+                            setFetching={setFetching}
                                 setFilterData={setFilterData}
                                 columns={columns}
                                 id={id}
@@ -67,7 +69,7 @@ export default React.memo(function Table({ isFetching = false, id, setFilters, f
                                 </tr>)}
                             </thead>
                             <tbody {...getTableBodyProps} className={`${classNamePrefix}__body`}>
-                                {isFetching && <PreloaderCell colSpan={columns.length} />}
+                                {(fetching||isFetching) && <PreloaderCell colSpan={columns.length} />}
                                 {rows.length > 0 ? <>
                                     {rows.map((row, index) => {
                                         prepareRow(row)

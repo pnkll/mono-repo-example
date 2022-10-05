@@ -1,22 +1,33 @@
 @import '../../../assets/vars';
 
 .table-filter {
-    &__container{
+    &__container {
         background: white;
     }
-    &__elems{
+
+    &__elems {
         display: flex;
         flex-wrap: wrap;
         padding-top: 47px;
-        transition: all 0.5s ease; 
+        transition: all 0.5s ease;
         padding-left: 10px;
         background: white;
     }
-    &__elem{
+
+    &__elem {
         padding: 15px 5px 5px 5px;
         min-width: 224px;
         position: relative;
+
+        &__x-icon {
+            position: absolute;
+            top: 16px;
+            right: 7px;
+            width: 15px;
+            cursor: pointer;
+        }
     }
+
     &__label {
         position: absolute;
         top: 27px;
@@ -25,6 +36,7 @@
         transition: all 0.5s ease;
         color: gray;
         pointer-events: none;
+
         &.focused {
             left: 6px;
             top: -2px;
@@ -32,7 +44,8 @@
             color: black;
         }
     }
-    &__buttons{
+
+    &__buttons {
         display: flex;
         align-items: center;
         gap: 10px;

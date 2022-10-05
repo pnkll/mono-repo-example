@@ -14,7 +14,7 @@ export default function TableById() {
     const [itemsCount, setItemsCount] = useState(5)
     const [currentPage, setCurrentPage] = useState(1)
     const [filterData, setFilterData] = useState(null)
-    const [getTable, { data: table }] = tableApi.useLazyGetTableContentsQuery()
+    const [getTable, { data: table, isFetching }] = tableApi.useLazyGetTableContentsQuery()
     function getColumns() {
         if (!isNil(table?.headers)) {
             return Object.keys(table?.headers).map((el, index) => el
@@ -32,8 +32,9 @@ export default function TableById() {
         { text: 'Добавить строчку', callback: () => setIsOpenModal(!isOpenModal), className:'table__filters button' }], [])
     return (
         <>
-            <TransitionLayout from='bottom'>
+            <TransitionLayout from='bottom' overflowX='hidden'>
                 {!isNil(table) && <Table
+                    isFetching={isFetching}
                     id={params.id}
                     columns={getColumns()}
                     data={filterData !== null ? filterData : table?.docs?.map(el => el ? el.data : el)}

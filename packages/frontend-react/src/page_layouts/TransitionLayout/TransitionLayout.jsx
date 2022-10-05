@@ -20,7 +20,7 @@ export default function TransitionLayout({ children, from = 'right', overflowX =
     return (
         <>
 
-            <animated.div style={{ ...styles, overflowX: overflowX, width: w, height: h }}>
+            <animated.div style={{ ...styles, overflowX: overflowX, width: w, height: h }} className='transition__container'>
                 {children}
             </animated.div>
         </>

@@ -9,10 +9,11 @@ import Button from '../../Button/Button.jsx';
 import Input from '../../Input/Input.jsx';
 import './Filter.scss';
 import Select from '../../Select/Select.jsx'
+import { XIcon } from '@heroicons/react/outline';
 
-export default function Filter({ columns, setFilterData, id,height }) {
-  const { data, values, handleClear, handleAccess, handleChange } = useTableFilter({ columns })
-  const [filterTable, { data: message }] = tableApi.useLazyGetContentByDataQuery()
+export default function Filter({ columns, setFilterData, id, height, setFetching }) {
+  const { data, values, setValues, handleClear, handleAccess, handleChange } = useTableFilter({ columns })
+  const [filterTable, { data: message, isFetching }] = tableApi.useLazyGetContentByDataQuery()
   useEffect(() => {
     !_.isEmpty(data) ? filterTable({ data, table_id: id }) : setFilterData(null)
   }, [data])
@@ -20,12 +21,27 @@ export default function Filter({ columns, setFilterData, id,height }) {
     message && setFilterData(message.map(el => el ? el.data : el))
   }, [message])
   const [focus, setFocus] = useState(null)
-  const options = useMemo(()=>values.map(el=>el?{value: el.id,label:el.id}:el))
+  //const options = useMemo(() => values.map(el => el ? { value: el.id, label: el.id } : el))
+  const [options, setOptions] = useState(values.map(el => el ? { value: el.id, label: el.id } : el))
+  useEffect(() => {
+    setFetching(isFetching)
+  }, [isFetching])
+  function handleRemove(id) {
+    setValues(values.map(el => el.id === id ? { ...el, visible: false, value: '' } : el))
+    const tmp = values.find(el=>el.id===id)
+    setOptions([...options, {value: tmp.id, label: tmp.id}])
+  }
+  const [keyOfSelect, setKeyOfSelect] = useState(0)
+  function handleSelect(value) {
+    setValues(values.map(el => el.id === value ? { ...el, visible: true } : el))
+    setKeyOfSelect(keyOfSelect + 1)
+    setOptions(options.filter(option => option.value !== value))
+  }
   return (
     <>
       <div className='table-filter__elems'>
-        {/* {values.map((val, index) =>
-          <div className='table-filter__elem' key={index}>
+        {values.map((val, index) => val.visible &&
+          <div className='table-filter__elem' key={val.id}>
             <label
               className={`table-filter__label${focus === val.id || val.value !== '' ? ' focused' : ''}`}>
               {val.title}
@@ -38,8 +54,11 @@ export default function Filter({ columns, setFilterData, id,height }) {
               handleChange={(e) => handleChange(e, val)}
               setFocus={setFocus}
             />
-          </div>)} */}
-          <Select options={options} handleChange={(e)=>console.log(e)}/>
+            <XIcon width={10} color='red' className='table-filter__elem__x-icon' onClick={() => handleRemove(val.id)} />
+          </div>)}
+        {!_.isEmpty(options) && <div className='table-filter__elem'>
+          <Select key={keyOfSelect} options={options} handleChange={handleSelect} />
+        </div>}
         <div className="table-filter__buttons">
           <Button handleClick={handleAccess} color='green' text='Применить' />
           <Button handleClick={handleClear} color='white' text='Сбросить' />

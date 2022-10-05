@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 
 export default function useTableFilter({ columns }) {
-    const initValues = useMemo(() => columns.map(el => el ? { title: el.Header, id: el.accessor, value: '' } : el))
+    const initValues = useMemo(() => columns.map(el => el ? { title: el.Header, id: el.accessor, value: '', visible: false } : el))
     const [values, setValues] = useState(initValues)
     const [data, setData] = useState({})
     function handleClear() {
@@ -17,5 +17,5 @@ export default function useTableFilter({ columns }) {
     function handleChange(e,val) {
         setValues(values.map(el => el.id === val.id ? { ...el, value: e.target.value } : el))
     }
-    return { data, values, handleClear, handleAccess, handleChange }
+    return { data, values, setValues, handleClear, handleAccess, handleChange }
 }

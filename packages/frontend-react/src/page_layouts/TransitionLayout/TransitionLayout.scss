@@ -1,6 +1,14 @@
 @import '../../assets/vars';
 
 
+.transition{
+    &__container{
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+}
+
 .page-enter-active{
     animation: fade-in 1s forwards;
 }

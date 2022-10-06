@@ -89,6 +89,7 @@ export default React.memo(function Task() {
         },{})
         postTask(body)
     }
+    console.log(taskType)
     return (
         <>
             <CardLayout title={<>Заявка<InfoPopUp><p>Описание карточки</p></InfoPopUp></>}>

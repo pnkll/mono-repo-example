@@ -9,12 +9,17 @@ import { Outlet } from "react-router-dom";
 import TransitionLayout from "../TransitionLayout/TransitionLayout.jsx";
 import { selectNotifications } from "../../store/slices/notificationsSlice";
 import Notification from "../../components/Notification/Notification.jsx";
+import UploadProgressProvider, { UploadContext } from '../../Providers/UploadNotify'
+import { useContext } from "react";
+import _ from "lodash";
+import UploadNotification from "../../components/UploadNotification/UploadNotification";
 
 export default function SidebarHeaderLayout({ children }) {
     const collapsed = useSelector(selectSidebarCollapsed)
     const isSomeQueryPending = useSelector(state => Object.values(state.api.queries).some(query => query.status === 'pending'))
     const visible = useSelector(selectSidebarVisible)
     const notificationsList = useSelector(selectNotifications)
+    const [state,dispatch]=useContext(UploadContext)
     return (
         <>
             <div className="sidebar-header-layout__container">
@@ -26,17 +31,20 @@ export default function SidebarHeaderLayout({ children }) {
                     <Sidebar collapsed={collapsed} />
                 </TransitionLayout>}
                 <div className='sidebar-header-layout__wrapper'>
-                    <TransitionLayout from='top' overflowX='hidden' h='auto' w='auto'>
-                        <Header collapsed={collapsed} />
-                    </TransitionLayout>
-                    <div className="sidebar-header-layout__content">
-                        {notificationsList.length > 0
-                            && <div className="sidebar-header-layout__content__notifications__wrapper">
-                                {notificationsList.map(el => <Notification key={el.id} id={el.id} type={el.type} message={el.message} />)}
-                            </div>}
-                        <Outlet />
-                        <CallWrapper />
-                    </div>
+                    {/* <UploadProgressProvider> */}
+                        <TransitionLayout from='top' overflowX='hidden' h='auto' w='auto'>
+                            <Header collapsed={collapsed} />
+                        </TransitionLayout>
+                        <div className="sidebar-header-layout__content">
+                            {(!_.isEmpty(notificationsList)||!_.isEmpty(state.files))
+                                && <div className="sidebar-header-layout__content__notifications__wrapper">
+                                    {!_.isEmpty(state.files)&&<UploadNotification files={state.files} progress={state.progress} message={state.message} type={state.type} getResumable={state.getResumable}/>}
+                                    {!_.isEmpty(notificationsList)&&notificationsList.map(el => <Notification key={el.id} id={el.id} type={el.type} message={el.message} />)}
+                                </div>}
+                            <Outlet />
+                            <CallWrapper />
+                        </div>
+                    {/* </UploadProgressProvider> */}
                 </div>
             </div>
         </>

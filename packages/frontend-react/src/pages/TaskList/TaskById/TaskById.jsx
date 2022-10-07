@@ -25,12 +25,11 @@ export default function Task() {
     if (isError) {
         return <ErrorForPage />
     }
-
     return (
         <>
-            {isSuccess&&<TransitionLayout>
+            {isSuccess && <TransitionLayout>
                 <SettingLayout label='Задача'>
-                    <TaskForm isNew={isNew} task={task} isFetching={isFetching} id={params.id}/>
+                        <TaskForm isNew={isNew} task={task} isFetching={isFetching} id={params.id} />
                 </SettingLayout>
             </TransitionLayout>}
         </>

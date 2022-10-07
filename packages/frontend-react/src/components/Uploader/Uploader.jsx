@@ -1,9 +1,11 @@
 import _, { isNil } from 'lodash';
 import React from 'react';
+import { useContext } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import Resumablejs from 'resumablejs'
+import { addCallback, resumableAppend, setTypeOfNotify, updateProgress, UploadContext } from '../../Providers/UploadNotify';
 import { tableApi } from '../../services/TableService';
 import { selectToken } from '../../store/slices/appSlice';
 import { addNotify } from '../../store/slices/notificationsSlice';
@@ -13,7 +15,6 @@ import s from './Uploader.module.scss'
 
 
 const resumable = (token)=>{
-    console.log('hello')
     return new Resumablejs({
     target: process.env.API_URL+'/tables/upload',
     query: {},
@@ -47,23 +48,21 @@ const resumable = (token)=>{
 
 export default function Uploader({ width = 40 }) {
 
+    const [state,uploadDispatch]=useContext(UploadContext)
+
     const [postFile]=tableApi.useUploadFileMutation()
 
     const params = useParams()
 
     const token = useSelector(selectToken)
 
-    const r = React.useMemo(()=>resumable(token),[])
-
-    const [prog, setProg] = React.useState(0)
+    const r = !isNil(state.getResumable())?state.getResumable():React.useMemo(()=>resumable(token),[])
 
     const [dragActive, setDragActive] = React.useState(false);
 
     const [fileList, setFileList] = React.useState([])
 
     const modalCallback = React.useRef()
-
-    const dispatch = useDispatch()
 
     function handleDrag(e) {
         e.preventDefault();
@@ -88,13 +87,14 @@ export default function Uploader({ width = 40 }) {
         r.on('fileSuccess', (file, message) => {
             console.log('complete', { file: file, message: JSON.parse(message) })
             setProg(0)
-            postFile({id:params.id,file: JSON.parse(message).message,withDeletion:true})
+            //postFile({id:params.id,file: JSON.parse(message).message,withDeletion:true})
         })
 
         r.on('error', (message, file) => {
             console.log('error', { file: file, message: message })
             r.removeFile(file)
-            dispatch(addNotify({type: 'error', message: `Произошла ошибка при загрузке ${file.fileName}`}))
+            //uploadDispatch(setTypeOfNotify({type: 'error', message: JSON.parse(message)?.message}))
+            //dispatch(addNotify({type: 'error', message: `Произошла ошибка при загрузке ${file.fileName}`}))
         })
 
         r.on('filesAdded', (files) => {
@@ -104,8 +104,13 @@ export default function Uploader({ width = 40 }) {
             setIsOpenModal(true)
         })
 
-        r.on('fileProgress', (file) => {
-            setProg(Math.round(r.progress() * 100))
+        r.on('pause',()=>{
+            console.log('pause')
+        })
+
+        r.on('fileProgress', (file) => {            
+            uploadDispatch(updateProgress({file: file,progress: r.progress()*100}))
+            
         })
 
         r.on('cancel', () => {
@@ -115,7 +120,12 @@ export default function Uploader({ width = 40 }) {
             console.log('uploadStart', 'Загрузка началась')
         })
     }, [])
-
+    useEffect(()=>{
+        if(!isNil(r)){
+            console.log('присоединили')
+            uploadDispatch(resumableAppend(()=>{return r}))
+        }
+    },[r])
     return (
         <>
             <form
@@ -138,8 +148,6 @@ export default function Uploader({ width = 40 }) {
                     onChange={(e) => r.addFiles(e.target.files)}
                     multiple={true}
                 />
-                {prog !== 0
-                    && <span style={{ background: 'green', height: '10px', width: `${prog}%`, transition: 'all 0.5s ease' }} />}
                 {dragActive
                     && <div
                         className={`${s['uploader__drag-file']} ${dragActive && s.active}`}

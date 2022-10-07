@@ -6,6 +6,7 @@ import { isNil } from "lodash"
 import { usersApi } from "./services/UsersService.js"
 import { rolesApi } from "./services/RolesService.js"
 import { routes } from "./router/routes.jsx"
+import UploadProgressProvider from "./Providers/UploadNotify.jsx"
 
 export default function App() {
 
@@ -46,5 +47,5 @@ export default function App() {
     }
     const router = useRoutes(routes(token))
 
-    return (token?isSuccessProfile:true)&&router
+    return (token?isSuccessProfile:true)&&<UploadProgressProvider>{router}</UploadProgressProvider>
 }

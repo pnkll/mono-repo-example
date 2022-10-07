@@ -1,6 +1,6 @@
 @import '../../assets/vars';
 
-.notify{
+.upload-notify{
     &__container{
         border-radius: 5px;
         padding: 10px;
@@ -8,6 +8,7 @@
         overflow: hidden;
         max-width: 350px;
         z-index: 100;
+        width: fit-content;
         &.right{
             animation: from-right 0.5s forwards;
             &.complete{
@@ -21,6 +22,9 @@
             }
         }
     }
+    &__filename{
+        margin: 0;
+    }
     &__title{
         color: $color-black;
         font-size: 14px;
@@ -28,10 +32,10 @@
         align-items: center;
         gap: 10px;
         font-weight: 500;
+        margin-bottom: 10px;
     }
     &__message{
-        font-size: 13px;
-        font-weight: 500;
+        white-space: pre-wrap;
     }
     &__progress-bar{
         height: 10px;

@@ -8,7 +8,7 @@ import { priorityOptions } from '../../helpers/forTask';
 import Button from '../../components/Button/Button';
 import {taskApi} from '../../services/TaskService'
 
-export default function TaskForm({ isNew, task, isFetching, id }) {
+export default function TaskForm({ isNew, task, isFetching, id,cont}) {
     const [updateTask]=taskApi.useUpdateTaskMutation()
     const initialValues = React.useMemo(() =>
         isNew
@@ -44,7 +44,7 @@ export default function TaskForm({ isNew, task, isFetching, id }) {
                         <Select options={priorityOptions} id='priority' name='priority' formik={formik} defaultValue={isNew?false:true}/>
                         <Button text='Сохранить' type='submit'/>
                     </form>
-                )}
+                )}                
             </Formik>
         </>
     )

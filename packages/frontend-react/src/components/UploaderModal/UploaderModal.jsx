@@ -1,12 +1,16 @@
 import { XIcon } from '@heroicons/react/outline';
 import _, { isNil } from 'lodash';
 import React from 'react';
+import { useContext } from 'react';
+import { useEffect } from 'react';
 import ReactModal from 'react-modal';
+import { UploadContext } from '../../Providers/UploadNotify';
 import Button from '../Button/Button';
 import s from './UploaderModal.module.scss'
 
-export default function UploaderModal({ isOpen, setIsOpen, callback, setFileList, fileList, resumable: r }) {
+export default function UploaderModal({ isOpen, setIsOpen }) {
     ReactModal.setAppElement('#root');
+    const [state,dispatch,r]=useContext(UploadContext)
     const customStyles = {
         overlay: { 
             zIndex: 100,
@@ -20,21 +24,22 @@ export default function UploaderModal({ isOpen, setIsOpen, callback, setFileList
     }
     function handleSend() {
         setIsOpen(false)
-        // !isNil(callback.current)&&callback.current()
+        //!isNil(callback.current)&&callback.current()
         r.upload()
     }
-    function handleClose() {
-        setIsOpen(false)
-        !_.isEmpty(fileList) && fileList.forEach(file => r.removeFile(file))
+    async function handleClose() { 
+        //console.log(fileList)
+        r.files.forEach(file=>r.removeFile(file))
+        //setIsOpen(false)
+        //!_.isEmpty(fileList) && fileList.forEach(file => r.removeFile(file))
     }
     function handleRemove(file) {
         r.removeFile(file)
-        setFileList(fileList.filter(el => el !== file))
-        fileList.length === 1 && handleClose()
+        //setFileList(fileList.filter(el => el !== file))
+        //fileList.length === 1 && handleClose()
     }
 
     const [focus, setFocus] = React.useState(null)
-    //!isNil(fileList)&&_.isEmpty(fileList)&&handleClose()
     return (
         <>
             <ReactModal
@@ -46,8 +51,8 @@ export default function UploaderModal({ isOpen, setIsOpen, callback, setFileList
                     <Button handleClick={handleSend} text='Отправить' color='blue' />
                 </div>
                 <div className={s['modal__file-list']}>
-                    {!_.isEmpty(fileList)
-                        && fileList.map(el =>
+                    {!_.isEmpty(r.files)
+                        && r.files.map(el =>
                             <div
                                 className={`${s['modal__file-list__elem']} ${focus === el.uniqueIdentifier && s.focused}`}
                                 key={el.uniqueIdentifier}

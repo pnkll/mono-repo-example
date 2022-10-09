@@ -1,11 +1,14 @@
 import React from 'react';
 import s from './UploadNotification.module.scss'
 import PulseLoader from 'react-spinners/PulseLoader';
-import { BanIcon, PauseIcon, PlayIcon } from '@heroicons/react/outline';
+import { BanIcon, PauseIcon, PlayIcon, RefreshIcon } from '@heroicons/react/outline';
 import { isNil } from 'lodash';
 import Button from '../Button/Button';
+import { useContext } from 'react';
+import { UploadContext } from '../../Providers/UploadNotify';
 
 export default function UploadNotification({ type = 'success', files, progress, message,callback,getResumable }) {
+    const [state,providerDispatch,r]=useContext(UploadContext)
     function getTitle() {
         if (type === 'success') {
             return <>
@@ -19,9 +22,16 @@ export default function UploadNotification({ type = 'success', files, progress, 
             </>
         }
     }
-    // function getButton(){
-    //     if (stateOfUpload==='')
-    // }
+    function renderButtons(){
+        switch (type) {
+            case 'success':
+                return r.isUploading()
+                    ?<PauseIcon width={30} onClick={()=>r?.pause()}/>
+                    :<PlayIcon width={30} onClick={()=>r?.upload()}/>
+            case 'error':
+                return <RefreshIcon width={20} onClick={()=>r.retry()}/>        
+        }
+    }
     return (
         <>
             <div className={`${s['upload-notify__container']}`}
@@ -29,10 +39,11 @@ export default function UploadNotification({ type = 'success', files, progress, 
                 <span className={s['upload-notify__title']}>
                     {getTitle()}
                 </span>
-                {files.map(file => <p key={file.uniqueIdentifier} className={s['upload-notify__filename']}>{file.fileName}</p>)}
+                {files.map(file => <p key={file.uniqueIdentifier} className={s['upload-notify__filename']}>{file.fileName} {Math.floor(file.progress()*100)}%</p>)}
                 {!isNil(message) && <p className={s['upload-notify__message']}>{message}</p>}
-                <PauseIcon width={30} onClick={()=>getResumable()?.pause()}/>
-                <PlayIcon width={30} onClick={()=>getResumable()?.upload()}/>
+                {/* <PauseIcon width={30} onClick={()=>r?.pause()}/>
+                <PlayIcon width={30} onClick={()=>r?.upload()}/> */}
+                {renderButtons()}
                 <i className={s['upload-notify__progress-bar']} style={{ width: `${progress}%`, background: `${type === 'error' ? '#e35757' : 'rgb(14 126 179)'}` }} />
             </div>
         </>

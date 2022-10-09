@@ -11,6 +11,7 @@ import s from './UploaderModal.module.scss'
 export default function UploaderModal({ isOpen, setIsOpen }) {
     ReactModal.setAppElement('#root');
     const [state,dispatch,r]=useContext(UploadContext)
+    const [files,setFiles]=React.useState(r.files)
     const customStyles = {
         overlay: { 
             zIndex: 100,
@@ -24,21 +25,20 @@ export default function UploaderModal({ isOpen, setIsOpen }) {
     }
     function handleSend() {
         setIsOpen(false)
-        //!isNil(callback.current)&&callback.current()
         r.upload()
     }
     async function handleClose() { 
-        //console.log(fileList)
-        r.files.forEach(file=>r.removeFile(file))
-        //setIsOpen(false)
-        //!_.isEmpty(fileList) && fileList.forEach(file => r.removeFile(file))
+        r.cancel()
+        setIsOpen(false)
     }
     function handleRemove(file) {
-        r.removeFile(file)
-        //setFileList(fileList.filter(el => el !== file))
-        //fileList.length === 1 && handleClose()
+        if(r.files.length>1){
+            setFiles(files.filter(el=>el!==file))
+            r.removeFile(file)
+        }else{
+            handleClose()
+        }
     }
-
     const [focus, setFocus] = React.useState(null)
     return (
         <>

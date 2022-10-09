@@ -11,7 +11,7 @@ import { selectNotifications } from "../../store/slices/notificationsSlice";
 import Notification from "../../components/Notification/Notification.jsx";
 import UploadProgressProvider, { UploadContext } from '../../Providers/UploadNotify'
 import { useContext } from "react";
-import _ from "lodash";
+import _, { isNil } from "lodash";
 import UploadNotification from "../../components/UploadNotification/UploadNotification";
 
 export default function SidebarHeaderLayout({ children }) {
@@ -36,9 +36,10 @@ export default function SidebarHeaderLayout({ children }) {
                             <Header collapsed={collapsed} />
                         </TransitionLayout>
                         <div className="sidebar-header-layout__content">
-                            {(!_.isEmpty(notificationsList)||!_.isEmpty(state.files))
+                            {(!_.isEmpty(notificationsList)||!_.isEmpty(state.resumables))
                                 && <div className="sidebar-header-layout__content__notifications__wrapper">
-                                    {!_.isEmpty(state.files)&&<UploadNotification files={state.files} progress={state.progress} message={state.message} type={state.type} getResumable={state.getResumable}/>}
+                                    {state.resumables.map(el=>!isNil(el.status)
+                                    &&<UploadNotification key={el.id} id={el.id} status={el.status} resumable={el.r} dispatch={dispatch}/>)}
                                     {!_.isEmpty(notificationsList)&&notificationsList.map(el => <Notification key={el.id} id={el.id} type={el.type} message={el.message} />)}
                                 </div>}
                             <Outlet />

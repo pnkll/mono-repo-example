@@ -1,5 +1,8 @@
-import _ from "lodash";
+import _, { isNil } from "lodash";
+import { set } from "lodash";
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import { useReducer } from "react";
 import { useSelector } from "react-redux";
 import Resumablejs from 'resumablejs'
@@ -8,125 +11,164 @@ import { selectToken } from "../store/slices/appSlice";
 
 export const UploadContext = React.createContext()
 
+
 const initialState = {
-    type: 'success',
-    files: [],
-    progress: 0,
-    message: null,
+    resumables: [],
 }
 
 function uploadContextReducer(state, action) {
     switch (action.type) {
-        case 'UPDATE_PROGRESS':
+        case 'INIT_RESUMABLES':{
+            return {
+                ...state, resumables: action.payload
+            }
+        }
+        case 'INIT_EVENTS': {
             return {
                 ...state,
-                files: _.isEmpty(state.files.filter(file => file.uniqueIdentifier === action.payload.file.uniqueIdentifier))
-                    ? [...state.files, action.payload.file]
-                    : [...state.files],
-                progress: action.payload.progress
+                resumables: state.resumables.map(el => el.r === action.payload ? { ...el, events: true } : el)
             }
-        case 'SET_TYPE':
+        }
+        case 'SET_RESUMABLE':
             return {
                 ...state,
-                type: action.payload.type,
-                message: action.payload.message
+                resumables: state.resumables.map((el) => el.id === action.payload ? { ...el, active: true } : { ...el, active: false })
             }
+        case 'SET_STATUS':
+            return {
+                ...state,
+                resumables: state.resumables.map(el=>el.id===action.payload.id?{...el, status: action.payload.status}:el)
+            }    
     }
 }
 
-export function updateProgress(payload) {
-    return { type: 'UPDATE_PROGRESS', payload }
+export function initResumables(payload){
+    return {type: 'INIT_RESUMABLES', payload}
 }
 
-export function setTypeOfNotify(payload) {
-    return { type: 'SET_TYPE', payload }
+export function initEvents(payload) {
+    return { type: 'INIT_EVENTS', payload }
 }
 
-// export function resumableAppend(payload) {
-//     return { type: 'APPEND_RESUMABLE', payload }
-// }
+export function setResumable(payload) {
+    return { type: 'SET_RESUMABLE', payload }
+}
+
+export function setStatus(payload){
+    return {type: 'SET_STATUS', payload}
+}
 
 export default function UploadProgressProvider({ children }) {
     const [state, dispatch] = useReducer(uploadContextReducer, initialState)
-    const [isOpenModal,setIsOpenModal]=React.useState(false)
+    const [isOpenModal, setIsOpenModal] = React.useState(false)
+    const [resumable, setResumable] = React.useState(null)
     const token = useSelector(selectToken)
-    const r = React.useMemo(() => {
-        console.log('resume init')
-        return new Resumablejs({
-            target: process.env.API_URL + '/tables/upload',
-            query: {},
-            fileType: ['csv'],
-            maxFiles: 4,
-            maxFileSize: 100240000,
-            // fileTypeErrorCallback: (file, errorCount) => {
-            //     if (typeof this.props.onFileAddedError === "function") {
-            //         this.props.onFileAddedError(file, errorCount);
-            //     }
-            // },
-            // maxFileSizeErrorCallback: (file, errorCount) => {
-            //     if (typeof  this.props.onMaxFileSizeErrorCallback === "function") {
-            //         this.props.onMaxFileSizeErrorCallback(file, errorCount);
-            //     }
-            // },
-            testMethod: 'post',
-            testChunks: false,
-            headers: { Authorization: `Bearer ${token}` },
-            chunkSize: 1024 * 1024,
-            simultaneousUploads: 1,
-            fileParameterName: 'file',
-            generateUniqueIdentifier: null,
-            forceChunkSize: false,
-            // uploaderID: 'upload-file',
-            // dropTargetID: 'drag-file-element'
-        })
-    }, [token])
-    React.useEffect(() => {
-        console.log('events init')
-        r?.on('fileSuccess', (file, message) => {
-            console.log('complete', { file: file, message: JSON.parse(message) })
+    const resumables=React.useMemo(()=>[
+        {
+            id: 'img',
+            status: null,
+            events: false,
+            active: false,
+            r: new Resumablejs({
+                target: process.env.API_URL + '/tables/upload',
+                query: {},
+                fileType: ['png', 'jpg', 'jpeg'],
+                maxFiles: 4,
+                maxFileSize: 100240000,
+                testMethod: 'post',
+                testChunks: false,
+                headers: { Authorization: `Bearer ${token}` },
+                chunkSize: 1024 * 1024,
+                simultaneousUploads: 1,
+                fileParameterName: 'file',
+                generateUniqueIdentifier: null,
+                forceChunkSize: false,
+            })
+        },
+        {
+            id: 'tables',
+            status: null,
+            events: false,
+            active: false,
+            r: new Resumablejs({
+                target: process.env.API_URL + '/tables/upload',
+                query: {},
+                fileType: ['csv'],
+                maxFiles: 4,
+                maxFileSize: 100240000,
+                testMethod: 'post',
+                testChunks: false,
+                headers: { Authorization: `Bearer ${token}` },
+                chunkSize: 1024 * 1024,
+                simultaneousUploads: 1,
+                fileParameterName: 'file',
+                generateUniqueIdentifier: null,
+                forceChunkSize: false,
+            })
+        }
+    ],[])
+    function appendEvents() {
+        resumable?.r?.on('fileSuccess', (file, message) => {
+            dispatch(setStatus({id: resumable.id, status: 'success'}))
             r?.removeFile(file)
             //postFile({id:params.id,file: JSON.parse(message).message,withDeletion:true})
         })
 
-        r?.on('error', (message, file) => {
+        resumable?.r?.on('error', (message, file) => {
             console.log('error', { file: file, message: message })
-            //r?.removeFile(file)
-            r?.pause()
-            dispatch(setTypeOfNotify({type: 'error', message: 'Произошла ошибка при загрузке файла ' + file.fileName + JSON.parse(message)?.message}))
+            dispatch(setStatus({id: resumable.id, status: 'error'}))
+            //resumable?.r?.removeFile(file)
+            //r?.pause()
+            //dispatch(setTypeOfNotify({ type: 'error', message: `Произошла ошибка при загрузке файла ${file.fileName} ${JSON.parse(message)?.message}` }))
             //dispatch(addNotify({type: 'error', message: `Произошла ошибка при загрузке ${file.fileName}`}))
         })
 
-        r?.on('filesAdded', (files) => {
+        resumable?.r?.on('filesAdded', (files) => {
             console.log('filesAdded', files)
             //setFileList(files)
             setIsOpenModal(true)
         })
 
-        r?.on('pause', () => {
+        resumable?.r?.on('pause', () => {
             console.log('pause')
+            disp
         })
 
-        r?.on('fileProgress', (file) => {
-            dispatch(updateProgress({ file: file, progress: r?.progress() * 100 }))
-
+        resumable?.r?.on('fileProgress', (file) => {
+            //dispatch(updateProgress({ file: file, progress: resumable?.r?.progress() * 100 }))
         })
 
-        r?.on('cancel', () => {
+        resumable?.r?.on('cancel', () => {
             console.log('cancel', 'Загрузка отменена')
         })
-        r?.on('uploadStart', () => {
+        resumable?.r?.on('uploadStart', () => {
             console.log('uploadStart', 'Загрузка началась')
+            dispatch(setStatus({id: resumable.id, status: 'progress'}))
         })
-    }, [])
+    }
+    React.useEffect(()=>{
+        _.isEmpty(state.resumables)&&dispatch(initResumables(resumables))
+    },[])
+    React.useEffect(() => {
+        if (!isNil(resumable) && resumable.events !== true) {
+            dispatch(initEvents(resumable.r))
+            appendEvents()
+        }
+    }, [resumable])
+    React.useEffect(() => {
+        if (!isNil(state.resumables.find(el => el.active))) {
+            setResumable(state.resumables.find(el => el.active))
+        }
+    }, [state.resumables])
     return (<>
-        <UploadContext.Provider value={[state, dispatch, r]}>
+        <UploadContext.Provider value={[state, dispatch, resumable?.r]}>
             {children}
-            <UploaderModal 
-            isOpen={isOpenModal} 
-            setIsOpen={setIsOpenModal} />
+            {!isNil(resumable)
+                && <UploaderModal
+                    isOpen={isOpenModal}
+                    setIsOpen={setIsOpenModal} />}
         </UploadContext.Provider>
-        
-        </>
+    </>
     )
 }
 

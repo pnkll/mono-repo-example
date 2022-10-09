@@ -5,44 +5,14 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import Resumablejs from 'resumablejs'
-import { addCallback, resumableAppend, setTypeOfNotify, updateProgress, UploadContext } from '../../Providers/UploadNotify';
+import { addCallback, resumableAppend, setResumable, setTypeOfNotify, updateProgress, UploadContext } from '../../Providers/UploadNotify';
 import { tableApi } from '../../services/TableService';
 import { selectToken } from '../../store/slices/appSlice';
 import { addNotify } from '../../store/slices/notificationsSlice';
+import Button from '../Button/Button';
 import UploaderModal from '../UploaderModal/UploaderModal';
 import s from './Uploader.module.scss'
 
-
-
-// const resumable = (token)=>{
-//     return new Resumablejs({
-//     target: process.env.API_URL+'/tables/upload',
-//     query: {},
-//     fileType: ['csv'],
-//     maxFiles: 2,
-//     maxFileSize: 100240000,
-//     // fileTypeErrorCallback: (file, errorCount) => {
-//     //     if (typeof this.props.onFileAddedError === "function") {
-//     //         this.props.onFileAddedError(file, errorCount);
-//     //     }
-//     // },
-//     // maxFileSizeErrorCallback: (file, errorCount) => {
-//     //     if (typeof  this.props.onMaxFileSizeErrorCallback === "function") {
-//     //         this.props.onMaxFileSizeErrorCallback(file, errorCount);
-//     //     }
-//     // },
-//     testMethod: 'post',
-//     testChunks: false,
-//     headers: {Authorization: `Bearer ${token}`},
-//     chunkSize: 1024 * 1024,
-//     simultaneousUploads: 1,
-//     fileParameterName: 'file',
-//     generateUniqueIdentifier: null,
-//     forceChunkSize: false,
-//     uploaderID: 'upload-file',
-//     dropTargetID: 'drag-file-element'
-// })
-// }
 
 
 
@@ -69,7 +39,10 @@ export default function Uploader({ width = 40 }) {
         if (e.dataTransfer?.files && e.dataTransfer?.files[0]) {
             r?.addFiles(e.dataTransfer?.files)
         }
-    }   
+    }
+    useEffect(()=>{
+        dispatch(setResumable('tables'))
+    },[])   
     return (
         <>
             <form
@@ -102,7 +75,6 @@ export default function Uploader({ width = 40 }) {
                         onDragOver={handleDrag}
                         onDrop={handleDrop}
                     />}
-                
             </form>
             {/* <UploaderModal isOpen={isOpenModal} setIsOpen={setIsOpenModal} callback={modalCallback} resumable={r} fileList={r.files} setFileList={setFileList}/> */}
         </>

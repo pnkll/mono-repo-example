@@ -1,16 +1,9 @@
-import _, { isNil } from 'lodash';
+import _ from 'lodash';
 import React from 'react';
 import { useContext } from 'react';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import Resumablejs from 'resumablejs'
-import { addCallback, resumableAppend, setResumable, setTypeOfNotify, updateProgress, UploadContext } from '../../Providers/UploadNotify';
-import { tableApi } from '../../services/TableService';
-import { selectToken } from '../../store/slices/appSlice';
-import { addNotify } from '../../store/slices/notificationsSlice';
-import Button from '../Button/Button';
-import UploaderModal from '../UploaderModal/UploaderModal';
+import {setResumable, UploadContext } from '../../Providers/UploadNotify';
+
 import s from './Uploader.module.scss'
 
 
@@ -76,7 +69,6 @@ export default function Uploader({ width = 40 }) {
                         onDrop={handleDrop}
                     />}
             </form>
-            {/* <UploaderModal isOpen={isOpenModal} setIsOpen={setIsOpenModal} callback={modalCallback} resumable={r} fileList={r.files} setFileList={setFileList}/> */}
         </>
     )
 }

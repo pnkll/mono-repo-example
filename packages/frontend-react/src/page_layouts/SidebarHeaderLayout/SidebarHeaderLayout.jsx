@@ -39,7 +39,7 @@ export default function SidebarHeaderLayout({ children }) {
                             {(!_.isEmpty(notificationsList)||!_.isEmpty(state.resumables))
                                 && <div className="sidebar-header-layout__content__notifications__wrapper">
                                     {state.resumables.map(el=>!isNil(el.status)
-                                    &&<UploadNotification key={el.id} id={el.id} status={el.status} resumable={el.r} dispatch={dispatch}/>)}
+                                    &&<UploadNotification key={el.id} id={el.id} status={el.status} resumable={el.r} progress={el.progress} dispatch={dispatch}/>)}
                                     {!_.isEmpty(notificationsList)&&notificationsList.map(el => <Notification key={el.id} id={el.id} type={el.type} message={el.message} />)}
                                 </div>}
                             <Outlet />

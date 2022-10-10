@@ -44,7 +44,7 @@ export default function TableById() {
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                     setFilterData={setFilterData}
-                    emptyCell={<DragNDropCell id={params.id} />}
+                    emptyCell={<DragNDropCell id={params.id}/>}
                     buttons={buttons}
                 />}
             </TransitionLayout>

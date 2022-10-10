@@ -1,8 +1,5 @@
 import _, { isNil } from "lodash";
-import { set } from "lodash";
 import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
 import { useReducer } from "react";
 import { useSelector } from "react-redux";
 import Resumablejs from 'resumablejs'
@@ -39,6 +36,11 @@ function uploadContextReducer(state, action) {
                 ...state,
                 resumables: state.resumables.map(el=>el.id===action.payload.id?{...el, status: action.payload.status}:el)
             }    
+        case 'SET_PROGRESS':
+            return {
+                ...state,
+                resumables: state.resumables.map(el=>el.id === action.payload.id?{...el, progress: action.payload.progress}:el)
+            }    
     }
 }
 
@@ -58,6 +60,10 @@ export function setStatus(payload){
     return {type: 'SET_STATUS', payload}
 }
 
+export function setProgress(payload){
+    return {type: 'SET_PROGRESS',payload}
+}
+
 export default function UploadProgressProvider({ children }) {
     const [state, dispatch] = useReducer(uploadContextReducer, initialState)
     const [isOpenModal, setIsOpenModal] = React.useState(false)
@@ -69,6 +75,8 @@ export default function UploadProgressProvider({ children }) {
             status: null,
             events: false,
             active: false,
+            meta: null,
+            progress: null,
             r: new Resumablejs({
                 target: process.env.API_URL + '/tables/upload',
                 query: {},
@@ -83,13 +91,15 @@ export default function UploadProgressProvider({ children }) {
                 fileParameterName: 'file',
                 generateUniqueIdentifier: null,
                 forceChunkSize: false,
-            })
+            }),
         },
         {
             id: 'tables',
             status: null,
             events: false,
             active: false,
+            meta: null,
+            progress: null,
             r: new Resumablejs({
                 target: process.env.API_URL + '/tables/upload',
                 query: {},
@@ -110,7 +120,7 @@ export default function UploadProgressProvider({ children }) {
     function appendEvents() {
         resumable?.r?.on('fileSuccess', (file, message) => {
             dispatch(setStatus({id: resumable.id, status: 'success'}))
-            r?.removeFile(file)
+            resumable?.r?.removeFile(file)
             //postFile({id:params.id,file: JSON.parse(message).message,withDeletion:true})
         })
 
@@ -130,12 +140,12 @@ export default function UploadProgressProvider({ children }) {
         })
 
         resumable?.r?.on('pause', () => {
+            dispatch(setStatus({id: resumable.id, status: 'pause'}))
             console.log('pause')
-            disp
         })
 
         resumable?.r?.on('fileProgress', (file) => {
-            //dispatch(updateProgress({ file: file, progress: resumable?.r?.progress() * 100 }))
+            dispatch(setProgress({id: resumable.id, progress: Math.floor(resumable?.r?.progress()*100)}))
         })
 
         resumable?.r?.on('cancel', () => {

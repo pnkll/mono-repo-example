@@ -12,6 +12,7 @@ export default function Sidebar({ collapsed }) {
         { open: false },
         { open: false },
         { open: false },
+        { open: false },
     ])
     return (
         <>
@@ -42,6 +43,7 @@ export default function Sidebar({ collapsed }) {
                             open={subMenu[2].open}
                             onOpenChange={() => setSubMenu(subMenu.map((el, index) => index === 2 ? { ...el, open: !el.open } : { ...el, open: false }))}>
                             <MenuItem><Link to='../tasks'>Все</Link></MenuItem>
+                            <MenuItem><Link to='../events'>Календарь</Link></MenuItem>
                         </SubMenu>
                     </Menu>
                 </SidebarContent>

@@ -21,6 +21,7 @@ import TableById from "../pages/TableList/TableById/TableById.jsx"
 import Page404 from "../pages/Page404/Page404.jsx"
 import TaskList from "../pages/TaskList/TaskList.jsx"
 import TaskById from "../pages/TaskList/TaskById/TaskById"
+import EventsList from "../pages/EventsList/EventsList.jsx"
 
 export const routes = (token) => {
     if (token) {
@@ -48,7 +49,8 @@ export const routes = (token) => {
                     { path: 'tables', breadcrumb: 'Список таблиц', element: <TableList /> },
                     { path: 'tables/:id', breadcrumb: 'Таблица', element: <TableById /> },
                     { path: 'tasks',breadcrumb: 'Список задач', element: <TaskList/>},
-                    { path: 'tasks/:id',breadcrumb: 'Задача', element: <TaskById/>}
+                    { path: 'tasks/:id',breadcrumb: 'Задача', element: <TaskById/>},
+                    { path: 'events', breadcrumb: 'События', element: <EventsList/>}
                 ]
             },
         ]

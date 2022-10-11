@@ -216,7 +216,6 @@ export default function UploadProgressProvider({ children }) {
             !isNil(resumable?.response) && postData({ ...resumable.body, file: resumable.response })
         // }
     }, [resumable?.response])
-    console.log('resumable',resumable)
     return (<>
         <UploadContext.Provider value={[state, dispatch, resumable?.r]}>
             {children}

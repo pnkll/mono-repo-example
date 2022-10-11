@@ -20,6 +20,7 @@ import { useEffect } from 'react';
 import { selectCurrentUser } from '../../store/slices/userSlice.js';
 import moment from 'moment/moment.js';
 import { taskApi } from '../../services/TaskService.js';
+import { format } from 'date-fns';
 
 export default React.memo(function Task() {
     //'632b2c90050946e0628bc7fb,632db358a457c421276b7a86'
@@ -87,7 +88,7 @@ export default React.memo(function Task() {
         .reduce((prev,item)=>{
             return {...prev, [Object.keys(item)[0]]: Object.values(item)[0]}
         },{})
-        postTask(body)
+        postTask({...body, plannedDate: moment(values.plannedDate).format('DD.MM.YYYY'), finishedDate: moment(values.finishedDate).format('DD.MM.YYYY'),fireDate: moment(values.fireDate).format('DD.MM.YYYY')})
     }
     console.log(taskType)
     return (

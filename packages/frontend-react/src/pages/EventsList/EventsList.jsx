@@ -3,7 +3,6 @@ import React from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useNavigate } from 'react-router-dom';
-import Button from '../../components/Button/Button'
 import 'moment/locale/ru';
 import BigCalendar from '../../components/BigCalendar/BigCalendar';
 

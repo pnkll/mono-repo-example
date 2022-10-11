@@ -20,7 +20,6 @@ export default function DatePicker({ formik, id, name, placeholder, showTimeSele
             }
         })
     }, [date])
-
     return (
         <>
             <div className="date-picker__container">

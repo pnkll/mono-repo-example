@@ -4,6 +4,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from 'moment/moment';
 import 'moment/locale/ru';
 import { isNil } from 'lodash';
+import CalendarModal from '../CalendarModal/CalendarModal';
 
 export default function BigCalendar({events,selectable,groups=false}){
 
@@ -36,6 +37,15 @@ export default function BigCalendar({events,selectable,groups=false}){
 
     const localizer = momentLocalizer(moment)
 
+    const [showModal,setShowModal]=React.useState(false)
+    const [data,setData]=React.useState(null)
+    function handleSelect(data){
+        setData(data)
+        setShowModal(true)
+    }
+    React.useEffect(()=>{
+        !showModal&&setData(null)
+    },[showModal])
    return(
        <>
        <Calendar
@@ -50,10 +60,11 @@ export default function BigCalendar({events,selectable,groups=false}){
                 resourceIdAccessor={'resourceId'}
                 resourceTitleAccessor={'resourceTitle'}
                 selectable={selectable}
-                onSelecting={() => console.log('selecting')}
+                onSelecting={()=>{}}
                 onSelectEvent={() => console.log('select event')}
-                onSelectSlot={(e) => console.log('select slot', e)}
+                onSelectSlot={handleSelect}
             />
+        {showModal&&<CalendarModal isOpen={showModal} setIsOpen={setShowModal} data={data}/>}
        </>
    )
 }

@@ -10,7 +10,7 @@ import { useRef } from 'react';
 import { useEffect } from 'react';
 import { isNil } from 'lodash';
 
-export default function DragNDropCell({ width = 40, id, styleContainer, styleLabel, }) {
+export default function DragNDropCell({ width = 40, id, styleContainer, styleLabel, rtkHook }) {
     const [postData, { data, error }] = tableApi.useUploadFileMutation()
     function createFormData(file) {
         console.log(file)
@@ -24,7 +24,7 @@ export default function DragNDropCell({ width = 40, id, styleContainer, styleLab
     }
     return (
         <>
-            <Uploader/>
+            <Uploader rtkHook={rtkHook}/>
         </>
     )
 }

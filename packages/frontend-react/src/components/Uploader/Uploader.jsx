@@ -2,14 +2,14 @@ import _ from 'lodash';
 import React from 'react';
 import { useContext } from 'react';
 import { useEffect } from 'react';
-import {setResumable, UploadContext } from '../../Providers/UploadNotify';
+import {setHook, setResumable, UploadContext } from '../../Providers/UploadNotify';
 
 import s from './Uploader.module.scss'
 
 
 
 
-export default function Uploader({ width = 40 }) {
+export default function Uploader({ width = 40, rtkHook }) {
 
     const [dragActive, setDragActive] = React.useState(false);
 
@@ -35,6 +35,7 @@ export default function Uploader({ width = 40 }) {
     }
     useEffect(()=>{
         dispatch(setResumable('tables'))
+        dispatch(setHook({id: 'tables', rtkHook: rtkHook}))
     },[])   
     return (
         <>

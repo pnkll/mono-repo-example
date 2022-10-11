@@ -15,7 +15,7 @@ const initialState = {
 
 function uploadContextReducer(state, action) {
     switch (action.type) {
-        case 'INIT_RESUMABLES':{
+        case 'INIT_RESUMABLES': {
             return {
                 ...state, resumables: action.payload
             }
@@ -34,18 +34,45 @@ function uploadContextReducer(state, action) {
         case 'SET_STATUS':
             return {
                 ...state,
-                resumables: state.resumables.map(el=>el.id===action.payload.id?{...el, status: action.payload.status}:el)
-            }    
+                resumables: state.resumables.map(el => el.id === action.payload.id ? { ...el, status: action.payload.status } : el)
+            }
         case 'SET_PROGRESS':
             return {
                 ...state,
-                resumables: state.resumables.map(el=>el.id === action.payload.id?{...el, progress: action.payload.progress}:el)
-            }    
+                resumables: state.resumables.map(el => el.id === action.payload.id ? { ...el, progress: action.payload.progress } : el)
+            }
+        case 'SET_RESPONSE':
+            return {
+                ...state,
+                response: state.resumable.map(el => el.id === action.payload.id ? { ...el, response: action.payload.response } : el)
+            }
+        case 'SET_HOOK':
+            return {
+                ...state,
+                resumables: state.resumable.map(el => el.id === action.payload.id ? { ...el, rtkHook: action.payload.rtkHook } : el)
+            }
+        case 'SET_BODY':
+            return {
+                ...state,
+                body: state.resumable.map(el => el.id === action.payload.id ? { ...el, body: action.payload.body } : el)
+            }
     }
 }
 
-export function initResumables(payload){
-    return {type: 'INIT_RESUMABLES', payload}
+export function setBody(payload) {
+    return { type: 'SET_BODY', payload }
+}
+
+export function setHook(payload) {
+    return { type: 'SET_HOOK', payload }
+}
+
+export function setResponse(payload) {
+    return { type: 'SET_RESPONSE', payload }
+}
+
+export function initResumables(payload) {
+    return { type: 'INIT_RESUMABLES', payload }
 }
 
 export function initEvents(payload) {
@@ -56,27 +83,31 @@ export function setResumable(payload) {
     return { type: 'SET_RESUMABLE', payload }
 }
 
-export function setStatus(payload){
-    return {type: 'SET_STATUS', payload}
+export function setStatus(payload) {
+    return { type: 'SET_STATUS', payload }
 }
 
-export function setProgress(payload){
-    return {type: 'SET_PROGRESS',payload}
+export function setProgress(payload) {
+    return { type: 'SET_PROGRESS', payload }
 }
 
 export default function UploadProgressProvider({ children }) {
     const [state, dispatch] = useReducer(uploadContextReducer, initialState)
     const [isOpenModal, setIsOpenModal] = React.useState(false)
     const [resumable, setResumable] = React.useState(null)
+    //const [postData]=tableApi.useTableMutation()
+    console.log(resumable?.rtkHook())
     const token = useSelector(selectToken)
-    const resumables=React.useMemo(()=>[
+    const resumables = React.useMemo(() => [
         {
             id: 'img',
             status: null,
             events: false,
             active: false,
-            meta: null,
+            response: null,
+            body: null,
             progress: null,
+            rtkHook: null,
             r: new Resumablejs({
                 target: process.env.API_URL + '/tables/upload',
                 query: {},
@@ -98,8 +129,10 @@ export default function UploadProgressProvider({ children }) {
             status: null,
             events: false,
             active: false,
-            meta: null,
+            response: null,
+            body: null,
             progress: null,
+            rtkHook: null,
             r: new Resumablejs({
                 target: process.env.API_URL + '/tables/upload',
                 query: {},
@@ -116,17 +149,18 @@ export default function UploadProgressProvider({ children }) {
                 forceChunkSize: false,
             })
         }
-    ],[])
+    ], [])
     function appendEvents() {
         resumable?.r?.on('fileSuccess', (file, message) => {
-            dispatch(setStatus({id: resumable.id, status: 'success'}))
+            dispatch(setStatus({ id: resumable.id, status: 'success' }))
+            dispatch(setResponse({ id: resumable.id, response: JSON.parse(message) }))
             resumable?.r?.removeFile(file)
             //postFile({id:params.id,file: JSON.parse(message).message,withDeletion:true})
         })
 
         resumable?.r?.on('error', (message, file) => {
             console.log('error', { file: file, message: message })
-            dispatch(setStatus({id: resumable.id, status: 'error'}))
+            dispatch(setStatus({ id: resumable.id, status: 'error' }))
             //resumable?.r?.removeFile(file)
             //r?.pause()
             //dispatch(setTypeOfNotify({ type: 'error', message: `Произошла ошибка при загрузке файла ${file.fileName} ${JSON.parse(message)?.message}` }))
@@ -140,12 +174,12 @@ export default function UploadProgressProvider({ children }) {
         })
 
         resumable?.r?.on('pause', () => {
-            dispatch(setStatus({id: resumable.id, status: 'pause'}))
+            dispatch(setStatus({ id: resumable.id, status: 'pause' }))
             console.log('pause')
         })
 
         resumable?.r?.on('fileProgress', (file) => {
-            dispatch(setProgress({id: resumable.id, progress: Math.floor(resumable?.r?.progress()*100)}))
+            dispatch(setProgress({ id: resumable.id, progress: Math.floor(resumable?.r?.progress() * 100) }))
         })
 
         resumable?.r?.on('cancel', () => {
@@ -153,12 +187,12 @@ export default function UploadProgressProvider({ children }) {
         })
         resumable?.r?.on('uploadStart', () => {
             console.log('uploadStart', 'Загрузка началась')
-            dispatch(setStatus({id: resumable.id, status: 'progress'}))
+            dispatch(setStatus({ id: resumable.id, status: 'progress' }))
         })
     }
-    React.useEffect(()=>{
-        _.isEmpty(state.resumables)&&dispatch(initResumables(resumables))
-    },[])
+    React.useEffect(() => {
+        _.isEmpty(state.resumables) && dispatch(initResumables(resumables))
+    }, [])
     React.useEffect(() => {
         if (!isNil(resumable) && resumable.events !== true) {
             dispatch(initEvents(resumable.r))
@@ -170,6 +204,13 @@ export default function UploadProgressProvider({ children }) {
             setResumable(state.resumables.find(el => el.active))
         }
     }, [state.resumables])
+    React.useEffect(() => {
+        const [postData] = !isNil(resumable?.rtkHook) ? () => { } : resumable.rtkHook()
+        if (postData instanceof Function) {
+            console.log(typeof(postData))
+            !isNil(resumable?.response) && postData({ ...resumable.body, file: resumable.response.message })
+        }
+    }, [resumable?.response])
     return (<>
         <UploadContext.Provider value={[state, dispatch, resumable?.r]}>
             {children}

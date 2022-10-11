@@ -4,11 +4,13 @@ import React from 'react';
 import { useContext } from 'react';
 import { useEffect } from 'react';
 import ReactModal from 'react-modal';
-import { UploadContext } from '../../Providers/UploadNotify';
+import { useParams } from 'react-router-dom';
+import { setBody, UploadContext } from '../../Providers/UploadNotify';
 import Button from '../Button/Button';
 import s from './UploaderModal.module.scss'
 
 export default function UploaderModal({ isOpen, setIsOpen }) {
+    const params = useParams()
     ReactModal.setAppElement('#root');
     const [state,dispatch,r]=useContext(UploadContext)
     const [files,setFiles]=React.useState(r.files)
@@ -26,6 +28,8 @@ export default function UploaderModal({ isOpen, setIsOpen }) {
     function handleSend() {
         setIsOpen(false)
         r.upload()
+        dispatch(setBody({id: 'tables',body: {id: params.id, withDeletion: true}}))
+        
     }
     async function handleClose() { 
         r.cancel()

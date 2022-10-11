@@ -9,8 +9,7 @@ import { setBody, UploadContext } from '../../Providers/UploadNotify';
 import Button from '../Button/Button';
 import s from './UploaderModal.module.scss'
 
-export default function UploaderModal({ isOpen, setIsOpen }) {
-    const params = useParams()
+export default function UploaderModal({ isOpen, setIsOpen, }) {
     ReactModal.setAppElement('#root');
     const [state,dispatch,r]=useContext(UploadContext)
     const [files,setFiles]=React.useState(r.files)
@@ -28,7 +27,7 @@ export default function UploaderModal({ isOpen, setIsOpen }) {
     function handleSend() {
         setIsOpen(false)
         r.upload()
-        dispatch(setBody({id: 'tables',body: {id: params.id, withDeletion: true}}))
+        dispatch(setBody({id: 'tables',body: {id: location.pathname.split('/')[2], withDeletion: true}}))
         
     }
     async function handleClose() { 

@@ -4,6 +4,7 @@ import { useReducer } from "react";
 import { useSelector } from "react-redux";
 import Resumablejs from 'resumablejs'
 import UploaderModal from "../components/UploaderModal/UploaderModal";
+import { tableApi } from "../services/TableService";
 import { selectToken } from "../store/slices/appSlice";
 
 export const UploadContext = React.createContext()
@@ -44,17 +45,17 @@ function uploadContextReducer(state, action) {
         case 'SET_RESPONSE':
             return {
                 ...state,
-                response: state.resumable.map(el => el.id === action.payload.id ? { ...el, response: action.payload.response } : el)
+                resumables: state.resumables.map(el => el.id === action.payload.id ? { ...el, response: action.payload.response.message } : el)
             }
         case 'SET_HOOK':
             return {
                 ...state,
-                resumables: state.resumable.map(el => el.id === action.payload.id ? { ...el, rtkHook: action.payload.rtkHook } : el)
+                resumables: state.resumables.map(el => el.id === action.payload.id ? { ...el, rtkHook: action.payload.rtkHook } : el)
             }
         case 'SET_BODY':
             return {
                 ...state,
-                body: state.resumable.map(el => el.id === action.payload.id ? { ...el, body: action.payload.body } : el)
+                resumables: state.resumables.map(el => el.id === action.payload.id ? { ...el, body: action.payload.body } : el)
             }
     }
 }
@@ -68,6 +69,7 @@ export function setHook(payload) {
 }
 
 export function setResponse(payload) {
+    console.log('response',payload)
     return { type: 'SET_RESPONSE', payload }
 }
 
@@ -95,8 +97,10 @@ export default function UploadProgressProvider({ children }) {
     const [state, dispatch] = useReducer(uploadContextReducer, initialState)
     const [isOpenModal, setIsOpenModal] = React.useState(false)
     const [resumable, setResumable] = React.useState(null)
-    //const [postData]=tableApi.useTableMutation()
-    console.log(resumable?.rtkHook())
+    const [postData]=tableApi.useUploadFileMutation()
+    //tableApi.useUploadFileMutation()
+    //const [postData] = !isNil(resumable?.rtkHook)?()=>{}: tableApi.useUploadFileMutation() 
+    //!isNil(resumable?.rtkHook) ? () => { } : resumable.rtkHook()
     const token = useSelector(selectToken)
     const resumables = React.useMemo(() => [
         {
@@ -107,7 +111,7 @@ export default function UploadProgressProvider({ children }) {
             response: null,
             body: null,
             progress: null,
-            rtkHook: null,
+            rtkHook: tableApi.useUploadFileMutation,
             r: new Resumablejs({
                 target: process.env.API_URL + '/tables/upload',
                 query: {},
@@ -132,7 +136,7 @@ export default function UploadProgressProvider({ children }) {
             response: null,
             body: null,
             progress: null,
-            rtkHook: null,
+            rtkHook: tableApi.useUploadFileMutation,
             r: new Resumablejs({
                 target: process.env.API_URL + '/tables/upload',
                 query: {},
@@ -205,12 +209,14 @@ export default function UploadProgressProvider({ children }) {
         }
     }, [state.resumables])
     React.useEffect(() => {
-        const [postData] = !isNil(resumable?.rtkHook) ? () => { } : resumable.rtkHook()
-        if (postData instanceof Function) {
-            console.log(typeof(postData))
-            !isNil(resumable?.response) && postData({ ...resumable.body, file: resumable.response.message })
-        }
+        //const [postData] = tableApi.useUploadFileMutation() 
+        //!isNil(resumable?.rtkHook) ? () => { } : resumable.rtkHook()
+        // if (postData instanceof Function) {
+        //     console.log(typeof(postData))
+            !isNil(resumable?.response) && postData({ ...resumable.body, file: resumable.response })
+        // }
     }, [resumable?.response])
+    console.log('resumable',resumable)
     return (<>
         <UploadContext.Provider value={[state, dispatch, resumable?.r]}>
             {children}

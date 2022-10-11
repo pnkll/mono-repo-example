@@ -1,4 +1,5 @@
 import { isNil } from 'lodash'
+import { addNotify } from '../store/slices/notificationsSlice'
 import { Api } from './api'
 
 // Define a service using a base URL and expected endpoints
@@ -20,7 +21,16 @@ export const tableApi = Api.injectEndpoints({
                     file: file,
                     withDeletion: withDeletion,
                 }
-            })
+            }),
+            async onQueryStarted(id,{dispatch,queryFulfilled}){
+                try {
+                    const {data}=await queryFulfilled
+                    dispatch(addNotify({type: 'success', message: 'Данные успешно загружены в таблицу'}))
+
+                } catch (error) {
+                    dispatch(addNotify({type: 'success', message: 'Произошла ошибка при загрузке данных в таблицу'}))
+                }
+            }
         }),
         getTables: builder.query({
             query: (sort) => ({

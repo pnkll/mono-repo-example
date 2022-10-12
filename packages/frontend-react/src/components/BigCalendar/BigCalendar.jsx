@@ -1,6 +1,7 @@
 import React from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
-import "react-big-calendar/lib/css/react-big-calendar.css";
+//import "react-big-calendar/lib/css/react-big-calendar.css";
+import './BigCalendar.scss'
 import moment from 'moment/moment';
 import 'moment/locale/ru';
 import { isNil } from 'lodash';

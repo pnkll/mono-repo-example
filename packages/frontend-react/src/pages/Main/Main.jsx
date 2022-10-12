@@ -3,17 +3,22 @@ import TransitionLayout from "../../page_layouts/TransitionLayout/TransitionLayo
 import Select from '../../components/Select/Select'
 import Multiselect from "multiselect-react-dropdown";
 import { setResumable, UploadContext } from "../../Providers/UploadNotify.jsx";
+import DatePicker from "../../components/DatePicker/DatePicker.jsx";
+import { useFormik } from "formik";
+import moment from "moment";
 
 export default function Main() {
-    const [state,dispatch,r]=React.useContext(UploadContext)
-    React.useEffect(()=>{
-        dispatch(setResumable('img'))
-    },[])
+
+    const formik = useFormik({
+        initialValues: {
+            date: new Date()
+        }
+    })
     return (
         <>
             <TransitionLayout>
                 main
-                <input type='file' onChange={(e)=>r.addFiles(e.target.files)}/>
+                <DatePicker formik={formik} id='date' name='date'/>
             </TransitionLayout>
         </>
     )

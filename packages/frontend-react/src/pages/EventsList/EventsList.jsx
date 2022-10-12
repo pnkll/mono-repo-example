@@ -21,12 +21,13 @@ export default function EventsList() {
             description: task.description,
             allDay: true,
             resourceId: 'task',
-            title: <span onClick={() => navigate(`../tasks/${task._id}`)}>{task.title}</span>
+            title: <span className={`rbc-content priority-${task.priority}`} onClick={() => navigate(`../tasks/${task._id}`)}>{task.title}</span>
         })
         , [tasks])
     return (
         <>
             <BigCalendar
+            
                 events={events}
                 selectable
             />
@@ -59,7 +60,7 @@ export const tasks = [
         "executor": "632b2db1050946e0628bc835",
         "AI_assigned": false,
         "status": "task_created",
-        "priority": 2,
+        "priority": 1,
         "linkedContent": [],
         "fireDate": "2022-10-15T09:29:41.845Z",
         "finishedDate": "2022-10-14T09:29:41.845Z",
@@ -95,7 +96,7 @@ export const tasks = [
         "executor": "632b2db1050946e0628bc835",
         "AI_assigned": false,
         "status": "task_created",
-        "priority": 2,
+        "priority": 4,
         "linkedContent": [],
         "fireDate": "2022-10-15T09:29:41.845Z",
         "finishedDate": "2022-10-14T09:29:41.845Z",
@@ -113,7 +114,7 @@ export const tasks = [
         "executor": "632b2db1050946e0628bc835",
         "AI_assigned": false,
         "status": "task_created",
-        "priority": 2,
+        "priority": 3,
         "linkedContent": [],
         "fireDate": "2022-10-15T09:29:41.845Z",
         "finishedDate": "2022-10-11T09:56:41.845Z",

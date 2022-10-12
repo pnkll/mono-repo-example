@@ -8,9 +8,10 @@ import moment from "moment/moment";
 
 export default function DatePicker({ formik, id, name, placeholder, showTimeSelect=false, timeIntervals=30, className, label,required,format="yyyy/MM/dd HH:mm",locale=ru,formatDate }) {
 
-    const [date, setDate] = useState()
+    const [date, setDate] = useState(formik.values[name])
 
     useEffect(() => {
+        console.log(date)
         formik?.handleChange({
             target: {
                 type: "change",
@@ -26,7 +27,7 @@ export default function DatePicker({ formik, id, name, placeholder, showTimeSele
                 {label&&<label className="date-picker__label">{label}</label>}
                 <ReactDatePicker className={className || "date-picker__input"}
                     required={required}
-                    selected={formik.values[name]}
+                    selected={date}
                     startDate={date}
                     onChange={setDate}
                     showTimeSelect={showTimeSelect}

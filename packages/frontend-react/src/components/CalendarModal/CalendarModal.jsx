@@ -25,7 +25,7 @@ export default function CalendarModal({ isOpen, setIsOpen, data }) {
     const [postTask, { isFetching, isSuccess }] = taskApi.usePostTaskMutation()
 
     const customStyles = {
-        overlay: { zIndex: 100 },
+        overlay: { zIndex: 100, backgroundColor: 'rgba(255, 255, 255, 0.50)' },
         content: {
             inset: '50% auto auto 50%',
             transform: 'translate(-50%,-50%)',
@@ -34,7 +34,7 @@ export default function CalendarModal({ isOpen, setIsOpen, data }) {
         }
     }
     const options = React.useMemo(() => [
-        { label: 'Создать обращение', value: 'task' },
+        { label: 'Создать обращение', value: 'fds' },
         { label: 'Создать задачу', value: 'task' }
     ], [])
     const [type, setType] = React.useState(null)
@@ -58,28 +58,50 @@ export default function CalendarModal({ isOpen, setIsOpen, data }) {
             getTaskTypes()
         }
     }, [type])
+    function getConfig() {
+        switch (type) {
+            case 'task':
+                if (!isNil(taskType)) {
+                    return {
+                        initialValues: {
+                            taskType: taskType._id,
+                            organization: organization,
+                            title: '',
+                            description: '',
+                            executor: '',
+                            AI_assigned: '',
+                            desiredDate: '',
+                            status: '',
+                            plannedDate: new Date(data.start),
+                            fireDate: '',
+                            finishedDate: new Date(data.end),
+                            priority: taskType.priority,
+                            files: '',
+                            status: ''
+                        }
+                    }
+                } else {
+                    return null
+                }
+            case 'fds':
+                return {
+                    initialValues: {
+                        title: 'Hellso',
+                        description: '',
+                    }
+                }
+        }
+    }
     const organization = useSelector(selectCurrentUser)?.organization
     React.useEffect(() => {
-        !isNil(taskType) && setFormConfig({
-            initialValues: {
-                taskType: taskType._id,
-                organization: organization,
-                title: '',
-                description: '',
-                executor: '',
-                AI_assigned: '',
-                desiredDate: '',
-                status: '',
-                plannedDate: new Date(data.start),
-                fireDate: '',
-                finishedDate: new Date(data.end),
-                priority: taskType.priority,
-                files: '',
-                status: ''
-            }
-        })
+        if (!isNil(taskType)) {
+            setFormConfig(getConfig())
+        }
     }, [taskType])
-    async function handlePost(values) {
+    React.useEffect(() => {
+        setFormConfig(getConfig())
+    }, [type])
+    function handlePost(values) {
         console.log(moment(values.plannedDate).format('DD.MM.YYYY'))
         const body = Object.keys({ ...values })
             .map((el, index) => {
@@ -91,9 +113,9 @@ export default function CalendarModal({ isOpen, setIsOpen, data }) {
             .reduce((prev, item) => {
                 return { ...prev, [Object.keys(item)[0]]: Object.values(item)[0] }
             }, {})
-        const { status } = await postTask({
+        postTask({
             ...body,
-            //plannedDate: moment(values.plannedDate).format('DD.MM.YYYY'), finishedDate: moment(values.finishedDate).format('DD.MM.YYYY'),fireDate: moment(values.fireDate).format('DD.MM.YYYY')
+            plannedDate: moment(values.plannedDate).format('DD.MM.YYYY'), finishedDate: moment(values.finishedDate).format('DD.MM.YYYY'),fireDate: moment(values.fireDate).format('DD.MM.YYYY')
         })
     }
     React.useEffect(() => {
@@ -103,25 +125,24 @@ export default function CalendarModal({ isOpen, setIsOpen, data }) {
     if (isFetching) {
         return <>Preloader</>
     }
-
     return (
         <>
             <ReactModal
                 isOpen={isOpen}
                 onRequestClose={() => setIsOpen(false)}
                 style={customStyles}>
-                <Select options={options} handleChange={setType} />
-                {!isNil(type) && !isNil(taskTypes) &&
-                    <Select options={taskTypes} label='Категория' id='taskType' name='taskType' handleChange={setTemplate} />
+                <Select options={options} handleChange={setType} label='Форма' />
+                {type === 'task' && !isNil(taskTypes) &&
+                    <Select options={taskTypes} label='Категория задачи' id='taskType' name='taskType' handleChange={setTemplate} />
                 }
-                {!isNil(formConfig) &&
-                    <Formik key={keyOfSelect} initialValues={formConfig?.initialValues} onSubmit={handlePost}>
+                {!isNil(formConfig) && type === 'task'
+                    ? <Formik key={keyOfSelect} initialValues={formConfig?.initialValues} onSubmit={handlePost}>
                         {formik => (
                             <form onSubmit={(e) => { e.preventDefault(); formik.submitForm() }}>
                                 <Input name={'title'} id={'title'} formik={formik} label={'Название'} />
                                 <TextArea formik={formik} label={'Описание'} id='description' name='description' maxLength={250} maxRows={6} minRows={4} withAttach={true} attachId='files' />
                                 <div className="" style={{ display: 'flex' }}>
-                                    <DatePicker placeholder={'Желаемая дата'} formik={formik} id='plannedDate' name='plannedDate' showTimeSelect={true} formatDate={'DD.MM.YYYY hh:mm'} />
+                                    <DatePicker placeholder={'Желаемая дата'} formik={formik} id='plannedDate' name='plannedDate' showTimeSelect={true} />
                                     <DatePicker placeholder={'Крайний срок'} formik={formik} id='fireDate' name='fireDate' showTimeSelect={true} />
                                     <DatePicker placeholder={'Назначенная дата'} formik={formik} id='finishedDate' name='finishedDate' showTimeSelect={true} />
                                 </div>
@@ -130,6 +151,14 @@ export default function CalendarModal({ isOpen, setIsOpen, data }) {
                                 <Select formik={formik} id='status' name='status' label='Статус заявки' />
                                 <Button type='submit' text='Создать задачу' />
                             </form>)}
+                    </Formik>
+                    : !isNil(formConfig) && type === 'fds' && <Formik initialValues={formConfig?.initialValues} onSubmit={console.log}>
+                        {formik => (
+                            <form onSubmit={(e) => { e.preventDefault(); formik.submitForm() }}>
+                                <Input name='title' id='title' formik={formik} />
+                                <TextArea formik={formik} label='Desc' id='description' name='description' />
+                            </form>
+                        )}
                     </Formik>
                 }
             </ReactModal>

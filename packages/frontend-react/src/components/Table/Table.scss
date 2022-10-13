@@ -35,6 +35,7 @@ th {
         bottom: 0px;
         background: white;
         z-index: 1;
+        min-height: 30px;
         &__counts {
             display: flex;
             gap: 20px;

@@ -37,7 +37,7 @@ export default function Sidebar({ collapsed }) {
                             open={subMenu[1].open}
                             onOpenChange={() => setSubMenu(subMenu.map((el, index) => index === 1 ? { ...el, open: !el.open } : { ...el, open: false }))}>
                             <MenuItem><Link to='../tables'>Список таблиц</Link></MenuItem>
-                            <MenuItem><Link to='../tables/create'>Создать</Link></MenuItem>
+                            <MenuItem><Link to='../tables/new'>Создать</Link></MenuItem>
                         </SubMenu>
                         <SubMenu title="Задачи" icon={<ClipboardListIcon />}
                             open={subMenu[2].open}

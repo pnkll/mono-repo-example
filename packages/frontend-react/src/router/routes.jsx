@@ -34,8 +34,7 @@ export const routes = (token) => {
                     { path: 'signup', element: <Navigate to='../' /> },
                     { path: 'signin', element: <Navigate to='../' /> },
                     { path: 'demo', breadcrumb: 'Demo', element: <Demo /> },
-                    { path: 'tables/create', breadcrumb: 'Constructor', element: <TableConstructor /> },
-                    { path: 'settings/task-types', breadcrumb: 'Шаблоны', element: <TaskTypeList /> },
+                                        { path: 'settings/task-types', breadcrumb: 'Шаблоны', element: <TaskTypeList /> },
                     { path: 'settings/task-types/:id', breadcrumb: 'Шаблон', element: <TaskTypeById /> },
                     { path: 'settings/task-types/new', breadcrumb: 'Создание шаблона', element: <TaskTypeById /> },
                     { path: 'operator', breadcrumb: 'Operator', element: <Operator /> },
@@ -48,6 +47,7 @@ export const routes = (token) => {
                     { path: 'users/:id', breadcrumb: 'Сотрудник', element: <Profile /> },
                     { path: 'tables', breadcrumb: 'Список таблиц', element: <TableList /> },
                     { path: 'tables/:id', breadcrumb: 'Таблица', element: <TableById /> },
+                    { path: 'tables/new', breadcrumb: 'Редактор таблиц', element: <TableConstructor /> },
                     { path: 'tasks',breadcrumb: 'Список задач', element: <TaskList/>},
                     { path: 'tasks/:id',breadcrumb: 'Задача', element: <TaskById/>},
                     { path: 'events', breadcrumb: 'События', element: <EventsList/>}

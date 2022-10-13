@@ -5,14 +5,12 @@ import Table from '../../components/Table/Table.jsx'
 import { isNil } from 'lodash';
 import Button from '../../components/Button/Button.jsx';
 import moment from 'moment';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import useTableSort from '../../hooks/useTableSort.js';
 import PreloaderForPage from '../../components/PreloaderForPage/PreloaderForPage.jsx';
 import ErrorForPage from '../../components/ErrorForPage/ErrorForPage.jsx';
+import useQueryProps from '../../hooks/useQueryProps.js';
 
 export default function TableList() {
-    const [getTables, { data: tableList, isLoading, isFetching, isError }] = tableApi.useLazyGetTablesQuery()
     function formatDate(date) {
         return moment(date).locale('ru').format("Do MMMM YYYY")
     }
@@ -23,30 +21,27 @@ export default function TableList() {
         { Header: 'Последнее обновление', accessor: 'updatedAt', type: 'sort', sort: 0 }
     ])
     const { sort, stateColumns, sortDataCallback } = useTableSort({ columns })
-    const [itemsCount, setItemsCount] = useState(10)
-    const [page, setPage]=useState(1)
-    useEffect(() => {
-        getTables({sort:sort,limit:itemsCount,page:page})
-    }, [sort,itemsCount,page])
-    
+    const [data,limit,setLimit,page,setPage,isFetching,isLoading,isError]=useQueryProps({itemsCount:10,currentPage:1,sort,rtkHook:tableApi.useLazyGetTablesQuery})
+    const buttons = React.useMemo(() => [{ text: 'Создать', href: 'new', className: 'table__filters button' }], [])
     return (
         <>
             {isLoading&&<PreloaderForPage/>}
             {isError&&<ErrorForPage/>}
             <TransitionLayout from='right'>
-                {!isNil(tableList)
+                {!isNil(data)
                     && <Table
+                        buttons={buttons}
                         sortDataCallback={sortDataCallback}
                         columns={stateColumns}
                         isFetching={isFetching}
-                        data={tableList.docs.map(doc => doc
+                        data={data.docs.map(doc => doc
                             ? { ...doc, createdAt: formatDate(doc.createdAt), updatedAt: formatDate(doc.updatedAt) }
                             : doc)}
                         currentPage={page}
                         setCurrentPage={setPage}
-                        itemsCount={itemsCount}
-                        setItemsCount={setItemsCount}
-                        totalItemsCount={tableList.totalDocs} />}
+                        itemsCount={limit}
+                        setItemsCount={setLimit}
+                        totalItemsCount={data.totalDocs} />}
             </TransitionLayout>
         </>
     )

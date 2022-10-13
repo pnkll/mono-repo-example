@@ -5,6 +5,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useNavigate } from 'react-router-dom';
 import 'moment/locale/ru';
 import BigCalendar from '../../components/BigCalendar/BigCalendar';
+import TransitionLayout from '../../page_layouts/TransitionLayout/TransitionLayout';
 
 export default function EventsList() {
 
@@ -24,10 +25,12 @@ export default function EventsList() {
         , [tasks])
     return (
         <>
-            <BigCalendar
-                events={events}
-                selectable
-            />
+            <TransitionLayout from='bottom' overflowX='visible'>
+                <BigCalendar
+                    events={events}
+                    selectable
+                />
+            </TransitionLayout>
         </>
     )
 }

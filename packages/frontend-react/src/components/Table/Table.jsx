@@ -96,7 +96,7 @@ export default React.memo(function Table({ isFetching = false, id, setFilters, f
                                 }
                             </tbody>
                         </table>
-                        <div className="table__bottom">
+                        <div className="table__bottom" style={{justifyContent: totalItemsCount > itemsCount?'space-between':'flex-end'}}>
                             {!_.isEmpty(data)
                                 && totalItemsCount > itemsCount
                                 && <Paginate

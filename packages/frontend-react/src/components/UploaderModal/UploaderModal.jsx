@@ -8,13 +8,14 @@ import { useParams } from 'react-router-dom';
 import { setBody, UploadContext } from '../../Providers/UploadNotify';
 import Button from '../Button/Button';
 import s from './UploaderModal.module.scss'
+import ToggleInput from '../ToggleInput/ToggleInput'
 
 export default function UploaderModal({ isOpen, setIsOpen, }) {
     ReactModal.setAppElement('#root');
-    const [state,dispatch,r]=useContext(UploadContext)
-    const [files,setFiles]=React.useState(r.files)
+    const [state, dispatch, r] = useContext(UploadContext)
+    const [files, setFiles] = React.useState(r.files)
     const customStyles = {
-        overlay: { 
+        overlay: {
             zIndex: 100,
             backgroundColor: 'rgba(255, 255, 255, 0.50)'
         },
@@ -24,25 +25,27 @@ export default function UploaderModal({ isOpen, setIsOpen, }) {
             minWidth: '321px'
         }
     }
+    const [withDeletion, setWithDeletion] = React.useState(false)
     function handleSend() {
         setIsOpen(false)
         r.upload()
-        dispatch(setBody({id: 'tables',body: {id: location.pathname.split('/')[2], withDeletion: true}}))
-        
+        dispatch(setBody({ id: 'tables', body: { id: location.pathname.split('/')[2], withDeletion } }))
+
     }
-    async function handleClose() { 
+    async function handleClose() {
         r.cancel()
         setIsOpen(false)
     }
     function handleRemove(file) {
-        if(r.files.length>1){
-            setFiles(files.filter(el=>el!==file))
+        if (r.files.length > 1) {
+            setFiles(files.filter(el => el !== file))
             r.removeFile(file)
-        }else{
+        } else {
             handleClose()
         }
     }
     const [focus, setFocus] = React.useState(null)
+
     return (
         <>
             <ReactModal
@@ -53,6 +56,7 @@ export default function UploaderModal({ isOpen, setIsOpen, }) {
                     <XIcon color={'red'} width={20} onClick={handleClose} className={s['modal__x-icon']} />
                     <Button handleClick={handleSend} text='Отправить' color='blue' />
                 </div>
+                <ToggleInput checked={withDeletion} handleChange={(e) => setWithDeletion(e.target.checked)} label='Перезаписать' />
                 <div className={s['modal__file-list']}>
                     {!_.isEmpty(r.files)
                         && r.files.map(el =>

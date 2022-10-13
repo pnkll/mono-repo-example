@@ -10,10 +10,13 @@ import Filter from "./Filter/Filter.jsx"
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid"
 import HeaderSort from "./HeaderSort/HeaderSort.jsx"
 import PreloaderCell from "./PreloaderCell/PreloaderCell.jsx"
+import DragNDropCell from "../DragNDropCell/DragNDropCell.jsx"
+import { useParams } from "react-router-dom"
 
-export default React.memo(function Table({ isFetching = false, id, setFilters, filters, filter, setFilterData, setSearch, search, columns, setColumns, data, currentPage, setCurrentPage, totalItemsCount, itemsCount, classNamePrefix = 'table', setItemsCount, emptyCell = 'Ничего не найдено', label, buttons, sortDataCallback }) {
-    // сonst formatColumns =  (columns.map(column=>!isNil(column.Cell)?column:{...column, Cell: ({ cell: { value } }) => !isNil(value)?value:'—'  } ))
+export default React.memo(function Table({ isFetching = false, id, setFilters, filters, filter, setFilterData, setSearch, search, columns, setColumns, data, 
+    currentPage, setCurrentPage, totalItemsCount, itemsCount, classNamePrefix = 'table', setItemsCount, emptyCell = 'Ничего не найдено', label, buttons, sortDataCallback, dragDropMode }) {
 
+    
 
     const { prepareRow, rows, headerGroups, getTableProps, getTableBodyProps } = useTable({ columns, data })
 
@@ -37,6 +40,7 @@ export default React.memo(function Table({ isFetching = false, id, setFilters, f
 
     const [open, setOpen] = useState(true)
     const [visibleFilter, setVisibleFilter] = useState(false)
+    const params = useParams()
     return (
         <>
             <div className={`${classNamePrefix}__container`} style={{ marginBottom: open ? 0 : 24, height: `${open ? label ? 'calc(100% - 45px)' : 'calc(100% - 20px)' : 0}` }}>
@@ -71,7 +75,7 @@ export default React.memo(function Table({ isFetching = false, id, setFilters, f
                             </thead>
                             <tbody {...getTableBodyProps} className={`${classNamePrefix}__body`} style={{opacity: (fetching||isFetching)?'0.6':1}}>
                                 
-                                {rows.length > 0 ? <>
+                                {(rows.length > 0 && !dragDropMode) ? <>
                                     {rows.map((row, index) => {
                                         prepareRow(row)
                                         return <tr key={index} {...row.getRowProps()} className={`${classNamePrefix}__body__row`}>
@@ -84,7 +88,7 @@ export default React.memo(function Table({ isFetching = false, id, setFilters, f
                                         <td colSpan={columns.length} />
                                     </tr>
                                 </>
-                                    : <tr className={`${classNamePrefix}__body__row`}><td
+                                    : !dragDropMode && <tr className={`${classNamePrefix}__body__row`}><td
                                         style={{
                                             minWidth: '500px',
                                             textAlign: 'center',
@@ -94,6 +98,15 @@ export default React.memo(function Table({ isFetching = false, id, setFilters, f
                                         }}
                                         colSpan={columns.length}>{emptyCell}</td></tr>
                                 }
+                                {dragDropMode&& <tr className={`${classNamePrefix}__body__row`}><td
+                                        style={{
+                                            minWidth: '500px',
+                                            textAlign: 'center',
+                                            padding: '30px 0',
+                                            height: '100px',
+                                            background: 'white'
+                                        }}
+                                        colSpan={columns.length}><DragNDropCell id={params.id}/></td></tr>}
                             </tbody>
                         </table>
                         <div className="table__bottom" style={{justifyContent: totalItemsCount > itemsCount?'space-between':'flex-end'}}>

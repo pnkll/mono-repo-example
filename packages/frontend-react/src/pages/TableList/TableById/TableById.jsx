@@ -3,7 +3,6 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import DragNDropCell from '../../../components/DragNDropCell/DragNDropCell.jsx';
 import DragNDropModal from '../../../components/DragNDropModal/DragNDropModal.jsx';
 import Table from '../../../components/Table/Table.jsx';
 import TransitionLayout from '../../../page_layouts/TransitionLayout/TransitionLayout.jsx';
@@ -27,13 +26,15 @@ export default function TableById() {
         getTable({ table_id: params.id, limit: itemsCount, page: currentPage })
     }, [itemsCount, currentPage])
     const [isOpenModal, setIsOpenModal] = useState(false)
+    const [dragDropMode,setDragDropMode]=useState(false)
     const buttons = React.useMemo(() => [
-        { text: 'Загрузить данные', callback: () => setIsOpenModal(!isOpenModal), className:'table__filters button' },
-        { text: 'Добавить строчку', callback: () => setIsOpenModal(!isOpenModal), className:'table__filters button' }], [])
+        { text: dragDropMode?'Показать таблицу':'Загрузить данные', callback: () => setDragDropMode(!dragDropMode), className:'table__filters button' },
+        { text: 'Добавить строчку', callback: () => setIsOpenModal(!isOpenModal), className:'table__filters button' }], [dragDropMode])
     return (
         <>
             <TransitionLayout from='bottom' overflowX='hidden'>
                 {!isNil(table) && <Table
+                    dragDropMode={dragDropMode}
                     isFetching={isFetching}
                     id={params.id}
                     columns={getColumns()}
@@ -44,11 +45,11 @@ export default function TableById() {
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                     setFilterData={setFilterData}
-                    emptyCell={<DragNDropCell id={params.id} rtkHook={tableApi.useUploadFileMutation}/>}
+                    //emptyCell={<DragNDropCell id={params.id}/>}
                     buttons={buttons}
                 />}
             </TransitionLayout>
-            <DragNDropModal id={params.id} isOpen={isOpenModal} setIsOpen={setIsOpenModal}/>
+            {/* <DragNDropModal id={params.id} isOpen={isOpenModal} setIsOpen={setIsOpenModal}/> */}
         </>
     )
 }

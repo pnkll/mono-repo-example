@@ -37,7 +37,7 @@ export default function TableConstructor() {
         response.data?.status === 200 
         &&setTable({...table,id: response?.data?.message?._id, title: response?.data?.message?.title, columns: Object.values(response?.data?.message?.importSettings).map((el, index) => el && { Header: el.header, accessor: Object.keys(response?.data?.message?.importSettings)[index] })}) 
         }
-    async function submitHandler() {
+    function submitHandler() {
         setErrors([])
         let fakeErrors = []
         headers.map(header => validationSchema.validate(header, { abortEarly: false })

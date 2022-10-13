@@ -8,18 +8,16 @@ import BigCalendar from '../../components/BigCalendar/BigCalendar';
 
 export default function EventsList() {
 
-
-    
-
-
     const navigate = useNavigate()
 
     const events = React.useMemo(() =>
         tasks.map(task => task && {
-            start: task.plannedDate,
-            end: task.plannedDate,
+            id: task._id,
+            start: new Date(task.plannedDate),
+            end: new Date(task.finishedDate),
+            //end: task.plannedDate,
             description: task.description,
-            allDay: true,
+            allDay: false,
             resourceId: 'task',
             title: <span className={`rbc-content priority-${task.priority}`} onClick={() => navigate(`../tasks/${task._id}`)}>{task.title}</span>
         })
@@ -27,7 +25,6 @@ export default function EventsList() {
     return (
         <>
             <BigCalendar
-            
                 events={events}
                 selectable
             />

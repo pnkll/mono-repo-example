@@ -14,6 +14,8 @@ export default function Main() {
             date: new Date()
         }
     })
+    // console.log('moment',moment('2022-10-16T09:29:41.845Z').format())
+    // console.log('date', new Date('2022-10-16T09:29:41.845Z'))
     return (
         <>
             <TransitionLayout>

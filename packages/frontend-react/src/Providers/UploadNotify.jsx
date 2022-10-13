@@ -69,7 +69,7 @@ export function setHook(payload) {
 }
 
 export function setResponse(payload) {
-    console.log('response',payload)
+    console.log('response', payload)
     return { type: 'SET_RESPONSE', payload }
 }
 
@@ -97,10 +97,15 @@ export default function UploadProgressProvider({ children }) {
     const [state, dispatch] = useReducer(uploadContextReducer, initialState)
     const [isOpenModal, setIsOpenModal] = React.useState(false)
     const [resumable, setResumable] = React.useState(null)
-    const [postData]=tableApi.useUploadFileMutation()
-    //tableApi.useUploadFileMutation()
-    //const [postData] = !isNil(resumable?.rtkHook)?()=>{}: tableApi.useUploadFileMutation() 
-    //!isNil(resumable?.rtkHook) ? () => { } : resumable.rtkHook()
+    function getHook() {
+        switch (resumable?.id) {
+            case 'tables':
+                return tableApi.useUploadFileMutation()
+            default:
+                return tableApi.useUploadFileMutation()
+        }
+    }
+    const [postData] = getHook()
     const token = useSelector(selectToken)
     const resumables = React.useMemo(() => [
         {
@@ -209,11 +214,7 @@ export default function UploadProgressProvider({ children }) {
         }
     }, [state.resumables])
     React.useEffect(() => {
-        //const [postData] = tableApi.useUploadFileMutation() 
-        //!isNil(resumable?.rtkHook) ? () => { } : resumable.rtkHook()
-        // if (postData instanceof Function) {
-        //     console.log(typeof(postData))
-            !isNil(resumable?.response) && postData({ ...resumable.body, file: resumable.response })
+        !isNil(resumable?.response) && postData({ ...resumable.body, file: resumable.response })
         // }
     }, [resumable?.response])
     return (<>

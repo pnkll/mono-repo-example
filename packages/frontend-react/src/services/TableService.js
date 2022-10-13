@@ -10,7 +10,15 @@ export const tableApi = Api.injectEndpoints({
                 url: '/tables',
                 method: 'POST',
                 body: data,
-            })
+            }),
+            async onQueryStarted(id,{dispatch,queryFulfilled}){
+                try {
+                    const {data} = await queryFulfilled
+                    dispatch(addNotify({type:'success',message: `Таблица "${data.message.title}" успешно создана`}))
+                } catch ({error}) {
+                    dispatch(addNotify({type: 'error', message: 'Произошла ошибка при создании таблицы'}))
+                }
+            }
         }),
         uploadFile: builder.mutation({
             query: ({ id, file, withDeletion }) => ({
@@ -28,16 +36,18 @@ export const tableApi = Api.injectEndpoints({
                     dispatch(addNotify({type: 'success', message: 'Данные успешно загружены в таблицу'}))
 
                 } catch (error) {
-                    dispatch(addNotify({type: 'success', message: 'Произошла ошибка при загрузке данных в таблицу'}))
+                    dispatch(addNotify({type: 'error', message: 'Произошла ошибка при загрузке данных в таблицу'}))
                 }
             }
         }),
         getTables: builder.query({
-            query: (sort) => ({
+            query: ({sort,page,limit}) => ({
                 url: '/tables',
                 method: 'GET',
                 params: {
-                    sort: JSON.stringify(sort)
+                    sort: JSON.stringify(sort),
+                    limit: limit,
+                    page: page,
                 }
             }),
             transformResponse: (data) => {

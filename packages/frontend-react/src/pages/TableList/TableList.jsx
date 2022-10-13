@@ -24,9 +24,10 @@ export default function TableList() {
     ])
     const { sort, stateColumns, sortDataCallback } = useTableSort({ columns })
     const [itemsCount, setItemsCount] = useState(10)
+    const [page, setPage]=useState(1)
     useEffect(() => {
-        getTables(sort)
-    }, [sort])
+        getTables({sort:sort,limit:itemsCount,page:page})
+    }, [sort,itemsCount,page])
     
     return (
         <>
@@ -41,7 +42,8 @@ export default function TableList() {
                         data={tableList.docs.map(doc => doc
                             ? { ...doc, createdAt: formatDate(doc.createdAt), updatedAt: formatDate(doc.updatedAt) }
                             : doc)}
-                        currentPage={tableList.page}
+                        currentPage={page}
+                        setCurrentPage={setPage}
                         itemsCount={itemsCount}
                         setItemsCount={setItemsCount}
                         totalItemsCount={tableList.totalDocs} />}

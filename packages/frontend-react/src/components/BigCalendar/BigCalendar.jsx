@@ -4,8 +4,10 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import './BigCalendar.scss'
 import moment from 'moment/moment';
 import 'moment/locale/ru';
-import { isNil } from 'lodash';
+import { isNil, property } from 'lodash';
 import CalendarModal from '../CalendarModal/CalendarModal';
+import dateCellWrapper from './dateCellWrapper/dateCellWrapper';
+import eventWrapper from './eventWrapper/eventWrapper';
 
 export default function BigCalendar({ events, selectable, groups = false, initialResource = 'all' }) {
 
@@ -49,13 +51,21 @@ export default function BigCalendar({ events, selectable, groups = false, initia
     }, [showModal])
 
     const [currentResource, setCurrentResource] = React.useState(initialResource)
+    const style={
+        width: '100%',
+        height: '100%',
+    }
     return (
         <>
             <div className="rbc-container">
                 <Calendar
+                    components={{
+                        dateCellWrapper: dateCellWrapper,
+                        eventWrapper: eventWrapper, 
+                    }}
                     localizer={localizer}
                     defaultView="month"
-                    events={currentResource==='all'?events:events.filter(el=>el.resourceId===currentResource)}
+                    events={currentResource === 'all' ? events : events.filter(el => el.resourceId === currentResource)}
                     tooltipAccessor={'description'}
                     startAccessor={'start'}
                     endAccessor={'end'}

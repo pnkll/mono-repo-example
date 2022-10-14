@@ -20,7 +20,9 @@ export default function EventsList() {
             description: task.description,
             allDay: false,
             resourceId: 'task',
-            title: <span className={`rbc-content priority-${task.priority}`} onClick={() => navigate(`../tasks/${task._id}`)}>{task.title}</span>
+            //title: <span className={`rbc-content priority-${task.priority}`} onClick={() => navigate(`../tasks/${task._id}`)}>{task.title}</span>,
+            title: task.title,
+            priority: task.priority,
         })
         , [tasks])
     return (

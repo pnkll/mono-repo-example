@@ -7,14 +7,16 @@ import Filters from "./Filters/Filters.jsx"
 import SelectNumber from "../SelectNumber/SelectNumber.jsx"
 import _, { isNil } from "lodash"
 import Filter from "./Filter/Filter.jsx"
-import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid"
+import { ChevronDownIcon, ChevronUpIcon, PlusIcon } from "@heroicons/react/solid"
 import HeaderSort from "./HeaderSort/HeaderSort.jsx"
 import PreloaderCell from "./PreloaderCell/PreloaderCell.jsx"
 import DragNDropCell from "../DragNDropCell/DragNDropCell.jsx"
 import { useParams } from "react-router-dom"
+import EditRow from "./EditRow/EditRow.jsx"
 
 export default React.memo(function Table({ isFetching = false, id, setFilters, filters, filter, setFilterData, setSearch, search, columns, setColumns, data, 
-    currentPage, setCurrentPage, totalItemsCount, itemsCount, classNamePrefix = 'table', setItemsCount, emptyCell = 'Ничего не найдено', label, buttons, sortDataCallback, dragDropMode }) {
+    currentPage, setCurrentPage, totalItemsCount, itemsCount, classNamePrefix = 'table', setItemsCount, emptyCell = 'Ничего не найдено', 
+    label, buttons, sortDataCallback, dragDropMode, editMode=false,setEditMode }) {
 
     
 
@@ -84,9 +86,10 @@ export default React.memo(function Table({ isFetching = false, id, setFilters, f
                                             </td>)}
                                         </tr>
                                     })}
+                                    {editMode&&!isFetching&&<EditRow classNamePrefix={classNamePrefix} headerGroups={headerGroups} columns={columns} setEditMode={setEditMode}/>}
                                     <tr style={{ height: '100%', background: 'white' }}>
                                         <td colSpan={columns.length} />
-                                    </tr>
+                                    </tr>                                    
                                 </>
                                     : !dragDropMode && <tr className={`${classNamePrefix}__body__row`}><td
                                         style={{
@@ -107,6 +110,17 @@ export default React.memo(function Table({ isFetching = false, id, setFilters, f
                                             background: 'white'
                                         }}
                                         colSpan={columns.length}><DragNDropCell id={params.id}/></td></tr>}
+                                {/* <tr className={`${classNamePrefix}__body__row`}>
+                                    {headerGroups[0]?.headers.map(el=><td key={el.Header} className={`${classNamePrefix}__body__elem__wrapper`}>
+                                        <input className={`${classNamePrefix}__body__elem__input`} type={'text'} placeholder={el.Header}/>
+                                        </td>)}
+                                </tr>
+                                <tr className={`${classNamePrefix}__body__row`}>
+                                        <td colSpan={columns.length}>
+                                            <PlusIcon width={40} color='green'/>
+                                        </td>
+                                </tr> */}
+                               
                             </tbody>
                         </table>
                         <div className="table__bottom" style={{justifyContent: totalItemsCount > itemsCount?'space-between':'flex-end'}}>

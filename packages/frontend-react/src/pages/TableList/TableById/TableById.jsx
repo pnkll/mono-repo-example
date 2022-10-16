@@ -13,7 +13,7 @@ export default function TableById() {
     const [itemsCount, setItemsCount] = useState(10)
     const [currentPage, setCurrentPage] = useState(1)
     const [filterData, setFilterData] = useState(null)
-    const [getTable, { data: table, isFetching }] = tableApi.useLazyGetTableContentsQuery()
+    const [getTable, { data: table, isFetching, isUninitialized }] = tableApi.useLazyGetTableContentsQuery()
     function getColumns() {
         if (!isNil(table?.headers)) {
             return Object.keys(table?.headers).map((el, index) => el
@@ -26,10 +26,19 @@ export default function TableById() {
         getTable({ table_id: params.id, limit: itemsCount, page: currentPage })
     }, [itemsCount, currentPage])
     const [isOpenModal, setIsOpenModal] = useState(false)
-    const [dragDropMode,setDragDropMode]=useState(false)
+    const [dragDropMode, setDragDropMode] = useState(false)
+    const [editMode, setEditMode] = useState(false)
     const buttons = React.useMemo(() => [
-        { text: dragDropMode?'Показать таблицу':'Загрузить данные', callback: () => setDragDropMode(!dragDropMode), className:'table__filters button' },
-        { text: 'Добавить строчку', callback: () => setIsOpenModal(!isOpenModal), className:'table__filters button' }], [dragDropMode])
+        { text: dragDropMode ? 'Показать таблицу' : 'Загрузить данные', callback: () => setDragDropMode(!dragDropMode), className: 'table__filters button' },
+        { text: editMode ? 'Сохранить' : 'Редактировать', callback: () => setEditMode(!editMode), className: 'table__filters button' }], [dragDropMode, editMode])
+    useEffect(() => {
+        if (!isUninitialized && !editMode) {
+            getTable({ table_id: params.id, limit: itemsCount, page: table?.totalPages })
+            setCurrentPage(table?.totalPages)
+        } else if (!isUninitialized){
+            setCurrentPage(table?.totalPages)
+        }
+    }, [editMode])
     return (
         <>
             <TransitionLayout from='bottom' overflowX='hidden'>
@@ -47,6 +56,8 @@ export default function TableById() {
                     setFilterData={setFilterData}
                     //emptyCell={<DragNDropCell id={params.id}/>}
                     buttons={buttons}
+                    editMode={editMode}
+                    setEditMode={setEditMode}
                 />}
             </TransitionLayout>
             {/* <DragNDropModal id={params.id} isOpen={isOpenModal} setIsOpen={setIsOpenModal}/> */}

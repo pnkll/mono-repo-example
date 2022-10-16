@@ -86,6 +86,13 @@ export const tableApi = Api.injectEndpoints({
                     return data.status === 200 && data.message
                 }
             }
+        }),
+        addContent: builder.mutation({
+            query: ({table_id, data})=>({
+                url: '/tables/content',
+                method: 'POST',
+                body: {table_id: table_id,data: data}
+            })
         })
     }),
     overrideExisting: false,

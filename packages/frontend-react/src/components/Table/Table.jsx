@@ -7,22 +7,25 @@ import Filters from "./Filters/Filters.jsx"
 import SelectNumber from "../SelectNumber/SelectNumber.jsx"
 import _, { isNil } from "lodash"
 import Filter from "./Filter/Filter.jsx"
-import { ChevronDownIcon, ChevronUpIcon, PlusIcon } from "@heroicons/react/solid"
 import HeaderSort from "./HeaderSort/HeaderSort.jsx"
 import PreloaderCell from "./PreloaderCell/PreloaderCell.jsx"
 import DragNDropCell from "../DragNDropCell/DragNDropCell.jsx"
 import { useParams } from "react-router-dom"
 import EditRow from "./EditRow/EditRow.jsx"
+import TableProvider from "../../Providers/Table/TableProvider.jsx"
+import { useContext } from "react"
+import { TableContext } from "../../Providers/Table/TableContext.js"
+import { setId } from "../../Providers/Table/TableReducer.jsx"
 
-export default React.memo(function Table({ isFetching = false, id, setFilters, filters, filter, setFilterData, setSearch, search, columns, setColumns, data, 
-    currentPage, setCurrentPage, totalItemsCount, itemsCount, classNamePrefix = 'table', setItemsCount, emptyCell = 'Ничего не найдено', 
-    label, buttons, sortDataCallback, dragDropMode, editMode=false,setEditMode }) {
+//React.memo(
+    function TableInner({ isFetching = false, id, setFilters, filters, filter, setFilterData, setSearch, search, columns, setColumns, data,
+    currentPage, setCurrentPage, totalItemsCount, itemsCount, classNamePrefix = 'table', setItemsCount, emptyCell = 'Ничего не найдено',
+    label, buttons, sortDataCallback, dragDropMode, editMode = false, setEditMode }) {
 
-    
 
     const { prepareRow, rows, headerGroups, getTableProps, getTableBodyProps } = useTable({ columns, data })
 
-    const [fetching,setFetching]=useState(false)
+    const [fetching, setFetching] = useState(false)
 
     const handleSearch = (value, header) => {
         setSearch({ ...search, id: header.id, value: value })
@@ -43,8 +46,13 @@ export default React.memo(function Table({ isFetching = false, id, setFilters, f
     const [open, setOpen] = useState(true)
     const [visibleFilter, setVisibleFilter] = useState(false)
     const params = useParams()
+    const [state,dispatch]=useContext(TableContext)
+    React.useEffect(()=>{
+        !isNil(id)&&dispatch(setId(id))
+    },[])
     return (
         <>
+        {/* <TableProvider> */}
             <div className={`${classNamePrefix}__container`} style={{ marginBottom: open ? 0 : 24, height: `${open ? label ? 'calc(100% - 45px)' : 'calc(100% - 20px)' : 0}` }}>
 
                 <div className={`${classNamePrefix}__sub-container`} style={{ height: '100%' }}>
@@ -63,7 +71,7 @@ export default React.memo(function Table({ isFetching = false, id, setFilters, f
                         {setFilterData
                             && visibleFilter
                             && <Filter
-                            setFetching={setFetching}
+                                setFetching={setFetching}
                                 setFilterData={setFilterData}
                                 columns={columns}
                                 id={id}
@@ -73,10 +81,10 @@ export default React.memo(function Table({ isFetching = false, id, setFilters, f
                                 {headerGroups.map((headerGroup, index) => <tr key={index} {...headerGroup.getHeaderGroupProps} className={`${classNamePrefix}__header__row`}>
                                     {headerGroup.headers.map((header, index) => <th key={index} {...header.getHeaderProps} className={`${classNamePrefix}__header__elem`}>{selectType(header)}</th>)}
                                 </tr>)}
-                                {(fetching||isFetching) && <PreloaderCell colSpan={columns.length} />}
+                                {(fetching || isFetching) && <PreloaderCell colSpan={columns.length} />}
                             </thead>
-                            <tbody {...getTableBodyProps} className={`${classNamePrefix}__body`} style={{opacity: (fetching||isFetching)?'0.6':1}}>
-                                
+                            <tbody {...getTableBodyProps} className={`${classNamePrefix}__body`} style={{ opacity: (fetching || isFetching) ? '0.6' : 1 }}>
+
                                 {(rows.length > 0 && !dragDropMode) ? <>
                                     {rows.map((row, index) => {
                                         prepareRow(row)
@@ -86,10 +94,10 @@ export default React.memo(function Table({ isFetching = false, id, setFilters, f
                                             </td>)}
                                         </tr>
                                     })}
-                                    {editMode&&!isFetching&&<EditRow classNamePrefix={classNamePrefix} headerGroups={headerGroups} columns={columns} setEditMode={setEditMode}/>}
+                                    {state.addContent.editMode&&!isFetching && <EditRow classNamePrefix={classNamePrefix} headerGroups={headerGroups} columns={columns} setEditMode={setEditMode} />}
                                     <tr style={{ height: '100%', background: 'white' }}>
                                         <td colSpan={columns.length} />
-                                    </tr>                                    
+                                    </tr>
                                 </>
                                     : !dragDropMode && <tr className={`${classNamePrefix}__body__row`}><td
                                         style={{
@@ -101,29 +109,18 @@ export default React.memo(function Table({ isFetching = false, id, setFilters, f
                                         }}
                                         colSpan={columns.length}>{emptyCell}</td></tr>
                                 }
-                                {dragDropMode&& <tr className={`${classNamePrefix}__body__row`}><td
-                                        style={{
-                                            minWidth: '500px',
-                                            textAlign: 'center',
-                                            padding: '30px 0',
-                                            height: '100px',
-                                            background: 'white'
-                                        }}
-                                        colSpan={columns.length}><DragNDropCell id={params.id}/></td></tr>}
-                                {/* <tr className={`${classNamePrefix}__body__row`}>
-                                    {headerGroups[0]?.headers.map(el=><td key={el.Header} className={`${classNamePrefix}__body__elem__wrapper`}>
-                                        <input className={`${classNamePrefix}__body__elem__input`} type={'text'} placeholder={el.Header}/>
-                                        </td>)}
-                                </tr>
-                                <tr className={`${classNamePrefix}__body__row`}>
-                                        <td colSpan={columns.length}>
-                                            <PlusIcon width={40} color='green'/>
-                                        </td>
-                                </tr> */}
-                               
+                                {dragDropMode && <tr className={`${classNamePrefix}__body__row`}><td
+                                    style={{
+                                        minWidth: '500px',
+                                        textAlign: 'center',
+                                        padding: '30px 0',
+                                        height: '100px',
+                                        background: 'white'
+                                    }}
+                                    colSpan={columns.length}><DragNDropCell id={params.id} /></td></tr>}
                             </tbody>
                         </table>
-                        <div className="table__bottom" style={{justifyContent: totalItemsCount > itemsCount?'space-between':'flex-end'}}>
+                        <div className="table__bottom" style={{ justifyContent: totalItemsCount > itemsCount ? 'space-between' : 'flex-end' }}>
                             {!_.isEmpty(data)
                                 && totalItemsCount > itemsCount
                                 && <Paginate
@@ -145,6 +142,15 @@ export default React.memo(function Table({ isFetching = false, id, setFilters, f
                     </div>
                 </div>
             </div>
+        {/* </TableProvider> */}
         </>
     )
-})
+}
+//)
+
+
+export default function Table(props) {
+    return <TableProvider>
+        <TableInner {...props}/>
+    </TableProvider>
+}

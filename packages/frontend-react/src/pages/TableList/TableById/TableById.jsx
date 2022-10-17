@@ -3,7 +3,6 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import DragNDropModal from '../../../components/DragNDropModal/DragNDropModal.jsx';
 import Table from '../../../components/Table/Table.jsx';
 import TransitionLayout from '../../../page_layouts/TransitionLayout/TransitionLayout.jsx';
 import { tableApi } from '../../../services/TableService.js';
@@ -30,7 +29,8 @@ export default function TableById() {
     const [editMode, setEditMode] = useState(false)
     const buttons = React.useMemo(() => [
         { text: dragDropMode ? 'Показать таблицу' : 'Загрузить данные', callback: () => setDragDropMode(!dragDropMode), className: 'table__filters button' },
-        { text: editMode ? 'Сохранить' : 'Редактировать', callback: () => setEditMode(!editMode), className: 'table__filters button' }], [dragDropMode, editMode])
+        //{ text: editMode ? 'Сохранить' : 'Редактировать', callback: () => setEditMode(!editMode), className: 'table__filters button' }
+    ], [dragDropMode, editMode])
     useEffect(() => {
         if (!isUninitialized && !editMode) {
             getTable({ table_id: params.id, limit: itemsCount, page: table?.totalPages })

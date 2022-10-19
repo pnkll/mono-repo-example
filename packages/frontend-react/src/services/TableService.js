@@ -52,7 +52,6 @@ export const tableApi = Api.injectEndpoints({
                 }
             }),
             transformResponse: (data) => {
-                console.log(data)
                 if (!isNil(data)) {
                     return data.status === 200 && data.message
                 }
@@ -69,7 +68,6 @@ export const tableApi = Api.injectEndpoints({
                 }
             }),
             transformResponse: (data) => {
-                console.log(data)
                 if (!isNil(data)) {
                     return data.status === 200 && data.message
                 }

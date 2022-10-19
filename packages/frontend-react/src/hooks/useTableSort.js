@@ -1,9 +1,7 @@
 import React from "react";
 
 export default function useTableSort({columns}){
-    console.log(columns)
     const [stateColumns,setStateColumns]=React.useState(columns)
-    console.log(stateColumns)
     const [sort,setSort]=React.useState()
 
     function sortDataCallback(key){
@@ -15,6 +13,5 @@ export default function useTableSort({columns}){
             return { ...prev, [item.accessor]: item.sort }
         }, {}))
     },[stateColumns])
-    
     return{sort,stateColumns,sortDataCallback}
 }

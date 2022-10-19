@@ -23,7 +23,11 @@ th {
     &__scroll-wrapper {
         -webkit-overflow-scrolling: touch;
         height: 100%;
-
+        border-radius: 10px;
+        transition: all 0.5s ease;
+        max-height: calc(100vh - 143px);
+        overflow: auto;
+        min-width: 527px;
         &::-webkit-scrollbar {
             display: none;
         }

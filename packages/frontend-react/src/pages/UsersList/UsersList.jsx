@@ -36,9 +36,9 @@ export default function UsersList(){
        <TransitionLayout from='bottom'>
             {!isNil(users)
                 ?<Table 
-                isFetching={isFetching}
-                columns={columns} 
-                data={users.map(el=>el.verified===false?{...el, id: el._id}:el)}
+                //isFetching={isFetching}
+                customColumns={columns} 
+                customData={users.map(el=>el.verified===false?{...el, id: el._id}:el)}
                 filters={filters}
                 setFilters={setFilters}/>
                 :<>Preloader</>}

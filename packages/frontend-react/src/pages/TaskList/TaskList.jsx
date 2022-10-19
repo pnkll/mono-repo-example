@@ -20,6 +20,7 @@ export default function TaskList(){
    return(
        !isNil(taskList)&&
        <Table
+       createHref='new'
        customColumns={columns}
        customData={taskList.map(el=>el&&{...el, createdAt: formatDate(el.createdAt), updatedAt: formatDate(el.updatedAt)})}
        />

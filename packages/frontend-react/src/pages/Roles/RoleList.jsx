@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { selectRoleList } from '../../store/slices/rolesSlice.js';
 import { isNil } from 'lodash';
 import { useNavigate } from 'react-router-dom';
+import { rolesApi } from '../../services/RolesService.js';
 
 export default function Roles() {
     const roleList = useSelector(selectRoleList)
@@ -17,21 +18,20 @@ export default function Roles() {
     const columns = [
         { Header: '', accessor: '_id', Cell: ({ cell: { value } }) => <Button color='green' text='Перейти' href={value} /> || '-' },
         { Header: 'Название', accessor: 'title' },
-        { Header: 'Дата создания', accessor: 'createdAt' },
-        { Header: 'Последнее обновление', accessor: 'updatedAt' }
+        { Header: 'Дата создания', accessor: 'createdAt', Cell: ({ value }) => formatDate(value) },
+        { Header: 'Последнее обновление', accessor: 'updatedAt', Cell: ({ value }) => formatDate(value) }
     ]
-    const buttons = React.useMemo(()=>[{text: 'Создать', href:'new', className:'table__filters button'}],[])
+    //const buttons = React.useMemo(()=>[{text: 'Создать', href:'new', className:'table__filters button'}],[])
+
     return (
-        <>
+        <>{!isNil(roleList) &&
             <TransitionLayout from='bottom'>
                 <Table
-                    columns={columns}
-                    data={!isNil(roleList)
-                        ? roleList.map(el => el && { ...el, createdAt: formatDate(el.createdAt), updatedAt: formatDate(el.createdAt) })
-                        : []}
-                    buttons={buttons}
+                    customColumns={columns}
+                    customData={roleList}
+                //buttons={buttons}
                 />
-            </TransitionLayout>
+            </TransitionLayout>}
         </>
     )
 }

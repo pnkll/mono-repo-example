@@ -6,11 +6,10 @@ import { isNil } from "lodash"
 import { usersApi } from "./services/UsersService.js"
 import { rolesApi } from "./services/RolesService.js"
 import { routes } from "./router/routes.jsx"
-import UploadProgressProvider from "./Providers/UploadNotify.jsx"
 
 export default function App() {
 
-    const [fetchGetProfile, {isSuccess: isSuccessProfile}] = usersApi.useLazyGetProfileQuery()
+    const [fetchGetProfile, { isSuccess: isSuccessProfile }] = usersApi.useLazyGetProfileQuery()
     const [fetchGetRoles] = rolesApi.useLazyGetRolesQuery()
     const [fetchGetPermissions] = rolesApi.useLazyGetPermissionsQuery()
 
@@ -29,7 +28,7 @@ export default function App() {
 
     const dispatch = useDispatch()
 
-    async function getCommon(){
+    async function getCommon() {
         await getProfile()
         await getRoles()
         await getPermissions()
@@ -47,5 +46,5 @@ export default function App() {
     }
     const router = useRoutes(routes(token))
 
-    return (token?isSuccessProfile:true)&&<UploadProgressProvider>{router}</UploadProgressProvider>
+    return (token ? isSuccessProfile : true) && router
 }

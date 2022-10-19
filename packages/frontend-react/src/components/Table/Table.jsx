@@ -17,6 +17,7 @@ import TableBottom from "./TableBottom/TableBottom.jsx"
 import { setLimit, setPage, setTotalDocs, setTotalPages } from "../../Providers/Table/TableReducer.js"
 import useTableSort from "../../hooks/useTableSort"
 import PreloaderForPage from "../PreloaderForPage/PreloaderForPage"
+import ErrorForPage from "../ErrorForPage/ErrorForPage"
 
 //React.memo(
 const TableInner = React.memo(({
@@ -25,16 +26,16 @@ const TableInner = React.memo(({
     filters,
     setSearch,
     search,
-    customData,
-    customColumns,
+    customData=null,
+    customColumns=null,
     cls = 'table',
     emptyCell = 'Ничего не найдено',
-    label,
-    //sortDataCallback,
+    label=null,
     rtkHook = tableApi.useLazyGetTableContentsQuery,
     editable = false,
     filterable = false,
-    createHref
+    sortable = false,
+    createHref = null
 }) => {
 
 
@@ -72,7 +73,7 @@ const TableInner = React.memo(({
     const columns = React.useMemo(() => getColumns(), [tableData])
     const data = React.useMemo(() => getData(), [tableData])
     const { sort, stateColumns, sortDataCallback } = useTableSort({ columns })
-
+    //Вызов параметров таблицы
     const { prepareRow, rows, headerGroups, getTableProps, getTableBodyProps } = useTable({ columns: !_.isEmpty(stateColumns)?stateColumns:columns, data })
 
     const handleSearch = (value, header) => {
@@ -80,7 +81,7 @@ const TableInner = React.memo(({
     }
 
 
-
+    //Выбор типа заголовка
     const selectType = (header) => {
         try {
             switch (header.type) {
@@ -94,10 +95,15 @@ const TableInner = React.memo(({
     }
 
     const [state, dispatch] = useContext(TableContext)
+    //Получение данных для заполнения таблицы с сервера
     React.useEffect(() => {
-        isNil(customData) && !isNil(sort) && getTableData({ table_id: id, limit: state.limit, page: state.page, sort: sort })
+        if(isNil(customData)){
+            sortable
+            ?getTableData({ table_id: id, limit: state.limit, page: state.page})//С сортировкой
+            :getTableData({ table_id: id, limit: state.limit, page: state.page, sort: sort })//без сортировки
+        }
     }, [state.page, state.limit, sort])
-
+    //Обновление стейта после получения данных для заполнения параметров запроса
     React.useEffect(() => {
         if (!isNil(tableData)) {
             dispatch(setLimit(tableData.limit))
@@ -106,9 +112,13 @@ const TableInner = React.memo(({
             dispatch(setTotalPages(tableData.totalPages))
         }
     }, [tableData])
-
+    //Показать страницу с preloader
     if (isNil(customData) && !isSuccess) {
         return <PreloaderForPage />
+    }
+    //Показать страницу с ошибкой
+    if (isError){
+        return <ErrorForPage/>
     }
     return (
         <>

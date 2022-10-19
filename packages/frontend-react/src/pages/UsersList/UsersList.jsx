@@ -12,6 +12,7 @@ import { usersApi } from '../../services/UsersService';
 
 export default function UsersList(){
     const [confirmUser]=usersApi.useConfirmUsersMutation()
+    const {data: users, isLoading,isError,isFetching,isSuccess}=usersApi.useGetUsersQuery()
     const columns=[
         {Header: '', accessor: '_id', Cell: ({cell:{value}})=><NavTableTd href={value}/>||'-'},
         {Header: 'Логин', accessor: 'username'},
@@ -21,27 +22,28 @@ export default function UsersList(){
         {Header: 'Почта', accessor: 'email'},
         {Header: '', accessor: 'id', Cell: ({cell:{value}})=>!isNil(value)?<Button handleClick={()=>confirmUser([value])} text='Подтвердить' color='green'/>:'Подтвержден'}
     ]
-    const [filters,setFilters]=useState([
-        {title: 'Все', status: true, rtkHook: usersApi.useLazyGetUsersQuery},
-        {title: 'Ожидают подтверждения', status: false, rtkHook: usersApi.useLazyGetConfirmationUsersQuery},
-    ])
-    const [getData,{data:users,isLoading,isFetching,isError}]=filters&&filters.find(el=>el.status).rtkHook()
-    useEffect(()=>{
-        getData()
-    },[filters])
+    // const [filters,setFilters]=useState([
+    //     {title: 'Все', status: true, rtkHook: usersApi.useLazyGetUsersQuery},
+    //     {title: 'Ожидают подтверждения', status: false, rtkHook: usersApi.useLazyGetConfirmationUsersQuery},
+    // ])
+    // const [getData,{data:users,isLoading,isFetching,isError}]=filters&&filters.find(el=>el.status).rtkHook()
+    // useEffect(()=>{
+    //     getData()
+    // },[filters])
    return(
        <>
        {isLoading&&<PreloaderForPage/>}
        {isError&&<ErrorForPage/>}
        <TransitionLayout from='bottom'>
-            {!isNil(users)
-                ?<Table 
+            {isSuccess&&
+            <Table 
                 //isFetching={isFetching}
                 customColumns={columns} 
-                customData={users.map(el=>el.verified===false?{...el, id: el._id}:el)}
-                filters={filters}
-                setFilters={setFilters}/>
-                :<>Preloader</>}
+                customData={users}
+                    //.map(el=>el.verified===false?{...el, id: el._id}:el)}
+                // filters={filters}
+                // setFilters={setFilters}
+                />}
        </TransitionLayout>
        </>
    )

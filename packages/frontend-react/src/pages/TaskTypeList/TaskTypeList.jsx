@@ -11,13 +11,13 @@ import { taskTypeApi } from '../../services/TaskTypeService.js';
 export default function TaskTypeList() {
     const { data: taskTypesList, error, isLoading: isLoadingGet, isFetching, } = taskTypeApi.useGetTaskTypesQuery()
     const [fetchRemoveTaskType, { isLoading: isLoadingRemove }] = taskTypeApi.useRemoveTaskTypeMutation()
-    async function removeTaskType(id) {
-        await fetchRemoveTaskType(id)
-    }
+    // async function removeTaskType(id) {
+    //     await fetchRemoveTaskType(id)
+    // }
     const modalCallback = useRef()
     const [showModal, setShowModal] = useState(false)
     function handleClick(id) {
-        modalCallback.current = () => removeTaskType(id)
+        modalCallback.current = () => fetchRemoveTaskType(id)
         setShowModal(true)
     }
     function customTd(value) {
@@ -39,21 +39,23 @@ export default function TaskTypeList() {
         { Header: 'Dead Line', accessor: 'deadLineHours' },
         { Header: 'Степень важности', accessor: 'priority' },
     ],[])
-    const [fetchPostTaskType] = taskTypeApi.usePostTaskTypeMutation()
-    const buttons = React.useMemo(() => [{ text: 'Создать', href: 'new', className: 'table__filters button' }], [])
+    // const [fetchPostTaskType] = taskTypeApi.usePostTaskTypeMutation()
+    // const buttons = React.useMemo(() => [{ text: 'Создать', href: 'new', className: 'table__filters button' }], [])
     return (
         <>
             <TransitionLayout from='bottom'>
                 {!isLoadingGet &&
                     <Table
-                        columns={columns}
-                        data={!isNil(taskTypesList)
+                        createHref={'new'}
+                        customColumns={columns}
+                        customData={!isNil(taskTypesList)
                             ? taskTypesList.message
                             : []}
                         emptyCell={error
                             ? 'Произошла ошибка при загрузке данных'
                             : 'Пока что нет ни одного шаблона'}
-                        buttons={buttons} />}
+                        //buttons={buttons} 
+                        />}
             </TransitionLayout>
             <ConfirmModal callback={modalCallback} isOpen={showModal} setIsOpen={setShowModal} label={'Вы действительно хотите удалить шаблон?'}/>
         </>

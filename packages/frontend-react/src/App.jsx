@@ -9,19 +9,19 @@ import { routes } from "./router/routes.jsx"
 
 export default function App() {
 
-    const [fetchGetProfile, { isSuccess: isSuccessProfile }] = usersApi.useLazyGetProfileQuery()
-    const [fetchGetRoles] = rolesApi.useLazyGetRolesQuery()
-    const [fetchGetPermissions] = rolesApi.useLazyGetPermissionsQuery()
+    const [getProfile, { isSuccess: isSuccessProfile }] = usersApi.useLazyGetProfileQuery()
+    const [getRoles] = rolesApi.useLazyGetRolesQuery()
+    const [getPermissions] = rolesApi.useLazyGetPermissionsQuery()
 
-    async function getProfile() {
-        await fetchGetProfile()
-    }
-    async function getRoles() {
-        await fetchGetRoles()
-    }
-    async function getPermissions() {
-        await fetchGetPermissions()
-    }
+    // async function getProfile() {
+    //     await fetchGetProfile()
+    // }
+    // async function getRoles() {
+    //     await fetchGetRoles()
+    // }
+    // async function getPermissions() {
+    //     await fetchGetPermissions()
+    // }
 
     const token = useSelector(selectToken)
     const init = useSelector(selectInitApp)

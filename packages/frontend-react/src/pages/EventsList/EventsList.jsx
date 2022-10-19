@@ -2,7 +2,7 @@ import moment from 'moment';
 import React from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import 'moment/locale/ru';
 import BigCalendar from '../../components/BigCalendar/BigCalendar';
 import TransitionLayout from '../../page_layouts/TransitionLayout/TransitionLayout';
@@ -21,7 +21,7 @@ export default function EventsList() {
             allDay: false,
             resourceId: 'task',
             //title: <span className={`rbc-content priority-${task.priority}`} onClick={() => navigate(`../tasks/${task._id}`)}>{task.title}</span>,
-            title: task.title,
+            title: <Link to={`../tasks/${task._id}`}>{task.title}</Link>,
             priority: task.priority,
         })
         , [tasks])

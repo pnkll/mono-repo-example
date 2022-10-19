@@ -6,7 +6,7 @@ export default function eventWrapper({event,children}){
         switch (event.priority) {
             case 0: return {...children, props: {...children.props, style: {...children.props.style, background:'blue'}}}
             case 1: return {...children, props: {...children.props, style: {...children.props.style, background:'green'}}}
-            case 2: return {...children, props: {...children.props, style: {...children.props.style, background:'yellow'}}}
+            case 2: return {...children, props: {...children.props, style: {...children.props.style, background:'lightgreen'}}}
             case 3: return {...children, props: {...children.props, style: {...children.props.style, background:'orange'}}}
             case 4: return {...children, props: {...children.props, style: {...children.props.style, background:'red'}}}
         }

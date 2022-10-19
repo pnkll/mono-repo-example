@@ -1,10 +1,8 @@
 import { useTable } from "react-table"
-import Paginate from "../Paginate/Paginate.jsx"
 import './Table.scss'
 import React, { useState } from "react"
 import HeaderInput from "./HeaderInput/HeaderInput.jsx"
 import Filters from "./Filters/Filters.jsx"
-import SelectNumber from "../SelectNumber/SelectNumber.jsx"
 import _, { isNil } from "lodash"
 import Filter from "./Filter/Filter.jsx"
 import HeaderSort from "./HeaderSort/HeaderSort.jsx"
@@ -15,21 +13,72 @@ import EditRow from "./EditRow/EditRow.jsx"
 import TableProvider from "../../Providers/Table/TableProvider.jsx"
 import { useContext } from "react"
 import { TableContext } from "../../Providers/Table/TableContext.js"
-import { setId } from "../../Providers/Table/TableReducer.jsx"
+import { tableApi } from "../../services/TableService.js"
+import TableBottom from "./TableBottom/TableBottom.jsx"
+import { setLimit, setPage, setTotalDocs, setTotalPages } from "../../Providers/Table/TableReducer.js"
+import useTableSort from "../../hooks/useTableSort"
 
 //React.memo(
-    function TableInner({ isFetching = false, id, setFilters, filters, filter, setFilterData, setSearch, search, columns, setColumns, data,
-    currentPage, setCurrentPage, totalItemsCount, itemsCount, classNamePrefix = 'table', setItemsCount, emptyCell = 'Ничего не найдено',
-    label, buttons, sortDataCallback, dragDropMode, editMode = false, setEditMode }) {
+const TableInner=React.memo(({
+    id,
+    setFilters,
+    filters,
+    setSearch,
+    search,
+    customData,
+    customColumns,
+    classNamePrefix = 'table',
+    emptyCell = 'Ничего не найдено',
+    label,
+    //sortDataCallback,
+    rtkHook=tableApi.useLazyGetTableContentsQuery,
+})=> {
+
+    //addContent
+    //const [postContent,{isSuccess}]=tableApi.useAddContentMutation()
 
 
-    const { prepareRow, rows, headerGroups, getTableProps, getTableBodyProps } = useTable({ columns, data })
 
+
+    const [getTableData, { data: tableData, isSuccess, isFetching, isError }] = rtkHook()
+    const [filterData, setFilterData] = React.useState(null)
     const [fetching, setFetching] = useState(false)
+
+    function getColumns() {
+        if (!isNil(customColumns)) {
+            return customColumns
+        }
+        if (!isNil(tableData?.headers)) {
+            return Object.keys(tableData?.headers).map((el, index) => el
+                ? { Header: Object.values(tableData?.headers)[index], accessor: el }
+                : el)
+        }
+        return []
+    }
+    function getData() {
+        if(!isNil(customData)){
+            return customData
+        }
+        else if (!isNil(filterData)) {
+            return filterData
+        }
+        else if (!isNil(tableData)) {
+            return tableData?.docs.map(el => el.hasOwnProperty('data') ? el.data : el)
+        }
+        return []
+    }
+
+    const columns = React.useMemo(() => getColumns(), [tableData])
+    const data = React.useMemo(() => getData(), [tableData])
+    const { sort, stateColumns, sortDataCallback } = useTableSort({ columns })
+    
+    const { prepareRow, rows, headerGroups, getTableProps, getTableBodyProps } = useTable({ columns:stateColumns,data })
 
     const handleSearch = (value, header) => {
         setSearch({ ...search, id: header.id, value: value })
     }
+
+    
 
     const selectType = (header) => {
         try {
@@ -43,49 +92,57 @@ import { setId } from "../../Providers/Table/TableReducer.jsx"
         return header.render("Header")
     }
 
-    const [open, setOpen] = useState(true)
-    const [visibleFilter, setVisibleFilter] = useState(false)
-    const params = useParams()
-    const [state,dispatch]=useContext(TableContext)
-    React.useEffect(()=>{
-        !isNil(id)&&dispatch(setId(id))
-    },[])
+    const [state, dispatch] = useContext(TableContext)
+    React.useEffect(() => {
+        isNil(customData)&&!isNil(sort)&&getTableData({ table_id: id, limit: state.limit, page: state.page, sort: sort })
+    }, [state.page, state.limit, sort])
+
+    React.useEffect(() => {
+        if (!isNil(tableData)) {
+            dispatch(setLimit(tableData.limit))
+            dispatch(setPage(tableData.page))
+            dispatch(setTotalDocs(tableData.totalDocs))
+            dispatch(setTotalPages(tableData.totalPages))
+        }
+    }, [tableData])
+
+    if (isNil(customData)&&!isSuccess) {
+        return <>Preloader</>
+    }
     return (
         <>
-        {/* <TableProvider> */}
-            <div className={`${classNamePrefix}__container`} style={{ marginBottom: open ? 0 : 24, height: `${open ? label ? 'calc(100% - 45px)' : 'calc(100% - 20px)' : 0}` }}>
+            {/* <TableProvider> */}
+            <div className={`${classNamePrefix}__container`} style={{ marginBottom: open ? 0 : 24, height: `${state.isOpen ? label ? 'calc(100% - 45px)' : 'calc(100% - 20px)' : 0}` }}>
 
                 <div className={`${classNamePrefix}__sub-container`} style={{ height: '100%' }}>
+                    
                     <Filters
-                        setVis={setVisibleFilter}
-                        vis={visibleFilter}
                         classNamePrefix={classNamePrefix}
                         filters={filters}
                         setFilters={setFilters}
-                        handleOpen={setOpen}
-                        isOpen={open}
-                        setFilterData={setFilterData}
-                        buttons={buttons} />
+                        hasFilter
+                        editable />
+
                     <div className={`${classNamePrefix}__scroll-wrapper`} style={{ borderRadius: '10px', transition: 'all 0.5s ease', maxHeight: 'calc(100vh - 143px)', overflow: 'auto', height: `${open ? '100%' : '0%'}`, minWidth: '527px' }}>
                         {/* {!isNil(label) && <h1 style={{ paddingLeft: '13px' }}>{label}</h1>} */}
-                        {setFilterData
-                            && visibleFilter
+
+                        {state.filterMode
                             && <Filter
-                                setFetching={setFetching}
+                                table_id={id}
                                 setFilterData={setFilterData}
-                                columns={columns}
-                                id={id}
-                                visibleFilter={visibleFilter} />}
+                                setFetching={setFetching}
+                                columns={columns} />}
+
                         <table className={`${classNamePrefix}__wrapper`}>
                             <thead {...getTableProps()} className={`${classNamePrefix}__header`}>
                                 {headerGroups.map((headerGroup, index) => <tr key={index} {...headerGroup.getHeaderGroupProps} className={`${classNamePrefix}__header__row`}>
                                     {headerGroup.headers.map((header, index) => <th key={index} {...header.getHeaderProps} className={`${classNamePrefix}__header__elem`}>{selectType(header)}</th>)}
                                 </tr>)}
-                                {(fetching || isFetching) && <PreloaderCell colSpan={columns.length} />}
+                                {(fetching || isFetching) && <PreloaderCell colSpan={headerGroups[headerGroups.length - 1].headers.length} />}
                             </thead>
                             <tbody {...getTableBodyProps} className={`${classNamePrefix}__body`} style={{ opacity: (fetching || isFetching) ? '0.6' : 1 }}>
 
-                                {(rows.length > 0 && !dragDropMode) ? <>
+                                {(rows.length > 0 && !state.dragDropMode) ? <>
                                     {rows.map((row, index) => {
                                         prepareRow(row)
                                         return <tr key={index} {...row.getRowProps()} className={`${classNamePrefix}__body__row`}>
@@ -94,12 +151,12 @@ import { setId } from "../../Providers/Table/TableReducer.jsx"
                                             </td>)}
                                         </tr>
                                     })}
-                                    {state.addContent.editMode&&!isFetching && <EditRow classNamePrefix={classNamePrefix} headerGroups={headerGroups} columns={columns} setEditMode={setEditMode} />}
+                                    {state.addContent.editMode && !isFetching && <EditRow classNamePrefix={classNamePrefix} headerGroups={headerGroups} />}
                                     <tr style={{ height: '100%', background: 'white' }}>
-                                        <td colSpan={columns.length} />
+                                        <td colSpan={headerGroups[headerGroups.length - 1].headers.length} />
                                     </tr>
                                 </>
-                                    : !dragDropMode && <tr className={`${classNamePrefix}__body__row`}><td
+                                    : !state.dragDropMode && <tr className={`${classNamePrefix}__body__row`}><td
                                         style={{
                                             minWidth: '500px',
                                             textAlign: 'center',
@@ -107,9 +164,9 @@ import { setId } from "../../Providers/Table/TableReducer.jsx"
                                             height: '100px',
                                             background: 'white'
                                         }}
-                                        colSpan={columns.length}>{emptyCell}</td></tr>
+                                        colSpan={headerGroups[headerGroups.length - 1]?.headers.length}>{emptyCell}</td></tr>
                                 }
-                                {dragDropMode && <tr className={`${classNamePrefix}__body__row`}><td
+                                {state.dragDropMode && <tr className={`${classNamePrefix}__body__row`}><td
                                     style={{
                                         minWidth: '500px',
                                         textAlign: 'center',
@@ -117,40 +174,23 @@ import { setId } from "../../Providers/Table/TableReducer.jsx"
                                         height: '100px',
                                         background: 'white'
                                     }}
-                                    colSpan={columns.length}><DragNDropCell id={params.id} /></td></tr>}
+                                    colSpan={headerGroups[headerGroups.length - 1].headers.length}><DragNDropCell id={id} /></td></tr>}
                             </tbody>
                         </table>
-                        <div className="table__bottom" style={{ justifyContent: totalItemsCount > itemsCount ? 'space-between' : 'flex-end' }}>
-                            {!_.isEmpty(data)
-                                && totalItemsCount > itemsCount
-                                && <Paginate
-                                    setPage={setCurrentPage}
-                                    page={currentPage}
-                                    itemsCount={itemsCount}
-                                    totalItemsCount={totalItemsCount} />}
-                            {!_.isEmpty(data)
-                                && <div className="table__bottom__counts">
-                                    <SelectNumber
-                                        defaultValue={itemsCount}
-                                        values={[5, 10, 15, 20]}
-                                        handleChange={setItemsCount} />
-                                    <p className="table__bottom__counts__info">{((currentPage - 1) * itemsCount) + 1}&nbsp;—&nbsp;{(itemsCount * currentPage) > totalItemsCount
-                                        ? totalItemsCount
-                                        : itemsCount * currentPage} из {totalItemsCount} записей</p>
-                                </div>}
-                        </div>
+                        <TableBottom data={data} />
                     </div>
                 </div>
             </div>
-        {/* </TableProvider> */}
+            {/* </TableProvider> */}
         </>
     )
-}
+})
 //)
 
 
 export default function Table(props) {
+
     return <TableProvider>
-        <TableInner {...props}/>
+        <TableInner {...props} />
     </TableProvider>
 }

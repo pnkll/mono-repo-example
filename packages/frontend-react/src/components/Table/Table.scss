@@ -198,11 +198,18 @@ th {
                 cursor: pointer;
                 background: white;
             }
+            &__x-icon{
+                position: absolute;
+                right: 0;
+                top: 0;
+                cursor: pointer;
+            }
 
             &__wrapper {
                 padding: 5px;
                 background: #fff;
                 width: auto;
+                position: relative;
             }
         }
 

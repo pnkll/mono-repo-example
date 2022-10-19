@@ -5,7 +5,7 @@ import { tableInitialState, tableReducer } from './TableReducer';
 
 export default function TableProvider({children}){
 
-    const [state,dispatch]=useReducer(tableReducer,tableInitialState)    
+    const [state,dispatch]=useReducer(tableReducer,tableInitialState)
 
    return(
        <>

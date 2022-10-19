@@ -1,14 +1,14 @@
-import { PlusIcon } from '@heroicons/react/solid';
+import { PlusIcon, XIcon } from '@heroicons/react/solid';
 import { isNil } from 'lodash';
 import React from 'react';
 import { useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { v4 } from 'uuid';
 import { TableContext } from '../../../Providers/Table/TableContext';
-import { setTempData } from '../../../Providers/Table/TableReducer';
+import { setEditMode, setTempData } from '../../../Providers/Table/TableReducer';
 import { tableApi } from '../../../services/TableService';
 
-export default function EditRow({ headerGroups, classNamePrefix, columns, setEditMode }) {
+export default function EditRow({ headerGroups, classNamePrefix }) {
     const [state, dispatch] = useContext(TableContext)
     function addRow() {
         dispatch(setTempData([...state.addContent.tempData, {
@@ -24,25 +24,30 @@ export default function EditRow({ headerGroups, classNamePrefix, columns, setEdi
         dispatch(setTempData([
             {
                 id: v4(),
-                data: headerGroups[0].headers.map(el => el && { id: el.id, value: '' })
+                data: headerGroups[headerGroups.length-1].headers.map(el => el && { id: el.id, value: '' })
             }
         ]))
     }, [])
-    console.log(state)
+    function handleRemove(id){
+        state.addContent.tempData.length===1&&dispatch(setEditMode())
+        dispatch(setTempData(state.addContent.tempData.filter(el=>el.id!==id)))
+    }
+    console.log(state.addContent.tempData)
     return (
         <>
             {state.addContent.tempData.map(el => <tr key={el.id} className={`${classNamePrefix}__body__row`}>
-                {el.data.map(cell => <td key={cell.id} className={`${classNamePrefix}__body__elem__wrapper`}>
+                {el.data.map((cell,index) => <td key={cell.id} className={`${classNamePrefix}__body__elem__wrapper`}>
                     <input className={`${classNamePrefix}__body__elem__input`} type={'text'} placeholder={cell.value} onChange={(e) => setValue(e.target.value, el.id, cell.id)} />
+                    {el.data.length-1===index&&<i className={`${classNamePrefix}__body__elem__x-icon`}><XIcon color='red' width={20} onClick={()=>handleRemove(el.id)}/></i>}
                 </td>)}
             </tr>)}
             <tr className={`${classNamePrefix}__body__row`} onClick={addRow}>
-                <td colSpan={columns.length} className={`${classNamePrefix}__body__elem__plus`}>
+                <td colSpan={headerGroups[headerGroups.length-1].headers.length} className={`${classNamePrefix}__body__elem__plus`}>
                     <PlusIcon width={40} color='green' />
                 </td>
             </tr>
             <tr style={{ height: '100%', background: 'white' }}>
-                <td colSpan={columns.length} />
+                <td colSpan={headerGroups[headerGroups.length-1].headers.length} />
             </tr>
         </>
     )

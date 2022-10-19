@@ -10,7 +10,12 @@ import './Filter.scss';
 import Select from '../../Select/Select.jsx'
 import { XIcon } from '@heroicons/react/outline';
 
-export default function Filter({ columns, setFilterData, id, height, setFetching }) {
+export default function Filter({ columns,
+  setFilterData, 
+  table_id,
+  //id, height, 
+  setFetching 
+}) {
   const { data, values, setValues, handleClear, handleAccess, handleChange } = useTableFilter({ columns })
   const [filterTable, { data: message, isFetching }] = tableApi.useLazyGetContentByDataQuery()
   const [focus, setFocus] = useState(null)
@@ -28,7 +33,7 @@ export default function Filter({ columns, setFilterData, id, height, setFetching
     setOptions(options.filter(option => option.value !== value))
   }
   useEffect(() => {
-    !_.isEmpty(data) ? filterTable({ data, table_id: id }) : setFilterData(null)
+    !_.isEmpty(data) ? filterTable({ data, table_id: table_id }) : setFilterData(null)
   }, [data])
   useEffect(() => {
     message && setFilterData(message.map(el => el ? el.data : el))

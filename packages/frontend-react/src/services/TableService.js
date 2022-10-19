@@ -4,6 +4,7 @@ import { Api } from './api'
 
 // Define a service using a base URL and expected endpoints
 export const tableApi = Api.injectEndpoints({
+    tagTypes: ['TABLE','PUSH_CONTENT'],
     endpoints: (builder) => ({
         createTable: builder.mutation({
             query: (data) => ({
@@ -51,6 +52,7 @@ export const tableApi = Api.injectEndpoints({
                 }
             }),
             transformResponse: (data) => {
+                console.log(data)
                 if (!isNil(data)) {
                     return data.status === 200 && data.message
                 }
@@ -67,10 +69,12 @@ export const tableApi = Api.injectEndpoints({
                 }
             }),
             transformResponse: (data) => {
+                console.log(data)
                 if (!isNil(data)) {
                     return data.status === 200 && data.message
                 }
-            }
+            },
+            providesTags: ['TABLE']
         }),
         getContentByData: builder.query({
             query: ({ data, table_id }) => ({
@@ -92,7 +96,8 @@ export const tableApi = Api.injectEndpoints({
                 url: '/tables/content',
                 method: 'POST',
                 body: {table_id: table_id,data: data}
-            })
+            }),
+            invalidatesTags: ['TABLE']
         })
     }),
     overrideExisting: false,

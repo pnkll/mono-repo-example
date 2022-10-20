@@ -50,7 +50,7 @@ export default function DialPanel({ expanded, number, setNumber }) {
                 ? <Button text='Совершить звонок' handleClick={() => setDialMode(true)} />
                 : <div className='call-control__number-panel__number'>
                     <Input value={number} handleChange={(e) => setNumber(e.target.value)} className='call-control__number-panel__input' />
-                    <BackspaceIcon className='call-control__number-panel__backspace-icon' width={15} onClick={handleRemove} />
+                    {number.length>0&&<BackspaceIcon className='call-control__number-panel__backspace-icon' width={15} onClick={handleRemove} />}
                     <XIcon className='call-control__number-panel__x-icon' width={30} onClick={() => setDialMode(false)} />
                 </div>
             }

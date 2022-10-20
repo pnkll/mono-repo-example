@@ -1,8 +1,8 @@
 import React from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated, useTransition } from 'react-spring';
 
 
-export default function TransitionLayout({ children, from = 'right', overflowX = 'hidden', h = '100%', w = '100%', delay=100, custom }) {
+export default function TransitionLayout({ children, from = 'right', overflowX = 'hidden', h = '100%', w = '100%', delay = 100, custom }) {
 
     const position = () => {
         switch (from) {
@@ -12,7 +12,7 @@ export default function TransitionLayout({ children, from = 'right', overflowX =
             case 'bottom': return 'translateY(100vh)'
         }
     }
-    const styles = useSpring(custom?custom:{
+    const styles = useSpring(custom ? custom : {
         from: { transform: position() },
         to: { transform: 'translateX(0)' },
         delay: delay

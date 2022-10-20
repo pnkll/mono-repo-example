@@ -53,7 +53,10 @@ export const usersApi = Api.injectEndpoints({
                     ids: typeof (data) === 'string' ? [data] : data
                 }
 
-            })
+            }),
+            transformResponse: (data)=>{
+                return data.message
+            }
         }),
         updateProfile: builder.mutation({
             query: (data) => ({

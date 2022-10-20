@@ -66,8 +66,8 @@ export default React.memo(function Task() {
         })
     async function setExecutorRole(role_id) {
         await getUsersIdsByRoleId(role_id)
-            .then(({ data }) => getUsersById(data.message))
-            .then(({ data }) => setExecutorOptions(data.message.map(el => el ? { label: `${el.firstname} ${el.lastname}`, value: el._id } : el)))
+            .then(({ data }) => getUsersById(data))
+            .then(({ data }) => setExecutorOptions(data.map(el => el ? { label: `${el.firstname} ${el.lastname}`, value: el._id } : el)))
     }
 
     async function setTemplate(id) {

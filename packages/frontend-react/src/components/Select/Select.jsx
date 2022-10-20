@@ -4,7 +4,7 @@ import { isNil } from "lodash"
 import React, { useEffect, useState } from "react"
 import ReactSelect, { components, NonceProvider } from "react-select"
 
-export default function Select({ options, indicator, formik, hasDefaultValue, customStyles, classNamePrefix, id, name, isSearchable = true, menuPlacement = 'bottom', handleChange, label, isMulti = false, placeholder = 'Выберите..', isDisabled = false, defaultValue }) {
+export default function Select({ options, indicator, formik, hasDefaultValue, customStyles, classNamePrefix, id, name, isSearchable = true, menuPlacement = 'bottom', handleChange, label, isMulti = false, placeholder = 'Выберите..', isDisabled = false, defaultValue, selectedValue }) {
 
     const styles = customStyles || {
         container: (styles) => ({
@@ -86,9 +86,10 @@ export default function Select({ options, indicator, formik, hasDefaultValue, cu
         if (isMulti) {
             return !isNil(formik) && formik.values[id].map(el => el && options.find(elem => elem.value === el))
         } else {
-            return !isNil(formik) ? options?.find(el => el.value === formik.values[id]) : defaultValue && defaultValue
+            return !isNil(formik) ? options?.find(el => el.value === formik.values[id]) : defaultValue && options?.find(el=>el.value===selectedValue)
         }
     }
+    console.log(selectedValue)
     return (
         <>
             <div className="" style={{ display: 'flex', flexDirection: 'column' }}>

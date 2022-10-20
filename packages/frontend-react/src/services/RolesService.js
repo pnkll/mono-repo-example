@@ -110,7 +110,10 @@ export const rolesApi = Api.injectEndpoints({
                 url: '/roles/usersbyrole',
                 method: 'GET',
                 params: {roleId: roleId}
-            })
+            }),
+            transformResponse: (data)=>{
+                return data.message
+            }
         }),
     }),
     overrideExisting: false,

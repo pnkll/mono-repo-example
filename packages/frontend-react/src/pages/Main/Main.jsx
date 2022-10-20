@@ -6,6 +6,7 @@ import { setResumable, UploadContext } from "../../Providers/UploadNotify.jsx";
 import DatePicker from "../../components/DatePicker/DatePicker.jsx";
 import { useFormik } from "formik";
 import moment from "moment";
+import UserSelectorbyRole from "../../components/UserSelectorByRole/UserSelectorByRole.jsx";
 
 export default function Main() {
 
@@ -21,6 +22,7 @@ export default function Main() {
             <TransitionLayout>
                 main
                 <DatePicker formik={formik} id='date' name='date'/>
+                <UserSelectorbyRole roleId={'632b2bde8cbdc749d419e397'}/>
             </TransitionLayout>
         </>
     )

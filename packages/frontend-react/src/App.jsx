@@ -13,16 +13,6 @@ export default function App() {
     const [getRoles] = rolesApi.useLazyGetRolesQuery()
     const [getPermissions] = rolesApi.useLazyGetPermissionsQuery()
 
-    // async function getProfile() {
-    //     await fetchGetProfile()
-    // }
-    // async function getRoles() {
-    //     await fetchGetRoles()
-    // }
-    // async function getPermissions() {
-    //     await fetchGetPermissions()
-    // }
-
     const token = useSelector(selectToken)
     const init = useSelector(selectInitApp)
 

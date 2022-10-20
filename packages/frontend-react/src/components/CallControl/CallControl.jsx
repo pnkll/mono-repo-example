@@ -11,6 +11,7 @@ import { Session } from 'sipml'
 import useSound from 'use-sound';
 import bell from '../../assets/sound/piano-notif.wav'
 import { isNil } from 'lodash';
+import DialPanel from './DialPanel/DialPanel.jsx';
 
 export default function CallControl({ props }) {
     const [editMode, setEditMode] = useState(false)
@@ -78,6 +79,7 @@ export default function CallControl({ props }) {
         window.addEventListener('mousemove', handleMove, true)
         return () => window.removeEventListener('mousemove', handleMove, true)
     }, [move])
+    const [number, setNumber] = React.useState('')
     function getButton() {
         //props.current?.state.callStatus ===
         switch (getCallStatus()) {
@@ -88,9 +90,10 @@ export default function CallControl({ props }) {
             case 'Входящий вызов':
                 return <PhoneButton onClick={() => props.current?.answerCall()} />
             case 'Ожидание':
-                return <PhoneButton onClick={() => props.current?.startCall('1010')} />
+                return <PhoneButton onClick={() => props.current?.startCall(number)} />
         }
     }
+
     return (
         <>
             <div className="call-control__container" style={{
@@ -116,6 +119,7 @@ export default function CallControl({ props }) {
                     <Button text={`${getPositionStatus() === 'На линии' ? 'Отошел' : 'На линию'}`} handleClick={() => getPositionStatus() === 'На линии' ? props.current.unregisterSip() : props.current.registerSip()} color={getPositionStatus() !== 'На линии' ? 'green' : 'blue'} />
                     <Button text='Закончить смену' color='red' handleClick={() => props.current.unregisterSip()} disabled={true} />
                 </div>
+                <DialPanel expanded={expanded} number={number} setNumber={setNumber} />
                 <div className="" style={{ display: 'flex', alignItems: 'center', gap: 15, justifyContent: 'center' }}>
                     <MicrophoneIcon width={15} />
                     <PhoneOutgoingIcon width={15} className='phone' />

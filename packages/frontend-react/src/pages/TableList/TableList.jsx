@@ -12,13 +12,14 @@ export default function TableList() {
     const columns = React.useMemo(() => [
         { Header: '', accessor: '_id', Cell: ({ cell: { value } }) => <Button color='green' text='Перейти' href={value} /> || '-' },
         { Header: 'Название', accessor: 'title' },
-        { Header: 'Дата создания', accessor: 'createdAt',  Cell: ({ value }) => formatDate(value) },
+        { Header: 'Дата создания', accessor: 'createdAt', Cell: ({ value }) => formatDate(value) },
         { Header: 'Последнее обновление', accessor: 'updatedAt', Cell: ({ value }) => formatDate(value) }
     ])
     return (
         <>
             <TransitionLayout from='right'>
                 <Table
+                    createHref='new'
                     customColumns={columns}
                     rtkHook={tableApi.useLazyGetTablesQuery}
                     filterable={false}

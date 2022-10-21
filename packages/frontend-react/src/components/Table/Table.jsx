@@ -71,7 +71,7 @@ const TableInner = React.memo(({
     }
 
     const columns = React.useMemo(() => getColumns(), [tableData])
-    const data = React.useMemo(() => getData(), [tableData])
+    const data = React.useMemo(() => getData(), [tableData,filterData])
     const { sort, stateColumns, sortDataCallback } = useTableSort({ columns })
     //Вызов параметров таблицы
     const { prepareRow, rows, headerGroups, getTableProps, getTableBodyProps } = useTable({ columns: !_.isEmpty(stateColumns)?stateColumns:columns, data })
@@ -120,6 +120,7 @@ const TableInner = React.memo(({
     if (isError){
         return <ErrorForPage/>
     }
+    console.log(data)
     return (
         <>
             <div className={`${cls}__container`} style={{ marginBottom: open ? 0 : 24, height: `${state.isOpen ? label ? 'calc(100% - 45px)' : 'calc(100% - 20px)' : 0}` }}>

@@ -58,13 +58,14 @@ export const tableApi = Api.injectEndpoints({
             }
         }),
         getTableContents: builder.query({
-            query: ({ table_id, limit, page }) => ({
+            query: ({ table_id, limit, page, sort }) => ({
                 url: '/tables/content',
                 method: 'GET',
                 params: {
                     query: JSON.stringify({ table_id: table_id }),
                     limit: limit,
-                    page: page
+                    page: page,
+                    //sort: JSON.stringify({"PuId": "-1"}),
                 }
             }),
             transformResponse: (data) => {

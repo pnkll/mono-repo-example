@@ -12,7 +12,6 @@ export default function Paginate({
     previousLabel }) {
     const [{totalDocs,limit,page,addContent},dispatch]=useContext(TableContext)
     function handleChange(page){
-        addContent.editMode&&dispatch(setEditMode())
         dispatch(setPage(page))
     }
     return (

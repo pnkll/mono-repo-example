@@ -17,7 +17,7 @@ export default React.memo(function TableHeader({ cls = 'table', filters, setFilt
         if (addContent.editMode) {
             addContent.tempData.forEach(row => postData({ table_id: params.id, data: row.data.map(cell => cell.value) }))
         } else{
-            dispatch(setPage(totalPages))
+            //dispatch(setPage(totalPages))
         }
     }
     return (

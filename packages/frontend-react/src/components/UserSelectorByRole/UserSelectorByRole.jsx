@@ -5,18 +5,18 @@ import { usersApi } from '../../services/UsersService';
 import Select from '../Select/Select';
 
 export default function UserSelectorbyRole({ formik, roleId, selectedId, defaultValue, handleChange, id, name, label }) {
-    const { data: userIds } = rolesApi.useGetUsersByRoleIdQuery(roleId)
+    const [getUserIds,{ data: userIds }] = rolesApi.useLazyGetUsersByRoleIdQuery(roleId)
     const [getUsers, { data: users }] = usersApi.useLazyGetUsersByIdQuery()
     React.useEffect(() => {
+        !isNil(roleId)&&getUserIds(roleId)
         !isNil(userIds) && getUsers(userIds)
-    }, [userIds])
+    }, [userIds,roleId])
     const options = React.useMemo(() => users
         ? users.map(user => ({ label: `${user.firstname} ${user.lastname}`, value: user._id }))
         : [], [users])
     return (
         <>
-            {!_.isEmpty(options)
-                && <Select
+            <Select
                     formik={formik}
                     id={id}
                     name={name}
@@ -24,7 +24,7 @@ export default function UserSelectorbyRole({ formik, roleId, selectedId, default
                     defaultValue={defaultValue}
                     selectedValue={selectedId} 
                     handleChange={handleChange}
-                    label={label}/>}
+                    label={label}/>
         </>
     )
 }

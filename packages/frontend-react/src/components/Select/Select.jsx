@@ -4,7 +4,7 @@ import { isNil } from "lodash"
 import React, { useEffect, useState } from "react"
 import ReactSelect, { components, NonceProvider } from "react-select"
 
-export default function Select({ options, indicator, formik, hasDefaultValue, customStyles, classNamePrefix, id, name, isSearchable = true, menuPlacement = 'bottom', handleChange, label, isMulti = false, placeholder = 'Выберите..', isDisabled = false, defaultValue, selectedValue }) {
+export default function Select({ options, indicator, formik,customStyles, classNamePrefix, id, name, isSearchable = true, menuPlacement = 'bottom', handleChange, label, isMulti = false, placeholder = 'Выберите..', isDisabled = false, defaultValue, selectedValue }) {
 
     const styles = customStyles || {
         container: (styles) => ({
@@ -79,22 +79,23 @@ export default function Select({ options, indicator, formik, hasDefaultValue, cu
         })
 
     }
-
-    // const styles = customStyles || defaultStyles
-
+    const [key, setKey] = React.useState(1)
     function getDefaultValue() {
         if (isMulti) {
             return !isNil(formik) && formik.values[id].map(el => el && options.find(elem => elem.value === el))
         } else {
-            return !isNil(formik) ? options?.find(el => el.value === formik.values[id]) : defaultValue && options?.find(el=>el.value===selectedValue)
+            return !isNil(formik) ? options?.find(el => el.value === formik.values[id]) : defaultValue && options?.find(el => el.value === selectedValue)
         }
     }
-    console.log(selectedValue)
+    React.useEffect(() => {
+        !isNil(getDefaultValue()) && setKey(v => v + 1)
+    }, [getDefaultValue()])
     return (
         <>
             <div className="" style={{ display: 'flex', flexDirection: 'column' }}>
                 {!isNil(label) && <label style={{ padding: '5px' }}>{label}</label>}
                 <ReactSelect
+                    key={key}
                     isDisabled={isDisabled}
                     placeholder={placeholder}
                     isMulti={isMulti}

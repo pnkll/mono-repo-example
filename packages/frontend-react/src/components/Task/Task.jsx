@@ -108,7 +108,7 @@ export default React.memo(function Task() {
                                 <DatePicker placeholder={'Крайний срок'} formik={formik} id='fireDate' name='fireDate' showTimeSelect={true} />
                                 <DatePicker placeholder={'Назначенная дата'} formik={formik} id='finishedDate' name='finishedDate' showTimeSelect={true} /></div>
                             <Select formik={formik} defaultValue={true} label={'Исполнитель'} id='executor' name='executor' options={executorOptions} />
-                            <UserSelectorbyRole formik={formik} defaultValue={true} label='Иполнитель 1' id='executor' name='executor' roleId={taskType?.executroRole}/>
+                            <UserSelectorbyRole formik={formik} defaultValue={true} label='Иполнитель 1' id='executor' name='executor' roleId={taskType?.executorRole}/>
                             <Select formik={formik} id='status' name='status' label='Статус заявки' />
                             <Select formik={formik} defaultValue={true} id='priority' options={priorityOptions} name='priority' label='Степень важности' />
                             <Button color={'green'} text='Создать заявку' type='submit' />

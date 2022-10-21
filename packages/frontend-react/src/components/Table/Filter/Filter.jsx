@@ -25,7 +25,6 @@ export default function Filter({ columns,
     setValues(values.map(el => el.id === id ? { ...el, visible: false, value: '' } : el))
     const tmp = values.find(el => el.id === id)
     setOptions([...options, { value: tmp.id, label: tmp.id }])
-    handleAccess()
   }
   function handleSelect(value) {
     setValues(values.map(el => el.id === value ? { ...el, visible: true } : el))

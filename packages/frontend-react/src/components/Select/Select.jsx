@@ -4,7 +4,7 @@ import { isNil } from "lodash"
 import React, { useEffect, useState } from "react"
 import ReactSelect, { components, NonceProvider } from "react-select"
 
-export default function Select({ options, indicator, formik,customStyles, classNamePrefix, id, name, isSearchable = true, menuPlacement = 'bottom', handleChange, label, isMulti = false, placeholder = 'Выберите..', isDisabled = false, defaultValue, selectedValue }) {
+export default function Select({ options, indicator, formik,customStyles, classNamePrefix, id, name, isSearchable = false, menuPlacement = 'bottom', handleChange, label, isMulti = false, placeholder = 'Выберите..', isDisabled = false, defaultValue, selectedValue }) {
 
     const styles = customStyles || {
         container: (styles) => ({

@@ -7,7 +7,7 @@
         border-radius: 5px;
         display: flex;
         flex-direction: column;
-        gap: 15px;
+        //gap: 15px;
         right: 20px;
         z-index: 100;
     }
@@ -65,8 +65,9 @@
         //padding-left: 4px;
         max-width: 201px;
         justify-content: center;
-        // column-gap: 19px;
-        // row-gap: 10px;
+        column-gap: 10px;
+        row-gap: 5px;
+        overflow: hidden;
         &__number {
             display: flex;
             position: relative;
@@ -105,16 +106,17 @@
         &__elem {
             //margin: 5px 11px;
             /* text-align: center; */
-            width: 29.33%;
+            //width: 29.33%;
             display: flex;
             justify-content: center;
             align-items: center;
             border: 1px solid;
             border-radius: 28px;
             border: 0;
-            padding: 10px 0;
+            //padding: 10px 0;
             background: #cdcdcd;
-            
+            width: 45px;
+            height: 45px;
             cursor: pointer;
 
             &:hover {

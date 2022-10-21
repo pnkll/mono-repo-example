@@ -97,7 +97,7 @@ export default function CallControl({ props }) {
     return (
         <>
             <div className="call-control__container" style={{
-                width: 'fit-content', position: 'absolute', bottom: expanded ? '3px' : '-159px', background: expanded ? 'rgb(128 128 128 / 63%)' : '', transition: 'all 0.5s ease',
+                width: 'fit-content', position: 'absolute', bottom: expanded ? '3px' : '-178px', background: expanded ? 'rgb(128 128 128 / 63%)' : '', transition: 'all 0.5s ease',
                 right: position > 20 ? `${position}px` : '20px'
             }}>
                 <LinkIcon width={15} className='call-control__move'
@@ -115,12 +115,12 @@ export default function CallControl({ props }) {
                     </div>
                 </div>
 
-                <div className="" style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                <div className="" style={{ display: 'flex', gap: '10px', margin: '10px 0' }}>
                     <Button text={`${getPositionStatus() === 'На линии' ? 'Отошел' : 'На линию'}`} handleClick={() => getPositionStatus() === 'На линии' ? props.current.unregisterSip() : props.current.registerSip()} color={getPositionStatus() !== 'На линии' ? 'green' : 'blue'} />
                     <Button text='Закончить смену' color='red' handleClick={() => props.current.unregisterSip()} disabled={true} />
                 </div>
                 <DialPanel expanded={expanded} number={number} setNumber={setNumber} />
-                <div className="" style={{ display: 'flex', alignItems: 'center', gap: 15, justifyContent: 'center' }}>
+                <div className="" style={{ display: 'flex', alignItems: 'center', gap: 15, justifyContent: 'center', marginTop: '10px' }}>
                     <MicrophoneIcon width={15} />
                     <PhoneOutgoingIcon width={15} className='phone' />
                     <PauseIcon width={15} className='phone' />

@@ -21,6 +21,7 @@ import { selectCurrentUser } from '../../store/slices/userSlice.js';
 import moment from 'moment/moment.js';
 import { taskApi } from '../../services/TaskService.js';
 import { format } from 'date-fns';
+import UserSelectorbyRole from '../UserSelectorByRole/UserSelectorByRole.jsx';
 
 export default React.memo(function Task() {
     //'632b2c90050946e0628bc7fb,632db358a457c421276b7a86'
@@ -107,6 +108,7 @@ export default React.memo(function Task() {
                                 <DatePicker placeholder={'Крайний срок'} formik={formik} id='fireDate' name='fireDate' showTimeSelect={true} />
                                 <DatePicker placeholder={'Назначенная дата'} formik={formik} id='finishedDate' name='finishedDate' showTimeSelect={true} /></div>
                             <Select formik={formik} defaultValue={true} label={'Исполнитель'} id='executor' name='executor' options={executorOptions} />
+                            <UserSelectorbyRole formik={formik} defaultValue={true} label='Иполнитель 1' id='executor' name='executor' roleId={taskType?.executroRole}/>
                             <Select formik={formik} id='status' name='status' label='Статус заявки' />
                             <Select formik={formik} defaultValue={true} id='priority' options={priorityOptions} name='priority' label='Степень важности' />
                             <Button color={'green'} text='Создать заявку' type='submit' />

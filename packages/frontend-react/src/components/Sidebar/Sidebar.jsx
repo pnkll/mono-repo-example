@@ -6,14 +6,17 @@ import Footer from "./Footer/Footer.jsx";
 import Header from "./Header/Header.jsx";
 import { TableIcon, CollectionIcon, CubeIcon, TemplateIcon, ClipboardListIcon } from "@heroicons/react/outline";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { selectSidebarCollapsed } from "../../store/slices/sidebarSlice";
 
-export default function Sidebar({ collapsed }) {
+export default function Sidebar() {
     const [subMenu, setSubMenu] = useState([
         { open: false },
         { open: false },
         { open: false },
         { open: false },
     ])
+    const collapsed = useSelector(selectSidebarCollapsed)
     return (
         <>
             <ProSidebar style={{ height: 'calc(100vh - 20px)', margin: '10px 0 0 10px', position: 'sticky', top: 0, zIndex: 100 }} collapsed={collapsed}>

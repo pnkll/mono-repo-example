@@ -5,14 +5,14 @@ import Button from '../Button/Button.jsx'
 import { MenuAlt1Icon, MenuIcon } from "@heroicons/react/outline";
 import BreadCrumbs from "../BreadCrumbs/BreadCrumbs.jsx";
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from "react-redux";
-import { setSidebarCollapsed } from "../../store/slices/sidebarSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectSidebarCollapsed, setSidebarCollapsed } from "../../store/slices/sidebarSlice";
 import { logout } from "../../store/slices/appSlice";
 import { useState } from "react";
 import ConfirmModal from "../ConfirmModal/ConfirmModal.jsx";
 import { useRef } from "react";
 
-export default function Header({ collapsed }) {
+export default function Header() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [showModal, setShowModal] = useState(false)
@@ -24,6 +24,7 @@ export default function Header({ collapsed }) {
         }
         setShowModal(true)
     }
+    const collapsed = useSelector(selectSidebarCollapsed)
     return (
         <>
             <div className="header__container">
@@ -39,7 +40,7 @@ export default function Header({ collapsed }) {
                     <Button text='Выйти' color='white' handleClick={handleLogout} />
                 </div>
             </div>
-            <ConfirmModal isOpen={showModal} setIsOpen={setShowModal} callback={modalCallback} label={'Вы действительно хотите выйти?'} />
+            {showModal&&<ConfirmModal isOpen={showModal} setIsOpen={setShowModal} callback={modalCallback} label={'Вы действительно хотите выйти?'} />}
         </>
     )
 }

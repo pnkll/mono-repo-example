@@ -2,7 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import {v4} from 'uuid'
 
 const initialState={
-    notifications: []
+    notifications: {
+        commonNotify: [],
+    }
 }
 
 export const notificationsSlice = createSlice({
@@ -10,16 +12,16 @@ export const notificationsSlice = createSlice({
     initialState,
     reducers:{
         addNotify: (state,action)=>{
-            state.notifications = [...state.notifications, {id: v4(), type: action.payload.type, message: action.payload.message }]
+            state.notifications.commonNotify = [...state.notifications.commonNotify, {id: v4(), type: action.payload.type, message: action.payload.message }]
         },
         removeNotify: (state,action)=>{
-            state.notifications = state.notifications.filter(el=>el.id!==action.payload.id)
+            state.notifications.commonNotify = state.notifications.commonNotify.filter(el=>el.id!==action.payload.id)
         },
     }
 })
 
 export const {addNotify,removeNotify} = notificationsSlice.actions
 
-export const selectNotifications = (state) => state.notificationsSlice.notifications
+export const selectNotifications = (state) => state.notificationsSlice.notifications.commonNotify
 
 export default notificationsSlice.reducer

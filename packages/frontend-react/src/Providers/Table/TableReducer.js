@@ -10,7 +10,8 @@ export const tableInitialState = {
     page: 1,
     totalDocs: null,
     totalPages: null,
-    sort: null,
+    columns: [],
+    sort: {}
 }
 
 export function tableReducer(state, action) {
@@ -35,6 +36,8 @@ export function tableReducer(state, action) {
             return {...state, totalPages: action.payload}     
         case 'SET_SORT':
             return {...state, sort: action.payload}    
+        case 'SET_COLUMNS':
+            return {...state, columns: action.payload}    
     }
 }
 
@@ -67,4 +70,7 @@ export function setTotalPages(payload){
 }
 export function setSort(payload){
     return {type: 'SET_SORT',payload}
+}
+export function setColumns(payload){
+    return {type: 'SET_COLUMNS', payload}
 }

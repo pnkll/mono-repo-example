@@ -65,7 +65,7 @@ export const tableApi = Api.injectEndpoints({
                     query: JSON.stringify({ table_id: table_id }),
                     limit: limit,
                     page: page,
-                    //sort: JSON.stringify({"PuId": "-1"}),
+                    sort: JSON.stringify(sort),
                 }
             }),
             transformResponse: (data) => {

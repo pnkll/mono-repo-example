@@ -14,10 +14,11 @@ import { useContext } from "react"
 import { TableContext } from "../../Providers/Table/TableContext.js"
 import { tableApi } from "../../services/TableService.js"
 import TableBottom from "./TableBottom/TableBottom.jsx"
-import { setLimit, setPage, setTotalDocs, setTotalPages } from "../../Providers/Table/TableReducer.js"
+import { setColumns, setLimit, setPage, setSort, setTotalDocs, setTotalPages } from "../../Providers/Table/TableReducer.js"
 import useTableSort from "../../hooks/useTableSort"
 import PreloaderForPage from "../PreloaderForPage/PreloaderForPage"
 import ErrorForPage from "../ErrorForPage/ErrorForPage"
+import SortableHeaderCell from "./SortableHeaderCell/SortableHeaderCell"
 
 //React.memo(
 const TableInner = React.memo(({
@@ -26,15 +27,15 @@ const TableInner = React.memo(({
     filters,
     setSearch,
     search,
-    customData=null,
-    customColumns=null,
+    customData = null,
+    customColumns = null,
     cls = 'table',
     emptyCell = 'Ничего не найдено',
-    label=null,
+    label = null,
     rtkHook = tableApi.useLazyGetTableContentsQuery,
     editable = false,
     filterable = false,
-    sortable = false,
+    sortable = null,
     createHref = null
 }) => {
 
@@ -46,16 +47,32 @@ const TableInner = React.memo(({
     const [filterData, setFilterData] = React.useState(null)
     const [fetching, setFetching] = useState(false)
 
+    const [state, dispatch] = React.useContext(TableContext)
+
+    
+
     function getColumns() {
+        let initialColumns = []
         if (!isNil(customColumns)) {
-            return customColumns
+            initialColumns = customColumns
         }
-        if (!isNil(tableData?.headers)) {
-            return Object.keys(tableData?.headers).map((el, index) => el
+        else if (!isNil(tableData?.headers)) {
+            initialColumns = Object.keys(tableData?.headers).map((el, index) => el
                 ? { Header: Object.values(tableData?.headers)[index], accessor: el }
                 : el)
         }
-        return []
+        else {
+            initialColumns = []
+        }
+        if (!isNil(sortable)) {
+            if (_.isEmpty(sortable)) {
+                return initialColumns.map(el => ({ ...el, sort: 0, Header: <SortableHeaderCell column={el}/> }))
+              } else{
+                return initialColumns.map(el=>!_.isEmpty(sortable.filter(elem=>elem===el.accessor))?{ ...el, sort: 0, Header: <SortableHeaderCell column={el}/> }:el)
+            }
+        } else {
+            return initialColumns
+        }
     }
     function getData() {
         if (!isNil(customData)) {
@@ -70,16 +87,17 @@ const TableInner = React.memo(({
         return []
     }
 
-    const columns = React.useMemo(() => getColumns(), [tableData])
-    const data = React.useMemo(() => getData(), [tableData,filterData])
-    const { sort, stateColumns, sortDataCallback } = useTableSort({ columns })
+
+
+    const columns = React.useMemo(() => getColumns(), [tableData, state.sort])
+    const data = React.useMemo(() => getData(), [tableData, filterData])
+    //const { sort, stateColumns, sortDataCallback } = useTableSort({ columns,sortable })
     //Вызов параметров таблицы
-    const { prepareRow, rows, headerGroups, getTableProps, getTableBodyProps } = useTable({ columns: !_.isEmpty(stateColumns)?stateColumns:columns, data })
+    const { prepareRow, rows, headerGroups, getTableProps, getTableBodyProps } = useTable({ columns, data })
 
     const handleSearch = (value, header) => {
         setSearch({ ...search, id: header.id, value: value })
     }
-
 
     //Выбор типа заголовка
     const selectType = (header) => {
@@ -94,15 +112,17 @@ const TableInner = React.memo(({
         return header.render("Header")
     }
 
-    const [state, dispatch] = useContext(TableContext)
+
     //Получение данных для заполнения таблицы с сервера
     React.useEffect(() => {
-        if(isNil(customData)){
-            sortable
-            ?getTableData({ table_id: id, limit: state.limit, page: state.page})//С сортировкой
-            :getTableData({ table_id: id, limit: state.limit, page: state.page, sort: sort })//без сортировки
+        if (isNil(customData)) {
+            isNil(sortable)
+                ? getTableData({ table_id: id, limit: state.limit, page: state.page })//С сортировкой
+                : !_.isEmpty(state.sort)
+                    ? getTableData({ table_id: id, limit: state.limit, page: state.page, sort: state.sort })//без сортировки
+                    : getTableData({ table_id: id, limit: state.limit, page: state.page })
         }
-    }, [state.page, state.limit, sort])
+    }, [state.page, state.limit, state.sort])
     //Обновление стейта после получения данных для заполнения параметров запроса
     React.useEffect(() => {
         if (!isNil(tableData)) {
@@ -117,10 +137,9 @@ const TableInner = React.memo(({
         return <PreloaderForPage />
     }
     //Показать страницу с ошибкой
-    if (isError){
-        return <ErrorForPage/>
+    if (isError) {
+        return <ErrorForPage />
     }
-    console.log(data)
     return (
         <>
             <div className={`${cls}__container`} style={{ marginBottom: open ? 0 : 24, height: `${state.isOpen ? label ? 'calc(100% - 45px)' : 'calc(100% - 20px)' : 0}` }}>
@@ -132,9 +151,9 @@ const TableInner = React.memo(({
                         filters={filters}
                         setFilters={setFilters}
                         filterable={filterable}
-                        editable={editable} 
+                        editable={editable}
                         createHref={createHref}
-                        />
+                    />
 
                     <div className={`${cls}__scroll-wrapper`} style={{ height: `${open ? '100%' : '0%'}` }}>
 
@@ -187,7 +206,7 @@ const TableInner = React.memo(({
                                             }}
                                             colSpan={headerGroups[headerGroups.length - 1]?.headers.length}>{emptyCell}</td>
                                     </tr>
-                                    : !state.dragDropMode&&<EditRow classNamePrefix={cls} headerGroups={headerGroups}/>
+                                        : !state.dragDropMode && <EditRow classNamePrefix={cls} headerGroups={headerGroups} />
                                 }
 
                                 {state.dragDropMode && <tr className={`${cls}__body__row`}>

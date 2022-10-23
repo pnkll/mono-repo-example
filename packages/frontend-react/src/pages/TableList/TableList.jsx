@@ -19,12 +19,13 @@ export default function TableList() {
         <>
             <TransitionLayout from='right'>
                 <Table
+                sortable={['createdAt','updatedAt']}
                     createHref='new'
                     customColumns={columns}
                     rtkHook={tableApi.useLazyGetTablesQuery}
                     filterable={false}
                     editable={false}
-                    sortable={true}
+                    //sortable={true}
                 />
             </TransitionLayout>
         </>

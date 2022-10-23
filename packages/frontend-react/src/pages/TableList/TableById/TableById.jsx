@@ -11,6 +11,7 @@ export default function TableById() {
         <>
             <TransitionLayout from='bottom' overflowX='hidden'>
                 <Table
+                    sortable={[]}
                     filterable={true}
                     editable={true}
                     hasFilter={true}

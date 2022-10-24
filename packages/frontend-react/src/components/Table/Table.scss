@@ -1,4 +1,5 @@
 @import '../../assets/vars';
+@import '../../assets/styles/index.scss';
 
 tr,
 td,
@@ -41,7 +42,7 @@ th {
         position: sticky;
         margin: 0;
         bottom: 0px;
-        background: white;
+        background: var(--table-cell-bg);
         z-index: 1;
         min-height: 30px;
 
@@ -66,7 +67,7 @@ th {
 
         &__container {
             position: absolute;
-            background: $color-but-blue;
+            background: var(--table-header-bg);
             margin: 0 10px;
             top: -20px;
             width: -webkit-fill-available;
@@ -144,11 +145,11 @@ th {
 
         &__elem {
             padding: 39px 5px 5px 5px;
-            background: #fff;
+            background: var(--table-cell-bg);
             font-family: 'Roboto';
             font-weight: 400;
-            color: #2e2828;
-            color: $color-but-blue;
+            //color: #2e2828;
+            color: var(--table-th-color);
             text-align: center;
             height: 40px;
 
@@ -163,10 +164,9 @@ th {
             border-bottom: 1px solid #8080803d;
             min-height: 50px;
             height: 8vh;
-
             &:nth-child(2n) {
                 td {
-                    background: #e4f1f5;
+                    background: var(--table-body-row-bg-2);
                     ;
                 }
             }
@@ -184,7 +184,7 @@ th {
             font-family: 'Roboto';
             font-weight: 400;
             font-size: 15px;
-            color: #3c3232;
+            color: var(--table-body-text-color);
 
             &__input {
                 background: transparent;
@@ -211,7 +211,7 @@ th {
 
             &__wrapper {
                 padding: 5px;
-                background: #fff;
+                background: var(--table-cell-bg);
                 width: auto;
                 position: relative;
             }

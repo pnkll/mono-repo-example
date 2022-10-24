@@ -37,5 +37,6 @@ export const {initializeApp,setCredentials,logout,setDarkMode} = appSlice.action
 export const selectToken = (state) => state.appSlice.token
 export const selectInitApp=(state)=>state.appSlice.initApp
 export const selectTokenExp=(state)=>state.appSlice.tokenExp
+export const selectDarkMode=(state)=>state.appSlice.darkMode
 
 export default appSlice.reducer

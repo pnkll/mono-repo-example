@@ -1,10 +1,9 @@
-import { CheckIcon, XIcon } from '@heroicons/react/outline';
 import { isNil } from 'lodash';
 import React, { useState } from 'react';
 import Toggle from 'react-toggle'
 import './ToggleInput.scss'
 
-export default React.memo(function ToggleInput({ formik, label, checked = false, id, name, classNamePrefix,handleChange,readOnly=false }) {
+export default function ToggleInput({ formik, label, checked = false, id, name, classNamePrefix,handleChange,readOnly=false }) {
     const className = classNamePrefix || 'toggle-input'
     return (
         <>
@@ -20,4 +19,4 @@ export default React.memo(function ToggleInput({ formik, label, checked = false,
             </div>
         </>
     )
-})
+}

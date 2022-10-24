@@ -1,0 +1,18 @@
+@import './reset.scss';
+@import './themes/dark.scss';
+@import './themes/light.scss';
+@import './variables/global.scss';
+
+.app{
+    -webkit-font-smoothing: antialiased;
+    font: var(--font-m);
+    overflow: hidden;
+    background: var(--bg-color);
+    height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+

@@ -1,11 +1,12 @@
 import React, { useEffect } from "react"
 import { useRoutes } from "react-router-dom"
-import { initializeApp, selectInitApp, selectToken } from "./store/slices/appSlice.js"
+import { initializeApp, selectDarkMode, selectInitApp, selectToken } from "./store/slices/appSlice.js"
 import { useDispatch, useSelector } from "react-redux"
 import { isNil } from "lodash"
 import { usersApi } from "./services/UsersService.js"
 import { rolesApi } from "./services/RolesService.js"
 import { routes } from "./router/routes.jsx"
+import cn from 'classnames'
 
 export default function App() {
 
@@ -15,6 +16,7 @@ export default function App() {
 
     const token = useSelector(selectToken)
     const init = useSelector(selectInitApp)
+    const darkMode = useSelector(selectDarkMode)
 
     const dispatch = useDispatch()
 
@@ -36,5 +38,8 @@ export default function App() {
     }
     const router = useRoutes(routes(token))
 
-    return (token ? isSuccessProfile : true) && router
+    return (token ? isSuccessProfile : true) &&
+        <div className={cn("app", {dark: darkMode, light: !darkMode})}>
+            {router}
+        </div>
 }

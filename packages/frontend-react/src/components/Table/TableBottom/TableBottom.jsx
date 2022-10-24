@@ -1,11 +1,10 @@
 import React from 'react';
-import { TableContext } from '../../../Providers/Table/TableContext';
-import { setLimit } from '../../../Providers/Table/TableReducer';
+import { setLimit, useTrackedTable } from '../../../Providers/Table/TableReducer';
 import Paginate from '../../Paginate/Paginate';
 import SelectNumber from '../../SelectNumber/SelectNumber';
 
 export default function TableBottom({data}) {
-    const [{page,limit,totalDocs},dispatch]=React.useContext(TableContext)
+    const [{page,limit,totalDocs},dispatch]=useTrackedTable()
     return (
         <div className="table__bottom" style={{ justifyContent: totalDocs > limit ? 'space-between' : 'flex-end' }}>
             {!_.isEmpty(data)

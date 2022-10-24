@@ -9,13 +9,9 @@ import HeaderSort from "./HeaderSort/HeaderSort.jsx"
 import PreloaderCell from "./PreloaderCell/PreloaderCell.jsx"
 import DragNDropCell from "../DragNDropCell/DragNDropCell.jsx"
 import EditRow from "./EditRow/EditRow.jsx"
-import TableProvider from "../../Providers/Table/TableProvider.jsx"
-import { useContext } from "react"
-import { TableContext } from "../../Providers/Table/TableContext.js"
 import { tableApi } from "../../services/TableService.js"
 import TableBottom from "./TableBottom/TableBottom.jsx"
-import { setColumns, setLimit, setPage, setSort, setTotalDocs, setTotalPages } from "../../Providers/Table/TableReducer.js"
-import useTableSort from "../../hooks/useTableSort"
+import { ProviderTable, setColumns, setLimit, setPage, setSort, setTotalDocs, setTotalPages, useTrackedTable } from "../../Providers/Table/TableReducer.js"
 import PreloaderForPage from "../PreloaderForPage/PreloaderForPage"
 import ErrorForPage from "../ErrorForPage/ErrorForPage"
 import SortableHeaderCell from "./SortableHeaderCell/SortableHeaderCell"
@@ -47,9 +43,8 @@ const TableInner = React.memo(({
     const [filterData, setFilterData] = React.useState(null)
     const [fetching, setFetching] = useState(false)
 
-    const [state, dispatch] = React.useContext(TableContext)
+    const [state, dispatch] = useTrackedTable()
 
-    
 
     function getColumns() {
         let initialColumns = []
@@ -91,7 +86,6 @@ const TableInner = React.memo(({
 
     const columns = React.useMemo(() => getColumns(), [tableData, state.sort])
     const data = React.useMemo(() => getData(), [tableData, filterData])
-    //const { sort, stateColumns, sortDataCallback } = useTableSort({ columns,sortable })
     //Вызов параметров таблицы
     const { prepareRow, rows, headerGroups, getTableProps, getTableBodyProps } = useTable({ columns, data })
 
@@ -235,7 +229,7 @@ const TableInner = React.memo(({
 
 export default function Table(props) {
 
-    return <TableProvider>
+    return <ProviderTable>
         <TableInner {...props} />
-    </TableProvider>
+    </ProviderTable>
 }

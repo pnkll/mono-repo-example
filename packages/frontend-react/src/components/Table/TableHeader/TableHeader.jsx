@@ -1,15 +1,13 @@
 import { AdjustmentsIcon, ChevronDownIcon, MinusIcon } from '@heroicons/react/outline';
 import { isNil } from 'lodash';
 import React from 'react';
-import { useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { TableContext } from '../../../Providers/Table/TableContext.js';
-import { setDragDropMode, setEditMode, setFilterMode, setIsOpen, setPage, } from '../../../Providers/Table/TableReducer.js';
+import { setDragDropMode, setEditMode, setFilterMode, setIsOpen, setPage, useTrackedTable, } from '../../../Providers/Table/TableReducer.js';
 import { tableApi } from '../../../services/TableService.js';
 import Button from '../../Button/Button.jsx';
 
 export default React.memo(function TableHeader({ cls = 'table', filters, setFilters, editable = false, createHref, filterable }) {
-    const [{ addContent, totalPages, dragDropMode, isOpen }, dispatch] = useContext(TableContext)
+    const [{ addContent, totalPages, dragDropMode, isOpen }, dispatch] = useTrackedTable()
     const [postData] = tableApi.useAddContentMutation()
     const params = useParams()
     function handlePost() {

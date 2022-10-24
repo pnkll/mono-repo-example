@@ -25,7 +25,6 @@ import UserSelectorbyRole from '../UserSelectorByRole/UserSelectorByRole.jsx';
 import { dateFormat } from '../../helpers/dateFormat.js';
 
 export default React.memo(function Task() {
-    //'632b2c90050946e0628bc7fb,632db358a457c421276b7a86'
     const { data: taskTypes, error } = taskTypeApi.useGetTaskTypesForSelectorQuery()
     const [getUsersIdsByRoleId] = rolesApi.useLazyGetUsersByRoleIdQuery()
     const [getUsersById] = usersApi.useLazyGetUsersByIdQuery()

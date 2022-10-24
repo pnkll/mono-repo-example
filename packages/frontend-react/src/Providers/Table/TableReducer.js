@@ -1,4 +1,7 @@
-export const tableInitialState = {
+import { useReducer } from "react"
+import { createContainer } from "react-tracked"
+
+export const initialState = {
     addContent: {
         editMode: false,
         tempData: [],
@@ -74,3 +77,7 @@ export function setSort(payload){
 export function setColumns(payload){
     return {type: 'SET_COLUMNS', payload}
 }
+
+const useValue = ()=> useReducer(tableReducer,initialState)
+
+export const {Provider: ProviderTable, useTracked: useTrackedTable} = createContainer(useValue)

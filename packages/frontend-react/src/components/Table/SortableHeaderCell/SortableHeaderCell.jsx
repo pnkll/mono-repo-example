@@ -1,12 +1,11 @@
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/solid';
 import React from 'react';
 import { useContext } from 'react';
-import { TableContext } from '../../../Providers/Table/TableContext';
-import { setSort } from '../../../Providers/Table/TableReducer';
+import { setSort, useTrackedTable } from '../../../Providers/Table/TableReducer';
 
 export default function SortableHeaderCell({ column }) {
 
-    const [{ sort }, dispatch] = useContext(TableContext)
+    const [{ sort }, dispatch] = useTrackedTable()
 
     function sortDataCallback(key) {
         if (Object.keys(sort)[0] === key) {

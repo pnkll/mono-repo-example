@@ -1,4 +1,4 @@
-@import '../../../assets/vars';
+@import '../../../assets/styles/index.scss';
 
 .table-filter {
     &__container {
@@ -11,7 +11,7 @@
         padding-top: 47px;
         transition: all 0.5s ease;
         padding-left: 10px;
-        background: white;
+        background: var(--table-cell-bg);
     }
 
     &__elem {

@@ -1,0 +1,8 @@
+@import '../../../assets/styles/index.scss';
+
+.fill-row{
+    &__container{
+        background: var(--table-cell-bg);
+        height: 100%;
+    }
+}

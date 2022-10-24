@@ -1,5 +1,6 @@
 @import 'react-big-calendar/lib/sass/styles';
 @import '../../assets/vars';
+@import '../../assets/styles/index.scss';
 
 
 //override styles
@@ -117,7 +118,7 @@
     &-time,
     &-agenda {
         &-view {
-            background-color: white;
+            //background-color: white;
             border-radius: 7px;
             flex: 1 0 0;
         }
@@ -125,6 +126,7 @@
 
     &-day {
         &-bg {
+            border-color: var(--calendar-border-color);
             &.red{
                 background-color: red;
             }

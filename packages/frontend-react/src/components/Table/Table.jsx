@@ -15,6 +15,7 @@ import { ProviderTable, setColumns, setLimit, setPage, setSort, setTotalDocs, se
 import PreloaderForPage from "../PreloaderForPage/PreloaderForPage"
 import ErrorForPage from "../ErrorForPage/ErrorForPage"
 import SortableHeaderCell from "./SortableHeaderCell/SortableHeaderCell"
+import FillRow from "./FillRow/FillRow"
 
 //React.memo(
 const TableInner = React.memo(({
@@ -61,9 +62,9 @@ const TableInner = React.memo(({
         }
         if (!isNil(sortable)) {
             if (_.isEmpty(sortable)) {
-                return initialColumns.map(el => ({ ...el, sort: 0, Header: <SortableHeaderCell column={el}/> }))
-              } else{
-                return initialColumns.map(el=>!_.isEmpty(sortable.filter(elem=>elem===el.accessor))?{ ...el, sort: 0, Header: <SortableHeaderCell column={el}/> }:el)
+                return initialColumns.map(el => ({ ...el, sort: 0, Header: <SortableHeaderCell column={el} /> }))
+            } else {
+                return initialColumns.map(el => !_.isEmpty(sortable.filter(elem => elem === el.accessor)) ? { ...el, sort: 0, Header: <SortableHeaderCell column={el} /> } : el)
             }
         } else {
             return initialColumns
@@ -184,9 +185,7 @@ const TableInner = React.memo(({
                                             <EditRow classNamePrefix={cls} headerGroups={headerGroups} />
                                         }
 
-                                        <tr style={{ height: '100%', background: 'white' }}>
-                                            <td colSpan={headerGroups[headerGroups.length - 1].headers.length} />
-                                        </tr>
+                                        <FillRow headerGroups={headerGroups} />
 
                                     </>
                                     : !state.dragDropMode && !state.addContent.editMode ? <tr className={`${cls}__body__row`}>
@@ -210,7 +209,6 @@ const TableInner = React.memo(({
                                             textAlign: 'center',
                                             padding: '30px 0',
                                             height: '100px',
-                                            background: 'white'
                                         }}
                                         colSpan={headerGroups[headerGroups.length - 1].headers.length}>
                                         <DragNDropCell id={id} />

@@ -9,10 +9,25 @@
     overflow: hidden;
     background: var(--bg-color);
     height: 100vh;
+    color: var(--primary-color)
+}
+
+
+//!!!Исключить в дальнейшем
+
+li{
+    color: var(--primary-color)
 }
 
 a {
     text-decoration: none;
     color: black;
+}
+
+h1 {
+    font-size: 21px;
+    margin-top: 0;
+    font-weight: 500;
+    color: var(--primary-color)
 }
 

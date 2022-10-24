@@ -1,8 +1,8 @@
 //@import '../../assets/styles/index.scss';
 
-.item-layout{
+.setting-layout{
     &__container{
-
+        width: fit-content;
     }
     &__content{
         background: var(--card-bg);

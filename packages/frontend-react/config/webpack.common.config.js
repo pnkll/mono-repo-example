@@ -1,12 +1,12 @@
 const path = require('path')
-const webpack =require('webpack')
+const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 
 module.exports = {
     //откуда брать сборку
-    entry: ["@babel/polyfill", path.resolve(__dirname,'../src/index.jsx')],
+    entry: ["@babel/polyfill", path.resolve(__dirname, '../src/index.jsx')],
     output: {
         //куда webpack будет делать сборку проекта
         path: path.resolve(__dirname, '../dist'),
@@ -24,7 +24,19 @@ module.exports = {
         rules: [
             {
                 test: /\.(css|scss|sass)$/,
-                use: ['style-loader', 'css-loader', 'sass-loader']
+                use: [
+                    'style-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: {
+                                auto: true,
+                                localIdentName: "[path][name]__[local]--[hash:base64:5]",
+                                exportLocalsConvention: "camelCase",
+                            }
+                        }
+                    },
+                    'sass-loader']
             },
             {
                 test: /\.(png|svg|jpg|jpeg|gif|mp3|wav)$/,
@@ -64,8 +76,8 @@ module.exports = {
             }
         ]
     },
-    resolve:{
-        extensions: ['.jsx','.js']
+    resolve: {
+        extensions: ['.jsx', '.js']
     },
     devtool: 'inline-source-map'
 }

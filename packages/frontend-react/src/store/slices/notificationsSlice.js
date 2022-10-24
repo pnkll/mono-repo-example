@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {v4} from 'uuid'
+import { uniqueId } from "lodash";
 
 const initialState={
     notifications: {
@@ -12,7 +12,7 @@ export const notificationsSlice = createSlice({
     initialState,
     reducers:{
         addNotify: (state,action)=>{
-            state.notifications.commonNotify = [...state.notifications.commonNotify, {id: v4(), type: action.payload.type, message: action.payload.message }]
+            state.notifications.commonNotify = [...state.notifications.commonNotify, {id: uniqueId(), type: action.payload.type, message: action.payload.message }]
         },
         removeNotify: (state,action)=>{
             state.notifications.commonNotify = state.notifications.commonNotify.filter(el=>el.id!==action.payload.id)

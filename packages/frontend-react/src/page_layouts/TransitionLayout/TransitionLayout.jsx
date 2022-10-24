@@ -1,5 +1,10 @@
 import React from 'react';
 import { useSpring, animated, useTransition } from 'react-spring';
+import classNames from 'classnames/bind'
+import s from './TransitionLayout.module.scss'
+
+
+const cx = classNames.bind(s)
 
 
 export default function TransitionLayout({ children, from = 'right', overflowX = 'hidden', h = '100%', w = '100%', delay = 100, custom }) {
@@ -20,7 +25,7 @@ export default function TransitionLayout({ children, from = 'right', overflowX =
     return (
         <>
 
-            <animated.div style={{ ...styles, overflowX: overflowX, width: w, height: h }} className='transition__container'>
+            <animated.div style={{ ...styles, overflowX: overflowX, width: w, height: h }} className={cx({'transition__container': true})}>
                 {children}
             </animated.div>
         </>

@@ -1,8 +1,8 @@
 import { PlusIcon, XIcon } from '@heroicons/react/solid';
+import { uniqueId } from 'lodash';
 import { isNil } from 'lodash';
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { v4 } from 'uuid';
 import { setEditMode, setTempData, useTrackedTable } from '../../../Providers/Table/TableReducer';
 import { tableApi } from '../../../services/TableService';
 
@@ -10,7 +10,7 @@ export default function EditRow({ headerGroups, classNamePrefix }) {
     const [{addContent}, dispatch] = useTrackedTable()
     function addRow() {
         dispatch(setTempData([...addContent.tempData, {
-            id: v4(),
+            id: uniqueId(),
             data: headerGroups[0].headers.map(el => el && { id: el.id, value: '' })
         }]))
     }
@@ -21,7 +21,7 @@ export default function EditRow({ headerGroups, classNamePrefix }) {
     React.useEffect(() => {
         dispatch(setTempData([
             {
-                id: v4(),
+                id: uniqueId(),
                 data: headerGroups[headerGroups.length-1].headers.map(el => el && { id: el.id, value: '' })
             }
         ]))

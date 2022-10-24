@@ -1,13 +1,16 @@
 import React from 'react';
-import './CardGridLayout.scss'
+import s from './CardGridLayout.module.scss'
+import classNames from 'classnames/bind'
+
+const cx = classNames.bind(s)
 
 export default function CardGridLayout({array}) {
     return (
         <>
-            <div className="card-grid__container">
-                {array.map((el,index)=><div key={index} className='card-grid__elem'>
-                    <p className='card-grid__label'>{el.label}</p>
-                    <p className='card-grid__value'>{el.value}</p>
+            <div className={cx({"card-grid__container":true})}>
+                {array.map((el,index)=><div key={index} className={cx({'card-grid__elem':true})}>
+                    <p className={cx({'card-grid__label':true})}>{el.label}</p>
+                    <p className={cx({'card-grid__value':true})}>{el.value}</p>
                 </div>)}
             </div>
         </>

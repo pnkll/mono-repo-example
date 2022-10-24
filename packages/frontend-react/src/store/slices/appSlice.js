@@ -5,6 +5,7 @@ const initialState={
     token: null,
     refreshToken: null,
     tokenExp: null,
+    darkMode: false,
 }
 
 export const appSlice = createSlice({
@@ -24,11 +25,14 @@ export const appSlice = createSlice({
             state.token=null
             state.refreshToken=null
             state.tokenExp=null
+        },
+        setDarkMode: (state)=>{
+            state.darkMode=!state.darkMode
         }
     }
 })
 
-export const {initializeApp,setCredentials,logout} = appSlice.actions
+export const {initializeApp,setCredentials,logout,setDarkMode} = appSlice.actions
 
 export const selectToken = (state) => state.appSlice.token
 export const selectInitApp=(state)=>state.appSlice.initApp

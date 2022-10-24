@@ -3,27 +3,15 @@
 .sidebar-header-layout {
     &__container {
         display: flex;
+        &.mode{
+            background-color: red;
+        }
     }
 
     &__wrapper {
         display: flex;
         flex-direction: column;
         width: 100%;
-    }
-
-    &__content {
-        padding: 10px;
-        height: calc(100vh - 123px);
-        position: relative;
-        &__notifications__wrapper{
-            position: absolute;
-            top: 0;
-            right: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            align-items: flex-end;
-        }
     }
 
     &__scroll-container {

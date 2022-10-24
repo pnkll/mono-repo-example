@@ -1,9 +1,10 @@
 import React from 'react';
+import s from './TwoColumnLayout.module.scss'
 
 export default function TwoColumnLayout({ children }) {
     return (
         <>
-            <div className="two-column-layout" style={{display: 'flex', flexWrap: 'wrap', width: '100%', gap: '20px'}}>
+            <div className={s["two-column-layout"]}>
                 {children}
             </div>
         </>

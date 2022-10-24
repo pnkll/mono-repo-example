@@ -22,6 +22,7 @@ import moment from 'moment/moment.js';
 import { taskApi } from '../../services/TaskService.js';
 import { format } from 'date-fns';
 import UserSelectorbyRole from '../UserSelectorByRole/UserSelectorByRole.jsx';
+import { dateFormat } from '../../helpers/dateFormat.js';
 
 export default React.memo(function Task() {
     //'632b2c90050946e0628bc7fb,632db358a457c421276b7a86'
@@ -89,7 +90,7 @@ export default React.memo(function Task() {
         .reduce((prev,item)=>{
             return {...prev, [Object.keys(item)[0]]: Object.values(item)[0]}
         },{})
-        postTask({...body, plannedDate: moment(values.plannedDate).format('DD.MM.YYYY'), finishedDate: moment(values.finishedDate).format('DD.MM.YYYY'),fireDate: moment(values.fireDate).format('DD.MM.YYYY')})
+        postTask({...body, plannedDate: moment(values.plannedDate).format('DD.MM.YYYY'), finishedDate: dateFormat(values.finishedDate, 'task_create'),fireDate: dateFormat(values.fireDate, 'task_create')})
     }
     console.log(taskType)
     return (

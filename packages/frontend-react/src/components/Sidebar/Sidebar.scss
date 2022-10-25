@@ -25,6 +25,9 @@ $breakpoint-xxl: 1600px !default;
     &-inner{
         border-radius: 5px !important;
         border: 2px solid var(--sidebar-bg); 
+        li{
+            color: var(--sidebar-text-color)
+        }
     }
     //min-height: calc(100vh - 10px) !important;
 }

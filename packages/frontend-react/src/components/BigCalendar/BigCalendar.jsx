@@ -1,11 +1,13 @@
 import React from 'react';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
+import { momentLocalizer } from 'react-big-calendar';
 import './BigCalendar.scss'
 import moment from 'moment/moment';
 import 'moment/locale/ru';
 import CalendarModal from '../CalendarModal/CalendarModal';
 import dateCellWrapper from './dateCellWrapper/dateCellWrapper';
 import eventWrapper from './eventWrapper/eventWrapper';
+import { DnDCalendar,} from './DnDCalendar/DnDCalendar';
+
 
 export default function BigCalendar({ events, selectable, groups = false, initialResource = 'all' }) {
 
@@ -49,10 +51,11 @@ export default function BigCalendar({ events, selectable, groups = false, initia
     }, [showModal])
 
     const [currentResource, setCurrentResource] = React.useState(initialResource)
+
     return (
         <>
             <div className="rbc-container">
-                <Calendar
+                <DnDCalendar
                     components={{
                         dateCellWrapper: dateCellWrapper,
                         eventWrapper: eventWrapper, 
@@ -72,13 +75,19 @@ export default function BigCalendar({ events, selectable, groups = false, initia
                     onSelectEvent={() => console.log('select event')}
                     onSelectSlot={handleSelect}
                     views={['month', 'day', 'week', 'work_week', 'agenda']}
+
+                    resizable={true}
+                    onEventDrop={(e)=>console.log('drop',e)}
+                    onDragStart={(e)=>console.log('start',e)}
+                    onDragOver={(e)=>console.log('over',e)}
+                    onEventResize={(e)=>console.log('resize',e)}
                 />
                 <div className="rbc-filter">
                     <div className="rbc-btn-group">
                         <button className={currentResource === 'all' ? 'rbc-active' : null}
                             onClick={() => setCurrentResource('all')}>Все</button>
-                        {resourceMap.map(res => <button key={res.resourceId} className={res.resourceId === currentResource ? 'rbc-active' : null}
-                            onClick={() => setCurrentResource(res.resourceId)}>{res.resourceTitle}</button>)}
+                        {resourceMap.map(({resourceId,resourceTitle}) => <button key={resourceId} className={resourceId === currentResource ? 'rbc-active' : null}
+                            onClick={() => setCurrentResource(resourceId)}>{resourceTitle}</button>)}
                     </div>
                 </div>
             </div>

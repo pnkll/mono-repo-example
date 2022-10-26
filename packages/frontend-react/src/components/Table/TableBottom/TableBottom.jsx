@@ -1,5 +1,5 @@
 import React from 'react';
-import { setLimit, useTrackedTable } from '../../../Providers/Table/TableReducer';
+import { setLimit, useTrackedTable } from '../../../Providers/Table/TableContext';
 import Paginate from '../../Paginate/Paginate';
 import SelectNumber from '../../SelectNumber/SelectNumber';
 

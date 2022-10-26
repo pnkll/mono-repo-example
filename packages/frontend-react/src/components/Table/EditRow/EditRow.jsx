@@ -3,7 +3,7 @@ import { uniqueId } from 'lodash';
 import { isNil } from 'lodash';
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { setEditMode, setTempData, useTrackedTable } from '../../../Providers/Table/TableReducer';
+import { setEditMode, setTempData, useTrackedTable } from '../../../Providers/Table/TableContext';
 import { tableApi } from '../../../services/TableService';
 
 export default function EditRow({ headerGroups, classNamePrefix }) {

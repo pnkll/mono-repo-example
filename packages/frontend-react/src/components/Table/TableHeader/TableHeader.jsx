@@ -2,7 +2,7 @@ import { AdjustmentsIcon, ChevronDownIcon, MinusIcon } from '@heroicons/react/ou
 import { isNil } from 'lodash';
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { setDragDropMode, setEditMode, setFilterMode, setIsOpen, setPage, useTrackedTable, } from '../../../Providers/Table/TableReducer.js';
+import { setDragDropMode, setEditMode, setFilterMode, setIsOpen, setPage, useTrackedTable, } from '../../../Providers/Table/TableContext.js';
 import { tableApi } from '../../../services/TableService.js';
 import Button from '../../Button/Button.jsx';
 

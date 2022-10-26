@@ -1,7 +1,7 @@
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/solid';
 import React from 'react';
 import { useContext } from 'react';
-import { setSort, useTrackedTable } from '../../../Providers/Table/TableReducer';
+import { setSort, useTrackedTable } from '../../../Providers/Table/TableContext';
 
 export default function SortableHeaderCell({ column }) {
 

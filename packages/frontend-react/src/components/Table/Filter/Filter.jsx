@@ -6,9 +6,12 @@ import useTableFilter from '../../../hooks/useTableFilter.js';
 import { tableApi } from '../../../services/TableService.js';
 import Button from '../../Button/Button.jsx';
 import Input from '../../Input/Input.jsx';
-import './Filter.scss';
+import s from './Filter.module.scss';
 import Select from '../../Select/Select.jsx'
 import { XIcon } from '@heroicons/react/outline';
+import classNames from 'classnames/bind.js';
+
+const cx =classNames.bind(s)
 
 export default function Filter({ columns,
   setFilterData, 
@@ -42,11 +45,11 @@ export default function Filter({ columns,
   }, [isFetching])
   return (
     <>
-      <div className='table-filter__elems'>
+      <div className={s['table-filter__elems']}>
         {values.map((val, index) => val.visible &&
-          <div className='table-filter__elem' key={val.id}>
+          <div className={s['table-filter__elem']} key={val.id}>
             <label
-              className={`table-filter__label${focus === val.id || val.value !== '' ? ' focused' : ''}`}>
+              className={cx({[`table-filter__label`]:true, 'focused': (focus===val.id || val.value!=='')})}>
               {val.title}
             </label>
             <Input
@@ -57,12 +60,12 @@ export default function Filter({ columns,
               handleChange={(e) => handleChange(e, val)}
               setFocus={setFocus}
             />
-            <XIcon width={10} color='red' className='table-filter__elem__x-icon' onClick={() => handleRemove(val.id)} />
+            <XIcon width={10} color='red' className={s['table-filter__elem__x-icon']} onClick={() => handleRemove(val.id)} />
           </div>)}
-        {!_.isEmpty(options) && <div className='table-filter__elem'>
+        {!_.isEmpty(options) && <div className={s['table-filter__elem']}>
           <Select key={keyOfSelect} options={options} handleChange={handleSelect} />
         </div>}
-        <div className="table-filter__buttons">
+        <div className={s["table-filter__buttons"]}>
           <Button handleClick={handleAccess} color='green' text='Применить' disabled={_.isEmpty(values.filter(el=>el.value!==''))}/>
           <Button handleClick={handleClear} color='white' text='Сбросить' disabled={_.isEmpty(data)}/>
         </div>

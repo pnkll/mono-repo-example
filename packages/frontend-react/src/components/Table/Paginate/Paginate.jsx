@@ -2,7 +2,7 @@ import ReactPaginate from "react-paginate"
 import React from "react"
 import './Paginate.scss'
 import {ChevronDoubleLeftIcon, ChevronDoubleRightIcon, DotsHorizontalIcon} from '@heroicons/react/solid'
-import { setEditMode, setPage, useTrackedTable } from "../../Providers/Table/TableContext"
+import { setEditMode, setPage, useTrackedTable } from "../../../Providers/Table/TableContext"
 
 export default function Paginate({ 
     className, pageClassName, 

@@ -5,6 +5,10 @@ import { useParams } from 'react-router-dom';
 import { setDragDropMode, setEditMode, setFilterMode, setIsOpen, setPage, useTrackedTable, } from '../../../Providers/Table/TableContext.js';
 import { tableApi } from '../../../services/TableService.js';
 import Button from '../../Button/Button.jsx';
+import s from './TableHeader.module.scss'
+import classNames from 'classnames/bind'
+
+const cx = classNames.bind(s)
 
 export default React.memo(function TableHeader({ cls = 'table', filters, setFilters, editable = false, createHref, filterable }) {
     const [{ addContent, totalPages, dragDropMode, isOpen }, dispatch] = useTrackedTable()
@@ -20,18 +24,18 @@ export default React.memo(function TableHeader({ cls = 'table', filters, setFilt
     }
     return (
         <>
-            <div className={`${cls}__filters__container`}>
-                <div className={`${cls}__filters__group`}>
+            <div className={s[`${cls}__filters__container`]}>
+                <div className={s[`${cls}__filters__group`]}>
                     {!isNil(filters) && filters.map((filter, index) => <button
                         key={index}
                         disabled={filter.status}
-                        className={`${cls}__filters__group__elem ${filter.status ? 'active' : ''}`}
+                        className={cx({[`${cls}__filters__group__elem`]:true, 'active': filter.status})}
                         onClick={() => setFilters(filters.map((el) => el.title === filter.title
                             ? { ...el, status: true }
                             : { ...el, status: false }))}
                     >{filter.title}</button>)}
                 </div>
-                <div className={`${cls}__filters__control`}>
+                <div className={s[`${cls}__filters__control`]}>
                     {/* {!isNil(buttons) && buttons.map((el, index) => <Button key={index} cls={el.className ? el.className : 'button'} text={el.text} handleClick={el.callback} color={el.color} href={el.href} />)} */}
                     {!isNil(createHref)&&<Button href={createHref} classNamePrefix={'table__filters button'} text='Создать'/>}
                     {editable && <>

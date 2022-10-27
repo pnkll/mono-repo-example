@@ -1,0 +1,25 @@
+.table{
+    &__bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        position: sticky;
+        margin: 0;
+        bottom: 0px;
+        background: var(--table-cell-bg);
+        z-index: 1;
+        min-height: 30px;
+
+        &__counts {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+
+            &__info {
+                margin: 0 10px 0 0;
+                font-size: 13px;
+            }
+        }
+    }
+}

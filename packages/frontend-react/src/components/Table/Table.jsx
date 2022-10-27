@@ -7,7 +7,7 @@ import _, { isNil } from "lodash"
 import Filter from "./Filter/Filter.jsx"
 import HeaderSort from "./HeaderSort/HeaderSort.jsx"
 import PreloaderCell from "./PreloaderCell/PreloaderCell.jsx"
-import DragNDropCell from "../DragNDropCell/DragNDropCell.jsx"
+import DragNDropCell from "../DragNDropRow/DragNDropRow.jsx"
 import EditRow from "./EditRow/EditRow.jsx"
 import { tableApi } from "../../services/TableService.js"
 import TableBottom from "./TableBottom/TableBottom.jsx"
@@ -16,6 +16,7 @@ import PreloaderForPage from "../PreloaderForPage/PreloaderForPage"
 import ErrorForPage from "../ErrorForPage/ErrorForPage"
 import SortableHeaderCell from "./SortableHeaderCell/SortableHeaderCell"
 import FillRow from "./FillRow/FillRow"
+import DragNDropRow from '../DragNDropRow/DragNDropRow'
 
 //React.memo(
 const TableInner = React.memo(({
@@ -202,18 +203,7 @@ const TableInner = React.memo(({
                                         : !state.dragDropMode && <EditRow classNamePrefix={cls} headerGroups={headerGroups} />
                                 }
 
-                                {state.dragDropMode && <tr className={`${cls}__body__row`}>
-                                    <td
-                                        style={{
-                                            minWidth: '500px',
-                                            textAlign: 'center',
-                                            padding: '30px 0',
-                                            height: '100px',
-                                        }}
-                                        colSpan={headerGroups[headerGroups.length - 1].headers.length}>
-                                        <DragNDropCell id={id} />
-                                    </td>
-                                </tr>}
+                                {state.dragDropMode && <DragNDropRow cls={cls} headerGroups={headerGroups}/>}
                             </tbody>
                         </table>
                         <TableBottom data={data} />

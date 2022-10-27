@@ -7,13 +7,11 @@ import ReactModal from 'react-modal';
 import { useParams } from 'react-router-dom';
 import { setBody, UploadContext } from '../../Providers/UploadNotify';
 import Button from '../Button/Button';
-import s from './UploaderModal.module.scss'
+import s from './ResumableModal.module.scss'
 import ToggleInput from '../ToggleInput/ToggleInput'
 
-export default function UploaderModal({ isOpen, setIsOpen, }) {
+export default function UploaderModal({ isOpen, setIsOpen, r}) {
     ReactModal.setAppElement('#root');
-    const [state, dispatch, r] = useContext(UploadContext)
-    const [files, setFiles] = React.useState(r.files)
     const customStyles = {
         overlay: {
             zIndex: 100,
@@ -27,25 +25,24 @@ export default function UploaderModal({ isOpen, setIsOpen, }) {
     }
     const [withDeletion, setWithDeletion] = React.useState(false)
     function handleSend() {
-        setIsOpen(false)
+        setIsOpen(null)
         r.upload()
-        dispatch(setBody({ id: 'tables', body: { id: location.pathname.split('/')[2], withDeletion } }))
+        //dispatch(setBody({ id: 'tables', body: { id: location.pathname.split('/')[2], withDeletion } }))
 
     }
     async function handleClose() {
         r.cancel()
-        setIsOpen(false)
+        setIsOpen(null)
     }
     function handleRemove(file) {
-        if (r.files.length > 1) {
-            setFiles(files.filter(el => el !== file))
+        if (r.files.length !== 1) {
             r.removeFile(file)
         } else {
             handleClose()
         }
     }
     const [focus, setFocus] = React.useState(null)
-
+    console.log(r.files)
     return (
         <>
             <ReactModal

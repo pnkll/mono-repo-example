@@ -3,7 +3,7 @@ import React from "react";
 import { useReducer } from "react";
 import { useSelector } from "react-redux";
 import Resumablejs from 'resumablejs'
-import UploaderModal from "../components/UploaderModal/UploaderModal";
+// import UploaderModal from "../components/UploaderModal/UploaderModal";
 import { tableApi } from "../services/TableService";
 import { selectToken } from "../store/slices/appSlice";
 
@@ -220,10 +220,10 @@ export default function UploadProgressProvider({ children }) {
     return (<>
         <UploadContext.Provider value={[state, dispatch, resumable?.r]}>
             {children}
-            {!isNil(resumable)
+            {/* {!isNil(resumable)
                 && <UploaderModal
                     isOpen={isOpenModal}
-                    setIsOpen={setIsOpenModal} />}
+                    setIsOpen={setIsOpenModal} />} */}
         </UploadContext.Provider>
     </>
     )

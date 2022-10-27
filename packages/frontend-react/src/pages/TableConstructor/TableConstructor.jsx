@@ -9,7 +9,6 @@ import * as Yup from 'yup'
 import TableConstrustorField from "../../components/TableConstructor/TableConstructorField/TableConstrustorField.jsx";
 import { PlusIcon } from "@heroicons/react/outline";
 import InfoPopUp from "../../components/InfoPopUp/InfoPopUp.jsx";
-import DragNDropCell from "../../components/DragNDropCell/DragNDropCell.jsx";
 import TransitionLayout from "../../page_layouts/TransitionLayout/TransitionLayout.jsx";
 import Input from "../../components/Input/Input.jsx";
 import { tableApi } from "../../services/TableService.js";

@@ -38,7 +38,7 @@ export default function UploadNotification({ id, resumable: r, status = 'success
             case 'error':
                 return <>
                     <RefreshIcon width={20} onClick={() => r.files.forEach(file => file.retry())} />
-                    <XIcon color='red' width={20} onClick={() => { r.cancel(); dispatch(setStatus({ id: id, status: null })) }} />
+                    <XIcon color='red' width={20} onClick={() => { r.cancel()}} />
                 </>
         }
     }

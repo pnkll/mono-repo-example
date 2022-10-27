@@ -27,6 +27,7 @@ export default function Roles() {
         <>{!isNil(roleList) &&
             <TransitionLayout from='bottom'>
                 <Table
+                createHref='new'
                     customColumns={columns}
                     customData={roleList}
                 //buttons={buttons}

@@ -1,6 +1,6 @@
 import { ChevronDownIcon } from "@heroicons/react/solid"
 import { Formik } from "formik"
-import { isNil } from "lodash"
+import _, { isNil } from "lodash"
 import React, { useEffect, useState } from "react"
 import ReactSelect, { components, NonceProvider } from "react-select"
 
@@ -80,16 +80,22 @@ export default function Select({ options, indicator, formik,customStyles, classN
 
     }
     const [key, setKey] = React.useState(1)
-    function getDefaultValue() {
+    const defValue = React.useMemo(()=>{
         if (isMulti) {
-            return !isNil(formik) && formik.values[id].map(el => el && options.find(elem => elem.value === el))
+            return !_.isEmpty(options)
+                ?!isNil(formik) 
+                    && formik.values[id].map(el => el && options.find(elem => elem.value === el))
+                :[]
         } else {
-            return !isNil(formik) ? options?.find(el => el.value === formik.values[id]) : defaultValue && options?.find(el => el.value === selectedValue)
+            return !isNil(formik) 
+            ? options?.find(el => el.value === formik.values[id]) 
+            : defaultValue 
+                && options?.find(el => el.value === selectedValue)
         }
-    }
-    React.useEffect(() => {
-        !isNil(getDefaultValue()) && setKey(v => v + 1)
-    }, [getDefaultValue()])
+    },[options])
+    React.useLayoutEffect(() => {
+        !isNil(defValue) && setKey(v => v + 1)
+    }, [defValue])
     return (
         <>
             <div className="" style={{ display: 'flex', flexDirection: 'column' }}>
@@ -105,7 +111,7 @@ export default function Select({ options, indicator, formik,customStyles, classN
                     classNamePrefix={classNamePrefix}
                     styles={styles}
                     options={options}
-                    defaultValue={defaultValue ? getDefaultValue() : null}
+                    defaultValue={defaultValue ? defValue : null}
                     components={{ DropdownIndicator: () => indicator ? indicator : <ArrowsForSelectIcon style={{ paddingRight: '11px' }} /> }}
                     onChange={(e) => !isNil(formik) ? isMulti ? formik.setFieldValue(id, e.map(el => el.value)) : formik.setFieldValue(id, e.value) : handleChange(e.value)}
                     menuPlacement={menuPlacement} />

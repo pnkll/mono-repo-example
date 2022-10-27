@@ -56,8 +56,10 @@ export default function Role() {
                 <div className="">
                     <form onSubmit={(e) => { e.preventDefault(); formik.handleSubmit() }} style={{ position: 'relative' }}>
                         <Input formik={formik} id='title' name='title' label='Название' />
-                        <Select formik={formik} options={options} defaultValue={isNew?false:true} id='permissions' name='permissions' label='Права' isMulti={true} />
-                        <Button type='submit' text={editMode ? isNil(params.id) ? 'Создать роль' : 'Сохранить' : 'Редактировать'} color={editMode ? isNil(params.id) ? 'green' : 'green' : 'blue'} isLoading={isLoadingUpdate || isLoadingPost} />
+                        <Select formik={formik} options={options} 
+                        defaultValue={isNew?false:true} 
+                        id='permissions' name='permissions' label='Права' isMulti={true} />
+                        <Button type='submit' text={editMode ? isNew ? 'Создать роль' : 'Сохранить' : 'Редактировать'} color={editMode ? isNil(params.id) ? 'green' : 'green' : 'blue'} isLoading={isLoadingUpdate || isLoadingPost} />
                     </form>
                 </div>)}
         </Formik>

@@ -84,7 +84,9 @@ export default function Select({ options, indicator, formik,customStyles, classN
         if (isMulti) {
             return !_.isEmpty(options)
                 ?!isNil(formik) 
-                    && formik.values[id].map(el => el && options.find(elem => elem.value === el))
+                    &&defaultValue
+                        ? formik.values[id].map(el => el && options.find(elem => elem.value === el))
+                        : []
                 :[]
         } else {
             return !isNil(formik) 

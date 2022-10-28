@@ -1,7 +1,7 @@
 import React from "react";
-import Header from "../../components/Header/Header.jsx";
 import s from './HeaderLayout.module.scss'
 import classNames from 'classnames/bind'
+import Header from "@components/Header/Header";
 
 const cx = classNames.bind(s)
 

@@ -7,7 +7,7 @@ import s from './TransitionLayout.module.scss'
 const cx = classNames.bind(s)
 
 
-export default function TransitionLayout({ children, from = 'right', overflowX = 'hidden', h = '100%', w = '100%', delay = 100, custom }) {
+export default function TransitionLayout({ children, from = 'right', overflowX = 'hidden', h = '100%', w = '100%', delay = 100, custom=null }) {
 
     const position = () => {
         switch (from) {

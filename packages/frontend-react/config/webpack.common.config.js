@@ -77,7 +77,18 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ['.jsx', '.js']
+        extensions: ['.jsx', '.js'],
+        modules: [path.resolve(__dirname,'../'),'node_modules'],
+        alias: {
+            '@src': path.resolve(__dirname,'../src'),
+            '@components': path.resolve(__dirname,'../src/components'),
+            '@services': path.resolve(__dirname,'../src/services'), 
+            '@assets': path.resolve(__dirname,'../src/assets'),
+            '@hooks': path.resolve(__dirname,'../src/hooks'),
+            '@pages': path.resolve(__dirname,'../src/pages'),
+            '@store': path.resolve(__dirname,'../src/store'),
+            '@forms': path.resolve(__dirname,'../src/forms'),
+        }
     },
     devtool: 'inline-source-map'
 }

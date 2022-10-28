@@ -12,7 +12,7 @@ import TaskForm from '../../../forms/Task/TaskForm';
 import { usersApi } from '../../../services/UsersService';
 import { rolesApi } from '../../../services/RolesService';
 
-export default function Task() {
+export default function TaskById() {
     const params = useParams()
     const isNew = isNil(params.id)
     const [getTask, { data: task, isLoading, isFetching, isError, isSuccess }] = taskApi.useLazyGetTaskByIdQuery()

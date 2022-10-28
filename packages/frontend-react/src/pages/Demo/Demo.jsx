@@ -17,7 +17,7 @@ import _ from "lodash";
 import TransitionLayout from "../../page_layouts/TransitionLayout/TransitionLayout.jsx";
 import Preloader from "../../components/Preloader/Preloader.jsx";
 
-export default function Form() {
+export default function Demo() {
 
     const validationSchema = yup.object({
         email: emailValidator(true),

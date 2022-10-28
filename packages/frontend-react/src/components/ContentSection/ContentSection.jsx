@@ -17,7 +17,7 @@ function ContentSectionWithProvider({ }) {
     console.log(resumables)
     return (
         <>
-            <div className={s["content__container"]}>
+            <section className={s["content__container"]}>
                 {(!_.isEmpty(notificationsList) || !_.isEmpty(resumables))
                     && <div className={s["content__notifications__wrapper"]}>
                         {/* {resumables.map(el => !isNil(el.status)
@@ -27,7 +27,7 @@ function ContentSectionWithProvider({ }) {
                     </div>}
                 <Outlet />
                 <CallWrapper />
-            </div>
+            </section>
         </>
     )
 }

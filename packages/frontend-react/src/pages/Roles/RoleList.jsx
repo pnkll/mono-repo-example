@@ -7,10 +7,8 @@ import Button from '../../components/Button/Button.jsx';
 import { useSelector } from 'react-redux';
 import { selectRoleList } from '../../store/slices/rolesSlice.js';
 import { isNil } from 'lodash';
-import { useNavigate } from 'react-router-dom';
-import { rolesApi } from '../../services/RolesService.js';
 
-export default function Roles() {
+export default function RoleList() {
     const roleList = useSelector(selectRoleList)
     function formatDate(date) {
         return moment(date).locale('ru').format("Do MMMM YYYY")

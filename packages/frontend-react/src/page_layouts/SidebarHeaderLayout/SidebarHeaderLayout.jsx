@@ -1,11 +1,12 @@
 import React from "react";
-import Header from "../../components/Header/Header.jsx";
-import Sidebar from "../../components/Sidebar/Sidebar.jsx";
-import TransitionLayout from "../TransitionLayout/TransitionLayout.jsx";
+import Header from "@components/Header/Header.jsx";
+import Sidebar from "@components/Sidebar/Sidebar.jsx";
 import _ from "lodash";
-import ContentSection from "../../components/ContentSection/ContentSection";
+import ContentSection from "@components/ContentSection/ContentSection";
 import s from './SidebarHeaderLayout.module.scss'
 import classNames from 'classnames/bind'
+import TransitionLayout from "@src/page_layouts/TransitionLayout/TransitionLayout";
+import NotifySection from "@components/NotifySection/NotifySection";
 
 const cx = classNames.bind(s) 
 
@@ -27,6 +28,7 @@ export default React.memo(function SidebarHeaderLayout() {
                         <Header />
                     </TransitionLayout>
                     <ContentSection />
+                    <NotifySection/>
                 </div>
             </div>
         </>

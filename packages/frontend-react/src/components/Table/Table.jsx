@@ -8,7 +8,6 @@ import Filter from "./Filter/Filter.jsx"
 import HeaderSort from "./HeaderSort/HeaderSort.jsx"
 import PreloaderCell from "./PreloaderCell/PreloaderCell.jsx"
 import EditRow from "./EditRow/EditRow.jsx"
-import { tableApi } from "../../services/TableService.js"
 import TableBottom from "./TableBottom/TableBottom.jsx"
 import { ProviderTable, setLimit, setPage, setTotalDocs, setTotalPages, useTrackedTable } from "../../Providers/Table/TableContext.js"
 import PreloaderForPage from "../PreloaderForPage/PreloaderForPage"
@@ -17,6 +16,7 @@ import SortableHeaderCell from "./SortableHeaderCell/SortableHeaderCell"
 import FillRow from "./FillRow/FillRow"
 import DragNDropRow from '../DragNDropRow/DragNDropRow'
 import className from 'classnames/bind'
+import { tableApi } from "@services/TableService"
 
 const cx = className.bind(s)
 

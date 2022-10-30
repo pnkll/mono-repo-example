@@ -1,0 +1,14 @@
+.notify{
+    &__container{
+        position: absolute;
+        top: 0;
+        right: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-end;
+        &.empty{
+            display: none;
+        }
+    }
+}

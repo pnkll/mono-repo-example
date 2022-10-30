@@ -1,6 +1,16 @@
 {
   "compilerOptions": {
+    "outDir": "./dist",
     "baseUrl": ".",
+    "noImplicitAny": true,
+    "module": "es6",
+    "target": "es5",
+    "jsx": "react-jsx",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "inlineSourceMap": true,
     "paths": {
       "@components/*": [
         "./src/components/*"

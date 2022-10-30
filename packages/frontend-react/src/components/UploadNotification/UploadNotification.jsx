@@ -8,7 +8,7 @@ import { useContext } from 'react';
 import { setStatus, UploadContext } from '../../Providers/UploadNotify';
 import { useEffect } from 'react';
 
-export default function UploadNotification({ id, resumable: r, status = 'success', message = null, dispatch, progress }) {
+export default function UploadNotification({id, resumable: r,status,message,progress }) {
     function getTitle() {
         switch (status) {
             case 'progress':

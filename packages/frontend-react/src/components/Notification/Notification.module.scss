@@ -48,7 +48,7 @@
     }
     100%{
         //transform: translateX(0px);
-        right: 0%;
+        right: calc( 0% + 10px) ;
     }
 }
 @keyframes to-right {

@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { setShowModal, useTrackedResumable } from '../../Providers/Resumable/ResumableContext';
 import { useResumable } from '../../hooks/useResumable';
-import ResumableModal from '../ResumableModal/ResumableModal';
+import ResumablePopup from '@components/Popup/ResumablePopup/ResumablePopup';
 
 export default function FileInput({resumableId, options, ...other}) {
     const r = useResumable({id:resumableId, options})
@@ -10,7 +10,8 @@ export default function FileInput({resumableId, options, ...other}) {
     return (
         <>
             <input type='file' onChange={(e)=>r.addFiles(e.target.files)} {...other}/>
-            {showModal===resumableId&&<ResumableModal isOpen={showModal===resumableId} setIsOpen={(e)=>dispatch(setShowModal(e))} r={r}/>}
+            {showModal===resumableId&& <ResumablePopup isOpen={showModal} onRequestClose={()=>dispatch(setShowModal(false))} r={r}/>
+            }
         </>
     )
 }

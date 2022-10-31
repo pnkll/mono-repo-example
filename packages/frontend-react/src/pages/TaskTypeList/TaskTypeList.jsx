@@ -1,8 +1,8 @@
+import ConfirmPopup from '@components/Popup/ConfirmPopup/ConfirmPopup';
 import { XIcon } from '@heroicons/react/outline';
 import { isNil } from 'lodash';
 import React, { useRef, useState } from 'react';
 import Button from '../../components/Button/Button.jsx';
-import ConfirmModal from '../../components/ConfirmModal/ConfirmModal.jsx';
 import Table from '../../components/Table/Table.jsx';
 import SidebarHeaderLayout from '../../page_layouts/SidebarHeaderLayout/SidebarHeaderLayout.jsx';
 import TransitionLayout from '../../page_layouts/TransitionLayout/TransitionLayout.jsx';
@@ -11,13 +11,10 @@ import { taskTypeApi } from '../../services/TaskTypeService.js';
 export default function TaskTypeList() {
     const { data: taskTypesList, error, isLoading: isLoadingGet, isFetching, } = taskTypeApi.useGetTaskTypesQuery()
     const [fetchRemoveTaskType, { isLoading: isLoadingRemove }] = taskTypeApi.useRemoveTaskTypeMutation()
-    // async function removeTaskType(id) {
-    //     await fetchRemoveTaskType(id)
-    // }
-    const modalCallback = useRef()
+    const onAccess = useRef()
     const [showModal, setShowModal] = useState(false)
     function handleClick(id) {
-        modalCallback.current = () => fetchRemoveTaskType(id)
+        onAccess.current = () => fetchRemoveTaskType(id)
         setShowModal(true)
     }
     function customTd(value) {
@@ -29,7 +26,7 @@ export default function TaskTypeList() {
 
         </div>
     }
-    const columns = React.useMemo(()=>[
+    const columns = [
         { Header: '', accessor: '_id', Cell: ({ cell: { value } }) => customTd(value) || '-' },
         { Header: 'Название', accessor: 'title' },
         { Header: 'Исполнитель', accessor: 'executor' },
@@ -38,9 +35,7 @@ export default function TaskTypeList() {
         { Header: 'Прикрепить', accessor: 'linkedContent' },
         { Header: 'Dead Line', accessor: 'deadLineHours' },
         { Header: 'Степень важности', accessor: 'priority' },
-    ],[])
-    // const [fetchPostTaskType] = taskTypeApi.usePostTaskTypeMutation()
-    // const buttons = React.useMemo(() => [{ text: 'Создать', href: 'new', className: 'table__filters button' }], [])
+    ]
     return (
         <>
             <TransitionLayout from='bottom'>
@@ -54,10 +49,9 @@ export default function TaskTypeList() {
                         emptyCell={error
                             ? 'Произошла ошибка при загрузке данных'
                             : 'Пока что нет ни одного шаблона'}
-                        //buttons={buttons} 
                         />}
             </TransitionLayout>
-            <ConfirmModal callback={modalCallback} isOpen={showModal} setIsOpen={setShowModal} label={'Вы действительно хотите удалить шаблон?'}/>
+            {showModal&&<ConfirmPopup isOpen={showModal} onAccess={onAccess} question='Вы действительно хотите удалить шаблон?' onRequestClose={()=>setShowModal(false)}/>}
         </>
     )
 }

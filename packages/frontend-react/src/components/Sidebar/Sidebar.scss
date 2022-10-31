@@ -19,44 +19,51 @@ $breakpoint-lg: 992px !default;
 $breakpoint-xl: 1200px !default;
 $breakpoint-xxl: 1600px !default;
 
-@import  'react-pro-sidebar/dist/scss/styles.scss' ;
+@import 'react-pro-sidebar/dist/scss/styles.scss';
 
-.pro-sidebar{
-    &-inner{
+.pro-sidebar {
+    &-inner {
         border-radius: 5px !important;
-        border: 2px solid var(--sidebar-bg); 
-        li{
+        border: 2px solid var(--sidebar-bg);
+
+        li {
             color: var(--sidebar-text-color)
         }
     }
+
     //min-height: calc(100vh - 10px) !important;
 }
 
-.pro-sub-menu{
-    &.open{
-        .pro-arrow-wrapper{
-            right: 31px!important;
-            .pro-arrow{
+.pro-sub-menu {
+    &.open {
+        .pro-arrow-wrapper {
+            right: 31px !important;
+
+            .pro-arrow {
+
                 //display: none !important;
-                &::after{
+                &::after {
                     display: block;
-                    content: '—'!important;
-                    font-size: 15px!important;
+                    content: '—' !important;
+                    font-size: 15px !important;
                 }
             }
         }
     }
-    .pro-arrow-wrapper{
-        right: 27px!important;
-        .pro-arrow{
+
+    .pro-arrow-wrapper {
+        right: 27px !important;
+
+        .pro-arrow {
             width: 0px !important;
             transform: none !important;
             border: 0 !important;
-    padding: 0 !important;
-    vertical-align: none !important;
-            &::after{
+            padding: 0 !important;
+            vertical-align: none !important;
+
+            &::after {
                 display: block;
-                content: '+'!important;
+                content: '+' !important;
             }
         }
     }

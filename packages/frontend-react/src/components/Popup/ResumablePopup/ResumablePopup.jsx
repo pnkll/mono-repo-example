@@ -1,38 +1,15 @@
-import { XIcon } from '@heroicons/react/outline';
-import _, { isNil } from 'lodash';
+import OverlayPopup from '@components/Popup/OverlayPopup/OverlayPopup';
 import React from 'react';
-import { useContext } from 'react';
-import { useEffect } from 'react';
-import ReactModal from 'react-modal';
-import { useParams } from 'react-router-dom';
-import { setBody, UploadContext } from '../../Providers/UploadNotify';
-import Button from '../Button/Button';
-import s from './ResumableModal.module.scss'
-import ToggleInput from '../ToggleInput/ToggleInput'
 
-export default function UploaderModal({ isOpen, setIsOpen, r}) {
-    ReactModal.setAppElement('#root');
-    const customStyles = {
-        overlay: {
-            zIndex: 100,
-            backgroundColor: 'rgba(255, 255, 255, 0.50)'
-        },
-        content: {
-            inset: '50% auto auto 50%',
-            transform: 'translate(-50%,-50%)',
-            minWidth: '321px'
-        }
-    }
-    const [withDeletion, setWithDeletion] = React.useState(false)
+export default function ResumablePopup({ isOpen, onRequestClose, r }) {
+    const withDeletion = true
     function handleSend() {
-        setIsOpen(null)
         r.upload()
-        //dispatch(setBody({ id: 'tables', body: { id: location.pathname.split('/')[2], withDeletion } }))
-
+        onRequestClose()
     }
     async function handleClose() {
         r.cancel()
-        setIsOpen(null)
+        onRequestClose()
     }
     function handleRemove(file) {
         if (r.files.length !== 1) {
@@ -42,13 +19,12 @@ export default function UploaderModal({ isOpen, setIsOpen, r}) {
         }
     }
     const [focus, setFocus] = React.useState(null)
-    console.log(r.files)
     return (
         <>
-            <ReactModal
-                style={customStyles}
+            <OverlayPopup
                 isOpen={isOpen}
-                onRequestClose={handleClose}>
+                onRequestClose={onRequestClose}
+            >
                 <div className={s['modal__header']}>
                     <XIcon color={'red'} width={20} onClick={handleClose} className={s['modal__x-icon']} />
                     <Button handleClick={handleSend} text='Отправить' color='blue' />
@@ -74,7 +50,7 @@ export default function UploaderModal({ isOpen, setIsOpen, r}) {
                                 </span>
                             </div>)}
                 </div>
-            </ReactModal>
+            </OverlayPopup>
         </>
     )
 }

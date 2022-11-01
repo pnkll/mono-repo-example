@@ -2,13 +2,13 @@ import { PaperClipIcon, XIcon } from "@heroicons/react/outline";
 import { isEmpty } from "lodash";
 import { isNil } from "lodash";
 import React from "react";
-import TextareaAutosize from "react-textarea-autosize";
+import TextAreaAutosize from "@components/UiKit/TextArea/TextAreaAutoSize/TextAreaAutoSize";
 import s from './TextArea.module.scss'
 import classNames from "classnames/bind";
 
 const cx = classNames.bind(s)
 
-export default function TextArea({ formik, id, name, label, required, placeholder, maxLength = 100, minRows = 3, maxRows = 5, withAttach = false, attachId,readonly=false }) {
+export default function TextArea({ formik, id, name, label, required, placeholder, minRows = 3, maxRows = 5, withAttach = false, attachId,readonly=false, height=70,maxLength=100 }) {
     function handleRemove(idx){
         formik.setFieldValue(attachId,formik.values[attachId].filter((el,index)=>index!==idx))
     }
@@ -18,7 +18,8 @@ export default function TextArea({ formik, id, name, label, required, placeholde
             {label && <label className={s["textarea__label"]}>{label} {required && '*'}
             </label>}
             <div className={cx({["textarea__wrapper"]:true, focused: focused})}>
-                <TextareaAutosize
+                <TextAreaAutosize
+                    defaultHeight={height}
                     onFocus={()=>setFocused(true)}
                     onBlur={()=>setFocused(false)}
                     className={s['textarea__input']}
@@ -26,10 +27,8 @@ export default function TextArea({ formik, id, name, label, required, placeholde
                     name={name}
                     value={formik.values[id]}
                     placeholder={placeholder}
-                    onChange={formik.handleChange}
                     maxLength={maxLength}
-                    minRows={minRows}
-                    maxRows={maxRows}
+                    formik={formik}
                     readOnly={readonly}
                 />
                 {!isEmpty(formik?.values[attachId]) && <div className={s["textarea__files-preview__container"]}>

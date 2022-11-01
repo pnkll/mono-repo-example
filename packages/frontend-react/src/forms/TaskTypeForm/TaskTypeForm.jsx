@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Input from '../../components/Input/Input.jsx';
 import { Formik } from 'formik';
-import TextArea from '../../components/TextArea/TextArea.jsx';
+import TextArea from '../../components/UiKit/TextArea/TextArea.jsx';
 import Select from '../../components/Select/Select.jsx';
 import * as Yup from 'yup'
 import { taskTypeApi } from '../../services/TaskTypeService.js';

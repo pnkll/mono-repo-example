@@ -14,7 +14,7 @@ import Button from '../Button/Button';
 import DatePicker from '../DatePicker/DatePicker';
 import Input from '../Input/Input';
 import Select from '../Select/Select'
-import TextArea from '../TextArea/TextArea';
+import TextArea from '../UiKit/TextArea/TextArea';
 
 export default function CalendarModal({ isOpen, setIsOpen, data }) {
     ReactModal.setAppElement('#root')

@@ -3,7 +3,7 @@ import { isNil } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import Input from '../../Input/Input.jsx';
 import Select from '../../Select/Select.jsx';
-import TextArea from '../../TextArea/TextArea.jsx';
+import TextArea from '../../UiKit/TextArea/TextArea.jsx';
 import ToggleInput from '../../ToggleInput/ToggleInput.jsx';
 import './TableConstructorField.scss'
 

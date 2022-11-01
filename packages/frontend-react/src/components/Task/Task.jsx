@@ -4,7 +4,7 @@ import CardLayout from '../../page_layouts/CardLayout/CardLayout.jsx';
 import DatePicker from '../DatePicker/DatePicker.jsx';
 import Input from '../Input/Input.jsx';
 import Select from '../Select/Select.jsx';
-import TextArea from '../TextArea/TextArea.jsx';
+import TextArea from '../UiKit/TextArea/TextArea.jsx';
 import s from './Task.module.scss'
 import InfoPopUp from '../InfoPopUp/InfoPopUp.jsx'
 import AutoTextArea from '../AutoTextArea/AutoTextArea.jsx';

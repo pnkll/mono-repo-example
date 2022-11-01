@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik'
 import Input from '../Input/Input.jsx'
-import TextArea from '../TextArea/TextArea.jsx'
+import TextArea from '../UiKit/TextArea/TextArea.jsx'
 import DatePicker from '../DatePicker/DatePicker.jsx'
 import Select from '../Select/Select.jsx';
 

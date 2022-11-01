@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import Input from "../../components/Input/Input.jsx";
 import PhoneInput from "../../components/PhoneInput/PhoneInput.jsx";
 import DatePicker from "../../components/DatePicker/DatePicker.jsx";
-import TextArea from "../../components/TextArea/TextArea.jsx";
+import TextArea from "../../components/UiKit/TextArea/TextArea.jsx";
 import Button from "../../components/Button/Button.jsx";
 import Table from "../../components/Table/Table.jsx"
 import * as axios from "axios"

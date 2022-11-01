@@ -1,7 +1,7 @@
 import { Formik } from 'formik';
 import React from 'react';
 import Input from '../../components/Input/Input';
-import TextArea from '../../components/TextArea/TextArea';
+import TextArea from '../../components/UiKit/TextArea/TextArea';
 import DatePicker from '../../components/DatePicker/DatePicker'
 import Select from '../../components/Select/Select'
 import { priorityOptions } from '../../helpers/forTask';

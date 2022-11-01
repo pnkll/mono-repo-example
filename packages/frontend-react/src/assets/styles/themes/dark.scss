@@ -27,4 +27,21 @@
 
     --input-bg: rgb(37, 36, 36);
     --input-color: white;
+
+    --button-hover-bgcolor: linear-gradient(0deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), linear-gradient(180deg, #FFFFFF 0%, #E7E9F3 85.74%, #D8DBE7 100%);
+
+    --button-primary-bgcolor: #197DD2;
+    --button-default-bgcolor: transparent;
+    --button-danger-bgcolor: #ea4853;
+    --button-access-bgcolor: #55917f;
+    --button-disabled-bgcolor: #8C90A2;
+
+    --button-primary-text-color: #fff;
+    --button-default-text-color: #fff;
+    --button-danger-text-color: #fff;
+    --button-access-text-color: #fff;
+    --button-disabled-text-color: #fff;
+
+    --content-item-overlay-bg: #e6e6e9;
+    --content-item-overlay-text-color: #252422;
 }

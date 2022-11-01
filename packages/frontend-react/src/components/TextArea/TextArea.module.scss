@@ -24,8 +24,14 @@
         position: relative;
         background: $color-white;
 
-        &.error {
+        &.focused{
+            
+        }
+        &.error{
             outline-color: red;
+        }
+        &.proof{
+            outline: 1px solid var(--proof-color);
         }
     }
 

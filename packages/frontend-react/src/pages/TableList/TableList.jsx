@@ -3,6 +3,7 @@ import TransitionOverlay from '@src/overlays/TransitionOverlay/TransitionOverlay
 import { tableApi } from '@services/TableService';
 import Table from '@components/Table/Table';
 import { dateFormat } from '@src/helpers/dateFormat';
+import Button from '@components/Button/Button';
 
 export default function TableList() {
     const columns = React.useMemo(() => [
@@ -15,7 +16,7 @@ export default function TableList() {
         <>
             <TransitionOverlay from='right'>
                 <Table
-                sortable={['createdAt','updatedAt']}
+                    sortable={['createdAt','updatedAt']}
                     createHref='new'
                     customColumns={columns}
                     rtkHook={tableApi.useLazyGetTablesQuery}

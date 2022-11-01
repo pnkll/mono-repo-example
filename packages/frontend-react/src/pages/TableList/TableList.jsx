@@ -1,15 +1,10 @@
 import React from 'react';
-import TransitionLayout from '../../page_layouts/TransitionLayout/TransitionLayout.jsx';
-import { tableApi } from '../../services/TableService.js';
-import Table from '../../components/Table/Table.jsx'
-import Button from '../../components/Button/Button.jsx';
-import moment from 'moment';
-import { dateFormat } from '../../helpers/dateFormat.js';
+import TransitionOverlay from '@src/overlays/TransitionOverlay/TransitionOverlay';
+import { tableApi } from '@services/TableService';
+import Table from '@components/Table/Table';
+import { dateFormat } from '@src/helpers/dateFormat';
 
 export default function TableList() {
-    function formatDate(date) {
-        return moment(date).locale('ru').format("Do MMMM YYYY")
-    }
     const columns = React.useMemo(() => [
         { Header: '', accessor: '_id', Cell: ({ cell: { value } }) => <Button color='green' text='Перейти' href={value} /> || '-' },
         { Header: 'Название', accessor: 'title' },
@@ -18,7 +13,7 @@ export default function TableList() {
     ])
     return (
         <>
-            <TransitionLayout from='right'>
+            <TransitionOverlay from='right'>
                 <Table
                 sortable={['createdAt','updatedAt']}
                     createHref='new'
@@ -26,9 +21,8 @@ export default function TableList() {
                     rtkHook={tableApi.useLazyGetTablesQuery}
                     filterable={false}
                     editable={false}
-                    //sortable={true}
                 />
-            </TransitionLayout>
+            </TransitionOverlay>
         </>
     )
 }

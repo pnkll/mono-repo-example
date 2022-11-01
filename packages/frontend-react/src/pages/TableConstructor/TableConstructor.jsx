@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import SidebarHeaderLayout from '../../page_layouts/SidebarHeaderLayout/SidebarHeaderLayout.jsx'
 import './TableConstructor.scss'
 import _, { isEmpty, isNil } from "lodash";
 import useDrag from "../../hooks/useDrag.js";
@@ -9,12 +8,12 @@ import * as Yup from 'yup'
 import TableConstrustorField from "../../components/TableConstructor/TableConstructorField/TableConstrustorField.jsx";
 import { PlusIcon } from "@heroicons/react/outline";
 import InfoPopUp from "../../components/InfoPopUp/InfoPopUp.jsx";
-import TransitionLayout from "../../page_layouts/TransitionLayout/TransitionLayout.jsx";
 import Input from "../../components/Input/Input.jsx";
 import { tableApi } from "../../services/TableService.js";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/slices/userSlice.js";
 import { useNavigate } from "react-router-dom";
+import TransitionOverlay from "@src/overlays/TransitionOverlay/TransitionOverlay";
 
 export default function TableConstructor() {
     const user = useSelector(selectCurrentUser)
@@ -74,7 +73,7 @@ export default function TableConstructor() {
     },[isSuccess])
     return (
         <>
-                <TransitionLayout>
+                <TransitionOverlay>
                     <div style={{ display: 'flex', gap: '20px', flexDirection: 'column', height: '100%' }}>
                         <div className="" style={{ display: 'flex', gap: '10px' }}>
                             <Button text='Добавить поле' color='green' handleClick={handleAppend} />
@@ -104,7 +103,7 @@ export default function TableConstructor() {
                         </div>
                         {_.has(table,'columns') && <Table label={table.title} columns={table.columns} data={[]} emptyCell={<DragNDropCell id={table.id} />} />}
                     </div>
-                </TransitionLayout>
+                </TransitionOverlay>
         </>
     )
 }

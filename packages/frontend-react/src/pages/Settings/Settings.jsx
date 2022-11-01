@@ -1,9 +1,8 @@
+import SettingItem from '@components/SettingItem/SettingItem';
 import { PencilIcon } from '@heroicons/react/outline';
+import TwoColumnLayout from '@src/layouts/TwoColumnLayout/TwoColumnLayout';
+import TransitionOverlay from '@src/overlays/TransitionOverlay/TransitionOverlay';
 import React from 'react';
-import SettingItem from '../../components/SettingItem/SettingItem.jsx';
-import TwoColumnLayout from '../../layouts/TwoColumnLayout/TwoColumnLayout.jsx';
-import SidebarHeaderLayout from '../../page_layouts/SidebarHeaderLayout/SidebarHeaderLayout.jsx'
-import TransitionLayout from '../../page_layouts/TransitionLayout/TransitionLayout.jsx';
 
 export default function Settings() {
 
@@ -14,11 +13,11 @@ export default function Settings() {
 
     return (
         <>
-                <TransitionLayout>
+                <TransitionOverlay>
                     <TwoColumnLayout>
                         <SettingItem label='Главные' items={items} />
                     </TwoColumnLayout>
-                </TransitionLayout>
+                </TransitionOverlay>
         </>
     )
 }

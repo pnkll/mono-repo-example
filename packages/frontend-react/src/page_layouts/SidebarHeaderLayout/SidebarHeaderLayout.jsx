@@ -4,9 +4,8 @@ import _ from "lodash";
 import ContentSection from "@components/ContentSection/ContentSection";
 import s from './SidebarHeaderLayout.module.scss'
 import classNames from 'classnames/bind'
-import TransitionLayout from "@src/page_layouts/TransitionLayout/TransitionLayout";
-import NotifySection from "@components/NotifySection/NotifySection";
 import Sidebar from "@components/Sidebar/Sidebar";
+import TransitionOverlay from "@src/overlays/TransitionOverlay/TransitionOverlay";
 
 const cx = classNames.bind(s)
 
@@ -19,13 +18,13 @@ export default React.memo(function SidebarHeaderLayout() {
     return (
         <>
             <div className={cx({ 'sidebar-header-layout__container': true,})}>
-                {<TransitionLayout from='left' overflowX='visible' h='auto' w='auto' custom={transitionForSidebar}>
+                <TransitionOverlay from='left' overflowX='visible' h='auto' w='auto' custom={transitionForSidebar}>
                     <Sidebar />
-                </TransitionLayout>}
+                </TransitionOverlay>
                 <div className={cx({ 'sidebar-header-layout__wrapper': true })}>
-                    <TransitionLayout from='top' overflowX='hidden' h='auto' w='auto'>
+                    <TransitionOverlay from='top' overflowX='hidden' h='auto' w='auto'>
                         <Header />
-                    </TransitionLayout>
+                    </TransitionOverlay>
                     <ContentSection />
                 </div>
             </div>

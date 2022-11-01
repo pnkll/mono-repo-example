@@ -1,11 +1,10 @@
 import ConfirmPopup from '@components/Popup/ConfirmPopup/ConfirmPopup';
 import { XIcon } from '@heroicons/react/outline';
+import TransitionOverlay from '@src/overlays/TransitionOverlay/TransitionOverlay';
 import { isNil } from 'lodash';
 import React, { useRef, useState } from 'react';
 import Button from '../../components/Button/Button.jsx';
 import Table from '../../components/Table/Table.jsx';
-import SidebarHeaderLayout from '../../page_layouts/SidebarHeaderLayout/SidebarHeaderLayout.jsx';
-import TransitionLayout from '../../page_layouts/TransitionLayout/TransitionLayout.jsx';
 import { taskTypeApi } from '../../services/TaskTypeService.js';
 
 export default function TaskTypeList() {
@@ -38,7 +37,7 @@ export default function TaskTypeList() {
     ]
     return (
         <>
-            <TransitionLayout from='bottom'>
+            <TransitionOverlay from='bottom'>
                 {!isLoadingGet &&
                     <Table
                         createHref={'new'}
@@ -50,8 +49,9 @@ export default function TaskTypeList() {
                             ? 'Произошла ошибка при загрузке данных'
                             : 'Пока что нет ни одного шаблона'}
                         />}
-            </TransitionLayout>
-            {showModal&&<ConfirmPopup isOpen={showModal} onAccess={onAccess} question='Вы действительно хотите удалить шаблон?' onRequestClose={()=>setShowModal(false)}/>}
+            </TransitionOverlay>
+            {showModal
+                &&<ConfirmPopup isOpen={showModal} onAccess={onAccess} question='Вы действительно хотите удалить шаблон?' onRequestClose={()=>setShowModal(false)}/>}
         </>
     )
 }

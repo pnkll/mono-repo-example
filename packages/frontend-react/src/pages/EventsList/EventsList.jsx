@@ -4,8 +4,8 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Link, useNavigate } from 'react-router-dom';
 import 'moment/locale/ru';
-import BigCalendar from '../../components/BigCalendar/BigCalendar';
-import TransitionLayout from '../../page_layouts/TransitionLayout/TransitionLayout';
+import BigCalendar from '@components/BigCalendar/BigCalendar';
+import TransitionOverlay from '@src/overlays/TransitionOverlay/TransitionOverlay';
 
 export default function EventsList() {
 
@@ -27,12 +27,12 @@ export default function EventsList() {
         , [tasks])
     return (
         <>
-            <TransitionLayout from='bottom' overflowX='visible'>
+            <TransitionOverlay from='bottom' overflowX='visible'>
                 <BigCalendar
                     events={events}
                     selectable
                 />
-            </TransitionLayout>
+            </TransitionOverlay>
         </>
     )
 }

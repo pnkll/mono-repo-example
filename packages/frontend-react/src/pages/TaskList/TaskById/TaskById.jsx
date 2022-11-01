@@ -2,15 +2,13 @@ import { isNil } from 'lodash';
 import React from 'react';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { taskApi } from '../../../services/TaskService'
-import { taskTypeApi } from '../../../services/TaskTypeService'
-import TransitionLayout from '../../../page_layouts/TransitionLayout/TransitionLayout'
-import PreloaderForPage from '../../../components/PreloaderForPage/PreloaderForPage'
-import ErrorForPage from '../../../components/ErrorForPage/ErrorForPage'
-import SettingLayout from '../../../layouts/SettingLayout/SettingLayout';
-import TaskForm from '../../../forms/Task/TaskForm';
-import { usersApi } from '../../../services/UsersService';
-import { rolesApi } from '../../../services/RolesService';
+import TransitionOverlay from '@src/overlays/TransitionOverlay/TransitionOverlay';
+import { taskApi } from '@services/TaskService';
+import { taskTypeApi } from '@services/TaskTypeService';
+import SettingLayout from '@src/layouts/SettingLayout/SettingLayout';
+import TaskForm from '@forms/Task/TaskForm';
+import PreloaderForPage from '@components/PreloaderForPage/PreloaderForPage';
+import ErrorForPage from '@components/ErrorForPage/ErrorForPage';
 
 export default function TaskById() {
     const params = useParams()
@@ -36,11 +34,11 @@ export default function TaskById() {
     }
     return (
         <>
-            {isSuccess&&isSuccessTaskType && <TransitionLayout>
+            {isSuccess&&isSuccessTaskType && <TransitionOverlay>
                 <SettingLayout label='Задача'>
                         <TaskForm isNew={isNew} task={task} taskType={taskType} isFetching={isFetching} id={params.id} />
                 </SettingLayout>
-            </TransitionLayout>}
+            </TransitionOverlay>}
         </>
     )
 }

@@ -1,15 +1,14 @@
-import { isNil } from 'lodash';
+import Table from '@components/Table/Table';
+import { tableApi } from '@services/TableService';
+import TransitionOverlay from '@src/overlays/TransitionOverlay/TransitionOverlay';
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import Table from '../../../components/Table/Table.jsx';
-import TransitionLayout from '../../../page_layouts/TransitionLayout/TransitionLayout.jsx';
-import { tableApi } from '../../../services/TableService.js';
 
 export default function TableById() {
     const params = useParams()
     return (
         <>
-            <TransitionLayout from='bottom' overflowX='hidden'>
+            <TransitionOverlay from='bottom' overflowX='hidden'>
                 <Table
                     sortable={[]}
                     filterable={true}
@@ -18,7 +17,7 @@ export default function TableById() {
                     id={params.id}
                     rtkHook={tableApi.useLazyGetTableContentsQuery}
                 />
-            </TransitionLayout>
+            </TransitionOverlay>
         </>
     )
 }

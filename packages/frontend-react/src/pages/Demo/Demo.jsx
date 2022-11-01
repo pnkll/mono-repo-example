@@ -14,8 +14,7 @@ import { emailValidator, passwordValidator, phoneValidator, stringValidator } fr
 import SidebarHeaderLayout from "../../page_layouts/SidebarHeaderLayout/SidebarHeaderLayout.jsx";
 import ToggleInput from "../../components/ToggleInput/ToggleInput.jsx";
 import _ from "lodash";
-import TransitionLayout from "../../page_layouts/TransitionLayout/TransitionLayout.jsx";
-import Preloader from "../../components/Preloader/Preloader.jsx";
+import TransitionOverlay from "@src/overlays/TransitionOverlay/TransitionOverlay";
 
 export default function Demo() {
 
@@ -74,7 +73,7 @@ export default function Demo() {
     ])
     return (
         <>
-                <TransitionLayout>
+                <TransitionOverlay>
                     <div className="demo-page__container">
                         <form className="demo-page__form" onSubmit={(e) => { e.preventDefault(); formik.handleSubmit(e) }}>
                             <div className="demo-page__form__elem"><Input formik={formik} id={'email'} name={'email'} type={'text'} placeholder={'Email'} label='email' /></div>
@@ -100,7 +99,7 @@ export default function Demo() {
                                     totalItemsCount={totalItemsCount} />}
                         </div>
                     </div>
-                </TransitionLayout>
+                </TransitionOverlay>
         </>
     )
 }

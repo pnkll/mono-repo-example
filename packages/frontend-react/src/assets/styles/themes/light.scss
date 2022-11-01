@@ -1,13 +1,20 @@
-.app.light{
-    --bg-color: #80808030;
+$basic-color: #e6e6e9;
+$accent-color: #9381ff;
+$proof-color: #55917f;
+$disproof-color: #ea4853;
+$main-text-color: #252422;
+$additional-text-color: #283845;
 
-    --sidebar-bg: #197DD2;
-    --sidebar-text-color: white;
+.app.light, .ReactModalPortal{
+    --app-bg-color: #d0d0d0;
+
+    --sidebar-bg: #9381ff;
+    --sidebar-text-color: #e6e6e9;
 
     --header-bg: white;
-    --header-text-color: rgb(37, 36, 36);
+    --header-text-color: $main-text-color;
 
-    --table-header-bg: #197DD2;
+    --table-header-bg: #9381ff;
     --table-cell-bg: #fff;
     --table-th-color: #197DD2;
     --table-body-text-color: #3c3232;
@@ -23,4 +30,21 @@
 
     --input-bg: white;
     --input-color: rgb(37, 36, 36);
+
+    --button-hover-bgcolor: linear-gradient(0deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), linear-gradient(180deg, #FFFFFF 0%, #E7E9F3 85.74%, #D8DBE7 100%);
+
+    --button-primary-bgcolor: #197DD2;
+    --button-default-bgcolor: transparent;
+    --button-danger-bgcolor: #ea4853;
+    --button-access-bgcolor: #55917f;
+    --button-disabled-bgcolor: #8C90A2;
+
+    --button-primary-text-color: #fff;
+    --button-default-text-color: #fff;
+    --button-danger-text-color: #fff;
+    --button-access-text-color: #fff;
+    --button-disabled-text-color: #fff;
+
+    --content-item-overlay-bg: #e6e6e9;
+    --content-item-overlay-text-color: #252422;
 }

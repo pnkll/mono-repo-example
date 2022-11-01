@@ -1,18 +1,18 @@
 import React from 'react';
 import s from './AuthLayout.module.scss'
-import InfoPopUp from '../../components/InfoPopUp/InfoPopUp.jsx'
-import TransitionLayout from '../TransitionLayout/TransitionLayout.jsx';
+import InfoPopUp from '@components/InfoPopUp/InfoPopUp.jsx'
 import { Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { selectNotifications } from '../../store/slices/notificationsSlice';
+import { selectNotifications } from '@store/slices/notificationsSlice';
 import _ from 'lodash';
-import Notification from '../../components/Notification/Notification.jsx';
+import Notification from '@components/Notification/Notification.jsx';
+import TransitionOverlay from '@src/overlays/TransitionOverlay/TransitionOverlay';
 
 export default function AuthLayout() {
     const notificationsList = useSelector(selectNotifications)
     return (
         <>
-            <TransitionLayout from='right' overflowX={'visible'}>
+            <TransitionOverlay from='right' overflowX={'visible'}>
                 <div className={s["auth__container"]}>
                     <div className={s["auth__left-side"]}>
                         {!_.isEmpty(notificationsList) && <div className={s["auth__notifications__wrapper"]}>
@@ -29,7 +29,7 @@ export default function AuthLayout() {
                             <p>Например для того чтобы войти необходимо набрать "Войти"</p></InfoPopUp>
                     </div>
                 </div>
-            </TransitionLayout>
+            </TransitionOverlay>
         </>
     )
 }

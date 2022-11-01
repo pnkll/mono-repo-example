@@ -16,7 +16,7 @@ export default function ConfirmPopup({ isOpen, onRequestClose, question, onAcces
                 onRequestClose={onRequestClose}
             >
                 <span>{question}</span>
-                <div className="" style={{ display: 'flex', gap: 10, justifyContent: 'center', marginTop: 20 }}>
+                <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginTop: 20 }}>
                     <Button handleClick={handleAccess} color='green' text='Да' />
                     <Button handleClick={onRequestClose} color='red' text='Нет' />
                 </div>

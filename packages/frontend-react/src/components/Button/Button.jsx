@@ -1,19 +1,31 @@
-import React, { useState } from "react"
-import './Button.scss'
 import { Link } from "react-router-dom"
-import { isNil } from "lodash"
+import s from './Button.module.scss'
+import classNames from 'classnames/bind'
 
-export default function Button({ type, btn, size, style, text, icon, handleClick, href, disabled, w = 97, h = 32, color = 'blue', classNamePrefix = 'button', customColor, isLoading = false }) {
+const cx = classNames.bind(s)
+
+export default function Button({ style = null, type, text, icon, handleClick, href, disabled = false, color = 'blue', cls = 'button', customColor = null, isLoading = false }) {
+
+    function getColor(){
+        switch (color) {
+            case 'blue':
+                return 'primary'
+            case 'red':
+                return 'danger'
+            case 'green':
+                return 'access'
+            case 'white':
+                return 'default'        
+        }
+    }
+
+
     if (href) {
         return (
             <Link to={href}
-                className={`${classNamePrefix}${isNil(customColor) ? ' ' + color : ''} ${disabled ? 'disabled' : ''}`}
-                disabled={disabled || false}
-                style={{
-                    width: w, height: h, outline: isLoading ? 'none' : '', backgroundColor: isLoading ? 'white' : customColor ? customColor : '', '&:hover': {
-                        backgroundColor: 'red'
-                    }
-                }}
+                className={cx({ [cls]: true, disabled: disabled, [getColor()]: true, loading: isLoading })}
+                disabled={disabled}
+                style={style}
             >
                 {icon}
                 {text && <span>{text}</span>}
@@ -23,16 +35,15 @@ export default function Button({ type, btn, size, style, text, icon, handleClick
     else {
         return (
             <button type={type || 'button'}
-                className={`${classNamePrefix}${isNil(customColor) ? ' ' + color : ''} ${disabled ? 'disabled' : ''}`}
-                style={{
-                    width: w, height: h, outline: isLoading ? 'none' : '', backgroundColor: isLoading ? 'white' : customColor ? customColor : '', '&:hover': {
-                        backgroundColor: 'red'
-                    }
-                }}
+                className={cx({ [cls]: true, disabled: disabled, [getColor()]: true, loading: isLoading })}
+                style={style}
                 onClick={handleClick}
-                disabled={disabled || isLoading ? true : false}>
+                disabled={disabled || isLoading}>
                 {icon}
-                {text && <span>{isLoading ? <SvgLoading fill={customColor ? customColor : null} /> : text}</span>}
+                {text
+                    && <span>{isLoading
+                        ? <SvgLoading fill={customColor} />
+                        : text}</span>}
             </button>
         )
     }

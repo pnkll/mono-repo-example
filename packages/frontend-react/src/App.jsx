@@ -39,7 +39,7 @@ export default function App() {
     const router = useRoutes(routes(token))
 
     return (token ? isSuccessProfile : true) &&
-        <div className={cn("app", {dark: darkMode, light: !darkMode})}>
+        <div className={cn("app", {dark: darkMode, light: !darkMode})} id='app'>
             {router}
         </div>
 }

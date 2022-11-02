@@ -5,6 +5,7 @@ import { isNil } from 'lodash';
 import TransitionOverlay from '@src/overlays/TransitionOverlay/TransitionOverlay';
 import Table from '@components/Table/Table';
 import { selectRoleList } from '@store/slices/rolesSlice';
+import Button from '@components/Button/Button';
 
 export default function RoleList() {
     const roleList = useSelector(selectRoleList)

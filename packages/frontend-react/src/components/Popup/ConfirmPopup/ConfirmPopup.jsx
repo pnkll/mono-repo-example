@@ -1,5 +1,6 @@
 import Button from '@components/Button/Button';
 import OverlayPopup from '@components/Popup/OverlayPopup/OverlayPopup';
+import { isNil } from 'lodash';
 import React from 'react';
 
 export default function ConfirmPopup({ isOpen, onRequestClose, question, onAccess }) {

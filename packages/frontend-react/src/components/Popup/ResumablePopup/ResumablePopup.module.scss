@@ -42,7 +42,7 @@
             &__icon {
                 font-style: normal;
                 height: 51px;
-                background: $color-but-blue;
+                background: var(--sidebar-bg);
                 display: flex;
                 align-items: flex-end;
                 width: 46px;

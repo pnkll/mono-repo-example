@@ -13,15 +13,24 @@ export default function TextArea({ formik, id, name, label, required, placeholde
         formik.setFieldValue(attachId,formik.values[attachId].filter((el,index)=>index!==idx))
     }
     const [focused,setFocused]=React.useState(false)
+    const error = formik.touched[id]&&formik.errors[id]
+    const valid = formik.touched[id]&&!formik.errors[id]
+    function handleBlur(e){
+        setFocused(false)
+        !isNil(formik)&&formik.handleBlur()
+    }
+    function handleFocus(){
+        setFocused(true)
+    }
     return (
         <div className={s["textarea__container"]}>
             {label && <label className={s["textarea__label"]}>{label} {required && '*'}
             </label>}
-            <div className={cx({["textarea__wrapper"]:true, focused: focused})}>
+            <div className={cx({["textarea__wrapper"]:true, focused, error, valid})}>
                 <TextAreaAutosize
                     defaultHeight={height}
-                    onFocus={()=>setFocused(true)}
-                    onBlur={()=>setFocused(false)}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
                     className={s['textarea__input']}
                     id={id}
                     name={name}

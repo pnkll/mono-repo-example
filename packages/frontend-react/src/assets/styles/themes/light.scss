@@ -9,6 +9,7 @@ $additional-text-color: #283845;
 
     --proof-color: #55917f;
     --disproof-color: #ea4853;
+    --focus-color: rgb(68, 68, 68);
 
     --app-bg-color: #d0d0d0;
 
@@ -28,12 +29,15 @@ $additional-text-color: #283845;
 
     --card-bg: #fff;
 
-    --primary-color: rgb(34, 34, 34);
+    --primary-color: #252422;
 
     --calendar-border-color: rgb(34, 34, 34);
 
     --input-bg: white;
     --input-color: rgb(37, 36, 36);
+    --input-focus-outline: 1px solid rgb(68, 68, 68);
+    --input-error-outline:  1px solid var(--disproof-color);
+    --input-proof-outline: 2px solid var(--proof-color);
 
     --button-hover-bgcolor: linear-gradient(0deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), linear-gradient(180deg, #FFFFFF 0%, #E7E9F3 85.74%, #D8DBE7 100%);
 

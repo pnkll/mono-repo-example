@@ -8,7 +8,6 @@ import _, { uniqueId } from 'lodash'
 export const useResumable = ({ id, options })=> {
     const token = useSelector(selectToken)
     const [{ resumables }, dispatch] = useTrackedResumable()
-    console.log(resumables)
     function getTarget() {
         switch (id) {
             case 'table':
@@ -58,7 +57,6 @@ export const useResumable = ({ id, options })=> {
         })
     }
     React.useEffect(() => {
-        console.log('hello')
         if (_.isEmpty(resumables.filter(el => el.id === id))) {
             appendEvents(resumable)
             dispatch(initResumable({ id, resumable }))

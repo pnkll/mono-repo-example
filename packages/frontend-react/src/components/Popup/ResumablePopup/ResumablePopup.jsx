@@ -1,5 +1,9 @@
+import Button from '@components/Button/Button';
 import OverlayPopup from '@components/Popup/OverlayPopup/OverlayPopup';
+import ToggleInput from '@components/ToggleInput/ToggleInput';
+import { XIcon } from '@heroicons/react/solid';
 import React from 'react';
+import s from './ResumablePopup.module.scss'
 
 export default function ResumablePopup({ isOpen, onRequestClose, r }) {
     const withDeletion = true
@@ -29,7 +33,9 @@ export default function ResumablePopup({ isOpen, onRequestClose, r }) {
                     <XIcon color={'red'} width={20} onClick={handleClose} className={s['modal__x-icon']} />
                     <Button handleClick={handleSend} text='Отправить' color='blue' />
                 </div>
-                <ToggleInput checked={withDeletion} handleChange={(e) => setWithDeletion(e.target.checked)} label='Перезаписать' />
+                <ToggleInput checked={withDeletion} 
+                //handleChange={(e) => setWithDeletion(e.target.checked)} 
+                label='Перезаписать' />
                 <div className={s['modal__file-list']}>
                     {!_.isEmpty(r.files)
                         && r.files.map(el =>

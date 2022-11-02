@@ -7,6 +7,7 @@ import { usersApi } from "./services/UsersService.js"
 import { rolesApi } from "./services/RolesService.js"
 import { routes } from "./router/routes.jsx"
 import cn from 'classnames'
+import { SocketProvider } from "@src/providers/Socket/SocketContext"
 
 export default function App() {
 
@@ -39,7 +40,9 @@ export default function App() {
     const router = useRoutes(routes(token))
 
     return (token ? isSuccessProfile : true) &&
-        <div className={cn("app", {dark: darkMode, light: !darkMode})} id='app'>
-            {router}
+        <div className={cn("app", { dark: darkMode, light: !darkMode })} id='app'>
+            <SocketProvider>
+                {router}
+            </SocketProvider>
         </div>
 }

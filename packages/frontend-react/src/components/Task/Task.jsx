@@ -7,7 +7,6 @@ import Select from '../Select/Select.jsx';
 import TextArea from '../UiKit/TextArea/TextArea.jsx';
 import s from './Task.module.scss'
 import InfoPopUp from '../InfoPopUp/InfoPopUp.jsx'
-import AutoTextArea from '../AutoTextArea/AutoTextArea.jsx';
 import { taskTypeApi } from '../../services/TaskTypeService.js';
 import { useSelector } from 'react-redux';
 import { rolesApi } from '../../services/RolesService.js';
@@ -23,6 +22,7 @@ import { taskApi } from '../../services/TaskService.js';
 import { format } from 'date-fns';
 import UserSelectorbyRole from '../UserSelectorByRole/UserSelectorByRole.jsx';
 import { dateFormat } from '../../helpers/dateFormat.js';
+import * as Yup from 'yup'
 
 export default React.memo(function Task() {
     const { data: taskTypes, error } = taskTypeApi.useGetTaskTypesForSelectorQuery()
@@ -91,14 +91,16 @@ export default React.memo(function Task() {
         },{})
         postTask({...body, plannedDate: moment(values.plannedDate).format('DD.MM.YYYY'), finishedDate: dateFormat(values.finishedDate, 'task_create'),fireDate: dateFormat(values.fireDate, 'task_create')})
     }
-    console.log(taskType)
+    const validationSchema = Yup.object().shape({
+        title: Yup.string().required('Обязательное поле')
+    })
     return (
         <>
             <CardLayout title={<>Заявка<InfoPopUp><p>Описание карточки</p></InfoPopUp></>}>
                 <div className={s["task-create__task-type-input"]}>
                     <Select options={taskTypes} label='Категория' id='taskType' name='taskType' handleChange={setTemplate} />
                 </div>
-                <Formik key={keyOfSelect} initialValues={initialValues} onSubmit={handlePost}>
+                <Formik key={keyOfSelect} initialValues={initialValues} onSubmit={handlePost} validationSchema={validationSchema}>
                     {formik => (
                         <form className={`${s['task-create__form']} ${!isNil(taskType) ? '' : s['disabled']}`} onSubmit={(e) => { e.preventDefault(); formik.handleSubmit() }}>
                             <Input formik={formik} label='Название' id='title' name='title'/>

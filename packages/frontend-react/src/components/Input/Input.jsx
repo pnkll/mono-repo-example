@@ -5,11 +5,30 @@ import classNames from 'classnames/bind'
 
 const cx = classNames.bind(s)
 
-export default function Input({ formik, label, placeholder, id, name, type, autoComplete, className, required, handleChange, value, readonly = false, defaultStyles = true, setFocus = null, ...other }) {
+export default function Input({ formik, label, placeholder, id, name, type, autoComplete, className, required, handleChange:onChange, value, readonly = false, defaultStyles = true, setFocus = null, ...other }) {
     const cls = className || 'input-field'
-    const changeHandler = (e) => {
-        !isNil(formik) ? formik.handleChange(e) : handleChange(e)
+    // const changeHandler = (e) => {
+    //     !isNil(formik) ? formik.handleChange(e) : handleChange(e)
+    // }
+
+    
+
+    const [focused, setFocused] = React.useState(false)
+
+    const valid = !isNil(formik) && formik.touched[id] && !formik.errors[id]
+    const error = !isNil(formik) && formik.touched[id] && formik.errors[id]
+
+    function handleChange(e){
+        !isNil(formik)
+            ?formik.handleChange(e)
+            :onChange(e)
     }
+    function handleBlur(e){
+        !isNil(formik)&&formik.handleBlur(e)
+        setFocused(false)
+    }
+
+
     return (
         <>
             <div className={s[`${cls}__container`]}>
@@ -22,21 +41,19 @@ export default function Input({ formik, label, placeholder, id, name, type, auto
                     name={name}
                     value={!isNil(formik) ? formik.values[id] : value}
                     placeholder={placeholder}
-                    onChange={changeHandler}
+                    onChange={handleChange}
                     type={type}
-                    onClick={() => !isNil(formik) && formik.setFieldError(id, '')}
                     autoComplete={autoComplete || 'off'}
-                    className={cx({ [`${cls}__input`]: true, error: !isNil(formik) && formik.touched[name] && formik.errors[name], readonly: readonly })}
+                    className={cx({ [`${cls}__input`]: true, error, readonly, valid, focused })}
                     readOnly={readonly}
-                    onFocus={setFocus ? () => setFocus(id) : null}
-                    onBlur={setFocus ? () => setFocus(null) : null}
+                    onFocus={() => setFocused(true)}
+                    onBlur={handleBlur}
                     {...other}
                 />
-
-                {!isNil(formik) && formik.touched[name] && formik.errors[name]
-                    && <div className={s[`${cls}__error`]}>
-                        {formik.errors[name]}
-                    </div>}
+                {!isNil(formik) && formik.touched[id] && formik.errors[id]
+                    && <p className={s[`${cls}__error`]}>
+                        {formik.errors[id]}
+                    </p>}
             </div>
         </>
     )

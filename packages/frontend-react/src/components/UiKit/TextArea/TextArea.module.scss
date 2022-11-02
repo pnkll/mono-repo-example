@@ -23,13 +23,13 @@
         background: #fff;
 
         &.focused{
-            
+            border-color: var(--focus-color);
         }
         &.error{
-            outline-color: red;
+            border-color: var(--disproof-color);
         }
-        &.proof{
-            outline: 1px solid var(--proof-color);
+        &.valid{
+            border-color: var(--proof-color);
         }
     }
 

@@ -9,7 +9,7 @@ import { isNil } from "lodash";
 import { authApi } from '../../services/AuthService.js';
 import { updateMessages, getNextField } from '../../helpers/forAuth.js';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect } from 'react'
 
 export default React.memo(function AuthField({ id, name, type = 'text', messages, setMessages, currentForm, setData, data, formiks, setCurrentForm, rtkHook, setOrder, order, formType }) {
     const [postData, { isLoading, isFetching }] = rtkHook()

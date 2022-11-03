@@ -10,6 +10,7 @@ import { usersApi } from '../../services/UsersService';
 export default function UsersList(){
     const [confirmUser]=usersApi.useConfirmUsersMutation()
     const {data: users, isLoading,isError,isFetching,isSuccess}=usersApi.useGetUsersQuery()
+    console.log(users)
     const columns=[
         {Header: '', accessor: '_id', Cell: ({cell:{value}})=><NavTableTd href={value}/>||'-'},
         {Header: 'Логин', accessor: 'username'},
@@ -17,7 +18,7 @@ export default function UsersList(){
         {Header: 'Фамилия', accessor: 'lastname'},
         {Header: 'Телефон', accessor: 'phone'},
         {Header: 'Почта', accessor: 'email'},
-        {Header: '', accessor: 'id', Cell: ({cell:{value}})=>!isNil(value)?<Button handleClick={()=>confirmUser([value])} text='Подтвердить' color='green'/>:'Подтвержден'}
+        {Header: '', accessor: 'verified', Cell: ({cell:{value}})=>!value?<Button handleClick={()=>confirmUser([value])} text='Подтвердить' color='green'/>:'Подтвержден'}
     ]
    return(
        <>

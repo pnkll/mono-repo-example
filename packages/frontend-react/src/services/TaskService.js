@@ -51,10 +51,17 @@ export const taskApi = Api.injectEndpoints({
         }),
         updateTask: builder.mutation({
             query: (data)=>({
-                url: '/task/task',
+                url: '/tasks/task',
                 method: 'PUT',
                 body: data
             }),
+        }),
+        setControllerRole: builder.mutation({
+            query: (data)=>({
+                url: '/tasks/task/controllerRole',
+                method: 'PATCH',
+                body: data,
+            })
         })
     }),
     overrideExisting: false,

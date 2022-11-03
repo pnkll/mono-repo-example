@@ -50,7 +50,7 @@ export default React.memo(function TableConstructorField({ field, fields, setFie
                             <Input placeholder={'Default'} handleChange={(e) => handleChange('default', e.target.value, index)} id='default' name='default' value={field.default}/>
                             <ToggleInput id='required' name='required' handleChange={(e) => handleChange('required', e.target.checked, index)} checked={field.required} label={'is required?'} />
                             <ToggleInput id='unique' name='unique' handleChange={(e) => handleChange('unique', e.target.checked, index)} checked={field.unique} label={'is unique?'} />
-                            <ToggleInput id='index' name='index' handleChange={(e) => handleChange('index', e.target.checked, index)} checked={field.index} label={'is to index?'} />
+                            {/* <ToggleInput id='index' name='index' handleChange={(e) => handleChange('index', e.target.checked, index)} checked={field.index} label={'is to index?'} /> */}
                             <ToggleInput id='primary' name='primary' handleChange={(e) => handleChange('primary', e.target.checked, index)} checked={field.primary} label={'is primary?'} />
                             {field.headerType===1
                             && <Input placeholder={'expr'} id='expr' name='expr' handleChange={(e)=>handleChange('expr', e.target.value, index)}/>}

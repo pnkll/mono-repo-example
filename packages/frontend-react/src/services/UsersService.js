@@ -39,7 +39,7 @@ export const usersApi = Api.injectEndpoints({
             query: (data) => ({
                 url: '/users/ids',
                 params: {
-                    ids: [data]
+                    ids: JSON.stringify([data])
                 },
             }),
             transformResponse: (data)=>{

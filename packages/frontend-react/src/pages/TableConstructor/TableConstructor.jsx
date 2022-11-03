@@ -18,12 +18,12 @@ import TransitionOverlay from "@src/overlays/TransitionOverlay/TransitionOverlay
 export default function TableConstructor() {
     const user = useSelector(selectCurrentUser)
     const [title, setTitle] = useState('')
-    const [headers, setHeaders] = useState([{ order: 1, title: '', code: '', headerType: '', default: '', primary: false, expr: '', type: 'String', required: false, unique: false, index: false, visible: false, focused: true }])
+    const [headers, setHeaders] = useState([{ order: 1, title: '', code: '', headerType: '', default: '', primary: false, expr: '', type: 'String', required: false, unique: false, visible: false, focused: true }])
     const { sortItems, dragStartHandler, dragEndHandler, dragOverHandler, dropHandler } = useDrag(setHeaders, headers)
     const [table, setTable] = useState({})
     const [errors, setErrors] = useState([])
     function handleAppend() {
-        setHeaders([...headers, { order: headers[headers.length - 1].order + 1, title: '', code: '',headerType: '', default: '', primary: false, expr: '', type: 'String', required: false, unique: false, index: false, visible: false, focused: true }])
+        setHeaders([...headers, { order: headers[headers.length - 1].order + 1, title: '', code: '',headerType: '', default: '', primary: false, expr: '', type: 'String', required: false, unique: false, visible: false, focused: true }])
     }
     const validationSchema = Yup.object().shape({
         title: Yup.string().required('Обязательное поле'),
@@ -51,7 +51,7 @@ export default function TableConstructor() {
                     }), {}),
                     schema: headers.reduce((result, item) => ({
                         ...result,
-                        [item.code]: { index: item.index, type: item.type, default: item.default }
+                        [item.code]: { type: item.type, default: item.default }
                     }), {})
                 }
                 fetchData(data)

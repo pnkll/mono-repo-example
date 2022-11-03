@@ -4,41 +4,42 @@ import './BigCalendar.scss'
 import moment from 'moment/moment';
 import 'moment/locale/ru';
 import CalendarModal from '../CalendarModal/CalendarModal';
-import dateCellWrapper from './dateCellWrapper/dateCellWrapper';
-import eventWrapper from './eventWrapper/eventWrapper';
-import { DnDCalendar,} from './DnDCalendar/DnDCalendar';
+import { DnDCalendar } from '@components/UiKit/Calendar/DnDCalendar/DnDCalendar';
+import dateCellWrapper from '@components/UiKit/Calendar/PrimaryCalendar/components/dateCellWrapper/dateCellWrapper';
+import eventWrapper from '@components/UiKit/Calendar/PrimaryCalendar/components/eventWrapper/eventWrapper';
+//import { DnDCalendar,} from './DnDCalendar/DnDCalendar';
 
 
 export default function BigCalendar({ events, selectable, groups = false, initialResource = 'all' }) {
 
     //locales for interface
-    const messages = {
-        date: 'Дата',
-        time: 'Время',
-        event: 'Событие',
-        allDay: 'Весь день',
-        week: 'Неделя',
-        work_week: 'Рабочая неделя',
-        day: 'День',
-        month: 'Месяц',
-        previous: 'Назад',
-        next: 'Вперед',
-        yesterday: 'Вчера',
-        tomorrow: 'Завтра',
-        today: 'Сегодня',
-        agenda: 'Список',
+    // const messages = {
+    //     date: 'Дата',
+    //     time: 'Время',
+    //     event: 'Событие',
+    //     allDay: 'Весь день',
+    //     week: 'Неделя',
+    //     work_week: 'Рабочая неделя',
+    //     day: 'День',
+    //     month: 'Месяц',
+    //     previous: 'Назад',
+    //     next: 'Вперед',
+    //     yesterday: 'Вчера',
+    //     tomorrow: 'Завтра',
+    //     today: 'Сегодня',
+    //     agenda: 'Список',
 
-        noEventsInRange: 'Нет событий в заданном промежутке.',
+    //     noEventsInRange: 'Нет событий в заданном промежутке.',
 
-        showMore: total => `+${total} больше`,
-    }
+    //     showMore: total => `+${total} больше`,
+    // }
 
     const resourceMap = React.useMemo(() => [
         { resourceId: 'task', resourceTitle: 'Задачи' },
         { resourceId: 'event', resourceTitle: 'События' },
     ], [])
 
-    const localizer = momentLocalizer(moment)
+    // const localizer = momentLocalizer(moment)
 
     const [showModal, setShowModal] = React.useState(false)
     const [data, setData] = React.useState(null)
@@ -56,17 +57,11 @@ export default function BigCalendar({ events, selectable, groups = false, initia
         <>
             <div className="rbc-container">
                 <DnDCalendar
-                    components={{
-                        dateCellWrapper: dateCellWrapper,
-                        eventWrapper: eventWrapper, 
-                    }}
-                    localizer={localizer}
-                    defaultView="month"
+                    // components={{
+                    //     dateCellWrapper,
+                    //     eventWrapper, 
+                    // }}
                     events={currentResource === 'all' ? events : events.filter(el => el.resourceId === currentResource)}
-                    tooltipAccessor={'description'}
-                    startAccessor={'start'}
-                    endAccessor={'end'}
-                    messages={messages}
                     resources={groups ? resourceMap : null}
                     resourceIdAccessor={'resourceId'}
                     resourceTitleAccessor={'resourceTitle'}
@@ -74,9 +69,6 @@ export default function BigCalendar({ events, selectable, groups = false, initia
                     onSelecting={() => { }}
                     onSelectEvent={() => console.log('select event')}
                     onSelectSlot={handleSelect}
-                    views={['month', 'day', 'week', 'work_week', 'agenda']}
-
-                    resizable={true}
                     onEventDrop={(e)=>console.log('drop',e)}
                     onDragStart={(e)=>console.log('start',e)}
                     onDragOver={(e)=>console.log('over',e)}

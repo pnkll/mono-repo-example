@@ -51,8 +51,8 @@ export default function DragNDropInput({ id = 'file-input', resumableId, options
                         onDrop={handleDrop}
                     />}
             </div>
-            {showModal === resumableId
-                && <ResumablePopup isOpen={showModal} onRequestClose={()=>dispatch(setShowModal(false))} r={r}/>}
+            {showModal === resumableId//TODO поправить, то булевый то строка!!!
+                && <ResumablePopup isOpen={true} onRequestClose={()=>dispatch(setShowModal(false))} r={r}/>}
         </>
     )
 }

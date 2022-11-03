@@ -4,7 +4,7 @@ import _, { isNil } from "lodash"
 import React, { useEffect, useState } from "react"
 import ReactSelect, { components, NonceProvider } from "react-select"
 
-export default function Select({ options, indicator, formik,customStyles, classNamePrefix, id, name, isSearchable = false, menuPlacement = 'bottom', handleChange, label, isMulti = false, placeholder = 'Выберите..', isDisabled = false, defaultValue, selectedValue }) {
+export default function Select({ options, indicator, formik,customStyles, classNamePrefix, id, name, isSearchable = false, menuPlacement = 'bottom', handleChange, label, isMulti = false, placeholder = 'Выберите..', isDisabled = false, defaultValue, selectedValue,...other }) {
 
     const styles = customStyles || {
         container: (styles) => ({
@@ -116,7 +116,8 @@ export default function Select({ options, indicator, formik,customStyles, classN
                     defaultValue={defaultValue ? defValue : null}
                     components={{ DropdownIndicator: () => indicator ? indicator : <ArrowsForSelectIcon style={{ paddingRight: '11px' }} /> }}
                     onChange={(e) => !isNil(formik) ? isMulti ? formik.setFieldValue(id, e.map(el => el.value)) : formik.setFieldValue(id, e.value) : handleChange(e.value)}
-                    menuPlacement={menuPlacement} />
+                    menuPlacement={menuPlacement} 
+                    {...other}/>
             </div>
         </>
     )

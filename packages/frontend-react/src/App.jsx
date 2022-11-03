@@ -23,8 +23,8 @@ export default function App() {
 
     async function getCommon() {
         await getProfile()
-        await getRoles()
-        await getPermissions()
+        // await getRoles()
+        // await getPermissions()
     }
 
     useEffect(() => {

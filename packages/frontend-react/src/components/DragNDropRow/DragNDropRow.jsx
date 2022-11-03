@@ -26,7 +26,7 @@ export default function DragNDropRow({ headerGroups, cls }) {
                         height: '100px',
                     }}
                     colSpan={headerGroups[headerGroups.length - 1].headers.length}>
-                    <DragNDropInput resumableId='table' />
+                    <DragNDropInput resumableId='table' options={{type: 'table'}}/>
                 </td>
             </tr>
         </>

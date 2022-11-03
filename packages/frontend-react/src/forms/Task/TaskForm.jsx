@@ -11,6 +11,8 @@ import PreloaderForPage from '../../components/PreloaderForPage/PreloaderForPage
 import ErrorForPage from '../../components/ErrorForPage/ErrorForPage';
 import { usersApi } from '../../services/UsersService';
 import UserSelectorbyRole from '../../components/UserSelectorByRole/UserSelectorByRole';
+import TaskControlPanel from '@components/TaskControlPanel/TaskControlPanel';
+import TransitionOverlay from '@src/overlays/TransitionOverlay/TransitionOverlay';
 
 export default function TaskForm({ isNew, task, isFetching, id, isError, taskType }) {
     const [editMode, setEditMode] = React.useState(isNew)
@@ -31,7 +33,7 @@ export default function TaskForm({ isNew, task, isFetching, id, isError, taskTyp
                 priority: task.priority,
             }, [isNew])
     function handleSubmit(values) {
-        if(editMode){
+        if (editMode) {
             updateTask({ ...values, _id: id })
         }
         setEditMode(true)
@@ -44,20 +46,30 @@ export default function TaskForm({ isNew, task, isFetching, id, isError, taskTyp
     }
     return (
         <>
-            <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-                {formik => (
-                    <form onSubmit={(e) => { e.preventDefault(); formik.handleSubmit() }}>
-                        <Input id='title' name='title' formik={formik} label='Название задачи' readonly={editMode ? false : true} />
-                        <Input id='taskTypeTitle' name='taskTypeTitle' formik={formik} label='Тип задачи' readonly={editMode ? false : true} />
-                        <Input id='status' name='status' formik={formik} label='Статус задачи' readonly={editMode ? false : true} />
-                        <UserSelectorbyRole id='executor' formik={formik} label='Исполнитель' roleId={taskType.executorRole} name='executor' defaultValue={true} />
-                        {/* <Select id='executor' name='executor' formik={formik} label='Иполнитель' options={executorOptions} defaultValue={true}/> */}
-                        <TextArea id='description' name='description' formik={formik} label='Описание задачи' readonly={editMode ? false : true} />
-                        <Select options={priorityOptions} id='priority' name='priority' formik={formik} defaultValue={isNew ? false : true} label='Приоритет' readonly={editMode ? false : true} />
-                        <Button text={editMode ? 'Сохранить' : 'Редактировать'} type='submit' />
-                    </form>
-                )}
-            </Formik>
+            <div className="" style={{ display: 'flex' }}>
+                <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+                    {formik => (
+                        <form onSubmit={(e) => { e.preventDefault(); formik.handleSubmit() }}>
+                            <Input id='title' name='title' formik={formik} label='Название задачи' readonly={editMode ? false : true} />
+                            <Input id='taskTypeTitle' name='taskTypeTitle' formik={formik} label='Тип задачи' readonly={editMode ? false : true} />
+                            <Input id='status' name='status' formik={formik} label='Статус задачи' readonly={editMode ? false : true} />
+                            <UserSelectorbyRole id='executor' formik={formik} label='Исполнитель' roleId={taskType.executorRole} name='executor' defaultValue={true} />
+                            {/* <Select id='executor' name='executor' formik={formik} label='Иполнитель' options={executorOptions} defaultValue={true}/> */}
+                            <TextArea id='description' name='description' formik={formik} label='Описание задачи' readonly={editMode ? false : true} />
+                            <Select options={priorityOptions} id='priority' name='priority' formik={formik} defaultValue={isNew ? false : true} label='Приоритет' isDisabled={editMode ? false : true} />
+                            <Button text={editMode ? 'Сохранить' : 'Редактировать'} type='submit' />
+                        </form>
+                    )}
+                </Formik>
+                {editMode && <>
+                        <div style={{
+                            width: 1,
+                            background: '#b4b4b4',
+                            margin: '0 14px'
+                        }} />
+                        <TaskControlPanel />
+                </>}
+            </div>
         </>
     )
 }

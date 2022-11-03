@@ -6,9 +6,9 @@ import './DatePicker.scss'
 import ru from 'date-fns/locale/ru'
 import moment from "moment/moment";
 
-export default function DatePicker({ formik, id, name, placeholder, showTimeSelect=false, timeIntervals=30, className, label,required,format="yyyy/MM/dd HH:mm",locale=ru,formatDate }) {
+export default function DatePicker({ formik, id, name, placeholder, showTimeSelect=false, timeIntervals=30, className, label,required,format="yyyy/MM/dd HH:mm",locale=ru,formatDate, ...other }) {
 
-    const [date, setDate] = useState(formik.values[name])
+    const [date, setDate] = useState(formik?.values[name])
 
     useEffect(() => {
         console.log(date)
@@ -24,7 +24,7 @@ export default function DatePicker({ formik, id, name, placeholder, showTimeSele
     return (
         <>
             <div className="date-picker__container">
-                {label&&<label className="date-picker__label">{label}</label>}
+                {label&&<label htmlFor={id} className="date-picker__label">{label}</label>}
                 <ReactDatePicker className={className || "date-picker__input"}
                     required={required}
                     selected={date}
@@ -39,8 +39,10 @@ export default function DatePicker({ formik, id, name, placeholder, showTimeSele
                     name={name} 
                     minDate={new Date()}
                     locale={locale}
-                    timeCaption='Время'/>
-                {formik.touched[name] && formik.errors[name] && <span className="date-picker__error">{formik.errors[name]}</span>}
+                    timeCaption='Время'
+                    {...other}
+                    />
+                {formik?.touched[name] && formik?.errors[name] && <span className="date-picker__error">{formik?.errors[name]}</span>}
             </div>
         </>
     )

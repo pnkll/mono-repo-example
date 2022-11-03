@@ -7,7 +7,6 @@ import CallWrapper from '../CallWrapper/CallWrapper';
 import s from './ContentSection.module.scss'
 
 function ContentSectionWithProvider({ }) {
-    const [{ resumables }, dispatch] = useTrackedResumable()
     return (
         <>
             <section className={s["content__container"]}>

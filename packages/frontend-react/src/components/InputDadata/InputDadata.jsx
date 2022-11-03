@@ -5,7 +5,7 @@ import * as axios from 'axios'
 import { isNil } from 'lodash';
 import './InputDadata.scss'
 
-export default function InputDadata({formik,id,name,classNamePrefix,customStyles}) {
+const InputDadata=React.forwardRef(({formik,id,name,classNamePrefix,customStyles,...other},ref)=>{
     const defaultStyles = customStyles || {
         container: (styles)=>({
             ...styles,
@@ -54,9 +54,25 @@ export default function InputDadata({formik,id,name,classNamePrefix,customStyles
     return (
         <>
         <div className="dadata-input__container">
-            <ReactSelect noOptionsMessage={()=>'Введите ИНН'} placeholder={'Введите сообщение'} components={{DropdownIndicator:()=><></>}} styles={defaultStyles} classNamePrefix={classNamePrefix} options={options} isSearchable={true} onInputChange={setValue} value={options?options.find(option=>option.value===formik.values[id].value):''} onChange={(e)=>formik.setFieldValue(id,e)} id={id} name={name}/>
+            <ReactSelect
+            ref={ref}
+            noOptionsMessage={()=>'Введите ИНН'} 
+            placeholder={'Введите сообщение'} 
+            components={{DropdownIndicator:()=><></>}} 
+            styles={defaultStyles} 
+            classNamePrefix={classNamePrefix} 
+            options={options} 
+            isSearchable={true} 
+            onInputChange={setValue} 
+            value={options?options.find(option=>option.value===formik.values[id].value):''} 
+            onChange={(e)=>formik.setFieldValue(id,e)} 
+            id={id} 
+            name={name}
+            {...other}/>
             {formik.touched[id]&&formik.errors[id]&&<p className='dadata-input__error'>{formik.errors[id]}</p>}
             </div>
         </>
     )
-}
+})
+
+export default InputDadata

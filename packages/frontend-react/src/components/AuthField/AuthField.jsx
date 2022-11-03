@@ -83,13 +83,14 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
         setCurrentForm(formiks.find(formik => formik.id === fieldId))
         updateMessages(name, fieldId, message, messages, setMessages)
     }
+    const inp = React.useRef()
     function renderInput(formik) {
         switch (id) {
             case 'organization':
                 return data.key === 'ИНН'
-                    ? <InputDadata formik={formik} id={id} name={name} classNamePrefix='auth-field' />
-                    : <Input type={type} placeholder='Введите сообщение' formik={formik} id={id} name={name} className='auth-field-input' />
-            default: return <Input type={type} placeholder={`${(id === 'type' || id === 'key')
+                    ? <InputDadata ref={inp} formik={formik} id={id} name={name} classNamePrefix='auth-field' />
+                    : <Input ref={inp} type={type} placeholder='Введите сообщение' formik={formik} id={id} name={name} className='auth-field-input' />
+            default: return <Input ref={inp} type={type} placeholder={`${(id === 'type' || id === 'key')
                 ? 'Выберите команду из списка'
                 : 'Введите сообщение'}`} formik={formik} id={id} name={name} className='auth-field-input' 
                     defaultStyles={false} />
@@ -124,6 +125,9 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
     }
     const [menuVisible, setMenuVisible] = useState(true)
     const navigate = useNavigate()
+    React.useEffect(()=>{
+        inp.current?.focus()
+    },[])
     return (
         <>
             <Formik initialValues={currentForm.initialValues} validationSchema={getValidationSchema()} onSubmit={handleSubmit}>

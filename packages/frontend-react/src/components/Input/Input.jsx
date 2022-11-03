@@ -5,7 +5,7 @@ import classNames from 'classnames/bind'
 
 const cx = classNames.bind(s)
 
-export default function Input({ formik, label, placeholder, id, name, type, autoComplete, className, required, handleChange:onChange, value, readonly = false, defaultStyles = true, setFocus = null, ...other }) {
+const Input = React.forwardRef(({ formik, label, placeholder, id, name, type, autoComplete, className, required, handleChange:onChange, value, readonly = false, defaultStyles = true, setFocus = null, ...other },ref) =>{
     const cls = className || 'input-field'
     // const changeHandler = (e) => {
     //     !isNil(formik) ? formik.handleChange(e) : handleChange(e)
@@ -48,6 +48,7 @@ export default function Input({ formik, label, placeholder, id, name, type, auto
                     readOnly={readonly}
                     onFocus={() => setFocused(true)}
                     onBlur={handleBlur}
+                    ref={ref}
                     {...other}
                 />
                 {!isNil(formik) && formik.touched[id] && formik.errors[id]
@@ -57,4 +58,6 @@ export default function Input({ formik, label, placeholder, id, name, type, auto
             </div>
         </>
     )
-}
+})
+
+export default Input

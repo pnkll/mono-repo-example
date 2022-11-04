@@ -34,6 +34,7 @@ export default function ProfileForm() {
     async function handleSubmit(values) {
         if (editMode) {
             const tmp = {...values}
+            delete tmp['username']
             delete tmp['createdAt']
             delete tmp['updatedAt']
             const {data} = await updateProfile({ ...tmp, phone: String(tmp.phone) })

@@ -127,7 +127,7 @@ export default React.memo(function AuthField({ id, name, type = 'text', messages
     const navigate = useNavigate()
     React.useEffect(()=>{
         inp.current?.focus()
-    },[])
+    },[inp])
     return (
         <>
             <Formik initialValues={currentForm.initialValues} validationSchema={getValidationSchema()} onSubmit={handleSubmit}>

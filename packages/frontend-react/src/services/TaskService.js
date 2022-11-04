@@ -13,15 +13,15 @@ export const taskApi = Api.injectEndpoints({
                 }
             })
         }),
-        getTasks: builder.query({
-            query: () => ({
-                url: '/tasks/task',
-                method: 'GET'
-            }),
-            transformResponse: (data)=>{
-                return data.message
-            }
-        }),
+        // getTasks: builder.query({
+        //     query: () => ({
+        //         url: '/tasks/task',
+        //         method: 'GET'
+        //     }),
+        //     transformResponse: (data)=>{
+        //         return data.message
+        //     }
+        // }),
         getTaskById: builder.query({
             query: (id)=>({
                 url: '/tasks/task',
@@ -62,7 +62,19 @@ export const taskApi = Api.injectEndpoints({
                 method: 'PATCH',
                 body: data,
             })
-        })
+        }),
+        getTasks: builder.query({
+            query: ({query,sort,limit,page})=>({
+                url: '/tasks/task/',
+                method: 'GET',
+                params: {
+                    query: JSON.stringify(query),
+                    sort: JSON.stringify(sort),
+                    limit: limit,
+                    page: page,
+                }
+            })
+        }),
     }),
     overrideExisting: false,
 })

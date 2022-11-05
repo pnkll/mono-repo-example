@@ -8,8 +8,9 @@ import { TableIcon, CollectionIcon, CubeIcon, TemplateIcon, ClipboardListIcon } 
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { selectSidebarCollapsed } from "../../store/slices/sidebarSlice";
+import { withTransition } from "@src/hocs/withTransition/withTransition";
 
-export default function Sidebar() {
+function Sidebar() {
     const [subMenu, setSubMenu] = useState([
         { open: false },
         { open: false },
@@ -57,3 +58,5 @@ export default function Sidebar() {
         </>
     )
 }
+
+export default Sidebar = withTransition(Sidebar, 'Sidebar','left',{overflowX: 'visible', width: 'auto', height: 'auto', zIndex: 100})

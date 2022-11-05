@@ -10,36 +10,46 @@ import ErrorForPage from '@components/ErrorForPage/ErrorForPage';
 import ContentItemOverlay from '@src/overlays/ContentItemOverlay/ContentItemOverlay';
 import PrimaryCalendar from '@components/UiKit/Calendar/PrimaryCalendar/PrimaryCalendar';
 import TaskControlPanel from '@components/TaskControlPanel/TaskControlPanel';
+import { withTransition } from '@src/hocs/withTransition/withTransition';
 
-export default function TaskById() {
+function TaskById() {
     const params = useParams()
     const isNew = isNil(params.id)
     const [getTask, { data: task, isLoading, isFetching, isError, isSuccess }] = taskApi.useLazyGetTaskByIdQuery()
-    const [getTaskType, { data: taskType, isLoading: isLoadingTaskType, isError: isErrorTaskType, isSuccess: isSuccessTaskType }] = taskTypeApi.useLazyGetTaskTypeByIdQuery()
+    //const [getTaskType, { data: taskType, isLoading: isLoadingTaskType, isError: isErrorTaskType, isSuccess: isSuccessTaskType }] = taskTypeApi.useLazyGetTaskTypeByIdQuery()
     useEffect(() => {
         !isNew && getTask(params.id)
     }, [params])
 
-    useEffect(() => {
-        if (isSuccess) {
-            getTaskType(task.taskType)
-        }
-    }, [isSuccess])
+    // useEffect(() => {
+    //     if (isSuccess) {
+    //         getTaskType(task.taskType)
+    //     }
+    // }, [isSuccess])
 
-    if (isLoading || isLoadingTaskType) {
+    if (isLoading
+        // || isLoadingTaskType
+        ) {
         return <PreloaderForPage />
     }
 
-    if (isError || isErrorTaskType) {
+    if (isError 
+        //|| isErrorTaskType
+        ) {
         return <ErrorForPage />
     }
     return (
         <>
-            {isSuccess && isSuccessTaskType && <TransitionOverlay>
+            {isSuccess &&  
                 <ContentItemOverlay label='Задача'>
-                    <TaskForm isNew={isNew} task={task} taskType={taskType} isFetching={isFetching} id={params.id} />
+                    <TaskForm isNew={isNew} task={task} 
+                    //taskType={taskType} 
+                    isFetching={isFetching} id={params.id} />
                 </ContentItemOverlay>
-            </TransitionOverlay>}
+            }
         </>
     )
 }
+
+export default TaskById
+//=withTransition(TaskById,'TaskById')

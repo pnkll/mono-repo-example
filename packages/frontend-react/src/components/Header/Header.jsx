@@ -11,8 +11,9 @@ import { logout, selectDarkMode, setDarkMode } from "../../store/slices/appSlice
 import { useState } from "react";
 import { MoonIcon, SunIcon } from "@heroicons/react/outline";
 import ConfirmPopup from "@components/Popup/ConfirmPopup/ConfirmPopup";
+import { withTransition } from "@src/hocs/withTransition/withTransition";
 
-export default function Header() {
+function Header() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [showModal, setShowModal] = useState(false)
@@ -53,3 +54,5 @@ export default function Header() {
         </>
     )
 }
+
+export default Header = withTransition(Header,'Header','top',{width: 'auto', height: 'auto'})

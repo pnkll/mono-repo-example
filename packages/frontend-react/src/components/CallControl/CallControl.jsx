@@ -1,13 +1,12 @@
 import { LinkIcon, MenuIcon, MicrophoneIcon, MinusIcon, PauseIcon, PhoneOutgoingIcon, VolumeOffIcon, VolumeUpIcon, XIcon } from '@heroicons/react/outline';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectVolume, setExpanded, setVolume } from '../../store/slices/callContollSlice.js';
+import { selectVolume, setExpanded, setVolume } from '@store/slices/callContollSlice.js';
 import Button from '../Button/Button.jsx';
 import { PhoneDownButton, PhoneButton } from '../CallButtons/CallButtons.jsx';
 import Select from '../Select/Select.jsx';
 import './CallControl.scss'
 
-import { Session } from 'sipml'
 import useSound from 'use-sound';
 import bell from '../../assets/sound/piano-notif.wav'
 import { isNil } from 'lodash';

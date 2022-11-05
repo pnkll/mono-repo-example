@@ -22,18 +22,18 @@ export const taskApi = Api.injectEndpoints({
         //         return data.message
         //     }
         // }),
-        getTaskById: builder.query({
-            query: (id)=>({
-                url: '/tasks/task',
-                method: 'GET',
-                params: {
-                    _id: id
-                }    
-            }),
-            transformResponse: (data)=>{
-                return data.message[0]
-            }
-        }),
+        // getTaskById: builder.query({
+        //     query: (id)=>({
+        //         url: '/tasks/task',
+        //         method: 'GET',
+        //         params: {
+        //             _id: id
+        //         }    
+        //     }),
+        //     transformResponse: (data)=>{
+        //         return data.message[0]
+        //     }
+        // }),
         postTask: builder.mutation({
             query: (data) => ({
                 url: '/tasks/task',
@@ -65,7 +65,7 @@ export const taskApi = Api.injectEndpoints({
         }),
         getTasks: builder.query({
             query: ({query,sort,limit,page})=>({
-                url: '/tasks/task/',
+                url: '/tasks/task',
                 method: 'GET',
                 params: {
                     query: JSON.stringify(query),
@@ -73,8 +73,38 @@ export const taskApi = Api.injectEndpoints({
                     limit: limit,
                     page: page,
                 }
-            })
+            }),
+            transformResponse: (data)=>{
+                return data.message
+            }
         }),
+        getTaskById: builder.query({
+            query: (id)=>({
+                url: 'tasks/task',
+                method: 'GET',
+                params: {
+                    query: JSON.stringify({_id: id})
+                },
+            }),
+            transformResponse: (data)=>{
+                return data.message.docs[0]
+            }
+        }),
+        createTask: builder.mutation({
+            query: (data)=>({
+                url: '/tasks/task',
+                method: 'POST',
+                body: data,
+            }),
+            async onQueryStarted(id,{dispatch,queryFulfilled}){
+                try {
+                    const {data}=await queryFulfilled
+                    dispatch(addNotify({type:'success',message:'Задача успешно создана'}))
+                } catch ({error}) {
+                    dispatch(addNotify({type:'error',message: error.data.errors}))
+                }
+            }
+        })
     }),
     overrideExisting: false,
 })

@@ -16,8 +16,8 @@ export default function TaskList(){
         { Header: '', accessor: '_id', Cell: ({ cell: { value } }) => <Button color='green' text='Перейти' href={value} /> || '-' },
         { Header: 'Название', accessor: 'title' },
         { Header: 'Статус', accessor: 'status' },
-        { Header: 'Дата создания', accessor: 'createdAt', type: 'sort', sort: 0, Cell: ({value})=> dateFormat(value) },
-        { Header: 'Последнее обновление', accessor: 'updatedAt', type: 'sort', sort: 0,  Cell: ({value})=> dateFormat(value) }
+        { Header: 'Дата создания', accessor: 'createdAt', type: 'sort', sort: 0, Cell: ({value})=> value },
+        { Header: 'Последнее обновление', accessor: 'updatedAt', type: 'sort', sort: 0,  Cell: ({value})=> value }
     ],[])
    return(
     <>

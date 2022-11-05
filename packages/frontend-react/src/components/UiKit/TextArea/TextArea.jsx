@@ -17,7 +17,7 @@ export default function TextArea({ formik, id, name, label, required, placeholde
     const valid = formik.touched[id]&&!formik.errors[id]
     function handleBlur(e){
         setFocused(false)
-        !isNil(formik)&&formik.handleBlur()
+        !isNil(formik)&&formik.handleBlur(e)
     }
     function handleFocus(){
         setFocused(true)

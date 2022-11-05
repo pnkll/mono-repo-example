@@ -29,7 +29,7 @@ export default function TaskForm({ isNew, task, isFetching, id, isError, taskTyp
                 description: task.description,
                 status: task.status,
                 executor: task.executor,
-                taskTypeTitle: taskType.title,
+                //taskTypeTitle: taskType.title,
                 priority: task.priority,
             }, [isNew])
     function handleSubmit(values) {
@@ -53,7 +53,7 @@ export default function TaskForm({ isNew, task, isFetching, id, isError, taskTyp
                             <Input id='title' name='title' formik={formik} label='Название задачи' readonly={editMode ? false : true} />
                             <Input id='taskTypeTitle' name='taskTypeTitle' formik={formik} label='Тип задачи' readonly={editMode ? false : true} />
                             <Input id='status' name='status' formik={formik} label='Статус задачи' readonly={editMode ? false : true} />
-                            <UserSelectorbyRole id='executor' formik={formik} label='Исполнитель' roleId={taskType.executorRole} name='executor' defaultValue={true} />
+                            {/* <UserSelectorbyRole id='executor' formik={formik} label='Исполнитель' roleId={taskType.executorRole} name='executor' defaultValue={true} /> */}
                             {/* <Select id='executor' name='executor' formik={formik} label='Иполнитель' options={executorOptions} defaultValue={true}/> */}
                             <TextArea id='description' name='description' formik={formik} label='Описание задачи' readonly={editMode ? false : true} />
                             <Select options={priorityOptions} id='priority' name='priority' formik={formik} defaultValue={isNew ? false : true} label='Приоритет' isDisabled={editMode ? false : true} />

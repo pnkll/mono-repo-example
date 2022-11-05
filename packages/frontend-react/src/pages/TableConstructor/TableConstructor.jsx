@@ -12,7 +12,7 @@ import Input from "../../components/Input/Input.jsx";
 import { tableApi } from "../../services/TableService.js";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/slices/userSlice.js";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import TransitionOverlay from "@src/overlays/TransitionOverlay/TransitionOverlay";
 
 export default function TableConstructor() {

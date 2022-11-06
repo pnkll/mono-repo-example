@@ -4,7 +4,7 @@ import { Api } from './api'
 
 // Define a service using a base URL and expected endpoints
 export const rolesApi = Api.injectEndpoints({
-    tagTypes: ['ROLES','PERMISSIONS'],
+    tagTypes: ['ROLES', 'PERMISSIONS'],
     endpoints: (builder) => ({
         postRole: builder.mutation({
             query: (data) => ({
@@ -22,34 +22,50 @@ export const rolesApi = Api.injectEndpoints({
             })
         }),
         getRoles: builder.query({
-            query: () => ({
+            query: ({ query, sort, limit, page }) => ({
                 url: '/roles/role',
                 method: 'GET',
-            }),
-            async onQueryStarted(id,{dispatch,queryFulfilled}){
-                try {
-                    const {data}=await queryFulfilled
-                    dispatch(setRoleList(data.message))
-                } catch (error) {
-                    console.log(error)
+                params: {
+                    query: JSON.stringify(query),
+                    sort: JSON.stringify(sort),
+                    limit: limit,
+                    page: page,
+
                 }
-            },
-            providesTags: (result) =>
-                result?.message
-                    ? [
-                        ...result.message.map(({ id }) => ({ type: 'ROLES', id })),
-                        { type: 'ROLES', id: 'LIST' },
-                    ]
-                    : [{ type: 'ROLES', id: 'LIST' }],
+            }),
+            transformResponse: (data)=>{
+                return data.message
+            }
         }),
+        // getRoles: builder.query({
+        //     query: () => ({
+        //         url: '/roles/role',
+        //         method: 'GET',
+        //     }),
+        //     async onQueryStarted(id,{dispatch,queryFulfilled}){
+        //         try {
+        //             const {data}=await queryFulfilled
+        //             dispatch(setRoleList(data.message))
+        //         } catch (error) {
+        //             console.log(error)
+        //         }
+        //     },
+        //     providesTags: (result) =>
+        //         result?.message
+        //             ? [
+        //                 ...result.message.map(({ id }) => ({ type: 'ROLES', id })),
+        //                 { type: 'ROLES', id: 'LIST' },
+        //             ]
+        //             : [{ type: 'ROLES', id: 'LIST' }],
+        // }),
         getRolesForSelector: builder.query({
             query: () => ({
                 url: '/roles/role',
                 method: 'GET',
             }),
-            transformResponse: (data)=>{
-                if(!isNil(data)){
-                    return data.message?.map(role=>role&&{label: role.title, value: role._id})
+            transformResponse: (data) => {
+                if (!isNil(data)) {
+                    return data.message?.map(role => role && { label: role.title, value: role._id })
                 }
             }
             // providesTags: (result) =>
@@ -73,8 +89,8 @@ export const rolesApi = Api.injectEndpoints({
                     })
                 }
             }),
-            transformResponse: (data)=>{
-                return data.message[0]
+            transformResponse: (data) => {
+                return data.message.docs[0]
             }
         }),
         grantPermissions: builder.mutation({
@@ -96,22 +112,22 @@ export const rolesApi = Api.injectEndpoints({
                         { type: 'PERMISSIONS', id: 'LIST' },
                     ]
                     : [{ type: 'PERMISSIONS', id: 'LIST' }],
-            async onQueryStarted(id,{dispatch,queryFulfilled}){
+            async onQueryStarted(id, { dispatch, queryFulfilled }) {
                 try {
-                    const {data} = await queryFulfilled
-                    data.status===200&&dispatch(setPermissionList(data.message))
+                    const { data } = await queryFulfilled
+                    data.status === 200 && dispatch(setPermissionList(data.message))
                 } catch (error) {
                     console.log(error)
                 }
             },
         }),
         getUsersByRoleId: builder.query({
-            query: (roleId)=>({
+            query: (roleId) => ({
                 url: '/roles/usersbyrole',
                 method: 'GET',
-                params: {roleId: roleId}
+                params: { roleId: roleId }
             }),
-            transformResponse: (data)=>{
+            transformResponse: (data) => {
                 return data.message
             }
         }),

@@ -51,5 +51,4 @@ function TaskById() {
     )
 }
 
-export default TaskById
-//=withTransition(TaskById,'TaskById')
+export default TaskById=withTransition(TaskById,'TaskById')

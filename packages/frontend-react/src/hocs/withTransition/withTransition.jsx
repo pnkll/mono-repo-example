@@ -1,9 +1,12 @@
+import { taskApi } from "@services/TaskService"
 import { animated, useSpring } from "react-spring"
 import s from './withTransition.module.scss'
 
 export function withTransition(Component, displayName, from = 'right', style = null, delay = 100, custom = null) {
     
-    function SpawnTransition() {
+    function SpawnTransition(props) {
+        const {data}=taskApi.useGetTaskByIdQuery()
+        console.log(data)
         const position = () => {
             switch (from) {
                 case 'left': return 'translateX(-100vw)'
@@ -19,11 +22,11 @@ export function withTransition(Component, displayName, from = 'right', style = n
         })
         return (
             <animated.div style={{ ...styles, ...style }} className={s.container}>
-                <Component />
+                <Component {...props}/>
             </animated.div>
         )
     }
-    SpawnTransition.displayName = displayName
+    SpawnTransition.displayName = displayName+'WithTransition'
 
     return SpawnTransition
 }

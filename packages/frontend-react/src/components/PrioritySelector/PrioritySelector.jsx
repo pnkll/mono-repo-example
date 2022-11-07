@@ -2,12 +2,14 @@
 
 import Select from "@components/Select/Select";
 import {priorityOptions} from '@src/helpers/forTask'
+import React from 'react'
 
-export default function PrioritySelector(props){
+const PrioritySelector = React.forwardRef((props,ref)=>{
 
    return(
        <>
-          <Select options={priorityOptions} {...props}/>
+          <Select ref={ref} options={priorityOptions} {...props}/>
        </>
    )
-}
+})
+export default PrioritySelector

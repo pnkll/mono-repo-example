@@ -113,7 +113,6 @@ const TableInner = React.memo(({
 
     //Получение данных для заполнения таблицы с сервера
     React.useLayoutEffect(() => {
-        console.log('hll')
         if (isNil(customData)) {
             isNil(sortable)
                 ? getTableData({ table_id: id, limit: limit, page: page })//С сортировкой

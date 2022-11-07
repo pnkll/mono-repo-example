@@ -14,7 +14,7 @@ export default function ResumableProgress({ id, notify, from='right' }) {
     const [updateTable] = tableApi.useUploadFileMutation()
     const [complete,setComplete] = React.useState(false)
     function hanldeSubmit() {
-        //updateTable({ id: notify.targetId, file: notify.response, withDeletion: true })
+        updateTable({ id: notify.targetId, file: notify.response, withDeletion: true })
         setComplete(true)
         resumables.find(el=>el.r.opts.id===id)?.r?.cancel()
         setTimeout(()=>{

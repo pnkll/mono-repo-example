@@ -19,6 +19,7 @@ module.exports = merge(common, {
             'process.env': {
                 'NODE_ENV': JSON.stringify('development'),
                 'API_URL': JSON.stringify('https://restapi.minta365.ru/api')
+                // 'API_URL': JSON.stringify('http://87.103.193.156:3000/api')
             }
         })
     ]

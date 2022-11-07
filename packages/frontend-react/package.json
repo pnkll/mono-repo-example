@@ -46,7 +46,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "@evercall/react-sip": "^1.1.8",
-    "@heroicons/react": "^1.0.6",
+    "@heroicons/react": "1.0.6",
     "@reduxjs/toolkit": "^1.8.4",
     "axios": "^0.27.2",
     "buffer": "^6.0.3",

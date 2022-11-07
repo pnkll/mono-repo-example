@@ -5,8 +5,6 @@ import s from './withTransition.module.scss'
 export function withTransition(Component, displayName, from = 'right', style = null, delay = 100, custom = null) {
     
     function SpawnTransition(props) {
-        const {data}=taskApi.useGetTaskByIdQuery()
-        console.log(data)
         const position = () => {
             switch (from) {
                 case 'left': return 'translateX(-100vw)'

@@ -41,7 +41,7 @@ export default function App() {
 
     return (token ? isSuccessProfile : true) &&
         <div className={cn("app", { dark: darkMode, light: !darkMode })} id='app'>
-            <SocketProvider>
+            <SocketProvider token={token}>
                 {router}
             </SocketProvider>
         </div>

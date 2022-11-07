@@ -4,7 +4,7 @@ import _, { isNil } from "lodash"
 import React, { useEffect, useState } from "react"
 import ReactSelect, { components, NonceProvider } from "react-select"
 
-export default function Select({ options, indicator, formik,customStyles, classNamePrefix, id, name, isSearchable = false, menuPlacement = 'bottom', handleChange, label, isMulti = false, placeholder = 'Выберите..', isDisabled = false, defaultValue, selectedValue,...other }) {
+const Select = React.forwardRef(({ options, indicator, formik, value, customStyles, classNamePrefix, id, name, isSearchable = false, menuPlacement = 'bottom', handleChange, label, isMulti = false, placeholder = 'Выберите..', isDisabled = false, defaultValue, selectedValue, ...other }, ref) =>{
 
     const styles = customStyles || {
         container: (styles) => ({
@@ -80,48 +80,50 @@ export default function Select({ options, indicator, formik,customStyles, classN
 
     }
     const [key, setKey] = React.useState(1)
-    const defValue = React.useMemo(()=>{
+    const defValue = React.useMemo(() => {
         if (isMulti) {
             return !_.isEmpty(options)
-                ?!isNil(formik) 
-                    &&defaultValue
-                        ? formik.values[id].map(el => el && options.find(elem => elem.value === el))
-                        : []
-                :[]
+                ? !isNil(formik)
+                    && defaultValue
+                    ? formik.values[id].map(el => el && options.find(elem => elem.value === el))
+                    : []
+                : []
         } else {
-            return !isNil(formik) 
-            ? options?.find(el => el.value === formik.values[id]) 
-            : defaultValue 
+            return !isNil(formik)
+                ? options?.find(el => el.value === formik.values[id])
+                : defaultValue
                 && options?.find(el => el.value === selectedValue)
         }
-    },[options])
+    }, [options])
     React.useLayoutEffect(() => {
-        !isNil(defValue) && setKey(v => v + 1)
-    }, [defValue])
-    return (
-        <>
-            <div className="" style={{ display: 'flex', flexDirection: 'column' }}>
-                {!isNil(label) && <label style={{ padding: '5px' }}>{label}</label>}
-                <ReactSelect
-                    key={key}
-                    isDisabled={isDisabled}
-                    placeholder={placeholder}
-                    isMulti={isMulti}
-                    isSearchable={isSearchable}
-                    id={id}
-                    name={name}
-                    classNamePrefix={classNamePrefix}
-                    styles={styles}
-                    options={options}
-                    defaultValue={defaultValue ? defValue : null}
-                    components={{ DropdownIndicator: () => indicator ? indicator : <ArrowsForSelectIcon style={{ paddingRight: '11px' }} /> }}
-                    onChange={(e) => !isNil(formik) ? isMulti ? formik.setFieldValue(id, e.map(el => el.value)) : formik.setFieldValue(id, e.value) : handleChange(e.value)}
-                    menuPlacement={menuPlacement} 
-                    {...other}/>
-            </div>
-        </>
-    )
-}
+    !isNil(defValue) && setKey(v => v + 1)
+}, [defValue])
+return (
+    <>
+        <div className="" style={{ display: 'flex', flexDirection: 'column' }}>
+            {!isNil(label) && <label style={{ padding: '5px' }}>{label}</label>}
+            <ReactSelect
+                value={value}
+                ref={ref}
+                key={key}
+                isDisabled={isDisabled}
+                placeholder={placeholder}
+                isMulti={isMulti}
+                isSearchable={isSearchable}
+                id={id}
+                name={name}
+                classNamePrefix={classNamePrefix}
+                styles={styles}
+                options={options}
+                defaultValue={defaultValue ? defValue : null}
+                components={{ DropdownIndicator: () => indicator ? indicator : <ArrowsForSelectIcon style={{ paddingRight: '11px' }} /> }}
+                onChange={(e) => !isNil(formik) ? isMulti ? formik.setFieldValue(id, e.map(el => el.value)) : formik.setFieldValue(id, e?.value) : handleChange(e?.value)}
+                menuPlacement={menuPlacement}
+                {...other} />
+        </div>
+    </>
+)
+})
 export const ArrowsForSelectIcon = ({ style }) => {
     return (
         <svg style={style} width="6" height="9" viewBox="0 0 6 9" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -158,3 +160,5 @@ export const ArrowsForSelectIcon = ({ style }) => {
 
     )
 }
+
+export default Select

@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { isNil } from 'lodash';
-import { setCredentials } from '../store/slices/appSlice';
-import { logout } from '../store/slices/appSlice';
+import { setCredentials } from '@store/slices/appSlice';
+import { logout } from '@store/slices/appSlice';
 
 //initialize an empty api service that we'll inject endpoints into later as needed
 // export const Api = createApi({
@@ -50,7 +50,11 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
     if(!isNil(tokenExp)&&new Date().getTime()>tokenExp){
         return await refresh()
     } else{
-        return await baseQuery(args,api,extraOptions)
+        const response = await baseQuery(args,api,extraOptions)
+        if(response.error?.data?.errors==='Не удалось идентифицировать пользователя'){
+            return await refresh()
+        }
+        return response
     }
     async function refresh(){
         const refreshToken = api.getState().appSlice.refreshToken

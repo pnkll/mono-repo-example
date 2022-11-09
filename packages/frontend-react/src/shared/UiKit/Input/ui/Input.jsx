@@ -22,7 +22,7 @@ const Input = React.forwardRef((props, ref) => {
                 autoComplete={autoComplete}
                 className={cx({ input: true, error, readonly, valid, [className]:className })}
                 ref={ref}
-                onChange={(e)=>onChange(e.target.value)}
+                onChange={(e)=>onChange(e)}
                 {...other}
             />
         </>

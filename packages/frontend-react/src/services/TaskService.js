@@ -1,5 +1,6 @@
 import { addNotify } from '../store/slices/notificationsSlice'
 import { Api } from './api'
+import { rtkNotify } from '@src/shared/lib/rtkNotify/rtkNotify'
 
 // Define a service using a base URL and expected endpoints
 export const taskApi = Api.injectEndpoints({
@@ -56,6 +57,10 @@ export const taskApi = Api.injectEndpoints({
                 method: 'PUT',
                 body: data
             }),
+            async onQueryStarted(id,{dispatch,queryFulfilled}){
+                rtkNotify(id,{dispatch,queryFulfilled},{success:'success',error:'error'})
+            },
+            invalidatesTags: ['TASK-BY-ID']
         }),
         setControllerRole: builder.mutation({
             query: (data) => ({
@@ -98,14 +103,7 @@ export const taskApi = Api.injectEndpoints({
                 method: 'POST',
                 body: data,
             }),
-            async onQueryStarted(id, { dispatch, queryFulfilled }) {
-                try {
-                    const { data } = await queryFulfilled
-                    dispatch(addNotify({ type: 'success', message: 'Задача успешно создана' }))
-                } catch ({ error }) {
-                    dispatch(addNotify({ type: 'error', message: error.data.errors }))
-                }
-            }
+            
         }),
         setExecutorRole: builder.mutation({
             query: (data) => ({

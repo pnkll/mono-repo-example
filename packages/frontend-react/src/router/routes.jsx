@@ -23,7 +23,8 @@ import SidebarHeaderLayout from "@src/page_layouts/SidebarHeaderLayout/SidebarHe
 import { Navigate } from "react-router-dom"
 import TaskCreate from "@pages/TaskList/TaskCreate/TaskCreate"
 import OrganizationPage from "@pages/OrganizationPage/OrganizationPage"
-import { TaskDetailsPage } from "@pages/TaskDetailsPage/index"
+import { TaskDetailsPage } from "@pages/entities/task/TaskDetailsPage/index"
+import {TaskEditPage} from "@pages/entities/task/TaskEditPage/index"
 
 
 export const routes = (token) => {
@@ -54,6 +55,7 @@ export const routes = (token) => {
                     { path: 'tasks', breadcrumb: 'Список задач', element: <TaskList /> },
                     // { path: 'tasks/:id', breadcrumb: 'Задача', element: <TaskById /> },
                     { path: 'tasks/:id', breadcrumb: 'Задача', element: <TaskDetailsPage /> },
+                    {path: 'tasks/:id/edit', breadcrumb: 'Редактирование', element: <TaskEditPage/>},
                     { path: 'tasks/new', breadcrumb: 'Задача', element: <TaskCreate /> },
                     { path: 'events', breadcrumb: 'События', element: <EventsList /> },
                     { path: 'organization/:id', breadcrumb: 'Организация', element: <OrganizationPage/>},

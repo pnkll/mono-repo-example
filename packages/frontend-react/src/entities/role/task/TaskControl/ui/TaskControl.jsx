@@ -6,7 +6,7 @@ export default function TaskControl(){
        <>
           <div className={s.container}>
             <Button text='Приступить' color='green' disabled={true}/>
-            <Button text='Редактировать' color='white'/>
+            <Button text='Редактировать' color='white' href='edit'/>
           </div>
        </>
    )

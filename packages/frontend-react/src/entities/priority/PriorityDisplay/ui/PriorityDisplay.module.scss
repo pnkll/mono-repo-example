@@ -1,0 +1,22 @@
+.container{
+    margin: 5px;
+    width: fit-content;
+    border-radius: 5px;
+    padding: 0 5px;
+    font-size: 12px;
+    &.priority0{
+        background-color: rgb(100, 216, 100);
+    }
+    &.priority1{
+        background-color: rgb(166, 216, 100);
+    }
+    &.priority2{
+        background-color: rgb(216, 214, 100);
+    }
+    &.priority3{
+        background-color: rgb(216, 170, 100);
+    }
+    &.priority4{
+        background-color: rgb(216, 123, 100);
+    }
+}

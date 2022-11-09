@@ -8,8 +8,9 @@ import { rolesApi } from "./services/RolesService.js"
 import { routes } from "./router/routes.jsx"
 import cn from 'classnames'
 import { SocketProvider } from "@src/providers/Socket/SocketContext"
+import { withSocket } from "@src/providers/Socket/hoc/withProvider"
 
-export default function App() {
+function App() {
 
     const [getProfile, { isSuccess: isSuccessProfile }] = usersApi.useLazyGetProfileQuery()
     const [getRoles] = rolesApi.useLazyGetRolesQuery()
@@ -41,8 +42,10 @@ export default function App() {
 
     return (token ? isSuccessProfile : true) &&
         <div className={cn("app", { dark: darkMode, light: !darkMode })} id='app'>
-            <SocketProvider token={token}>
+            {/* <SocketProvider> */}
                 {router}
-            </SocketProvider>
+            {/* </SocketProvider> */}
         </div>
 }
+
+export default withSocket(App,'App')

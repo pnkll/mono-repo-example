@@ -1,0 +1,10 @@
+.counter {
+    position: absolute;
+    display: block;
+    content: '';
+    z-index: 100;
+    right: 10px;
+    bottom: 0;
+    font-size: 11px;
+    color: gray;
+}

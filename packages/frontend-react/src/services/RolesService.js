@@ -23,7 +23,7 @@ export const rolesApi = Api.injectEndpoints({
         }),
         getRoles: builder.query({
             query: ({ query, sort, limit, page }) => ({
-                url: '/roles/role',
+                url: '/roles/',
                 method: 'GET',
                 params: {
                     query: JSON.stringify(query),
@@ -78,7 +78,7 @@ export const rolesApi = Api.injectEndpoints({
         }),
         getRoleById: builder.query({
             query: (id) => ({
-                url: '/roles/role',
+                url: '/roles/',
                 method: 'GET',
                 // query: {
                 //     _id: id 
@@ -121,14 +121,24 @@ export const rolesApi = Api.injectEndpoints({
                 }
             },
         }),
-        getUsersByRoleId: builder.query({
+        getUsersByRoleId: builder.query({//TODO исключить
             query: (roleId) => ({
-                url: '/roles/usersbyrole',
+                url: '/roles/users',
                 method: 'GET',
-                params: { roleId: roleId }
+                params: { roleName: roleId }
             }),
             transformResponse: (data) => {
                 return data.message
+            }
+        }),
+        getUsersByRoleName: builder.query({
+            query: (name) => ({
+                url: '/roles/users',
+                method: 'GET',
+                params: { roleName: name }
+            }),
+            transformResponse: (data) => {
+                return data.message.docs
             }
         }),
     }),

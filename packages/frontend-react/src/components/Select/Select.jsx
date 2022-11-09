@@ -103,7 +103,6 @@ return (
         <div className="" style={{ display: 'flex', flexDirection: 'column' }}>
             {!isNil(label) && <label style={{ padding: '5px' }}>{label}</label>}
             <ReactSelect
-                value={value}
                 ref={ref}
                 key={key}
                 isDisabled={isDisabled}
@@ -117,7 +116,7 @@ return (
                 options={options}
                 defaultValue={defaultValue ? defValue : null}
                 components={{ DropdownIndicator: () => indicator ? indicator : <ArrowsForSelectIcon style={{ paddingRight: '11px' }} /> }}
-                onChange={(e) => !isNil(formik) ? isMulti ? formik.setFieldValue(id, e.map(el => el.value)) : formik.setFieldValue(id, e?.value) : handleChange(e?.value)}
+                onChange={(e) => !isNil(formik) ? isMulti ? formik.handleChange(e.map(el => el.value)) : formik.setFieldValue(id, e?.value) : handleChange(e?.value)}
                 menuPlacement={menuPlacement}
                 {...other} />
         </div>

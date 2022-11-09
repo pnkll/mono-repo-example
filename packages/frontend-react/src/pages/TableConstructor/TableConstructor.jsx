@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/slices/userSlice.js";
 import { useNavigate, useParams } from "react-router-dom";
 import TransitionOverlay from "@src/overlays/TransitionOverlay/TransitionOverlay";
+import { useSocket } from "@src/providers/Socket/SocketContext";
 
 export default function TableConstructor() {
     const user = useSelector(selectCurrentUser)
@@ -68,9 +69,14 @@ export default function TableConstructor() {
             }))
     }
     const navigate = useNavigate()
+    const io=useSocket()
     React.useEffect(()=>{
-        isSuccess&&navigate(`../tables/${data.message._id}`)
+        isSuccess&&
+            navigate(`../tables/${data.message._id}`)
     },[isSuccess])
+    // React.useEffect(()=>{
+        // io.on('tables:get',(message)=>console.log(message))
+    // })
     return (
         <>
                 <TransitionOverlay>

@@ -4,6 +4,7 @@ import { tableApi } from '@services/TableService';
 import Table from '@components/Table/Table';
 import { dateFormat } from '@src/helpers/dateFormat';
 import Button from '@components/Button/Button';
+import { useSocket } from '@src/providers/Socket/SocketContext';
 
 export default function TableList() {
     const columns = React.useMemo(() => [
@@ -12,6 +13,9 @@ export default function TableList() {
         { Header: 'Дата создания', accessor: 'createdAt', Cell: ({ value }) => dateFormat(value,'table') },
         { Header: 'Последнее обновление', accessor: 'updatedAt', Cell: ({ value }) => dateFormat(value,'table') }
     ])
+    const io = useSocket()
+    io.on('tables:get',console.log)
+
     return (
         <>
             <TransitionOverlay from='right'>

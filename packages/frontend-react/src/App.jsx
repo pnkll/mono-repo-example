@@ -9,6 +9,7 @@ import { routes } from "./router/routes.jsx"
 import cn from 'classnames'
 import { SocketProvider } from "@src/providers/Socket/SocketContext"
 import { withSocket } from "@src/providers/Socket/hoc/withProvider"
+import AppRouter from "@src/app/providers/router/ui/AppRouter"
 
 function App() {
 
@@ -43,7 +44,7 @@ function App() {
     return (token ? isSuccessProfile : true) &&
         <div className={cn("app", { dark: darkMode, light: !darkMode })} id='app'>
             {/* <SocketProvider> */}
-                {router}
+                <AppRouter/>
             {/* </SocketProvider> */}
         </div>
 }

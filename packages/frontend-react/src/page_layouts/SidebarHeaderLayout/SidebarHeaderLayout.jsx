@@ -14,7 +14,7 @@ export default React.memo(function SidebarHeaderLayout() {
     return (
         <>
             <div className={s['sidebar-header-layout__container']}>
-                <Sidebar />
+                {/* <Sidebar /> */}
                 <div className={s['sidebar-header-layout__wrapper']}>
                     <Header />
                     <ContentSection />

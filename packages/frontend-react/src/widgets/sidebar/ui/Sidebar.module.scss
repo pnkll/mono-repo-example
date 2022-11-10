@@ -1,0 +1,35 @@
+@import '~react-pro-sidebar/dist/scss/styles.scss';
+
+.header {
+    background-color: transparent;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 0 !important;
+    position: relative;
+    &::before{
+        content: '';
+        display: block;
+        width: 1px;
+        height: 56px;
+        background-color: #485661;
+        position: absolute;
+        top: 2px;
+        right: 0;
+    }
+    &::after{
+        content: '';
+        width: 65px;
+        height: 1px;
+        background-color: #485661;
+        position: absolute;
+        bottom: 0;
+        right: 5px;
+    }
+}
+
+.content {
+    background-color: #fff;
+    border: 0;
+}

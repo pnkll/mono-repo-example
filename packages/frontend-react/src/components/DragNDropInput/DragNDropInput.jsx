@@ -1,7 +1,8 @@
 import ResumablePopup from '@components/Popup/ResumablePopup/ResumablePopup';
+import { setShowModal, useTrackedResumable } from '@src/app/providers/resumable/index';
 import React from 'react';
 import { useResumable } from '../../hooks/useResumable';
-import { setShowModal, useTrackedResumable } from '../../Providers/Resumable/ResumableContext';
+// import { setShowModal, useTrackedResumable } from '../../Providers/Resumable/ResumableContext';
 import s from './DragNDropInput.module.scss'
 
 export default function DragNDropInput({ id = 'file-input', resumableId, options, width = 40, ...other }) {

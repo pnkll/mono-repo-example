@@ -2,7 +2,8 @@ import Button from '@components/Button/Button';
 import OverlayPopup from '@components/Popup/OverlayPopup/OverlayPopup';
 import ToggleInput from '@components/ToggleInput/ToggleInput';
 import { XIcon } from '@heroicons/react/solid';
-import { setIdTarget, useUpdateResumable } from '@src/Providers/Resumable/ResumableContext';
+import { setIdTarget, useUpdateResumable } from '@src/app/providers/resumable/index';
+// import { setIdTarget, useUpdateResumable } from '@src/Providers/Resumable/ResumableContext';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import s from './ResumablePopup.module.scss'

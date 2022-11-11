@@ -7,8 +7,7 @@ import { useSelector } from "react-redux";
 import { BrowserRouter, useRoutes } from "react-router-dom";
 
 function AppRouter() {
-    const token = useSelector(selectToken)
-    const router = useRoutes(getRoutes(token))
+    const router = useRoutes(getRoutes())
     return (
         <>
             {router}

@@ -2,12 +2,13 @@ import React from 'react'
 
 export function withStyles(Component, displayName){
 
-    const RenderSelect= React.forwardRef((props,ref)=>{
-        const styles = props.customStyles || {
+    const RenderSelect= React.forwardRef(({width,customStyles,readOnly, isDisabled, ...other},ref)=>{
+        const styles = customStyles || {
             container: (styles) => ({
                 ...styles,
-                width: '-webkit-fill-available',
-                borderBottom: !props.isDisabled ? 0 : '1px solid #B8BBC6',
+                width: width||'-webkit-fill-available',
+                borderRadius: '8px',
+                //borderBottom: !props.isDisabled ? 0 : '1px solid #B8BBC6',
             }),
             option: (provided, state) => ({
                 ...provided,
@@ -30,10 +31,11 @@ export function withStyles(Component, displayName){
                 // none of react-select's styles are passed to <Control />
                 display: 'flex',
                 cursor: 'pointer',
-                background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.82)), linear-gradient(180deg, #FFFFFF 0%, #E7E9F3 85.74%, #D8DBE7 100%)',
-                border: props.isDisabled ? 0 : '1px solid #B8BBC6',
+                //background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.82)), linear-gradient(180deg, #FFFFFF 0%, #E7E9F3 85.74%, #D8DBE7 100%)',
+                background: '#FFF',
+                border: isDisabled ? 0 : '1px solid #B8BBC6',
                 boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.08)',
-                borderRadius: '4px 4px 0px 0px',
+                borderRadius: '8px',
                 fontFamily: 'Roboto',
                 fontStyle: 'normal',
                 fontWeight: 500,
@@ -47,11 +49,12 @@ export function withStyles(Component, displayName){
             }),
             menu: (styles) => ({
                 ...styles,
-                marginTop: "2px",
-                background: 'linear-gradient(0deg, #FFFFFF, #FFFFFF), linear-gradient(180deg, #FFFFFF 0%, #E7E9F3 85.74%, #D8DBE7 100%)',
+                marginTop: "4px",
+                //background: 'linear-gradient(0deg, #FFFFFF, #FFFFFF), linear-gradient(180deg, #FFFFFF 0%, #E7E9F3 85.74%, #D8DBE7 100%)',
+                background: '#fff',
                 border: '1px solid #B8BBC6',
                 boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.08)',
-                borderRadius: '0px 0px 4px 4px'
+                borderRadius: '8px',
     
             }),
             menuList: (styles) => ({
@@ -63,20 +66,20 @@ export function withStyles(Component, displayName){
             }),
             indicatorsContainer: (styles) => ({
                 ...styles,
-                display: props.isDisabled ? 'none' : 'flex'
+                display: isDisabled ? 'none' : 'flex'
             }),
             singleValue: (styles) => ({
                 ...styles,
-                whiteSpace: props.isDisabled ? 'pre-wrap' : 'nowrap',
-                margin: props.isDisabled ? 0 : '0 2px'
+                whiteSpace: isDisabled ? 'pre-wrap' : 'nowrap',
+                margin: isDisabled ? 0 : '0 2px'
             }),
             valueContainer: (styles) => ({
                 ...styles,
-                padding: props.isDisabled ? '2px 0' : '2px 8px',
+                padding: isDisabled ? '2px 0' : '2px 8px',
             })
     
         }
-        return <Component {...props} styles={styles} ref={ref}/>
+        return <Component {...other} isDisabled={isDisabled} readOnly={readOnly} styles={styles} ref={ref}/>
     })
     RenderSelect.displayName = displayName
 

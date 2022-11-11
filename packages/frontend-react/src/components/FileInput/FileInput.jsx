@@ -1,8 +1,9 @@
 import _ from 'lodash';
 import React from 'react';
-import { setShowModal, useTrackedResumable } from '../../Providers/Resumable/ResumableContext';
+// import { setShowModal, useTrackedResumable } from '../../Providers/Resumable/ResumableContext';
 import { useResumable } from '../../hooks/useResumable';
 import ResumablePopup from '@components/Popup/ResumablePopup/ResumablePopup';
+import { setShowModal, useTrackedResumable } from '@src/app/providers/resumable/index';
 
 export default function FileInput({resumableId, options, ...other}) {
     const r = useResumable({id:resumableId, options})

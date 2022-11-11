@@ -10,12 +10,15 @@ import cn from 'classnames'
 import { SocketProvider } from "@src/providers/Socket/SocketContext"
 import { withSocket } from "@src/providers/Socket/hoc/withProvider"
 import AppRouter from "@src/app/providers/router/ui/AppRouter"
+import { compose } from "@reduxjs/toolkit"
+import { withStore } from "@src/app/providers/store/ui/withStore"
+import { withResumable } from "@src/app/providers/resumable/index"
 
 function App() {
 
     const [getProfile, { isSuccess: isSuccessProfile }] = usersApi.useLazyGetProfileQuery()
-    const [getRoles] = rolesApi.useLazyGetRolesQuery()
-    const [getPermissions] = rolesApi.useLazyGetPermissionsQuery()
+    // const [getRoles] = rolesApi.useLazyGetRolesQuery()
+    // const [getPermissions] = rolesApi.useLazyGetPermissionsQuery()
 
     const token = useSelector(selectToken)
     const init = useSelector(selectInitApp)
@@ -39,14 +42,14 @@ function App() {
     if (!init) {
         return <>Preloader</>
     }
-    const router = useRoutes(routes(token))
 
-    return (token ? isSuccessProfile : true) &&
-        <div className={cn("app", { dark: darkMode, light: !darkMode })} id='app'>
-            {/* <SocketProvider> */}
+    return( 
+    //(token ? isSuccessProfile : true) &&
+        <div 
+        className={cn("app", { dark: darkMode, light: !darkMode })} id='app'
+        >
                 <AppRouter/>
-            {/* </SocketProvider> */}
-        </div>
+        </div>)
 }
 
-export default withSocket(App,'App')
+export default compose(withStore,withSocket,withResumable)(App,'App')

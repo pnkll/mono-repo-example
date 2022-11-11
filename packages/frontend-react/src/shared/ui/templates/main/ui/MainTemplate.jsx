@@ -1,10 +1,11 @@
-import { withSidebar } from '@src/app/layouts/main/model/withSidebar/withSidebar'
+import { withSidebar } from '@src/shared/ui/templates/main/model/withSidebar/withSidebar'
 import { Header } from '@src/widgets/Header/index'
+import { NotifyContainer } from '@src/widgets/NotifyContainer/index'
 import { Sidebar } from '@src/widgets/sidebar/index'
 import { Outlet } from 'react-router-dom'
-import s from './MainLayout.module.scss'
+import s from './MainTemplate.module.scss'
 
-function MainLayout() {
+function MainTemplate() {
     return (
         <>
             <div className={s.container}>
@@ -15,10 +16,11 @@ function MainLayout() {
                             <Outlet />
                         </div>
                 </div>
+                <NotifyContainer/>
             </div>
         </>
     )
 }
 
-export default MainLayout
+export default MainTemplate
 //withSidebar(MainLayout,'MainLayout')

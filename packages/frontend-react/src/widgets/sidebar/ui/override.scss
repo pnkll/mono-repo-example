@@ -1,4 +1,5 @@
-$sidebar-bg-color: #fff !important;
+$sidebar-bg-color: var(--sidebar-bg) !important;
+$sidebar-color: #fff;
 
 @import '~react-pro-sidebar/dist/scss/styles.scss';
 

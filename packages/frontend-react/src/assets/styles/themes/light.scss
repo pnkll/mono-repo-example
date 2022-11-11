@@ -11,9 +11,12 @@ $additional-text-color: #283845;
     --disproof-color: #ea4853;
     --focus-color: rgb(68, 68, 68);
 
-    --app-bg-color: #ffffff;
+    --app-bg-color: #F5F5F5;
 
-    --sidebar-bg: #9381ff;
+    --sidebar-bg: #4383c3;
+
+    --header-bg: #fff;
+
     --sidebar-text-color: #e6e6e9;
 
     --header-bg: white;
@@ -41,7 +44,12 @@ $additional-text-color: #283845;
 
     --button-hover-bgcolor: linear-gradient(0deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), linear-gradient(180deg, #FFFFFF 0%, #E7E9F3 85.74%, #D8DBE7 100%);
 
-    --button-primary-bgcolor: #197DD2;
+    --button-primary-bgcolor: #FDFDFD;
+    --button-primary-bgcolor-hover: #4C7DE7;
+    --button-primary-color:#262523;
+    --button-primary-color-hover: #FDFDFD;
+
+
     --button-default-bgcolor: transparent;
     --button-danger-bgcolor: #ea4853;
     --button-access-bgcolor: #55917f;
@@ -55,4 +63,7 @@ $additional-text-color: #283845;
 
     --content-item-overlay-bg: #e6e6e9;
     --content-item-overlay-text-color: #252422;
+
+    
+
 }

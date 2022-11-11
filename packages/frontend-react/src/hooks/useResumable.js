@@ -1,10 +1,11 @@
 import { useSelector } from 'react-redux'
 import Resumablejs from 'resumablejs'
-import { addResumableNotify, initResumable,setResumableStatus,setShowModal, updateNotify, updateProgress, useTrackedResumable } from '../Providers/Resumable/ResumableContext'
+// import { addResumableNotify, initResumable,setResumableStatus,setShowModal, updateNotify, updateProgress, useTrackedResumable } from '../Providers/Resumable/ResumableContext'
 import { selectToken } from '../store/slices/appSlice'
 import React from 'react'
 import _, { uniqueId } from 'lodash'
 import { useParams } from 'react-router-dom'
+import { addResumableNotify, initResumable, setShowModal, updateNotify, updateProgress, useTrackedResumable } from '@src/app/providers/resumable/index'
 
 export const useResumable = ({ id, options })=> {
     const token = useSelector(selectToken)

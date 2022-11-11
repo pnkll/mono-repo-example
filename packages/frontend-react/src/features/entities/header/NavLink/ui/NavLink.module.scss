@@ -10,27 +10,8 @@
     overflow: hidden;
 
     &.active {
-        &::after {
-            content: '';
-            display: block;
-            position: absolute;
-            background-color: green;
-            bottom: 0;
-            width: 100%;
-            height: 5px;
-        }
-
-        &::before {
-            content: "";
-            display: block;
-            position: absolute;
-            background: #fff;
-            bottom: 2px;
-            height: 5px;
-            width: calc(100% + 1px);
-            z-index: 1;
-            border-radius: 3px;
-        }
+        border-bottom: 3px solid var(--button-primary-bgcolor-hover);
+        border-radius: 6px;
     }
 
 }

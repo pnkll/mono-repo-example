@@ -1,6 +1,6 @@
 import s from './Button.module.scss'
 
-export default function Button({type,text,children,...other}){
+export default function Button({text,children,...other}){
    return(
        <>
           <button

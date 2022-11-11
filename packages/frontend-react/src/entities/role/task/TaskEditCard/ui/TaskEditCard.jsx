@@ -6,7 +6,7 @@ import { UsersSelectorWithLabel } from '@src/features/entities/user/UsersSelecto
 import DatePickerWithLabel from '@src/shared/UiKit/DatePicker/ui/DatePickerWIthLabel/DatePickerWithLabel'
 import { InputWithLabel } from '@src/shared/UiKit/Input/index'
 import { TextAreaWithLabel } from '@src/shared/UiKit/TextArea/index'
-import { Formik } from 'formik'
+import { Field, Formik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import s from './TaskEditCard.module.scss'
 import React from 'react'
@@ -45,8 +45,8 @@ export default function TaskEditCard({ data,api }) {
             <Formik initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize>
                 {({ handleChange, submitForm, setFieldValue, values, errors, touched, dirty, resetForm, handleSubmit }) => (
                     <form className={s.container} onSubmit={(e) => { e.preventDefault(); handleSubmit() }}>
-                        <InputWithLabel label='Заголовок' name='title' value={values.title} errors={errors.title} touched={touched.title} onChange={handleChange} />
-                        <TextAreaWithLabel label='Описание' name='description' value={values.description} errors={errors.description} touched={touched.description} onChange={handleChange} />
+                        <Field label='Заголовок' as={InputWithLabel} name='title' errors={errors} touched={touched} />
+                        <Field as={TextAreaWithLabel} label='Описание' name='description' errors={errors} touched={touched}/>
                         <PrioritySelectorWIthLabel label='Приоритет' name='priority' value={values.priority} errors={errors.priority} touched={touched.priority} setFieldValue={setFieldValue} />
                         <RoleSelectorWithLabel label='Роль исполнителя' name='executorRole' value={values.executorRole} errors={errors.executorRole} touched={touched.executorRole} setFieldValue={setFieldValue} />
                         <UsersSelectorWithLabel label='Исполнитель' name='executor' roleId={values.executorRole} value={values.executor} errors={errors.executor} touched={touched.executor} setFieldValue={setFieldValue} />

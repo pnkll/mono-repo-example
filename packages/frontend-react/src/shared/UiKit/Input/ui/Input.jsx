@@ -5,24 +5,25 @@ import classNames from 'classnames/bind'
 const cx = classNames.bind(s)
 
 const Input = React.forwardRef((props, ref) => {
-    const { onChange, touched, errors, autoComplete = 'off', className, value, readonly, ...other } = props
+    const { name,onBlur, onChange, touched, errors, autoComplete = 'off', className, value, readonly, ...other } = props
 
-    const cls = className || 'input-field'
+    const valid = touched[name] && !errors[name]
+    const error = touched[name] && errors[name]
 
-    const valid = touched && !errors
-    const error = touched && errors
-
+    const [focus,setFocus]=React.useState(false)
 
     return (
         <>
-            <div className={cx(s.container,{error,readonly,valid,[className]:className})}>
+            <div className={cx(s.container,{error,readonly,valid,focus,[className]:className})}>
                 <input
+                    name={name}
                     value={value}
                     autoComplete={autoComplete}
-                    //className={cx(s.input, { error, readonly, valid, [className]: className })}
                     className={s.input}
                     ref={ref}
-                    onChange={(e) => onChange(e)}
+                    onChange={onChange}
+                    onBlur={(e)=>{setFocus(false);onBlur(e)}}
+                    onFocus={(e)=>{setFocus(true)}}
                     {...other}
                 />
             </div>

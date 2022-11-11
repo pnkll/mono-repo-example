@@ -23,7 +23,8 @@ export default function DatePicker({ readOnly, name, value, className, setFieldV
                     className={`date-picker__input ${readOnly && 'readOnly'}`}
                     selected={value ? new Date(value) : null}
                     //selected={}
-                    onChange={handleChange}
+                    //onChange={handleChange}
+                    onChange={onChange}
                     timeFormat="HH:mm"
                     dateFormat={format || "yyyy/MM/dd HH:mm"}
                     minDate={new Date()}

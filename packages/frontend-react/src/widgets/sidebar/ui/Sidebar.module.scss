@@ -13,7 +13,7 @@
         display: block;
         width: 1px;
         height: 56px;
-        background-color: #485661;
+        background-color: var(--sidebar-bg);
         position: absolute;
         top: 2px;
         right: 0;
@@ -32,5 +32,5 @@
 .content {
     background-color: transparent;
     border: 0;
-    margin: -10px;
+    margin-left: -10px;
 }

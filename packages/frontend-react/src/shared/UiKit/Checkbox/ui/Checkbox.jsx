@@ -3,7 +3,7 @@ import classNames from 'classnames/bind'
 
 const cx=classNames.bind(s)
 
-export default function Checkbox({ id, value, label, ...other }) {
+export default function Checkbox({ name, value, label, ...other }) {
 
 
     //TODO перенести стили из фигма
@@ -12,10 +12,10 @@ export default function Checkbox({ id, value, label, ...other }) {
             <div className={s.container}>
                 <input
                 className={s.input}
-                type='checkbox' id={id} checked={value} {...other} />
+                type='checkbox' id={name} checked={value} {...other} />
                 <label 
                 className={s.label}
-                htmlFor={id}>{label}</label>
+                htmlFor={name}>{label}</label>
             </div>
         </>
     )

@@ -17,18 +17,24 @@ export default function Sidebar() {
                 </SidebarHeader>
                 <SidebarContent className={s.content}>
                     <Menu>
-                        <SubMenu icon={<HomeIcon width={27} color='white'/>}>
+                        <SubMenu icon={<HomeIcon width={27} 
+                        //color='white'
+                        />}>
                             <MenuItem><Link to='../demo'>Demo</Link></MenuItem>
                             <MenuItem><Link to='../tasks'>Tasks</Link></MenuItem>
                             <MenuItem><Link to='../call-center'>Control</Link></MenuItem>
                             <MenuItem><Link to='../operator'>Operator</Link></MenuItem>
                             <MenuItem><Link to='../users'>Пользователи</Link></MenuItem>
                         </SubMenu>
-                        <SubMenu title="Таблицы" icon={<TableIcon width={27} color='white'/>}>
+                        <SubMenu title="Таблицы" icon={<TableIcon width={27} 
+                        //color='white'
+                        />}>
                             <MenuItem><Link to='../tables'>Список таблиц</Link></MenuItem>
                             <MenuItem><Link to='../tables/new'>Создать</Link></MenuItem>
                         </SubMenu>
-                        <SubMenu title="Задачи" icon={<ClipboardListIcon width={27} color='white'/>}>
+                        <SubMenu title="Задачи" icon={<ClipboardListIcon width={27} 
+                        //color='white'
+                        />}>
                             <MenuItem><Link to='../tasks'>Все</Link></MenuItem>
                             <MenuItem><Link to='../events'>Календарь</Link></MenuItem>
                         </SubMenu>
@@ -36,7 +42,9 @@ export default function Sidebar() {
                 </SidebarContent>
                 <SidebarFooter>
                     <Menu>
-                        <MenuItem icon={<CogIcon width={27} color='white'/>}>
+                        <MenuItem icon={<CogIcon width={27} 
+                        //color='white'
+                        />}>
                             <Link to='../settings'/>
                         </MenuItem>
                     </Menu>

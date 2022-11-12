@@ -1,38 +1,26 @@
-import { ChevronDownIcon } from "@heroicons/react/solid"
 import { compose } from "@reduxjs/toolkit"
-import { withOverlay } from "@src/shared/UiKit/Select/withOverlay"
-import { withStyles } from "@src/shared/UiKit/Select/lib/withStyles"
-import { Formik } from "formik"
-import _, { isNil } from "lodash"
-import React, { useEffect, useState } from "react"
-import ReactSelect, { components, NonceProvider } from "react-select"
+import {makeStyles } from "@src/shared/UiKit/Select/model/makeStyles"
+import { makeControl } from "@src/shared/UiKit/Select/model/makeControl"
+import _ from "lodash"
+import React from "react"
+import ReactSelect from "react-select"
 
 const Select = React.forwardRef((props, ref) => {
-    const { readOnly, styles, name, options, indicator, value, classNamePrefix, isMulti, onChange, setFieldValue, label, placeholder = 'Выберите..', ...other } = props
-    function handleChange(option) {
-        if (isMulti) {
-            onChange
-                ?onChange(option.map(opt => opt.value))
-                :setFieldValue(name, option.map(opt => opt.value))
-        } else {
-            onChange
-                ?onChange(option.value)
-                :setFieldValue(name, option.value)
-        }
-    }
+    const { readOnly, styles, options, indicator, value, classNamePrefix,onChange, label, placeholder = 'Выберите..', ...other } = props
+ 
     return (
         <>
             <ReactSelect
                 ref={ref}
                 isDisabled={readOnly}
                 placeholder={placeholder}
-                isMulti={isMulti}
                 classNamePrefix={classNamePrefix}
-                value={options ? isMulti ? value.map(val => options.find(option => option.value === val)) : options.find(el => el.value === value) : ''}
+                //value={options ? isMulti ? value.map(val => options.find(option => option.value === val)) : options.find(el => el.value === value) : ''}
+                value={value}
                 styles={styles}
                 options={options}
                 components={{ DropdownIndicator: () => indicator ? indicator : <ArrowsForSelectIcon style={{ paddingRight: '11px' }} /> }}
-                onChange={handleChange}
+                onChange={onChange}
                 {...other} />
         </>
     )
@@ -75,4 +63,4 @@ const ArrowsForSelectIcon = ({ style }) => {
     )
 }
 
-export default withStyles(Select, 'Select')
+export default compose(makeControl,makeStyles)(Select, 'Select')

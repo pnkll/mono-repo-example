@@ -1,10 +1,9 @@
 import s from './Checkbox.module.scss'
 import classNames from 'classnames/bind'
+import { makeControl } from '../model/makeControl'
 
-const cx=classNames.bind(s)
 
-export default function Checkbox({ name, value, label, ...other }) {
-
+function Checkbox({ name, value, label, ...other }) {
 
     //TODO перенести стили из фигма
     return (
@@ -12,7 +11,9 @@ export default function Checkbox({ name, value, label, ...other }) {
             <div className={s.container}>
                 <input
                 className={s.input}
-                type='checkbox' id={name} checked={value} {...other} />
+                type='checkbox' id={name} 
+                checked={value}
+                {...other} />
                 <label 
                 className={s.label}
                 htmlFor={name}>{label}</label>
@@ -20,3 +21,5 @@ export default function Checkbox({ name, value, label, ...other }) {
         </>
     )
 }
+
+export default makeControl(Checkbox)

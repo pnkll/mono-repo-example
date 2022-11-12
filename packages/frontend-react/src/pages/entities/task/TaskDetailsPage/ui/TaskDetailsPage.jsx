@@ -9,7 +9,7 @@ import s from './TaskDetailsPage.module.scss'
 
 function TaskDetailsPage() {
     const { id } = useParams()
-    const { data: taskDetails, isFetching } = taskApi.useGetTaskByIdQuery(id)
+    const { data: taskDetails, isLoading } = taskApi.useGetTaskByIdQuery(id)
     return (
         <>
             <ContentItemOverlay label={`Задача ${taskDetails?.title}`}>
@@ -17,14 +17,14 @@ function TaskDetailsPage() {
                     <div className={s['left-section']}>
                         <TaskCard
                             data={taskDetails}
-                            isLoading={isFetching}
+                            isLoading={isLoading}
                         />
                         <TaskControl />
                     </div>
                     <div className={s['right-section']}>
                         <TaskAdditional 
                             data={taskDetails} 
-                            isLoading={isFetching}/>
+                            isLoading={isLoading}/>
                     </div>
                 </div>
             </ContentItemOverlay>

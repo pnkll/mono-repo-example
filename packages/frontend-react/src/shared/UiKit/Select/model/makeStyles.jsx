@@ -1,8 +1,8 @@
 import React from 'react'
 
-export function withStyles(Component, displayName){
+export function makeStyles(Component, displayName){
 
-    const RenderSelect= React.forwardRef(({width,customStyles,readOnly, isDisabled, ...other},ref)=>{
+    const Styles = React.forwardRef(({width,customStyles,readOnly, isDisabled, ...other},ref)=>{
         const styles = customStyles || {
             container: (styles) => ({
                 ...styles,
@@ -81,7 +81,7 @@ export function withStyles(Component, displayName){
         }
         return <Component {...other} isDisabled={isDisabled} readOnly={readOnly} styles={styles} ref={ref}/>
     })
-    RenderSelect.displayName = displayName
+    Styles.displayName = displayName
 
-    return RenderSelect
+    return Styles
 }  

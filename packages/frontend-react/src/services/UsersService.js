@@ -11,10 +11,13 @@ export const usersApi = Api.injectEndpoints({
                 url: '/users/profile',
             }),
             providesTags: ['PROFILE'],
+            transformResponse: ({message})=>{
+                return message
+            },
             async onQueryStarted(id, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled
-                    data.status === 200 && dispatch(setUser(data.message))
+                    dispatch(setUser(data))
                 } catch (error) {
                     console.log(error)
                 }

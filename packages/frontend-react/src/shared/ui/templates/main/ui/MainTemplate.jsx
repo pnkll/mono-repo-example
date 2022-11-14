@@ -6,6 +6,7 @@ import { Outlet } from 'react-router-dom'
 import s from './MainTemplate.module.scss'
 
 function MainTemplate() {
+    console.log('Main')
     return (
         <>
             <div className={s.container}>

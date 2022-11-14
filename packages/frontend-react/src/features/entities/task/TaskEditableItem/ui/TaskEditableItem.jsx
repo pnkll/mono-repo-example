@@ -4,23 +4,19 @@ import { useParams } from 'react-router-dom'
 import { isNil } from 'lodash'
 
 export default function TaskEditableItem({ value, label, readOnly, children, api, name }) {
-
   const { id } = useParams()
-  const [val, setVal] = React.useState(value)
   const [editMode, setEditMode] = React.useState(false)
   const [showChild, setShowChild] = React.useState(isNil(value) ? false : true)
-  const [updateTask] = api()
-  async function handleChange(e) {
-    const { status } = await updateTask({ taskId: id, [name]: e })
-    status === 200 && setVal(e)
-    setEditMode(false)
+  const [updateTask,{isSuccess}] = api()
+  function handleChange(e) {
+    updateTask({ taskId: id, [name]: e })
   }
   const childrenWithProps = React.useMemo(() => React.Children.map(children, (child) =>
     React.cloneElement(child, {
       readOnly: editMode ? false : true,
-      value: val,
+      value: value,
       onChange: handleChange,
-    })), [editMode])
+    })), [editMode,value])
   function handleClick() {
     if (!isNil(value)) {
       editMode
@@ -32,6 +28,9 @@ export default function TaskEditableItem({ value, label, readOnly, children, api
       setEditMode(true)
     }
   }
+  React.useEffect(()=>{
+    isSuccess&&setEditMode(false)
+  },[isSuccess])
   return (
     <>
       <div className={s.container}>

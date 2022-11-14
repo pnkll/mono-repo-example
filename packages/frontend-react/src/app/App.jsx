@@ -1,18 +1,15 @@
 import React, { useEffect } from "react"
-import { useRoutes } from "react-router-dom"
-import { initializeApp, selectDarkMode, selectInitApp, selectToken } from "./store/slices/appSlice.js"
+import { initializeApp, selectDarkMode, selectInitApp, selectToken } from "../store/slices/appSlice.js"
 import { useDispatch, useSelector } from "react-redux"
 import { isNil } from "lodash"
-import { usersApi } from "./services/UsersService.js"
-import { rolesApi } from "./services/RolesService.js"
-import { routes } from "./router/routes.jsx"
+import { usersApi } from "../services/UsersService.js"
 import cn from 'classnames'
-import { SocketProvider } from "@src/providers/Socket/SocketContext"
 import { withSocket } from "@src/providers/Socket/hoc/withProvider"
 import AppRouter from "@src/app/providers/router/ui/AppRouter"
 import { compose } from "@reduxjs/toolkit"
 import { withStore } from "@src/app/providers/store/ui/withStore"
 import { withResumable } from "@src/app/providers/resumable/index"
+import { withRouter } from "@src/app/providers/router/model/withRouter/withRouter"
 
 function App() {
 
@@ -52,4 +49,4 @@ function App() {
         </div>)
 }
 
-export default compose(withStore,withSocket,withResumable)(App,'App')
+export default compose(withRouter,withStore,withSocket,withResumable)(App,'App')

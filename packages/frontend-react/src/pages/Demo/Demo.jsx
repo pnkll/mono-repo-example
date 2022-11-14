@@ -11,7 +11,6 @@ import './Demo.scss'
 import Select from "../../components/Select/Select.jsx";
 import * as yup from 'yup'
 import { emailValidator, passwordValidator, phoneValidator, stringValidator } from "../../utils/yupValidation.js";
-import SidebarHeaderLayout from "../../page_layouts/SidebarHeaderLayout/SidebarHeaderLayout.jsx";
 import ToggleInput from "../../components/ToggleInput/ToggleInput.jsx";
 import _ from "lodash";
 import TransitionOverlay from "@src/overlays/TransitionOverlay/TransitionOverlay";

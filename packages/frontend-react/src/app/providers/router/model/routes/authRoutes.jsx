@@ -1,7 +1,6 @@
 import Demo from "@pages/Demo/Demo";
-import { TaskDetailsPage } from "@pages/entities/task/TaskDetailsPage/index";
-import { TaskEditPage } from "@pages/entities/task/TaskEditPage/index";
 import EventsList from "@pages/EventsList/EventsList";
+import { TaskDetailsPage, TaskEditPage } from "@pages/index";
 import Main from "@pages/Main/Main";
 import Operator from "@pages/Operator/Operator";
 import OrganizationPage from "@pages/OrganizationPage/OrganizationPage";

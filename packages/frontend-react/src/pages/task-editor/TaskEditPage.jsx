@@ -1,7 +1,7 @@
 import PreloaderForPage from '@components/PreloaderForPage/PreloaderForPage'
 import { taskApi } from '@services/TaskService'
-import { TaskEditCard } from '@src/entities/role/task/TaskEditCard/index'
 import ContentItemOverlay from '@src/overlays/ContentItemOverlay/ContentItemOverlay'
+import { TaskEditCard } from '@src/widgets/task/TaskEditCard/index'
 import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import s from './TaskEditPage.module.scss'

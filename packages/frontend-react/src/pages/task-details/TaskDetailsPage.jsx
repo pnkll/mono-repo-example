@@ -1,10 +1,10 @@
 import { taskApi } from '@services/TaskService'
-import { TaskAdditional } from '@src/entities/role/task/TaskAdditional/index'
-import { TaskControl } from '@src/entities/role/task/TaskControl/index'
+import { TaskAdditional } from '@src/widgets/task/TaskAdditional/index'
+import { TaskControl } from '@src/widgets/task/TaskControl/index'
 import { withTransition } from '@src/hocs/withTransition/withTransition'
 import ContentItemOverlay from '@src/overlays/ContentItemOverlay/ContentItemOverlay'
 import { useParams } from 'react-router-dom'
-import TaskCard from '@src/entities/role/task/TaskCard/ui/TaskCard'
+import TaskCard from '@src/widgets/task/TaskCard/ui/TaskCard'
 import s from './TaskDetailsPage.module.scss'
 
 function TaskDetailsPage() {

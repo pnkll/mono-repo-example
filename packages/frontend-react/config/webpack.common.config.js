@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 
 module.exports = {
@@ -15,17 +16,19 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, '../src/index.html')
+            template: path.resolve(__dirname, '../public/index.html')
         }),
         new CleanWebpackPlugin(),
-        new webpack.ProgressPlugin()
+        new webpack.ProgressPlugin(),
+        new MiniCssExtractPlugin(),
     ],
     module: {
         rules: [
             {
                 test: /\.(css|scss|sass)$/,
                 use: [
-                    'style-loader',
+                    MiniCssExtractPlugin.loader,
+                    // 'style-loader',
                     {
                         loader: 'css-loader',
                         options: {
@@ -36,7 +39,8 @@ module.exports = {
                             }
                         }
                     },
-                    'sass-loader']
+                    'sass-loader',
+                    ]
             },
             {
                 test: /\.(png|svg|jpg|jpeg|gif|mp3|wav)$/,

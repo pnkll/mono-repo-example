@@ -30,7 +30,7 @@ export default function Main() {
                 main
                 {/* <Button text='clear' handleClick={()=>ref.current?.clearValue()}/> */}
                 <FileInput resumableId={'file'} options={{ fileType: ['csv'] }} multiple={true} accept={'.csv'} />
-                <div className="" style={{ width: 500, height: 300, border: '1px solid' }}>
+                <div className="" style={{ width: 800, height: 300, border: '1px solid' }}>
                     <DragNDropInput resumableId={'table'} />
                 </div>
                 <Formik validationSchema={validationSchema} initialValues={{ user:'',name:'',check: true, priority: [2,1],title: '', role: '',date: '',desc: '' }} onSubmit={console.log} enableReinitialize={true}>

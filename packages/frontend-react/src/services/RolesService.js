@@ -33,7 +33,7 @@ export const rolesApi = Api.injectEndpoints({
 
                 }
             }),
-            transformResponse: (data)=>{
+            transformResponse: (data) => {
                 return data.message
             }
         }),
@@ -89,8 +89,11 @@ export const rolesApi = Api.injectEndpoints({
                     })
                 }
             }),
-            transformResponse: (data) => {
-                return data.message.docs[0]
+            transformResponse: ({ message }) => {
+                if (message?.docs.length === 1) {
+                    return message.docs[0]
+                }
+                else { return null }
             }
         }),
         grantPermissions: builder.mutation({

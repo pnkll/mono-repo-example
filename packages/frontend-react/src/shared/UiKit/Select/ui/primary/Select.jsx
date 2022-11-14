@@ -7,7 +7,6 @@ import ReactSelect from "react-select"
 
 const Select = React.forwardRef((props, ref) => {
     const { readOnly, styles, options, indicator, value, classNamePrefix,onChange, label, placeholder = 'Выберите..', ...other } = props
- 
     return (
         <>
             <ReactSelect

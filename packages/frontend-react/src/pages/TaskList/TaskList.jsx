@@ -4,10 +4,11 @@ import { isNil } from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import Button from '../../components/Button/Button';
-import Table from '../../components/Table/Table';
+// import Table from '../../components/Table/Table';
 import { taskApi } from '@services/TaskService'
 import { withTransition } from '@src/hocs/withTransition/withTransition';
 import { useSocket } from '@src/providers/Socket/SocketContext';
+import { BaseTable } from '@src/shared/UiKit/Table/index';
 
 function TaskList() {
     // const {data: taskList}=taskApi.useGetTasksQuery()
@@ -23,13 +24,17 @@ function TaskList() {
     ], [])
     return (
         <>
-            <Table
+            {/* <Table
                 sortable={['createdAt', 'updatedAt']}
                 createHref='new'
                 customColumns={columns}
                 rtkHook={taskApi.useLazyGetTasksQuery}
                 filterable={false}
                 editable={false}
+            /> */}
+            <BaseTable
+                rtkHook={taskApi.useLazyGetTasksQuery}
+                customColumns={columns}
             />
         </>
     )

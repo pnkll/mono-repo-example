@@ -1,0 +1,14 @@
+.cell {
+    padding: 39px 5px 5px 5px;
+    background: var(--table-cell-bg);
+    font-family: 'Roboto';
+    font-weight: 400;
+    //color: #2e2828;
+    color: var(--table-th-color);
+    text-align: center;
+    height: 40px;
+
+    &:not(:nth-child(-n+2)) {
+        //min-width: 144px;
+    }
+}

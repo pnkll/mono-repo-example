@@ -1,0 +1,11 @@
+.container {
+    border-bottom: 1px solid #8080803d;
+    min-height: 50px;
+    height: 8vh;
+    &:nth-child(2n) {
+        td {
+            background: var(--table-body-row-bg-2);
+            ;
+        }
+    }
+}

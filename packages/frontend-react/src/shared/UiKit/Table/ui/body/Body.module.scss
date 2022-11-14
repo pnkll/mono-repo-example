@@ -1,0 +1,6 @@
+.container{
+    opacity: 1;
+    &.fetching{
+        opacity: 0.6;
+    }
+}

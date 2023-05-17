@@ -12,10 +12,12 @@ import { StatusOption } from '../mollecules/status-option'
 
 export const widgetGate = createGate()
 
-export const options = Object.values(sipAgentStatus).map((status) => ({
-  value: status,
-  label: <StatusOption status={status} />,
-}))
+export const options = Object.values(sipAgentStatus)
+  .filter((status) => status !== sipAgentStatus.BREAK && status !== sipAgentStatus.AVAILABLE_ON_DEMAND)
+  .map((status) => ({
+    value: status,
+    label: <StatusOption status={status} />,
+  }))
 
 sample({
   clock: widgetGate.open,

@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@minta/ui-kit": ["node_modules/@minta/ui-kit"]
+    }
+  },
+  "include": ["src"]
+}
+  

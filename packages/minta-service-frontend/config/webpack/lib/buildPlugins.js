@@ -1,5 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-// const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 // const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const webpack = require('webpack')
@@ -15,6 +15,7 @@ module.exports = ({ env, paths, isDev }) => {
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(process.env),
     }),
+    new CleanWebpackPlugin()
   ]
 
   if (isDev) {

@@ -1,7 +1,12 @@
 import React from "react";
 
-export function Button({text='text prop'}){
+import s from './styles.module.scss'
+import classnames from 'classnames/bind'
+
+const cx=classnames.bind(s)
+
+export function Button({text='text prop', cn}){
     return(<>
-    <button>{text}</button>
+    <button className={cx(s.button,{[cn]:cn})}>{text}</button>
     </>)
 }

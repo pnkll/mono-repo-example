@@ -7,16 +7,21 @@ module.exports={
     mode: "production",
     output: {
         path: path.resolve(__dirname, '..', 'build'),
-        filename: 'bundle',
+        filename: 'bundle.js',
         library: "ui-kit",
-        libraryTarget: "umd"
+        libraryTarget: "umd",
+        globalObject: "this"
     },
     module: {
         rules: [
             {
                 test: /\.(css|scss|sass)$/,
                 use: ["style-loader", "css-loader", "sass-loader"]
-            },
+            },{
+                test: /\.jsx?$/,
+                use: ["babel-loader"],
+                exclude: /node_modules/,
+            }
         ]
     },
     plugins: [

@@ -1,6 +1,6 @@
 {
   "name": "minta-service-frontend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
@@ -22,7 +22,7 @@
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
-    "@minta/ui-kit": "1.0.0"
+    "@minta/ui-kit": "^1.0.1"
   },
-  "private":true
+  "private": true
 }
